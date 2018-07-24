@@ -12,15 +12,6 @@ client = datastore.Client(project_id)
 app = Flask(__name__)
 
 
-def show_all_note(client, note_id):
-    #
-    # DataStoreからすべてのノートを取得
-    #
-    query = client.query(kind='Note')
-
-    return list(query.fetch())
-
-
 @app.route('/')
 def top():
     #
