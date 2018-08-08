@@ -28,6 +28,26 @@ def top():
     return render_template('top.html', title='ユーザ一覧',
                            note_list=note_list, datetime_now = datetime_now)
 
+#部員の管理画面
+@app.route('/admin/player')
+def admin_player():
+
+    query = client.query(kind='Player')
+    player_list = list(query.fetch())
+
+    return render_template()
+
+
+#ヨットの管理画面
+@app.route('/admin/yacht')
+def admin_player():
+
+    query = client.query(kind='Yacht')
+    yacht_list = list(query.fetch())
+
+    return render_template()
+
+
 
 @app.route("/add_note", methods=['POST'])
 def add_note():
