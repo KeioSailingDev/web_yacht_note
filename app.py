@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from gcloud import datastore
-from datetime import datetime, timedelta
+from datetime import datetime
+from flask_bootstrap import Bootstrap
 
 # プロジェクトID
 project_id = "web-yacht-note-208313"
@@ -10,14 +11,14 @@ client = datastore.Client(project_id)
 
 # アプリケーションを作成
 app = Flask(__name__)
+bootstrap = Bootstrap(app)
 
 
 @app.route('/')
 def top():
-    #
-    # TOPページを表示したときの挙動
-    #
-
+    """
+    TOPページを表示したときの挙動
+    """
     # 練習ノートの一覧を取得
     query = client.query(kind='Note')
     note_list = list(query.fetch())
@@ -26,7 +27,7 @@ def top():
     datetime_now = datetime.strftime(datetime.now(), '%Y-%m-%dT%H:%M')
 
     return render_template('top.html', title='ユーザ一覧',
-                           note_list=note_list, datetime_now = datetime_now)
+                           note_list=note_list, datetime_now=datetime_now)
 
 
 @app.route("/add_note", methods=['POST'])
