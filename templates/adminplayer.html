@@ -2,11 +2,11 @@
 {% block content %}
   <h1>{{ title }}</h1>
 
-  <h2>【新規追加】</h2>
-  <form action="{{ url_for('add_note') }}" method="post" class="form-inline">
-    <label for="username">Name</label>
-      <input type="text" class="form-control" id="username" name="username">
-    <label for="username">Year</label>
+  <h2>【新規追加】</h2> <!-- 動作確認OK! -->
+  <form action="{{ url_for('add_player') }}" method="post" class="form-inline">
+    <label for="playername">Name</label>
+      <input type="text" class="form-control" id="playername" name="playername">
+    <label for="year">Year</label>
       <select name="year">
         <option value"">-</option>
         <option value="2015">2015</option>
@@ -43,45 +43,26 @@
       </tr>
     </thead>
     <tbody>
-      {% for user in user_list %}
+      {% for player in player_list %}
       <tr>
-        <form action="{{ url_for('mod_player', player_id=target_player.key.id) }}" method="post" class="form-horizontal">
-          <form class="text-right" action="{{ url_for('del_player', player_id=target_player.key.id) }}" method="post">
-            <td>
-              <div class="form-group">
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="player_id" value="{{ target_player.key.id }}" disabled>
-                </div>
-            </td>
-            <td>
-              <div class="form-group">
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="playername" name="playername" value="{{ target_player.playername }}">
-              </div>
-            </td>
-            <td>
-              <div class="form-group">
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="player_id" value="{{ target_player.year }}">
-                </div>
-            </td>
-            <td>
-              <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">
-                  <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 変更
-                </button>
-              </div>
-            </td>
-            <td>
-              <button type="submit" class="btn btn-danger">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 削除
-              </button>
-              <td/>
+        <td>{{player.key.id}}</td>
+        <td>{{player.player_name}}</td>
+        <td>{{player.admission_year}}</td>
+        <td>
+          <a class="btn btn-success" href="{{ url_for('show_player', player_id=player.key.id) }}">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更
+          </a>
+        </td>
+        <td>
+          <form class="text-right" action="{{ url_for('del_player', player_id=player.key.id) }}" method="post">
+            <button type="submit" class="btn btn-danger">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 削除
+            </button>
           </form>
-        </form>
+        </td>
       </tr>
       {% endfor %}
     </tbody>
- </table>
+  </table>
 
 {% endblock %}
