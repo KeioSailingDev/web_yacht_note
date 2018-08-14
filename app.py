@@ -155,6 +155,70 @@ def del_yacht(yacht_id):
 
     return redirect(url_for('top'))
 
+#デバイスの管理画面
+@app.route("/admin/device")
+def admin_device():
+    query = client.query(kind='Device')
+    device_list = list(query.fetch())
+
+    return render_template('admindevice.html', title = 'デバイス管理', device_list = device_list)
+
+#デバイスの追加
+@app.route("/admin/adddevice", methods=['POST'])
+def add_device():
+    deviceno = int(request.form.get('deviceno'))
+    devicename = request.form.get('devicename')
+    datetime_now = datetime.now()
+
+    if deviceno and devicename:
+        key = client.key('Device')
+        device = datastore.Entity(key)
+        device.update({
+            'device_no': deviceno,
+            'device_name': devicename,
+            'created_date': datetime_now
+        })
+        client.put(device)
+
+    return redirect(url_for('top'))
+
+#デバイスの詳細ページへの接続
+@app.route("/admin/showdevice/<int:device_id>", methods=['GET'])
+def show_device(device_id):
+    key = client.key('Device', device_id)
+    target_device = client.get(key)
+
+    return render_template('showdevice.html', title='デバイス詳細', target_device = target_device)
+
+#デバイスの詳細変更
+@app.route("/admin/moddevice/<int:device_id>", methods=['POST'])
+def mod_device(device_id):
+    deviceno = request.form.get('deviceno')
+    devicename = request.form.get('devicename')
+
+    with client.transaction():
+        key = client.key('Device', device_id)
+        device = client.get(key)
+
+        if not device:
+            raise ValueError(
+                'Device {} does not exist.'.format(device_id))
+
+        device['device_no'] = deviceno
+        device['device_name'] = devicename #ここもっと綺麗に書けないかな・・・
+
+        client.put(device)
+
+    return redirect(url_for('top'))
+
+#デバイスの削除
+@app.route("/admin/deldevice/<int:device_id>", methods=['POST'])
+def del_device(device_id):
+    key = client.key('Device', device_id)
+    client.delete(key)
+
+    return redirect(url_for('top'))
+
 
 @app.route("/add_note", methods=['POST'])
 def add_note():
