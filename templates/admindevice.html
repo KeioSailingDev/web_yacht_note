@@ -2,7 +2,7 @@
 {% block content %}
   <h1>{{ title }}</h1>
 
-  <h2>【新規追加】</h2>
+  <h2>【新規追加】</h2> <!-- 動作確認OK! -->
   <form action="{{ url_for('add_device') }}" method="post" class="form-inline">
     <label for="deviceno">Device No.</label>
       <input type="text" class="form-control" id="deviceno" name="deviceno">
@@ -13,21 +13,19 @@
     </button>
   </form>
 
-  <h2>【登録済みデバイス】</h2>
+  <h2>【登録済みヨット】</h2>
   <table class="table">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Device No.</th>
+        <th>Device No.</th>
         <th>Device Name</th>
         <th></th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      {% for device in device_list %}
+      {% for device in device_list %}
       <tr>
-        <td>{{device.key.id}}</td>
         <td>{{device.device_no}}</td>
         <td>{{device.device_name}}</td>
         <td>

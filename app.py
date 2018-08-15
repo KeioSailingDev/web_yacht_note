@@ -161,12 +161,12 @@ def admin_device():
     query = client.query(kind='Device')
     device_list = list(query.fetch())
 
-    return render_template('admindevice.html', title = 'デバイス管理', device_list = device_list)
+    return render_template('admindevice.html', title='デバイス管理', device_list=device_list)
 
 #デバイスの追加
 @app.route("/admin/adddevice", methods=['POST'])
 def add_device():
-    deviceno = int(request.form.get('deviceno'))
+    deviceno = request.form.get('deviceno')
     devicename = request.form.get('devicename')
     datetime_now = datetime.now()
 
@@ -188,7 +188,7 @@ def show_device(device_id):
     key = client.key('Device', device_id)
     target_device = client.get(key)
 
-    return render_template('showdevice.html', title='デバイス詳細', target_device = target_device)
+    return render_template('showdevice.html', title='デバイス詳細', target_device=target_device)
 
 #デバイスの詳細変更
 @app.route("/admin/moddevice/<int:device_id>", methods=['POST'])
