@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h1>{{ title }}</h1>
+
+  <h2>【新規追加】</h2> <!-- 動作確認OK! -->
+  <form action="{{ url_for('add_yacht') }}" method="post" class="form-inline">
+    <label for="yachtno">Yacht No.</label>
+      <input type="text" class="form-control" id="yachtno" name="yachtno">
+    <label for="yachtclass">Yacht Class</label>
+      <select name="yachtclass">
+        <option value"">-</option>
+        <option value="420">420</option>
+        <option value="FG">FG</option>
+      </select>　
+    <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
+    </button>
+  </form>
+
+  <h2>【登録済み選手】</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>名前</th>
+        <th>入学年</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for yacht in yacht_list %}
+      <tr>
+        <td>{{yacht.key.id}}</td>
+        <td>{{yacht.yacht_no}}</td>
+        <td>{{yacht.yacht_class}}</td>
+        <td>
+          <a class="btn btn-success" href="{{ url_for('show_yacht', yacht_id=yacht.key.id) }}">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更
+          </a>
+        </td>
+        <td>
+          <form class="text-right" action="{{ url_for('del_yacht', yacht_id=yacht.key.id) }}" method="post">
+            <button type="submit" class="btn btn-danger">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 削除
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
