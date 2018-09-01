@@ -1,0 +1,189 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h1>{{ title }}</h1>
+  <form action="{{ url_for('mod_outline', outline_id=target_outline.key.id) }}" method="post" class="form-horizontal">
+    <div class="form-group">
+      <label for="yachtno" class="col-sm-2 control-label">日付</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="date" name="date" value="{{ target_outline.date }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">時間帯</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="timezone" name="timezone" value="{{ target_outline.time_zone }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">最低風速</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="windmin" name="windmin" value="{{ target_outline.wind_speed_min }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">最大風速</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="windmax" name="windmax" value="{{ target_outline.wind_speed_max }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">風向（最小）</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="winddirectionmin" name="winddirectionmin" value="{{ target_outline.wind_direction_min }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">風向（最大）</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="winddirectionmax" name="winddirectionmax" value="{{ target_outline.wind_direction_max }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">風速変化</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="windspeedchange" name="windspeedchange" value="{{ target_outline.wind_speed_change }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">海面</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="seasurface" name="seasurface" value="{{ target_outline.sea_surface }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">うねり</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="swell" name="swell" value="{{ target_outline.swell }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">艇番</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="yachtclass" name="yachtclass" value="{{ target_outline.time_zone }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">艇種</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="yachtclass" name="yachtclass" value="{{ target_outline.time_zone }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">スキッパー</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="yachtclass" name="yachtclass" value="{{ target_outline.time_zone }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">クルー</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="yachtclass" name="yachtclass" value="{{ target_outline.time_zone }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習1</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training1" name="training1" value="{{ target_outline.training1 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習2</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training2" name="training2" value="{{ target_outline.training2 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習3</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training3" name="training3" value="{{ target_outline.training3 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習4</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training4" name="training4" value="{{ target_outline.training4 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習5</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training5" name="training5" value="{{ target_outline.training5 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習6</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training6" name="training6" value="{{ target_outline.training6 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習7</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training7" name="training7" value="{{ target_outline.training7 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習8</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training8" name="training8" value="{{ target_outline.training8 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習9</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training9" name="training9" value="{{ target_outline.training9 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習10</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training10" name="training10" value="{{ target_outline.training10 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習11</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training11" name="training11" value="{{ target_outline.training11 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習12</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training12" name="training12" value="{{ target_outline.training12 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習13</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training13" name="training13" value="{{ target_outline.training13 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習14</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training14" name="training14" value="{{ target_outline.training14 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="yachtclass" class="col-sm-2 control-label">練習15</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="training15" name="training15" value="{{ target_outline.training15 }}">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">
+          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 変更
+        </button>
+      </div>
+    </div>
+  </form>
+  <form class="text-right" action="{{ url_for('del_outline', outline_id=outline.key.id) }}" method="post">
+    <button type="submit" class="btn btn-danger">
+      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 削除
+    </button>
+  </form>
+  <a class="btn btn-default" href="{{ url_for('top') }}">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> 戻る
+  </a>
+{% endblock %}

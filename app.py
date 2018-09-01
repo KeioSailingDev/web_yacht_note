@@ -33,7 +33,7 @@ def top():
 def admin_player():
     query = client.query(kind='Player')
     player_list = list(query.fetch())
-    return render_template('adminplayer.html', title='選手管理', player_list=player_list)
+    return render_template('admin_player.html', title='選手管理', player_list=player_list)
 
 #【選手の追加】選手名、入学年、更新時間の３点を、既存のエンティティに上書きする
 @app.route("/admin/addplayer", methods=['POST'])
@@ -44,7 +44,7 @@ def add_player():
 
     if playername and year:
         key = client.key('Player')
-        player = datastore.Entity(key) #
+        player = datastore.Entity(key)
         player.update({
             'player_name': playername,
             'admission_year': year,
@@ -60,7 +60,7 @@ def show_player(player_id):
     key = client.key('Player', player_id)
     target_player = client.get(key)
 
-    return render_template('showplayer.html', title='ユーザー詳細', target_player=target_player)
+    return render_template('show_player.html', title='ユーザー詳細', target_player=target_player)
 
 #【選手データの変更】選手名と入学年を更新する
 @app.route("/admin/modplayer/<int:player_id>", methods=['POST'])
@@ -72,7 +72,7 @@ def mod_player(player_id):
         key = client.key('Player', player_id)
         player = client.get(key)
 
-        if not player:　#Datastore上にKeyIDが存在しない場合の処理
+        if not player:
             raise ValueError(
                 'Player {} does not exist.'.format(player_id))
 
@@ -97,7 +97,7 @@ def admin_yacht():
     query = client.query(kind='Yacht')
     yacht_list = list(query.fetch())
 
-    return render_template('adminyacht.html', title = 'ヨット管理', yacht_list = yacht_list)
+    return render_template('admin_yacht.html', title = 'ヨット管理', yacht_list = yacht_list)
 
 #【ヨットデータの追加】艇番、艇種、更新日時の３点を追加する
 @app.route("/admin/addyacht", methods=['POST'])
@@ -124,7 +124,7 @@ def show_yacht(yacht_id):
     key = client.key('Yacht', yacht_id)
     target_yacht = client.get(key)
 
-    return render_template('showyacht.html', title='ユーザー詳細', target_yacht=target_yacht)
+    return render_template('show_yacht.html', title='ユーザー詳細', target_yacht=target_yacht)
 
 #【ヨットデータの変更】艇番と艇種を上書きし、修正する
 @app.route("/admin/modyacht/<int:yacht_id>", methods=['POST'])
@@ -136,7 +136,7 @@ def mod_yacht(yacht_id):
         key = client.key('Yacht', yacht_id)
         yacht = client.get(key)
 
-        if not yacht:　#Datastore上にKeyIDが存在しない場合の処理
+        if not yacht:
             raise ValueError(
                 'Yacht {} does not exist.'.format(yacht_id))
 
@@ -161,7 +161,7 @@ def admin_device():
     query = client.query(kind='Device')
     device_list = list(query.fetch())
 
-    return render_template('admindevice.html', title='デバイス管理', device_list=device_list)
+    return render_template('admin_device.html', title='デバイス管理', device_list=device_list)
 
 #【デバイスデータの追加】deviceno: 手動で割り振ることになるスマホのIDを示す　devicename: スマホの機種　スマホID, スマホ機種、更新日時の３点をhtmlに渡す
 @app.route("/admin/adddevice", methods=['POST'])
@@ -188,7 +188,7 @@ def show_device(device_id):
     key = client.key('Device', device_id)
     target_device = client.get(key)
 
-    return render_template('showdevice.html', title='デバイス詳細', target_device=target_device)
+    return render_template('show_device.html', title='デバイス詳細', target_device=target_device)
 
 #【デバイスデータの変更】特定のIDのエンティティに対して、スマホIDとスマホ機種の２点を上書きする
 @app.route("/admin/moddevice/<int:device_id>", methods=['POST'])
@@ -200,11 +200,11 @@ def mod_device(device_id):
         key = client.key('Device', device_id)
         device = client.get(key)
 
-        if not device: #Datastore上にKeyIDが存在しない場合の処理
+        if not device:
             raise ValueError(
                 'Device {} does not exist.'.format(device_id))
 
-        device['device_no'] = deviceno　#スマホIDを上書き
+        device['device_no'] = deviceno
         device['device_name'] = devicename #スマホ機種を上書き
 
         client.put(device)
@@ -249,6 +249,66 @@ def show_note(note_id):
     target_user = client.get(key)
 
     return render_template('show.html', title='ノート詳細', target_user=target_user)
+
+
+#【練習メニューの管理画面を表示】Datasotreから練習メニューの情報を取得し、htmlに渡す
+@app.route("/admin/menu")
+def admin_menu():
+    query = client.query(kind='Menu')
+    menu_list = list(query.fetch())
+    return render_template('admin_menu.html', title='練習メニュー', menu_list=menu_list)
+
+#【練習メニューの追加】練習メニューを、既存のエンティティに上書きする
+@app.route("/admin/addmenu", methods=['POST'])
+def add_menu():
+    menu_name = request.form.get('menu')
+
+    if menu_name:
+        key = client.key('Menu')
+        menu = datastore.Entity(key)
+        menu.update({
+            'training_menu': menu_name
+        })
+        client.put(menu)
+
+    return redirect(url_for('top'))
+
+#【練習メニューデータの変更画面を表示】特定のIDの練習メニューデータをhtmlに引き渡す
+@app.route("/admin/showmenu/<int:menu_id>", methods=['GET'])
+def show_menu(menu_id):
+    key = client.key('Menu', menu_id)
+    target_menu = client.get(key)
+
+    return render_template('show_menu.html', title='練習メニュー詳細', target_menu=target_menu)
+
+#【練習メニューデータの変更】練習メニューを更新する
+@app.route("/admin/modmenu/<int:menu_id>", methods=['POST'])
+def mod_menu(menu_id):
+    menu_name = request.form.get('menu')
+
+    with client.transaction():
+        key = client.key('Menu', menu_id)
+        menu = client.get(key)
+
+        if not menu:
+            raise ValueError(
+                'Menu {} does not exist.'.format(menu_id))
+
+        menu['training_menu'] = menu_name
+
+        client.put(menu)
+
+    return redirect(url_for('top'))
+
+#【練習メニューデータの削除】特定のIDのエンティティを削除
+@app.route("/admin/delmenu/<int:menu_id>", methods=['POST'])
+def del_menu(menu_id):
+    key = client.key('Menu', menu_id)
+    client.delete(key)
+
+    return redirect(url_for('top'))
+
+
 
 
 if __name__ == '__main__':
