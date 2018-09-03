@@ -1,17 +1,36 @@
 {% extends 'layout.html' %}
 {% block content %}
   <h1>{{ title }}</h1>
+
+   <form action="{{ url_for('add_outline') }}" method="post" class="form-inline">
+      <label for="username">Name</label>
+      <input type="datetime-local" class="form-control" id="starttime" name="starttime", value={{ datetime_now }}>
+      <input type="datetime-local" class="form-control" id="endtime" name="endtime", value={{ datetime_now }}>
+      <select name="time_category" id="time_category" class="form-control">
+          {% for time_category in time_categories %}
+        <option value={{ time_category }}>{{ time_category }}</option>
+          {% endfor %}
+      </select>
+
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
+      </button>
+  </form>
+
+
   <table class="table">
     <thead>
       <tr>
-        <th>Name</th>
+        <th>日付</th>
+        <th>時間</th>
         <th>詳細</th>
       </tr>
     </thead>
     <tbody>
       {% for note in note_list %}
       <tr>
-        <td>{{ note.notename }}</td>
+        <td>{{ note.training_date }}</td>
+        <td>{{ note.time_category }}</td>
         <td>
           <a class="btn btn-success" href="{{ url_for('show_note', note_id=note.key.id) }}">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 詳細
@@ -21,12 +40,4 @@
       {% endfor %}
     </tbody>
     </table>
-  <form action="{{ url_for('add_note') }}" method="post" class="form-inline">
-    <label for="username">Name</label>
-    <input type="datetime-local" class="form-control" id="starttime" name="starttime", value={{ datetime_now }}>
-      <input type="datetime-local" class="form-control" id="endtime" name="endtime", value={{ datetime_now }}>
-      <button type="submit" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
-      </button>
-  </form>
 {% endblock %}
