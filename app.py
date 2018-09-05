@@ -28,6 +28,26 @@ def top():
     return render_template('top.html', title='ユーザ一覧',
                            note_list=note_list, datetime_now = datetime_now)
 
+#【練習概要のページを表示】2種類のOutline Kindのデータを持ってくる
+@app.route("/outline/<int:target_outline_id>", methods=['GET'])
+def outline_detail(target_outline_id):
+    #日付,時間帯、波、風、練習メニューのデータを取得
+    query1 = client.query(kind='Outline')
+    query1.add_filter('outline_id', '=', target_outline_id)
+    target_outline1 = list(query1.fetch())[0]#該当エンティティは一つしかないため、[0]で一つ目を指定
+    #outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    #取得したエンティティを変数に代入し、htmlファイルに渡す
+
+    #艇番、スキッパー、クルーのデータを取得
+    query2 = client.query(kind='Outline_yacht_player')
+    query2.add_filter('outline_id', '=', target_outline_id)
+    target_outline2 = list(query2.fetch())
+    #outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    #取得したエンティティを変数に代入し、htmlファイルに渡す
+    #Outline_yacht_player Kindからは複数のエンティティを取得する為、listにしてデータを取得する
+
+    return render_template('outline_detail.html', title='練習概要', target_outline1=target_outline1, target_outline2=target_outline2)
+
 #【選手の管理画面を表示】Datasotreから選手の情報を取得し、htmlに渡す
 @app.route("/admin/player")
 def admin_player():

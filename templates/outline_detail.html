@@ -1,0 +1,89 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<h1>{{ target_outline1.date }}{{ target_outline1.time_category }}</h1>
+<h3>開始：{{ target_outline1.start_time }}</h3>
+<h3>終了：{{ target_outline1.end_time }}</h3>
+
+<h2>風</h2>
+<table class="table">
+  <tr>
+    <th>風速：</th>
+    <td>{{target_outline1.wind_speed_min}}</td>
+    <td>〜</td>
+    <td>{{target_outline1.wind_speed_max}}</td>
+    <td>m/s</td>
+  </tr>
+  <tr>
+    <th>風向：</th>
+    <td>{{target_outline1.wind_direction_min}}</td>
+    <td>〜</td>
+    <td>{{target_outline1.wind_direction_max}}</td>
+    <td>°</td>
+  </tr>
+  <tr>
+    <th>強弱：</th>
+    <td>{{target_outline1.wind_speed_change}}</td>
+  </tr>
+</table>
+
+<h2>波</h2>
+<table class="table">
+  <tr>
+    <th>海面：</th>
+    <td>{{target_outline1.sea_surface}}</td>
+  </tr>
+  <tr>
+    <th>うねり:</th>
+    <td>{{target_outline1.swell}}</td>
+  </tr>
+</table>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>【艇番】</th>
+      <th>【スキッパー】</th>
+      <th>【クルー】</th>
+    </tr>
+  </thead>
+  {% for outline2 in target_outline2 %}
+  <tr>
+    <td rowspan="3">{{outline2.yacht_number}}</td>
+    <td>{{outline2.skipper1}}</td>
+    <td>{{outline2.crew1}}</td>
+  </tr>
+  <tr>
+    <td>{{outline2.skipper2}}</td>
+    <td>{{outline2.crew2}}</td>
+  </tr>
+  <tr>
+    <td>{{outline2.skipper3}}</td>
+    <td>{{outline2.crew3}}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h3>【練習メニュー】</h3>
+  <ol>
+    <li>{{target_outline1.training1}}</li>
+    <li>{{target_outline1.training2}}</li>
+    <li>{{target_outline1.training3}}</li>
+    <li>{{target_outline1.training4}}</li>
+    <li>{{target_outline1.training5}}</li>
+    <li>{{target_outline1.training6}}</li>
+    <li>{{target_outline1.training7}}</li>
+    <li>{{target_outline1.training8}}</li>
+    <li>{{target_outline1.training9}}</li>
+    <li>{{target_outline1.training10}}</li>
+    <li>{{target_outline1.training11}}</li>
+    <li>{{target_outline1.training12}}</li>
+    <li>{{target_outline1.training13}}</li>
+    <li>{{target_outline1.training14}}</li>
+    <li>{{target_outline1.training15}}</li>
+  </ol>
+
+
+
+
+{% endblock %}
