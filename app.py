@@ -377,9 +377,9 @@ def add_outline():
         outline = datastore.Entity(key)  # エンティティ（行）を指定のkeyで作成
         outline.update({  # エンティティに入れるデータを指定
             'outline_id': datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'),  # 日時をidとする
-            'training_date': starttime[0:10],
-            'starttime': datetime.strptime(starttime, '%Y-%m-%dT%H:%M').astimezone(),
-            'endtime': datetime.strptime(endtime, '%Y-%m-%dT%H:%M').astimezone(),
+            'date': starttime[0:10],
+            'start_time': datetime.strptime(starttime, '%Y-%m-%dT%H:%M').astimezone(),
+            'end_time': datetime.strptime(endtime, '%Y-%m-%dT%H:%M').astimezone(),
             'time_category': time_category,
         })
         client.put(outline)  # DataStoreへ送信
