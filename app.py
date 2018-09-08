@@ -20,17 +20,17 @@ def top():
     TOPページを表示したときの挙動
     """
     # 練習ノートの一覧を取得
-    query = client.query(kind='Note')
-    note_list = list(query.fetch())
+    query = client.query(kind='Outline')
+    outline_list = list(query.fetch())
 
     # 現在時刻を取得
     datetime_now = datetime.strftime(datetime.now(), '%Y-%m-%dT%H:%M')
 
     # 時間区分list
-    time_categories = ["-","午前", "午後", "１部", "２部", "３部"]
+    time_categories = ["-", "午前", "午後", "１部", "２部", "３部"]
 
-    return render_template('top.html', title='ユーザ一覧',
-                           note_list=note_list, datetime_now=datetime_now, time_categories=time_categories)
+    return render_template('top.html', title='練習ノート一覧',
+                           outline_list=outline_list, datetime_now=datetime_now, time_categories=time_categories)
 
 
 @app.route("/add_outline", methods=['POST'])
@@ -42,16 +42,16 @@ def add_outline():
 
     # DataStoreに格納
     if starttime and endtime and time_category:
-        key = client.key('Note') # kind（テーブル）を指定し、keyを設定
-        outline = datastore.Entity(key) # エンティティ（行）を指定のkeyで作成
-        outline.update({ # エンティティに入れるデータを指定
-            'outline_id': datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'), # 日時をidとする
+        key = client.key('Outline')  # kind（テーブル）を指定し、keyを設定
+        outline = datastore.Entity(key)  # エンティティ（行）を指定のkeyで作成
+        outline.update({  # エンティティに入れるデータを指定
+            'outline_id': datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'),  # 日時をidとする
             'training_date': starttime[0:10],
             'starttime': datetime.strptime(starttime, '%Y-%m-%dT%H:%M').astimezone(),
             'endtime': datetime.strptime(endtime, '%Y-%m-%dT%H:%M').astimezone(),
             'time_category': time_category,
         })
-        client.put(outline) # DataStoreへ送信
+        client.put(outline)  # DataStoreへ送信
     else:
         return redirect(url_for('top'))
 
@@ -59,12 +59,26 @@ def add_outline():
     return redirect(url_for('top'))
 
 
-@app.route("/note/<int:note_id>", methods=['GET'])
-def show_note(note_id):
-    key = client.key('Note', note_id)
-    target_user = client.get(key)
+# 【練習概要のページを表示】2種類のOutline Kindのデータを持ってくる
+@app.route("/outline/<int:target_outline_id>", methods=['GET'])
+def outline_detail(target_outline_id):
+    # 日付,時間帯、波、風、練習メニューのデータを取得
+    query1 = client.query(kind='Outline')
+    query1.add_filter('outline_id', '=', target_outline_id)
+    target_outline1 = list(query1.fetch())[0]  # 該当エンティティは一つしかないため、[0]で一つ目を指定
+    # outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    # 取得したエンティティを変数に代入し、htmlファイルに渡す
 
-    return render_template('show.html', title='ノート詳細', target_user=target_user)
+    # 艇番、スキッパー、クルーのデータを取得
+    query2 = client.query(kind='Outline_yacht_player')
+    query2.add_filter('outline_id', '=', target_outline_id)
+    target_outline2 = list(query2.fetch())
+    # outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    # 取得したエンティティを変数に代入し、htmlファイルに渡す
+    # Outline_yacht_player Kindからは複数のエンティティを取得する為、listにしてデータを取得する
+
+    return render_template('outline_detail.html', title='練習概要', target_outline1=target_outline1,
+                           target_outline2=target_outline2)
 
 
 if __name__ == '__main__':
