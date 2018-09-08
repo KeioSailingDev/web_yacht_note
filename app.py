@@ -28,12 +28,152 @@ def top():
     return render_template('top.html', title='ユーザ一覧',
                            note_list=note_list, datetime_now = datetime_now)
 
+#【練習概要のページを表示】2種類のOutline Kindのデータを持ってくる
+@app.route("/outline/<int:target_outline_id>", methods=['GET'])
+def outline_detail(target_outline_id):
+    #日付,時間帯、波、風、練習メニューのデータを取得
+    query1 = client.query(kind='Outline')
+    query1.add_filter('outline_id', '=', target_outline_id)#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    target_outline1 = list(query1.fetch())[0]#該当するエンティティは一つしかないため、[0]で一つ目を指定
+
+    #艇番、スキッパー、クルーのデータを取得
+    query2 = client.query(kind='Outline_yacht_player')#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    query2.add_filter('outline_id', '=', target_outline_id)
+    target_outline2 = list(query2.fetch())
+
+    return render_template('outline_detail.html', title='練習概要', target_outline1=target_outline1, target_outline2=target_outline2)
+
+#【練習概要ページの変更画面に遷移】
+@app.route("/admin/show_outline/<int:target_outline_id>/", methods=['GET'])
+def show_outline(target_outline_id):
+    query1 = client.query(kind='Outline')
+    query1.add_filter('outline_id', '=', target_outline_id)#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    target_outline1 = list(query1.fetch())[0]#
+
+    query2 = client.query(kind='Outline_yacht_player')#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    query2.add_filter('outline_id', '=', target_outline_id)
+    #query2.order = ['yacht_number']
+    target_outline2 = list(query2.fetch())
+
+    return render_template('show_outline.html', title='練習概要変更', target_outline1=target_outline1, target_outline2=target_outline2)
+
+
+#【練習概要ページの変更】
+@app.route("/outline/mod_outline/<int:target_outline_id>", methods=['POST'])
+def mod_outline(target_outline_id):
+
+    query1 = client.query(kind='Outline')
+    query1.add_filter('outline_id', '=', target_outline_id)
+    outline1 = list(query1.fetch())[0] #python形式のkey.idに変換
+
+    #日付、
+    date = request.form.get('date')
+    starttime = request.form.get('starttime')
+    endtime = request.form.get('endtime')
+    timecategory = request.form.get('timecategory')
+    windspeedmin = request.form.get('windspeedmin')
+    windspeedmax = request.form.get('windspeedmax')
+    winddirectionmin = request.form.get('winddirectionmin')
+    winddirectionmax = request.form.get('winddirectionmax')
+    windspeedchange = request.form.get('windspeedchange')
+    seasurface = request.form.get('seasurface')
+    swell = request.form.get('swell')
+    training1 = request.form.get('training1')
+    training2 = request.form.get('training2')
+    training3 = request.form.get('training3')
+    training4 = request.form.get('training4')
+    training5 = request.form.get('training5')
+    training6 = request.form.get('training6')
+    training7 = request.form.get('training7')
+    training8 = request.form.get('training8')
+    training9 = request.form.get('training9')
+    training10 = request.form.get('training10')
+    training11 = request.form.get('training11')
+    training12 = request.form.get('training12')
+    training13 = request.form.get('training13')
+    training14 = request.form.get('training14')
+    training15 = request.form.get('training15')
+
+    if not outline1:
+        raise ValueError(
+            'Outline {} does not exist.'.format(outline1))
+
+    outline1['date'] = date
+    outline1['start_time'] = starttime
+    outline1['end_time'] = endtime
+    outline1['time_category'] = timecategory
+    outline1['wind_speed_min'] = windspeedmin
+    outline1['wind_speed_max'] = windspeedmax
+    outline1['wind_direction_min'] = windspeedmin
+    outline1['wind_direction_max'] = winddirectionmax
+    outline1['wind_speed_change'] = windspeedchange
+    outline1['sea_surface'] = seasurface
+    outline1['sewll'] = swell
+    outline1['training1'] = training1
+    outline1['training2'] = training2
+    outline1['training3'] = training3
+    outline1['training4'] = training4
+    outline1['training5'] = training5
+    outline1['training6'] = training6
+    outline1['training7'] = training7
+    outline1['training8'] = training8
+    outline1['training9'] = training9
+    outline1['training10'] = training10
+    outline1['training11'] = training11
+    outline1['training12'] = training12
+    outline1['training13'] = training13
+    outline1['training14'] = training14
+    outline1['training15'] = training15
+
+    client.put(outline1)
+
+
+    query2 = client.query(kind='Outline_yacht_player')
+    query2.add_filter('outline_id', '=', target_outline_id)
+    query2.order('yacht_number')
+    target_outline2 = list(query2.fetch())
+
+    for i,outline2 in enumerate(target_outline2):
+        yachtnumber = requset.form.get('yachtnumber'+i)
+        skipper1 = request.form.get('skipper1'+i)
+        skipper2 = request.form.get('skipper2'+i)
+        skipper3 = request.form.get('skipper3'+i)
+        crew1 = request.form.get('crew1'+i)
+        crew2 = request.form.get('crew2'+i)
+        crew3 = request.form.get('crew3'+i)
+
+        if not outline2:
+            raise ValueError(
+                'Outline {} does not exist.'.format(outline2))
+
+        outline2['yacht_number'] = yacht_number
+        outline2['skipper1'] = skipper1
+        outline2['skipper2'] = skipper2
+        outline2['skipper3'] = skipper3
+        outline2['crew1'] = crew1
+        outline2['crew2'] = crew2
+        outline2['crew3'] = crew3
+
+        clinet.put(outline2)
+
+    return redirect(url_for('top'))
+
+
+# 【練習概要ページの削除】
+# @app.route("/outline/del_outline/<int:target_outline_id>", methods=['POST'])
+# def del_outline(outline1_id, outline2_id):
+#     key1 = client.key('Outline', outline1_id)
+#     key2 = client.key('Outline_yacht_player', outline2_id)
+#     client.delete(key1, key2)
+#
+#     return redirect(url_for('top'))
+
 #【選手の管理画面を表示】Datasotreから選手の情報を取得し、htmlに渡す
 @app.route("/admin/player")
 def admin_player():
     query = client.query(kind='Player')
     player_list = list(query.fetch())
-    return render_template('adminplayer.html', title='選手管理', player_list=player_list)
+    return render_template('admin_player.html', title='選手管理', player_list=player_list)
 
 #【選手の追加】選手名、入学年、更新時間の３点を、既存のエンティティに上書きする
 @app.route("/admin/addplayer", methods=['POST'])
@@ -44,7 +184,7 @@ def add_player():
 
     if playername and year:
         key = client.key('Player')
-        player = datastore.Entity(key) #
+        player = datastore.Entity(key)
         player.update({
             'player_name': playername,
             'admission_year': year,
@@ -60,7 +200,7 @@ def show_player(player_id):
     key = client.key('Player', player_id)
     target_player = client.get(key)
 
-    return render_template('showplayer.html', title='ユーザー詳細', target_player=target_player)
+    return render_template('show_player.html', title='ユーザー詳細', target_player=target_player)
 
 #【選手データの変更】選手名と入学年を更新する
 @app.route("/admin/modplayer/<int:player_id>", methods=['POST'])
@@ -72,7 +212,7 @@ def mod_player(player_id):
         key = client.key('Player', player_id)
         player = client.get(key)
 
-        if not player:　#Datastore上にKeyIDが存在しない場合の処理
+        if not player:
             raise ValueError(
                 'Player {} does not exist.'.format(player_id))
 
@@ -97,7 +237,7 @@ def admin_yacht():
     query = client.query(kind='Yacht')
     yacht_list = list(query.fetch())
 
-    return render_template('adminyacht.html', title = 'ヨット管理', yacht_list = yacht_list)
+    return render_template('admin_yacht.html', title = 'ヨット管理', yacht_list = yacht_list)
 
 #【ヨットデータの追加】艇番、艇種、更新日時の３点を追加する
 @app.route("/admin/addyacht", methods=['POST'])
@@ -124,7 +264,7 @@ def show_yacht(yacht_id):
     key = client.key('Yacht', yacht_id)
     target_yacht = client.get(key)
 
-    return render_template('showyacht.html', title='ユーザー詳細', target_yacht=target_yacht)
+    return render_template('show_yacht.html', title='ユーザー詳細', target_yacht=target_yacht)
 
 #【ヨットデータの変更】艇番と艇種を上書きし、修正する
 @app.route("/admin/modyacht/<int:yacht_id>", methods=['POST'])
@@ -136,7 +276,7 @@ def mod_yacht(yacht_id):
         key = client.key('Yacht', yacht_id)
         yacht = client.get(key)
 
-        if not yacht:　#Datastore上にKeyIDが存在しない場合の処理
+        if not yacht:
             raise ValueError(
                 'Yacht {} does not exist.'.format(yacht_id))
 
@@ -161,7 +301,7 @@ def admin_device():
     query = client.query(kind='Device')
     device_list = list(query.fetch())
 
-    return render_template('admindevice.html', title='デバイス管理', device_list=device_list)
+    return render_template('admin_device.html', title='デバイス管理', device_list=device_list)
 
 #【デバイスデータの追加】deviceno: 手動で割り振ることになるスマホのIDを示す　devicename: スマホの機種　スマホID, スマホ機種、更新日時の３点をhtmlに渡す
 @app.route("/admin/adddevice", methods=['POST'])
@@ -188,7 +328,7 @@ def show_device(device_id):
     key = client.key('Device', device_id)
     target_device = client.get(key)
 
-    return render_template('showdevice.html', title='デバイス詳細', target_device=target_device)
+    return render_template('show_device.html', title='デバイス詳細', target_device=target_device)
 
 #【デバイスデータの変更】特定のIDのエンティティに対して、スマホIDとスマホ機種の２点を上書きする
 @app.route("/admin/moddevice/<int:device_id>", methods=['POST'])
@@ -200,11 +340,11 @@ def mod_device(device_id):
         key = client.key('Device', device_id)
         device = client.get(key)
 
-        if not device: #Datastore上にKeyIDが存在しない場合の処理
+        if not device:
             raise ValueError(
                 'Device {} does not exist.'.format(device_id))
 
-        device['device_no'] = deviceno　#スマホIDを上書き
+        device['device_no'] = deviceno
         device['device_name'] = devicename #スマホ機種を上書き
 
         client.put(device)
@@ -249,6 +389,66 @@ def show_note(note_id):
     target_user = client.get(key)
 
     return render_template('show.html', title='ノート詳細', target_user=target_user)
+
+
+#【練習メニューの管理画面を表示】Datasotreから練習メニューの情報を取得し、htmlに渡す
+@app.route("/admin/menu")
+def admin_menu():
+    query = client.query(kind='Menu')
+    menu_list = list(query.fetch())
+    return render_template('admin_menu.html', title='練習メニュー', menu_list=menu_list)
+
+#【練習メニューの追加】練習メニューを、既存のエンティティに上書きする
+@app.route("/admin/addmenu", methods=['POST'])
+def add_menu():
+    menu_name = request.form.get('menu')
+
+    if menu_name:
+        key = client.key('Menu')
+        menu = datastore.Entity(key)
+        menu.update({
+            'training_menu': menu_name
+        })
+        client.put(menu)
+
+    return redirect(url_for('top'))
+
+#【練習メニューデータの変更画面を表示】特定のIDの練習メニューデータをhtmlに引き渡す
+@app.route("/admin/showmenu/<int:menu_id>", methods=['GET'])
+def show_menu(menu_id):
+    key = client.key('Menu', menu_id)
+    target_menu = client.get(key)
+
+    return render_template('show_menu.html', title='練習メニュー詳細', target_menu=target_menu)
+
+#【練習メニューデータの変更】練習メニューを更新する
+@app.route("/admin/modmenu/<int:menu_id>", methods=['POST'])
+def mod_menu(menu_id):
+    menu_name = request.form.get('menu')
+
+    with client.transaction():
+        key = client.key('Menu', menu_id)
+        menu = client.get(key)
+
+        if not menu:
+            raise ValueError(
+                'Menu {} does not exist.'.format(menu_id))
+
+        menu['training_menu'] = menu_name
+
+        client.put(menu)
+
+    return redirect(url_for('top'))
+
+#【練習メニューデータの削除】特定のIDのエンティティを削除
+@app.route("/admin/delmenu/<int:menu_id>", methods=['POST'])
+def del_menu(menu_id):
+    key = client.key('Menu', menu_id)
+    client.delete(key)
+
+    return redirect(url_for('top'))
+
+
 
 
 if __name__ == '__main__':
