@@ -35,9 +35,13 @@ def top():
 #【練習概要のページを表示】2種類のOutline Kindのデータを持ってくる
 @app.route("/outline/<int:target_outline_id>", methods=['GET'])
 def outline_detail(target_outline_id):
+    print(target_outline_id)
     #日付,時間帯、波、風、練習メニューのデータを取得
     query1 = client.query(kind='Outline')
+    print(list(query1.fetch()))
     query1.add_filter('outline_id', '=', target_outline_id)#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    print(query1)
+    print(list(query1.fetch()))
     target_outline1 = list(query1.fetch())[0]#該当するエンティティは一つしかないため、[0]で一つ目を指定
 
     #艇番、スキッパー、クルーのデータを取得
@@ -64,6 +68,7 @@ def show_outline(target_outline_id):
 @app.route("/add_outline", methods=['POST'])
 def add_outline():
     # フォームからデータを取得
+    outline_id = datetime.strftime(datetime.now(), '%Y%m%d%H%M%S')
     starttime = request.form.get('starttime')
     endtime = request.form.get('endtime')
     time_category = request.form.get('time_category')
@@ -73,7 +78,7 @@ def add_outline():
         key = client.key('Outline')  # kind（テーブル）を指定し、keyを設定
         outline = datastore.Entity(key)  # エンティティ（行）を指定のkeyで作成
         outline.update({  # エンティティに入れるデータを指定
-            'outline_id': datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'),  # 日時をidとする
+            'outline_id': outline_id,  # 日時をidとする
             'date': starttime[0:10],
             'start_time': datetime.strptime(starttime, '%Y-%m-%dT%H:%M').astimezone(),
             'end_time': datetime.strptime(endtime, '%Y-%m-%dT%H:%M').astimezone(),
@@ -156,7 +161,6 @@ def mod_outline(target_outline_id):
     outline1['training15'] = training15
 
     client.put(outline1)
-
 
     query2 = client.query(kind='Outline_yacht_player')
     query2.add_filter('outline_id', '=', target_outline_id)
