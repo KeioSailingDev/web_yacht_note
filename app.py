@@ -33,20 +33,140 @@ def top():
 def outline_detail(target_outline_id):
     #日付,時間帯、波、風、練習メニューのデータを取得
     query1 = client.query(kind='Outline')
-    query1.add_filter('outline_id', '=', target_outline_id)
-    target_outline1 = list(query1.fetch())[0]#該当エンティティは一つしかないため、[0]で一つ目を指定
-    #outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
-    #取得したエンティティを変数に代入し、htmlファイルに渡す
+    query1.add_filter('outline_id', '=', target_outline_id)#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    target_outline1 = list(query1.fetch())[0]#該当するエンティティは一つしかないため、[0]で一つ目を指定
 
     #艇番、スキッパー、クルーのデータを取得
-    query2 = client.query(kind='Outline_yacht_player')
+    query2 = client.query(kind='Outline_yacht_player')#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
     query2.add_filter('outline_id', '=', target_outline_id)
     target_outline2 = list(query2.fetch())
-    #outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
-    #取得したエンティティを変数に代入し、htmlファイルに渡す
-    #Outline_yacht_player Kindからは複数のエンティティを取得する為、listにしてデータを取得する
 
     return render_template('outline_detail.html', title='練習概要', target_outline1=target_outline1, target_outline2=target_outline2)
+
+#【練習概要ページの変更画面に遷移】
+@app.route("/admin/show_outline/<int:target_outline_id>/", methods=['GET'])
+def show_outline(target_outline_id):
+    query1 = client.query(kind='Outline')
+    query1.add_filter('outline_id', '=', target_outline_id)#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    target_outline1 = list(query1.fetch())[0]#
+
+    query2 = client.query(kind='Outline_yacht_player')#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    query2.add_filter('outline_id', '=', target_outline_id)
+    #query2.order = ['yacht_number']
+    target_outline2 = list(query2.fetch())
+
+    return render_template('show_outline.html', title='練習概要変更', target_outline1=target_outline1, target_outline2=target_outline2)
+
+
+#【練習概要ページの変更】
+@app.route("/outline/mod_outline/<int:target_outline_id>", methods=['POST'])
+def mod_outline(target_outline_id):
+
+    query1 = client.query(kind='Outline')
+    query1.add_filter('outline_id', '=', target_outline_id)
+    outline1 = list(query1.fetch())[0] #python形式のkey.idに変換
+
+    #日付、
+    date = request.form.get('date')
+    starttime = request.form.get('starttime')
+    endtime = request.form.get('endtime')
+    timecategory = request.form.get('timecategory')
+    windspeedmin = request.form.get('windspeedmin')
+    windspeedmax = request.form.get('windspeedmax')
+    winddirectionmin = request.form.get('winddirectionmin')
+    winddirectionmax = request.form.get('winddirectionmax')
+    windspeedchange = request.form.get('windspeedchange')
+    seasurface = request.form.get('seasurface')
+    swell = request.form.get('swell')
+    training1 = request.form.get('training1')
+    training2 = request.form.get('training2')
+    training3 = request.form.get('training3')
+    training4 = request.form.get('training4')
+    training5 = request.form.get('training5')
+    training6 = request.form.get('training6')
+    training7 = request.form.get('training7')
+    training8 = request.form.get('training8')
+    training9 = request.form.get('training9')
+    training10 = request.form.get('training10')
+    training11 = request.form.get('training11')
+    training12 = request.form.get('training12')
+    training13 = request.form.get('training13')
+    training14 = request.form.get('training14')
+    training15 = request.form.get('training15')
+
+    if not outline1:
+        raise ValueError(
+            'Outline {} does not exist.'.format(outline1))
+
+    outline1['date'] = date
+    outline1['start_time'] = starttime
+    outline1['end_time'] = endtime
+    outline1['time_category'] = timecategory
+    outline1['wind_speed_min'] = windspeedmin
+    outline1['wind_speed_max'] = windspeedmax
+    outline1['wind_direction_min'] = windspeedmin
+    outline1['wind_direction_max'] = winddirectionmax
+    outline1['wind_speed_change'] = windspeedchange
+    outline1['sea_surface'] = seasurface
+    outline1['sewll'] = swell
+    outline1['training1'] = training1
+    outline1['training2'] = training2
+    outline1['training3'] = training3
+    outline1['training4'] = training4
+    outline1['training5'] = training5
+    outline1['training6'] = training6
+    outline1['training7'] = training7
+    outline1['training8'] = training8
+    outline1['training9'] = training9
+    outline1['training10'] = training10
+    outline1['training11'] = training11
+    outline1['training12'] = training12
+    outline1['training13'] = training13
+    outline1['training14'] = training14
+    outline1['training15'] = training15
+
+    client.put(outline1)
+
+
+    query2 = client.query(kind='Outline_yacht_player')
+    query2.add_filter('outline_id', '=', target_outline_id)
+    query2.order('yacht_number')
+    target_outline2 = list(query2.fetch())
+
+    for i,outline2 in enumerate(target_outline2):
+        yachtnumber = requset.form.get('yachtnumber'+i)
+        skipper1 = request.form.get('skipper1'+i)
+        skipper2 = request.form.get('skipper2'+i)
+        skipper3 = request.form.get('skipper3'+i)
+        crew1 = request.form.get('crew1'+i)
+        crew2 = request.form.get('crew2'+i)
+        crew3 = request.form.get('crew3'+i)
+
+        if not outline2:
+            raise ValueError(
+                'Outline {} does not exist.'.format(outline2))
+
+        outline2['yacht_number'] = yacht_number
+        outline2['skipper1'] = skipper1
+        outline2['skipper2'] = skipper2
+        outline2['skipper3'] = skipper3
+        outline2['crew1'] = crew1
+        outline2['crew2'] = crew2
+        outline2['crew3'] = crew3
+
+        clinet.put(outline2)
+
+    return redirect(url_for('top'))
+
+
+# 【練習概要ページの削除】
+# @app.route("/outline/del_outline/<int:target_outline_id>", methods=['POST'])
+# def del_outline(outline1_id, outline2_id):
+#     key1 = client.key('Outline', outline1_id)
+#     key2 = client.key('Outline_yacht_player', outline2_id)
+#     client.delete(key1, key2)
+#
+#     return redirect(url_for('top'))
 
 #【選手の管理画面を表示】Datasotreから選手の情報を取得し、htmlに渡す
 @app.route("/admin/player")
