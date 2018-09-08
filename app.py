@@ -35,18 +35,14 @@ def top():
 #【練習概要のページを表示】2種類のOutline Kindのデータを持ってくる
 @app.route("/outline/<int:target_outline_id>", methods=['GET'])
 def outline_detail(target_outline_id):
-    print(target_outline_id)
     #日付,時間帯、波、風、練習メニューのデータを取得
     query1 = client.query(kind='Outline')
-    print(list(query1.fetch()))
-    query1.add_filter('outline_id', '=', target_outline_id)#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
-    print(query1)
-    print(list(query1.fetch()))
+    query1.add_filter('outline_id', '=', int(target_outline_id))#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
     target_outline1 = list(query1.fetch())[0]#該当するエンティティは一つしかないため、[0]で一つ目を指定
 
     #艇番、スキッパー、クルーのデータを取得
     query2 = client.query(kind='Outline_yacht_player')#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
-    query2.add_filter('outline_id', '=', target_outline_id)
+    query2.add_filter('outline_id', '=', int(target_outline_id))
     target_outline2 = list(query2.fetch())
 
     return render_template('outline_detail.html', title='練習概要', target_outline1=target_outline1, target_outline2=target_outline2)
@@ -55,14 +51,26 @@ def outline_detail(target_outline_id):
 @app.route("/admin/show_outline/<int:target_outline_id>/", methods=['GET'])
 def show_outline(target_outline_id):
     query1 = client.query(kind='Outline')
-    query1.add_filter('outline_id', '=', target_outline_id)#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    query1.add_filter('outline_id', '=', int(target_outline_id))#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
     target_outline1 = list(query1.fetch())[0]#
 
     query2 = client.query(kind='Outline_yacht_player')#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
-    query2.add_filter('outline_id', '=', target_outline_id)
+    query2.add_filter('outline_id', '=', int(target_outline_id))
     #query2.order = ['yacht_number']
     target_outline2 = list(query2.fetch())
-    return render_template('show_outline.html', title='練習概要変更', target_outline1=target_outline1, target_outline2=target_outline2)
+
+    query_yacht = client.query(kind='Yacht')
+    yacht_numbers = list(query_yacht.fetch())
+
+    query_player = client.query(kind='Player')
+    player_names = list(query_player.fetch())
+
+    query_menu = client.query(kind='Menu')
+    training_menus = list(query_menu.fetch())
+
+    return render_template('show_outline.html', title='練習概要変更', \
+    target_outline1=target_outline1, target_outline2=target_outline2, \
+    trainig_menus=training_menus, yacht_numbers=yacht_numbers, player_names=player_names)
 
 
 @app.route("/add_outline", methods=['POST'])

@@ -88,21 +88,55 @@
         <td rowspan="3">
           <div class="form-group">
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="yachtnumber{{loop.index0}}" name="yachtnumber" value="{{ outline2.yacht_number }}">
+              <select name="yacht_number" id="yacht_number{{loop.index0}}" class="form-control">
+                {% for yacht_number in yacht_numbers %}
+                  <option value={{ yacht_number }}>{{ yacht_number.yacht_no }}</option>
+                {% endfor %}
+              </select>
             </div>
           </div>
         </td>
         <td>
           <div class="form-group">
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="skipper1{{loop.index0}}" name="skipper1" value="{{ outline2.skipper1 }}">
+              <select name="skipper1" id="skipper1{{loop.index0}}" class="form-control">
+                {% for player_name in player_names %}
+                  <option value={{ player_name }}>{{ player_name.player_name }}</option>
+                {% endfor %}
+              </select>
+          </div>
+        </td>
+        <td>
+          <div class="form-group">
+            <div class="col-sm-10">
+              <select name="crew1" id="crew1{{loop.index0}}" class="form-control">
+                {% for player_name in player_names %}
+                  <option value={{ player_name }}>{{ player_name.player_name }}</option>
+                {% endfor %}
+              </select>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="form-group">
+            <div class="col-sm-10">
+              <select name="skipper2" id="skipper2{{loop.index0}}" class="form-control">
+                {% for player_name in player_names %}
+                  <option value={{ player_name }}>{{ player_name.player_name }}</option>
+                {% endfor %}
+              </select>
             </div>
           </div>
         </td>
         <td>
           <div class="form-group">
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="crew1{{loop.index0}}" name="crew1" value="{{ outline2.crew1 }}">
+              <select name="crew2" id="crew1{{loop.index0}}" class="form-control">
+                {% for player_name in player_names %}
+                  <option value={{ player_name }}>{{ player_name.player_name }}</option>
+                {% endfor %}
+              </select>
             </div>
           </div>
         </td>
@@ -111,30 +145,22 @@
         <td>
           <div class="form-group">
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="skipper2{{loop.index0}}" name="skipper2" value="{{ outline2.skipper2 }}">
+              <select name="skipper3" id="skipper3{{loop.index0}}" class="form-control">
+                {% for player_name in player_names %}
+                  <option value={{ player_name }}>{{ player_name.player_name }}</option>
+                {% endfor %}
+              </select>
             </div>
           </div>
         </td>
         <td>
           <div class="form-group">
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="crew2{{loop.index0}}" name="crew2" value="{{ outline2.crew2 }}">
-            </div>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="form-group">
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="skipper3{{loop.index0}}" name="skipper3" value="{{ outline2.skipper3 }}">
-            </div>
-          </div>
-        </td>
-        <td>
-          <div class="form-group">
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="crew3{{loop.index0}}" name="crew3" value="{{ outline2.crew3 }}">
+              <select name="crew3" id="crew3{{loop.index0}}" class="form-control">
+                {% for player_name in player_names %}
+                  <option value={{ player_name }}>{{ player_name.player_name }}</option>
+                {% endfor %}
+              </select>
             </div>
           </div>
         </td>
@@ -147,91 +173,148 @@
     <div class="form-group">
       <label for="training1" class="col-sm-2 control-label">練習1</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training1" name="training1" value="{{ target_outline1.training1 }}">
+        <select name="training1" id="training1" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
     <div class="form-group">
       <label for="training2" class="col-sm-2 control-label">練習2</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training2" name="training2" value="{{ target_outline1.training2 }}">
-      </div>
+        <select name="training2" id="training2" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
     </div>
     <div class="form-group">
       <label for="training3" class="col-sm-2 control-label">練習3</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training3" name="training3" value="{{ target_outline1.training3 }}">
+        <select name="training3" id="training3" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
     <div class="form-group">
       <label for="training4" class="col-sm-2 control-label">練習4</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training4" name="training4" value="{{ target_outline1.training4 }}">
+        <select name="training4" id="training4" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
     <div class="form-group">
       <label for="training5" class="col-sm-2 control-label">練習5</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training5" name="training5" value="{{ target_outline1.training5 }}">
+        <select name="training5" id="training5" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
     <div class="form-group">
       <label for="training6" class="col-sm-2 control-label">練習6</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training6" name="training6" value="{{ target_outline1.training6 }}">
-      </div>
+        <select name="training6" id="training6" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
     </div>
     <div class="form-group">
       <label for="training7" class="col-sm-2 control-label">練習7</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training7" name="training7" value="{{ target_outline1.training7 }}">
+        <select name="training7" id="training7" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
     <div class="form-group">
       <label for="training8" class="col-sm-2 control-label">練習8</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training8" name="training8" value="{{ target_outline1.training8 }}">
+        <select name="training8" id="training8" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
     <div class="form-group">
       <label for="training9" class="col-sm-2 control-label">練習9</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training9" name="training9" value="{{ target_outline1.training9 }}">
+        <select name="training9" id="training9" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
     <div class="form-group">
       <label for="training10" class="col-sm-2 control-label">練習10</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training10" name="training10" value="{{ target_outline1.training10 }}">
-      </div>
+        <select name="training10" id="training10" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
     </div>
     <div class="form-group">
       <label for="training11" class="col-sm-2 control-label">練習11</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training11" name="training11" value="{{ target_outline1.training11 }}">
+        <select name="training11" id="training11" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
     <div class="form-group">
       <label for="training12" class="col-sm-2 control-label">練習12</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training12" name="training12" value="{{ target_outline1.training12 }}">
+        <select name="training12" id="training12" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
     <div class="form-group">
       <label for="training13" class="col-sm-2 control-label">練習13</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training13" name="training13" value="{{ target_outline1.training13 }}">
+        <select name="training13" id="training13" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
     <div class="form-group">
       <label for="training14" class="col-sm-2 control-label">練習14</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training14" name="training14" value="{{ target_outline1.training14 }}">
+        <select name="training14" id="training14" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
     <div class="form-group">
       <label for="training15" class="col-sm-2 control-label">練習15</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="training15" name="training15" value="{{ target_outline1.training15 }}">
+        <select name="training15" id="training15" class="form-control">
+          {% for training_menu in training_menus %}
+            <option value={{ training_menu }}>{{ training_menu.training_menu }}</option>
+          {% endfor %}
+        </select>
       </div>
     </div>
     <div class="form-group">
