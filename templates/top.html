@@ -39,7 +39,7 @@
       {% endfor %}
     </tbody>
     </table>
-<form action="{{ url_for('add_note') }}" method="post" class="form-inline">
+<form action="{{ url_for('add_outline') }}" method="post" class="form-inline">
   <label for="username">Name</label>
   <input type="datetime-local" class="form-control" id="starttime" name="starttime", value={{ datetime_now }}>
     <input type="datetime-local" class="form-control" id="endtime" name="endtime", value={{ datetime_now }}>

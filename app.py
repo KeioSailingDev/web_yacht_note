@@ -58,8 +58,34 @@ def show_outline(target_outline_id):
     query2.add_filter('outline_id', '=', target_outline_id)
     #query2.order = ['yacht_number']
     target_outline2 = list(query2.fetch())
-
     return render_template('show_outline.html', title='練習概要変更', target_outline1=target_outline1, target_outline2=target_outline2)
+
+
+@app.route("/add_outline", methods=['POST'])
+def add_outline():
+    # フォームからデータを取得
+    starttime = request.form.get('starttime')
+    endtime = request.form.get('endtime')
+    time_category = request.form.get('time_category')
+
+    # DataStoreに格納
+    if starttime and endtime and time_category:
+        key = client.key('Outline')  # kind（テーブル）を指定し、keyを設定
+        outline = datastore.Entity(key)  # エンティティ（行）を指定のkeyで作成
+        outline.update({  # エンティティに入れるデータを指定
+            'outline_id': datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'),  # 日時をidとする
+            'date': starttime[0:10],
+            'start_time': datetime.strptime(starttime, '%Y-%m-%dT%H:%M').astimezone(),
+            'end_time': datetime.strptime(endtime, '%Y-%m-%dT%H:%M').astimezone(),
+            'time_category': time_category,
+        })
+        client.put(outline)  # DataStoreへ送信
+    else:
+        return redirect(url_for('top'))
+
+    # 元のページに戻る TODO 作成したページに移動に買える
+    return redirect(url_for('top'))
+
 
 
 #【練習概要ページの変更】
@@ -362,55 +388,6 @@ def del_device(device_id):
     client.delete(key)
 
     return redirect(url_for('top'))
-
-
-@app.route("/add_outline", methods=['POST'])
-def add_outline():
-    # フォームからデータを取得
-    starttime = request.form.get('starttime')
-    endtime = request.form.get('endtime')
-    time_category = request.form.get('time_category')
-
-    # DataStoreに格納
-    if starttime and endtime and time_category:
-        key = client.key('Outline')  # kind（テーブル）を指定し、keyを設定
-        outline = datastore.Entity(key)  # エンティティ（行）を指定のkeyで作成
-        outline.update({  # エンティティに入れるデータを指定
-            'outline_id': datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'),  # 日時をidとする
-            'date': starttime[0:10],
-            'start_time': datetime.strptime(starttime, '%Y-%m-%dT%H:%M').astimezone(),
-            'end_time': datetime.strptime(endtime, '%Y-%m-%dT%H:%M').astimezone(),
-            'time_category': time_category,
-        })
-        client.put(outline)  # DataStoreへ送信
-    else:
-        return redirect(url_for('top'))
-
-    # 元のページに戻る TODO 作成したページに移動に買える
-    return redirect(url_for('top'))
-
-
-# 【練習概要のページを表示】2種類のOutline Kindのデータを持ってくる
-@app.route("/outline/<int:target_outline_id>", methods=['GET'])
-def outline_detail(target_outline_id):
-    # 日付,時間帯、波、風、練習メニューのデータを取得
-    query1 = client.query(kind='Outline')
-    query1.add_filter('outline_id', '=', target_outline_id)
-    target_outline1 = list(query1.fetch())[0]  # 該当エンティティは一つしかないため、[0]で一つ目を指定
-    # outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
-    # 取得したエンティティを変数に代入し、htmlファイルに渡す
-
-    # 艇番、スキッパー、クルーのデータを取得
-    query2 = client.query(kind='Outline_yacht_player')
-    query2.add_filter('outline_id', '=', target_outline_id)
-    target_outline2 = list(query2.fetch())
-    # outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
-    # 取得したエンティティを変数に代入し、htmlファイルに渡す
-    # Outline_yacht_player Kindからは複数のエンティティを取得する為、listにしてデータを取得する
-
-    return render_template('outline_detail.html', title='練習概要', target_outline1=target_outline1,
-                           target_outline2=target_outline2)
-
 
 #【練習メニューの管理画面を表示】Datasotreから練習メニューの情報を取得し、htmlに渡す
 @app.route("/admin/menu")
