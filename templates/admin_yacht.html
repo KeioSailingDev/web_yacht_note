@@ -1,14 +1,17 @@
-
 {% extends 'layout.html' %}
 {% block content %}
-<h1>{{ title }}</h1>
+  <h1>{{ title }}</h1>
 
   <h2>【新規追加】</h2> <!-- 動作確認OK! -->
-  <form action="{{ url_for('add_device') }}" method="post" class="form-inline">
-    <label for="deviceno">Device No.</label>
-      <input type="text" class="form-control" id="deviceno" name="deviceno">
-    <label for="devicename">Device Name</label>
-      <input type="text" class="form-control" id="devicename" name="devicename">
+  <form action="{{ url_for('add_yacht') }}" method="post" class="form-inline">
+    <label for="yachtno">艇番</label>
+      <input type="text" class="form-control" id="yachtno" name="yachtno">
+    <label for="yachtclass">艇種</label>
+      <select name="yachtclass">
+        <option value"">-</option>
+        <option value="420">420</option>
+        <option value="FG">FG</option>
+      </select>　
     <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
     </button>
@@ -18,24 +21,24 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Device No.</th>
-        <th>Device Name</th>
+        <th>艇種</th>
+        <th>艇番</th>
         <th></th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      {% for device in device_list %}
+      {% for yacht in yacht_list %}
       <tr>
-        <td>{{device.device_no}}</td>
-        <td>{{device.device_name}}</td>
+        <td>{{yacht.yacht_no}}</td>
+        <td>{{yacht.yacht_class}}</td>
         <td>
-          <a class="btn btn-success" href="{{ url_for('show_device', device_id=device.key.id) }}">
+          <a class="btn btn-success" href="{{ url_for('show_yacht', yacht_id=yacht.key.id) }}">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更
           </a>
         </td>
         <td>
-          <form class="text-right" action="{{ url_for('del_device', device_id=device.key.id) }}" method="post">
+          <form class="text-right" action="{{ url_for('del_yacht', yacht_id=yacht.key.id) }}" method="post">
             <button type="submit" class="btn btn-danger">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 削除
             </button>
@@ -45,4 +48,5 @@
       {% endfor %}
     </tbody>
   </table>
+
 {% endblock %}

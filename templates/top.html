@@ -39,6 +39,26 @@
       {% endfor %}
     </tbody>
     </table>
+<form action="{{ url_for('add_note') }}" method="post" class="form-inline">
+  <label for="username">Name</label>
+  <input type="datetime-local" class="form-control" id="starttime" name="starttime", value={{ datetime_now }}>
+    <input type="datetime-local" class="form-control" id="endtime" name="endtime", value={{ datetime_now }}>
+    <button type="submit" class="btn btn-primary">
+      <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
+    </button>
+</form>
+<a class="btn btn-success" href="{{ url_for('admin_player')}}">
+  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 選手管理
+</a>
+<a class="btn btn-success" href="{{ url_for('admin_yacht')}}">
+  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> ヨット管理
+</a>
+<a class="btn btn-success" href="{{ url_for('admin_device')}}">
+  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> デバイス管理
+</a>
+<a class="btn btn-success" href="{{ url_for('admin_menu')}}">
+  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 練習メニュー
+</a>
 
 {% endblock %}
 

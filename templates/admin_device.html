@@ -1,13 +1,12 @@
-
 {% extends 'layout.html' %}
 {% block content %}
-<h1>{{ title }}</h1>
+  <h1>{{ title }}</h1>
 
   <h2>【新規追加】</h2> <!-- 動作確認OK! -->
   <form action="{{ url_for('add_device') }}" method="post" class="form-inline">
-    <label for="deviceno">Device No.</label>
+    <label for="deviceno">デバイスID</label>
       <input type="text" class="form-control" id="deviceno" name="deviceno">
-    <label for="devicename">Device Name</label>
+    <label for="devicename">デバイス機種</label>
       <input type="text" class="form-control" id="devicename" name="devicename">
     <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
@@ -18,8 +17,8 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Device No.</th>
-        <th>Device Name</th>
+        <th>デバイスID</th>
+        <th>デバイス機種</th>
         <th></th>
         <th></th>
       </tr>
@@ -45,4 +44,5 @@
       {% endfor %}
     </tbody>
   </table>
+
 {% endblock %}
