@@ -6,13 +6,25 @@
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
     <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="../static/css/simple-sidebar.css" rel="stylesheet">
+    <link href="../static/css/main.css" rel="stylesheet">
+{#    <link href="../static/css/scrolling-nav.css" rel="stylesheet">#}
 {##}
   <title>{{ title }}</title>
 </head>
 
 <body>
-    <div id="wrapper">
+    <!-- Nav -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="navbar-header">
+              <button class="navbar-toggler">
+                  <span class="navbar-toggler-icon">
+                      <a href="#menu-toggle" class="navbar-toggler" id="menu-toggle">Toggle Menu</a>
+                  </span>
+              </button>
 
+          </div>
+    </nav>
+    <div id="wrapper">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
@@ -37,13 +49,15 @@
         </div>
         <!-- /#sidebar-wrapper -->
 
+
+
     <!-- Page Content -->
     <div id="page-content-wrapper">
         <div class="container-fluid">
              <div class="container">
                  {% block content %}{% endblock %}
              </div>
-            <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+
         </div>
     </div>
 
@@ -57,12 +71,14 @@
     <script src="../static/jquery/jquery.min.js"></script>
     <script src="../static/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Menu Toggle Script -->
+    <!-- scrolling-nav JavaScript -->
+{#    <script src="../static/js/scrolling-nav.js"></script>#}
+
     <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
     </script>
 </body>
 </html>
