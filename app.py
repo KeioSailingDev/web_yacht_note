@@ -35,18 +35,14 @@ def top():
 #【練習概要のページを表示】2種類のOutline Kindのデータを持ってくる
 @app.route("/outline/<int:target_outline_id>", methods=['GET'])
 def outline_detail(target_outline_id):
-    print(target_outline_id)
     #日付,時間帯、波、風、練習メニューのデータを取得
     query1 = client.query(kind='Outline')
-    print(list(query1.fetch()))
-    query1.add_filter('outline_id', '=', target_outline_id)#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
-    print(query1)
-    print(list(query1.fetch()))
+    query1.add_filter('outline_id', '=', int(target_outline_id))#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
     target_outline1 = list(query1.fetch())[0]#該当するエンティティは一つしかないため、[0]で一つ目を指定
 
     #艇番、スキッパー、クルーのデータを取得
     query2 = client.query(kind='Outline_yacht_player')#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
-    query2.add_filter('outline_id', '=', target_outline_id)
+    query2.add_filter('outline_id', '=', int(target_outline_id))
     target_outline2 = list(query2.fetch())
 
     return render_template('outline_detail.html', title='練習概要', target_outline1=target_outline1, target_outline2=target_outline2)
@@ -78,7 +74,7 @@ def add_outline():
         key = client.key('Outline')  # kind（テーブル）を指定し、keyを設定
         outline = datastore.Entity(key)  # エンティティ（行）を指定のkeyで作成
         outline.update({  # エンティティに入れるデータを指定
-            'outline_id': outline_id,  # 日時をidとする
+            'outline_id': int(outline_id),  # 日時をidとする
             'date': starttime[0:10],
             'start_time': datetime.strptime(starttime, '%Y-%m-%dT%H:%M').astimezone(),
             'end_time': datetime.strptime(endtime, '%Y-%m-%dT%H:%M').astimezone(),
