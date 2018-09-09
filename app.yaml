@@ -39,11 +39,9 @@
 
 service: web-yacht-note-app
 
-application: web-yacht-note-208313
-version: 20180909
 runtime: python37
 api_version: 1
-threadsafe: yes
+#threadsafe: yes
 
 handlers:
 - url: /static
@@ -51,9 +49,9 @@ handlers:
 - url: /.*
   script: main.app
 
-libraries:
-- name: ssl
-  version: latest
-
-- name: jinja2
-  version: latest
+#libraries:
+#- name: ssl
+#  version: latest
+#
+#- name: jinja2
+#  version: latest
