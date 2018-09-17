@@ -61,7 +61,6 @@ def show_outline(target_outline_id):
     #outline_idをキーに、艇番・スキッパー・クルーの一覧を取得
     query2 = client.query(kind='Outline_yacht_player')
     query2.add_filter('outline_id', '=', int(target_outline_id))
-    #query2.order = ['yacht_number']
     target_outline2 = list(query2.fetch())
 
     #時間区分の一覧
@@ -83,6 +82,10 @@ def show_outline(target_outline_id):
     query_yacht = client.query(kind='Yacht')
     yacht_numbers = list(query_yacht.fetch())
 
+    #デバイス機種名の一覧を取得
+    query_device = client.query(kind='Device')
+    device_names = list(query_device.fetch())
+
     #ドラムロール表示用に、部員の一覧を取得
     query_player = client.query(kind='Player')
     player_names = list(query_player.fetch())
@@ -95,7 +98,8 @@ def show_outline(target_outline_id):
     target_outline1=target_outline1, target_outline2=target_outline2,\
     wind_speeds=wind_speeds, wind_directions=wind_directions,\
     time_categories=time_categories, sizes=sizes, sea_surfaces=sea_surfaces,\
-    training_menus=training_menus, yacht_numbers=yacht_numbers, player_names=player_names)
+    training_menus=training_menus, yacht_numbers=yacht_numbers,\
+    player_names=player_names, device_names=device_names)
 
 
 @app.route("/add_outline", methods=['POST'])
@@ -123,7 +127,6 @@ def add_outline():
 
     # 元のページに戻る TODO 作成したページに移動に買える
     return redirect(url_for('top'))
-
 
 
 #【練習概要ページの変更】
@@ -204,6 +207,7 @@ def mod_outline(target_outline_id):
     #show_outline.htmlから取得した値を変数に代入
     for i,outline2 in enumerate(outline2s):
         yachtnumber = request.form.get('yachtnumber'+str(i))
+        devicename = request.form.get('devicename'+str(i))
         skipper1 = request.form.get('skipper1'+str(i))
         skipper2 = request.form.get('skipper2'+str(i))
         skipper3 = request.form.get('skipper3'+str(i))
@@ -217,6 +221,7 @@ def mod_outline(target_outline_id):
 
         #各プロパティに上書き
         outline2['yacht_number'] = int(yachtnumber)
+        outline2['device_name'] = str(devicename)
         outline2['skipper1'] = str(skipper1)
         outline2['skipper2'] = str(skipper2)
         outline2['skipper3'] = str(skipper3)
@@ -229,14 +234,14 @@ def mod_outline(target_outline_id):
     return redirect(url_for('top'))
 
 
- #【練習概要ページの削除】
+ #【練習概要ページの削除】※動作テスト未
 @app.route("/outline/del_outline/<int:target_outline_id>", methods=['POST'])
 def del_outline(target_outline_id):
 
     query1 = client.query(kind='Outline')
     query1.add_filter('outline_id', '=', int(target_outline_id))
     outline1 = list(query1.fetch())[0] #python形式のkey.idに変換
-    key1 = outline1.key.id #keyidを取得
+    key1 = outline1.key.id #idを取得
     client.delete(key1)
 
     query2 = client.query(kind='Outline_yacht_player')
@@ -285,7 +290,12 @@ def show_player(player_id):
     key = client.key('Player', player_id)
     target_player = client.get(key)
 
-    return render_template('show_player.html', title='ユーザー詳細', target_player=target_player)
+    #入学年の一覧
+    this_year = (datetime.now()).year
+    admission_years = list(range(this_year-10, this_year+10))
+
+    return render_template('show_player.html', title='ユーザー詳細',\
+    target_player=target_player, admission_years=admission_years)
 
 #【選手データの変更】選手名と入学年を更新する
 @app.route("/admin/modplayer/<int:player_id>", methods=['POST'])
