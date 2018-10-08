@@ -1,18 +1,11 @@
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-   yoi
-*/
-
-
 header{
     overflow: hidden;
     position: fixed;
     top: 0;
     left: 0;
+    height: 40px;
     width: 100%;
     z-index: 2;
-    background-color: #0b2e13;
 }
 
 .menu-button {
@@ -21,8 +14,8 @@ header{
     top: 20px;
     left: 20px;
     overflow: hidden;
-    width: 34px;
-    height: 31px;
+    width: 20px;
+    height: 20px;
     text-indent: -9999px;
 }
 
