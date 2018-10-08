@@ -32,6 +32,7 @@ def top():
     return render_template('top.html', title='練習ノート一覧',
                            outline_list=outline_list, datetime_now=datetime_now, time_categories=time_categories)
 
+
 #【練習概要のページを表示】2種類のOutline Kindのデータを持ってくる
 @app.route("/outline/<int:target_outline_id>", methods=['GET'])
 def outline_detail(target_outline_id):
@@ -46,6 +47,7 @@ def outline_detail(target_outline_id):
     target_outline2 = list(query2.fetch())
 
     return render_template('outline_detail.html', title='練習概要', target_outline1=target_outline1, target_outline2=target_outline2)
+
 
 #【練習概要ページの変更画面に遷移】
 @app.route("/admin/show_outline/<int:target_outline_id>/", methods=['GET'])
