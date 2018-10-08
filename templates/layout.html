@@ -4,9 +4,6 @@
   <meta charset="utf-8">
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
     <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-{#    <link href="../static/css/simple-sidebar.css" rel="stylesheet">#}
-{#    <link href="../static/css/scrolling-nav.css" rel="stylesheet">#}
-{##}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Include Sidr bundled CSS theme -->
     <link rel="stylesheet" href="../static/css/jquery.sidr.light.css">
@@ -17,41 +14,47 @@
 
 <body>
     <!-- Nav -->
-    <nav id="sidr-right-bottom">
-      <h1>Sidr Right Bottom</h1>
+    <div id="sidr-left-top">
+      <h1>Sidr left top</h1>
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="#">
+                    Start Bootstrap
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin_player')}}">選手管理</a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin_yacht')}}">ヨット管理</a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin_device')}}">デバイス管理</a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin_menu')}}"> 練習メニュー</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Nav -->
+    <div id="sidr-right-top">
+      <h1>Sidr Right top</h1>
       <ul>
         <li><a href="index.html">All Examples</a></li>
         <li class="active"><a href="#">Dummy 2</a></li>
         <li><a href="#">Dummy 3</a></li>
       </ul>
-    </nav>
+    </div>
 
-    <a id="sidr-left-top-button" class="menu-button" href="#sidr-left-top">Toggle menu</a>
-    <a id="sidr-right-top-button" class="menu-button right" href="#sidr-right-top">Toggle menu</a>
+
 
     <div id="wrapper">
-{#        <!-- Sidebar -->#}
-{#        <div id="sidebar-wrapper">#}
-{#            <ul class="sidebar-nav">#}
-{#                <li class="sidebar-brand">#}
-{#                    <a href="#">#}
-{#                        Start Bootstrap#}
-{#                    </a>#}
-{#                </li>#}
-{#                <li>#}
-{#                    <a href="{{ url_for('admin_player')}}">選手管理</a>#}
-{#                </li>#}
-{#                <li>#}
-{#                    <a href="{{ url_for('admin_yacht')}}">ヨット管理</a>#}
-{#                </li>#}
-{#                <li>#}
-{#                    <a href="{{ url_for('admin_device')}}">デバイス管理</a>#}
-{#                </li>#}
-{#                <li>#}
-{#                    <a href="{{ url_for('admin_menu')}}"> 練習メニュー</a>#}
-{#                </li>#}
-{#            </ul>#}
-{#        </div>#}
+        <header>
+            header
+            <a id="sidr-left-top-button" class="menu-button left" href="#sidr-left-top">Toggle menu</a>
+            <a id="sidr-right-top-button" class="menu-button right" href="#sidr-right-top">Toggle menu</a>
+        </header>
         <!-- /#sidebar-wrapper -->
 
 
@@ -74,7 +77,7 @@
     <script src="../static/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- scrolling-nav JavaScript -->
-{#    <script src="../static/js/scrolling-nav.js"></script>#}
+    <script src="../static/js/scrolling-nav.js"></script>
 
     <script src="../static/js/jquery.sidr.js"></script>
 
@@ -86,30 +89,14 @@
         name: 'sidr-left-top',
         timing: 'ease-in-out',
         speed: 500,
-        source: '.nav-sample, #sample2'
-      });
-
-      $('#sidr-left-bottom-button').sidr({
-        name: 'sidr-left-bottom',
-        speed: 300,
-        source: '.nav-sample',
-        renaming: false
+        source: 'sidr-left-top'
       });
 
       $('#sidr-right-top-button').sidr({
         name: 'sidr-right-top',
-        speed: 800,
+        speed: 500,
         side: 'right',
-        source: function () {
-          return '<p>This is the Sidr content generated with a callback</p>';
-        }
-      });
-
-      $('#sidr-right-bottom-button').sidr({
-        name: 'sidr-right-bottom',
-        speed: 400,
-        side: 'right',
-        source: 'http://localhost:9000/examples/remote-content.html'
+        source: 'sidr-right-top'
       });
     });
 

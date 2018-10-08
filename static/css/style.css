@@ -1,15 +1,25 @@
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
+   yoi
 */
 
+
+header{
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    background-color: #0b2e13;
+}
 
 .menu-button {
     display: block;
     position: absolute;
     top: 20px;
     left: 20px;
-    background-image: url(menu.gif);
     overflow: hidden;
     width: 34px;
     height: 31px;
@@ -19,7 +29,15 @@
 .menu-button.right {
     right: 20px;
     left: auto;
+    background-image: url(menu.png);
 }
+
+.menu-button.left {
+    right: auto;
+    left: 20px;
+    background-image: url(menu.png);
+}
+
 
 .menu-button.bottom {
     top: 100px;
