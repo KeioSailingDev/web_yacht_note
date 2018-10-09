@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from gcloud import datastore
 from datetime import datetime
 from flask_bootstrap import Bootstrap
+from datetime import date
 
 # プロジェクトID
 project_id = "web-yacht-note-208313"
@@ -29,7 +30,8 @@ def top():
     # 時間区分list
     time_categories = ["-", "午前", "午後", "１部", "２部", "３部"]
 
-    return render_template('top.html', title='練習ノート一覧',
+    return render_template('top.html', title='練習ノート一覧',outline_list=outline_list,
+                           today=today, time_categories=time_categories)
 
                            
 @app.route("/outline/<int:target_outline_id>", methods=['GET'])
