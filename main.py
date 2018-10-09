@@ -1,9 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 from gcloud import datastore
-from datetime import date, datetime
+from datetime import datetime
 from flask_bootstrap import Bootstrap
-
-
 
 # プロジェクトID
 project_id = "web-yacht-note-208313"
@@ -32,9 +30,8 @@ def top():
     time_categories = ["-", "午前", "午後", "１部", "２部", "３部"]
 
     return render_template('top.html', title='練習ノート一覧',
-                           outline_list=outline_list, today=today, time_categories=time_categories)
 
-
+                           
 @app.route("/outline/<int:target_outline_id>", methods=['GET'])
 def outline_detail(target_outline_id):
     """
@@ -47,11 +44,11 @@ def outline_detail(target_outline_id):
     Return:
     outline_detail.htmlへ移動し、target_outline1、target_outline2のデータを表示
     """
-
     query1 = client.query(kind='Outline')
     query1.add_filter('outline_id', '=', int(target_outline_id))#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
     target_outline1 = list(query1.fetch())[0]#該当するエンティティは一つしかないため、[0]で一つ目を指定
 
+    #艇番、スキッパー、クルーのデータを取得
     query2 = client.query(kind='Outline_yacht_player')#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
     query2.add_filter('outline_id', '=', int(target_outline_id))
     target_outline2 = list(query2.fetch())
@@ -121,7 +118,7 @@ def show_outline(target_outline_id):
                             time_categories=time_categories, sizes=sizes, sea_surfaces=sea_surfaces,\
                             training_menus=training_menus, yacht_numbers=yacht_numbers,\
                             player_names=player_names, device_names=device_names)
-
+                           
 
 @app.route("/add_outline", methods=['POST'])
 def add_outline():
@@ -308,6 +305,7 @@ def mod_outline(target_outline_id):
     return redirect(url_for('top'))
 
 
+
 @app.route("/outline/del_outline/<int:target_outline_id>", methods=['POST'])
 def del_outline(target_outline_id):
     """
@@ -426,6 +424,7 @@ def mod_player(player_id):
     playername = str(request.form.get('playername'))
     year = int(request.form.get('year'))
 
+
     with client.transaction():
         key = client.key('Player', player_id)
         player = client.get(key)
@@ -503,6 +502,7 @@ def add_yacht():
     return redirect(url_for('top'))
 
 
+
 @app.route("/admin/showyacht/<int:yacht_id>", methods=['GET'])
 def show_yacht(yacht_id):
     """
@@ -513,7 +513,6 @@ def show_yacht(yacht_id):
 
     Return: show_yacht.htmlに移動。target_yachtを引き渡す。
     """
-
     key = client.key('Yacht', yacht_id)
     target_yacht = client.get(key)
 
@@ -532,7 +531,6 @@ def mod_yacht(yacht_id):
 
     Return: TOPページに戻る
     """
-
     yachtno = request.form.get('yachtno')
     yachtclass = request.form.get('yachtclass')
 
@@ -543,6 +541,7 @@ def mod_yacht(yacht_id):
         if not yacht:
             raise ValueError(
                 'Yacht {} does not exist.'.format(yacht_id))
+                           
         yacht.update({
             'yacht_no': int(yachtno),
             'yacht_class': yachtclass
@@ -583,7 +582,7 @@ def admin_device():
 
     return render_template('admin_device.html', title='デバイス管理', device_list=device_list)
 
-
+                           
 @app.route("/admin/adddevice", methods=['POST'])
 def add_device():
     """
@@ -596,7 +595,6 @@ def add_device():
 
     Return: TOPページに戻る
     """
-
     deviceno = request.form.get('deviceno')
     devicename = request.form.get('devicename')
     datetime_now = datetime.now()
@@ -613,7 +611,7 @@ def add_device():
 
     return redirect(url_for('top'))
 
-
+                           
 @app.route("/admin/showdevice/<int:device_id>", methods=['GET'])
 def show_device(device_id):
     """
@@ -625,13 +623,12 @@ def show_device(device_id):
     Return:
     show_device.htmlに移動。target_deviceを引き渡す。
     """
-
     key = client.key('Device', device_id)
     target_device = client.get(key)
 
     return render_template('show_device.html', title='デバイス詳細', target_device=target_device)
 
-
+                           
 @app.route("/admin/moddevice/<int:device_id>", methods=['POST'])
 def mod_device(device_id):
     """
@@ -644,7 +641,6 @@ def mod_device(device_id):
 
     Return: TOPページに移動
     """
-
     deviceno = request.form.get('deviceno')
     devicename = request.form.get('devicename')
 
@@ -673,13 +669,12 @@ def del_device(device_id):
 
     Return:TOPページに戻る
     """
-
     key = client.key('Device', device_id)
     client.delete(key)
 
     return redirect(url_for('top'))
 
-
+                           
 @app.route("/admin/menu")
 def admin_menu():
     """
@@ -691,12 +686,11 @@ def admin_menu():
     Return:
     admin_menu.htmlに移動。menu_listを引き渡す。
     """
-
     query = client.query(kind='Menu')
     menu_list = list(query.fetch())
     return render_template('admin_menu.html', title='練習メニュー', menu_list=menu_list)
 
-
+                           
 @app.route("/admin/addmenu", methods=['POST'])
 def add_menu():
     """
@@ -714,7 +708,7 @@ def add_menu():
 
     return redirect(url_for('top'))
 
-
+                           
 @app.route("/admin/showmenu/<int:menu_id>", methods=['GET'])
 def show_menu(menu_id):
     """
@@ -726,13 +720,12 @@ def show_menu(menu_id):
     Return:
     show_menu.htmlに移動。target_menuを引き渡す
     """
-
     key = client.key('Menu', menu_id)
     target_menu = client.get(key)
 
     return render_template('show_menu.html', title='練習メニュー詳細', target_menu=target_menu)
 
-
+                           
 @app.route("/admin/modmenu/<int:menu_id>", methods=['POST'])
 def mod_menu(menu_id):
     """
@@ -757,12 +750,11 @@ def mod_menu(menu_id):
         menu.update({
             'training_menu': menu_name
         })
-
         client.put(menu)
 
     return redirect(url_for('top'))
 
-
+                           
 @app.route("/admin/delmenu/<int:menu_id>", methods=['POST'])
 def del_menu(menu_id):
     """
@@ -770,11 +762,11 @@ def del_menu(menu_id):
 
     Return: TOPページに戻る
     """
-
     key = client.key('Menu', menu_id)
     client.delete(key)
 
     return redirect(url_for('top'))
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

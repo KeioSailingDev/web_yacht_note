@@ -2,57 +2,66 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="../static/bootstrap/js/bootstrap.min.js"></script>
     <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../static/css/simple-sidebar.css" rel="stylesheet">
-{##}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include Sidr bundled CSS theme -->
+    <link rel="stylesheet" href="../static/css/jquery.sidr.light.css">
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="../static/css/style.css">
   <title>{{ title }}</title>
 </head>
 
 <body>
-    <div id="wrapper">
+    <header>
+        <p class="text-muted text-center h4">WEBヨットノート</p>
+        <a id="sidr-left-top-button" class="menu-button left" href="#sidr-left-top">Toggle menu</a>
+        <a id="sidr-right-top-button" class="menu-button right" href="#sidr-right-top">Toggle menu</a>
+    </header>
 
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="#">
-                        Start Bootstrap
-                    </a>
-                </li>
-                <li>
-                    <a href="#">Dashboard</a>
-                </li>
-                <li>
-                    <a href="#">Shortcuts</a>
-                </li>
-                <li>
-                    <a href="#">Overview</a>
-                </li>
-                <li>
-                    <a href="#">Events</a>
-                </li>
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="#">Services</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
-            </ul>
-        </div>
-        <!-- /#sidebar-wrapper -->
+
+
+
+    <div id="wrapper" class="col-sm-12" style="margin-top: 40px">
+       <!-- Nav -->
+    <div id="sidr-left-top">
+      <h1>Sidr left top</h1>
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="#">
+                    Start Bootstrap
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin_player')}}">選手管理</a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin_yacht')}}">ヨット管理</a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin_device')}}">デバイス管理</a>
+            </li>
+            <li>
+                <a href="{{ url_for('admin_menu')}}"> 練習メニュー</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Nav -->
+    <div id="sidr-right-top">
+      <h1>Sidr Right top</h1>
+      <ul>
+        <li><a href="index.html">All Examples</a></li>
+        <li class="active"><a href="#">Dummy 2</a></li>
+        <li><a href="#">Dummy 3</a></li>
+      </ul>
+    </div>
+
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
         <div class="container-fluid">
-             <div class="container">
-                 {% block content %}{% endblock %}
-             </div>
-            <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+            {% block content %}{% endblock %}
         </div>
     </div>
 
@@ -66,12 +75,35 @@
     <script src="../static/jquery/jquery.min.js"></script>
     <script src="../static/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Menu Toggle Script -->
+    <!-- scrolling-nav JavaScript -->
+    <script src="../static/js/scrolling-nav.js"></script>
+
+    <script src="../static/js/jquery.sidr.js"></script>
+
+    <!-- Your code -->
     <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
+
+    $(document).ready(function () {
+      $('#sidr-left-top-button').sidr({
+        name: 'sidr-left-top',
+        timing: 'ease-in-out',
+        speed: 500,
+        source: 'sidr-left-top'
+      });
+
+      $('#sidr-right-top-button').sidr({
+        name: 'sidr-right-top',
+        speed: 500,
+        side: 'right',
+        source: 'sidr-right-top'
+      });
     });
+
+    $( window ).resize(function () {
+      $.sidr('close', 'sidr-left-top');
+      $.sidr('close', 'sidr-right-top');
+    });
+
     </script>
 </body>
 </html>
