@@ -3,14 +3,12 @@
   <h2>追加</h2>
 
    <form action="{{ url_for('add_outline') }}" method="post" class="form-inline">
-      開始時間：<input type="datetime-local" class="form-control" id="starttime" name="starttime", value={{ datetime_now }}>
-      終了時間：<input type="datetime-local" class="form-control" id="endtime" name="endtime", value={{ datetime_now }}>
+      日付：<input type="date" class="form-control" id="date" name="date", value={{ today }}>
       時間区分：<select name="time_category" id="time_category" class="form-control">
           {% for time_category in time_categories %}
         <option value={{ time_category }}>{{ time_category }}</option>
           {% endfor %}
       </select>
-
       <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
       </button>
@@ -45,4 +43,3 @@
 
 
 {% endblock %}
-

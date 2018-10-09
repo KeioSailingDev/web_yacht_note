@@ -43,24 +43,30 @@
   <thead>
     <tr>
       <th>【艇番】</th>
+      <th>【デバイス】</th>
       <th>【スキッパー】</th>
       <th>【クルー】</th>
     </tr>
   </thead>
   {% for outline2 in target_outline2 %}
   <tr>
-    <td rowspan="3">{{outline2.yacht_number}}</td>
+    <td rowspan="{{outline2.rowspan}}">{{outline2.yacht_number}}</td>
+    <td rowspan="{{outline2.rowspan}}">{{outline2.device_name}}</td>
     <td>{{outline2.skipper1}}</td>
     <td>{{outline2.crew1}}</td>
   </tr>
-  <tr>
-    <td>{{outline2.skipper2}}</td>
-    <td>{{outline2.crew2}}</td>
-  </tr>
-  <tr>
-    <td>{{outline2.skipper3}}</td>
-    <td>{{outline2.crew3}}</td>
-  </tr>
+  {% if outline2.skipper2 %}
+    <tr>
+      <td>{{outline2.skipper2}}</td>
+      <td>{{outline2.crew2}}</td>
+    </tr>
+  {% endif %}
+  {% if outline2.skipper3 %}
+    <tr>
+      <td>{{outline2.skipper3}}</td>
+      <td>{{outline2.crew3}}</td>
+    </tr>
+  {% endif %}
   {% endfor %}
 </table>
 
@@ -82,7 +88,6 @@
     <li>{{target_outline1.training14}}</li>
     <li>{{target_outline1.training15}}</li>
   </ol>
-
 
 
 <a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_outline1.outline_id )}}">
