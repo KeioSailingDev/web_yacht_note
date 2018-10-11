@@ -22,36 +22,24 @@
     </header>
 
 
-
-
     <div id="wrapper" class="col-sm-12" style="margin-top: 40px">
        <!-- Nav -->
     <div id="sidr-left-top">
-      <h1>Sidr left top</h1>
         <ul class="sidebar-nav">
-            <li class="sidebar-brand">
-                <a href="#">
-                    Start Bootstrap
-                </a>
+            <li>
+                <a href="{{ url_for('top')}}">WEBヨットノートとは</a>
             </li>
             <li>
-                <a href="{{ url_for('admin_player')}}">選手管理</a>
+                <a href="{{ url_for('top')}}">使い方</a>
             </li>
             <li>
-                <a href="{{ url_for('admin_yacht')}}">ヨット管理</a>
-            </li>
-            <li>
-                <a href="{{ url_for('admin_device')}}">デバイス管理</a>
-            </li>
-            <li>
-                <a href="{{ url_for('admin_menu')}}"> 練習メニュー</a>
+                <a href="{{ url_for('admin_top')}}">管理ページ</a>
             </li>
         </ul>
     </div>
 
     <!-- Nav -->
     <div id="sidr-right-top">
-      <h1>Sidr Right top</h1>
       <ul>
         <li><a href="index.html">All Examples</a></li>
         <li class="active"><a href="#">Dummy 2</a></li>
@@ -85,26 +73,26 @@
     <!-- Your code -->
     <script>
 
-    $(document).ready(function () {
-      $('#sidr-left-top-button').sidr({
-        name: 'sidr-left-top',
-        timing: 'ease-in-out',
-        speed: 500,
-        source: 'sidr-left-top'
-      });
+        $(document).ready(function () {
+          $('#sidr-left-top-button').sidr({
+            name: 'sidr-left-top',
+            timing: 'ease-in-out',
+            speed: 500,
+            source: 'sidr-left-top'
+          });
 
-      $('#sidr-right-top-button').sidr({
-        name: 'sidr-right-top',
-        speed: 500,
-        side: 'right',
-        source: 'sidr-right-top'
-      });
-    });
+          $('#sidr-right-top-button').sidr({
+            name: 'sidr-right-top',
+            speed: 500,
+            side: 'right',
+            source: 'sidr-right-top'
+          });
+        });
 
-    $( window ).resize(function () {
-      $.sidr('close', 'sidr-left-top');
-      $.sidr('close', 'sidr-right-top');
-    });
+        $( window ).resize(function () {
+          $.sidr('close', 'sidr-left-top');
+          $.sidr('close', 'sidr-right-top');
+        });
 
     </script>
 </body>

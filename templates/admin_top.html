@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h1>管理画面</h1>
+
+  <h2>※通常時は編集しない</h2> <!-- 動作確認OK! -->
+     <ul class="list-group">
+        <li class="list-group-item">
+            <a href="{{ url_for('admin_player')}}">選手管理</a>
+        </li>
+        <li class="list-group-item">
+            <a href="{{ url_for('admin_yacht')}}">ヨット管理</a>
+        </li>
+        <li class="list-group-item">
+            <a href="{{ url_for('admin_device')}}">デバイス管理</a>
+        </li>
+        <li class="list-group-item">
+            <a href="{{ url_for('admin_menu')}}"> 練習メニュー</a>
+        </li>
+    </ul>
+
+{% endblock %}

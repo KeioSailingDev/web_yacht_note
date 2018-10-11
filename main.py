@@ -33,7 +33,7 @@ def top():
     return render_template('top.html', title='練習ノート一覧',outline_list=outline_list,
                            today=today, time_categories=time_categories)
 
-                           
+
 @app.route("/outline/<int:target_outline_id>", methods=['GET'])
 def outline_detail(target_outline_id):
     """
@@ -328,6 +328,14 @@ def del_outline(target_outline_id):
         client.delete(key2)
 
     return redirect(url_for('top'))
+
+
+@app.route("/admin/top")
+def admin_top():
+    """
+    管理ページ一覧
+    """
+    return render_template('admin_top.html')
 
 
 @app.route("/admin/player")
