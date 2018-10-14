@@ -91,6 +91,23 @@
     <li>{{target_entities[0].training15}}</li>
   </ol>
 
+<h3>【コメント欄】</h3>
+  <form action="{{ url_for('add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" class="form-inline">
+    <label for="name">名前</label><br>
+      <input type="text" class="form-control" id="name" name="name"><br>
+    <label for="name">コメント</label><br>
+      <textarea class="form-control" rows=2 id="comment" name="comment"></textarea><br>
+    <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
+    </button>
+  </form>
+
+  {% for user_comment in user_comments %}
+    <p>{{user_comment.name}}</p><br>
+    <p>{{user_comment.comment}}</p><br>
+  {% endfor %}
+
+
 <a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id )}}">
 
   <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更

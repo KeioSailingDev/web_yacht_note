@@ -55,3 +55,10 @@ def get_outline_entities(target_outline_id):
     target_entities = [target_outline1, target_outline2]
 
     return target_entities
+
+def get_user_comments(target_outline_id):
+    query = client.query(kind='Comment')
+    query.add_filter('outline_id', '=', int(target_outline_id))
+    user_comments = list(query.fetch())
+
+    return user_comments
