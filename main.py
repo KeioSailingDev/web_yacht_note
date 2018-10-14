@@ -110,7 +110,7 @@ class Outline(object):
                                 user_comments=user_comments)
 
 
-    @app.route("/admin/show_outline/<int:target_outline_id>/", methods=['GET'])
+    @app.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
     def show_outline(target_outline_id):
         """
         練習概要ページの内容を変更する画面に移動
