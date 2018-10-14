@@ -35,9 +35,6 @@ def top():
     for filter in filters:
         form_values[filter] = get_form_value(filter)
 
-    print(form_values)
-
-
     # 練習ノートの一覧を取得
     query1 = client.query(kind='Outline')
 
@@ -67,11 +64,9 @@ def top():
 
     if form_values['filter_swell'] is not None:
         query1.add_filter('swell','=', form_values['filter_swell'])
-    print('query start')
-    print(query1)
-    outline_list = list(query1.fetch())
 
-    print('query finish')
+    # クエリの実行
+    outline_list = list(query1.fetch())
 
     # 本日の日付を取得
     today = date.today()
@@ -79,8 +74,13 @@ def top():
     # フォームの選択肢一覧
     outline_selections = query.get_outline_selections()
 
+    # フォームのデフォルト値を設定（今フィルターしている条件）
+    if form_values['filter_date'] is None:
+        form_values['filter_date'] = today
+
+
     return render_template('top.html', title='練習ノート一覧', outline_list=outline_list,
-                           today=today, outline_selections=outline_selections)
+                           today=today, outline_selections=outline_selections, form_default=form_values)
 
 
 @app.route("/outline/<int:target_outline_id>", methods=['GET'])
