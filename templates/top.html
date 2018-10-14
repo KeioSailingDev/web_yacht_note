@@ -1,8 +1,37 @@
 {% extends 'layout.html' %}
+
+{% block right_sidebar_button %}
+<a id="sidr-right-top-button" class="menu-button right" href="#sidr-right-top">Toggle menu</a>
+{% endblock %}
+
+{% block right_sidebar %}
+<div id="sidr-right-top">
+    <form action="{{ url_for('top') }}" method="get" class="form-inline">
+      日付：<input type="date" class="form-control" id="filter_date" name="filter_date", value={{ today }}>
+
+      時間区分：<select name="filter_time" id="filter_time" class="form-control">
+          {% for time_category in time_categories %}
+        <option value={{ time_category }}>{{ time_category }}</option>
+          {% endfor %}
+      </select>
+
+      風区分：<select name="filter_wind" id="filter_wind" class="form-control">
+      {% for time_category in time_categories %}
+        <option value={{ time_category }}>{{ time_category }}</option>
+          {% endfor %}
+      </select>
+
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> フィルター
+      </button>
+    </form>
+</div>
+{% endblock %}
+
+
 {% block content %}
   <h2>追加</h2>
-
-   <form action="{{ url_for('add_outline') }}" method="post" class="form-inline">
+    <form action="{{ url_for('add_outline') }}" method="post" class="form-inline">
       日付：<input type="date" class="form-control" id="date" name="date", value={{ today }}>
       時間区分：<select name="time_category" id="time_category" class="form-control">
           {% for time_category in time_categories %}
@@ -12,7 +41,7 @@
       <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
       </button>
-  </form>
+    </form>
 
   <h2>一覧</h2>
   <table class="table">

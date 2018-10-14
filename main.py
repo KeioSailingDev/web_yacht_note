@@ -1,3 +1,4 @@
+# coding=utf-8
 from flask import Flask, render_template, request, redirect, url_for
 from gcloud import datastore
 from datetime import datetime
@@ -15,13 +16,26 @@ app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
 
-@app.route('/')
-def top():
+@app.route('/', methods=['GET'])
+def top(filter_date=None, filter_time=None, filter_wind=None, filter_wave=None):
     """
     TOPページを表示したときの挙動
+
+    Args:
+    filter_date: 日付フィルターの引数
+    filter_wind: 風域フィルターの引数
+    filter_wave: 波フィルターの引数
     """
     # 練習ノートの一覧を取得
     query = client.query(kind='Outline')
+
+    # フィルターの適用
+    if filter_date is not None:
+        query.add_filter('date', '=', filter_date)
+
+    if filter_time is not None:
+        query.add_filter('time_category', '=', filter_time)
+
     outline_list = list(query.fetch())
 
     # 本日の日付を取得
@@ -29,6 +43,9 @@ def top():
 
     # 時間区分list
     time_categories = ["-", "午前", "午後", "１部", "２部", "３部"]
+
+    # フィルター用風区分リスト
+    filter_wind = ["-", "軽風（1~3m/s)", "中風（4~7m/s)", "強風（8~10m/s)", "爆風（10m/s以上)"]
 
     return render_template('top.html', title='練習ノート一覧',outline_list=outline_list,
                            today=today, time_categories=time_categories)
