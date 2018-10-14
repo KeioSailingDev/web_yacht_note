@@ -323,6 +323,13 @@ class Outline(object):
 class Player(object):
     """選手の管理に関するクラス"""
 
+    @app.route("/admin/top")
+    def admin_top():
+        """
+        管理ページのルートページ
+        """
+        return render_template('admin_top.html')
+
     @app.route("/admin/player")
     def admin_player():
         """
