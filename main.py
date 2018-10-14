@@ -40,21 +40,18 @@ def top():
 
 class Outline(object):
 
-    # def __init__(self):
-    #     self.outline_contents = query.OutlineContents()
-
     @app.route("/outline/<int:target_outline_id>", methods=['GET'])
     def outline_detail(target_outline_id):
         """
         練習概要ページを表示する
         """
 
-        # target_entities = self.outline_contents.get_outline_entities(target_outline_id)
-
         target_entities = query.get_outline_entities(target_outline_id)
+        user_comments = query.get_user_comments(target_outline_id)
 
-        return render_template('outline_detail.html',\
-                                title='練習概要', target_entities=target_entities)
+        return render_template('outline_detail.html',title='練習概要',
+                                target_entities=target_entities,
+                                user_comments=user_comments)
 
 
     @app.route("/admin/show_outline/<int:target_outline_id>/", methods=['GET'])
@@ -258,6 +255,27 @@ class Outline(object):
 
         return redirect(url_for('top'))
 
+
+    @app.route("/outline/add_comment/<int:target_outline_id>", methods=['POST'])
+    def add_comment(target_outline_id):
+        name = request.form.get('name') + ":"
+        comment = request.form.get('comment')
+        outline_id = int(target_outline_id)
+
+        print(name)
+
+        if name and comment and outline_id:
+            key = client.key('Comment')
+            user_comment = datastore.Entity(key)
+            user_comment.update({
+                'name': name,
+                'comment': comment,
+                'outline_id': outline_id
+            })
+            client.put(user_comment)
+
+        return redirect(url_for('top'))
+
 class Player(object):
     """選手の管理に関するクラス"""
 
@@ -386,6 +404,7 @@ class Player(object):
         client.delete(key)
 
         return redirect(url_for('top'))
+
 
 class Yacht(object):
     """ヨットの管理に関するクラス"""
