@@ -1,29 +1,29 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<h1>{{ target_outline1.date }}{{ target_outline1.time_category }}</h1>
-<h3>開始：{{ target_outline1.start_time }}</h3>
-<h3>終了：{{ target_outline1.end_time }}</h3>
+<h1>{{ target_entities[0].date }}{{ target_entities[0].time_category }}</h1>
+<h3>開始：{{ target_entities[0].start_time }}</h3>
+<h3>終了：{{ target_entities[0].end_time }}</h3>
 
 <h2>風</h2>
 <table class="table">
   <tr>
     <th>風速：</th>
-    <td>{{target_outline1.wind_speed_min}}</td>
+    <td>{{target_entities[0].wind_speed_min}}</td>
     <td>〜</td>
-    <td>{{target_outline1.wind_speed_max}}</td>
+    <td>{{target_entities[0].wind_speed_max}}</td>
     <td>m/s</td>
   </tr>
   <tr>
     <th>風向：</th>
-    <td>{{target_outline1.wind_direction_min}}</td>
+    <td>{{target_entities[0].wind_direction_min}}</td>
     <td>〜</td>
-    <td>{{target_outline1.wind_direction_max}}</td>
+    <td>{{target_entities[0].wind_direction_max}}</td>
     <td>°</td>
   </tr>
   <tr>
     <th>強弱：</th>
-    <td>{{target_outline1.wind_speed_change}}</td>
+    <td>{{target_entities[0].wind_speed_change}}</td>
   </tr>
 </table>
 
@@ -31,11 +31,11 @@
 <table class="table">
   <tr>
     <th>海面：</th>
-    <td>{{target_outline1.sea_surface}}</td>
+    <td>{{target_entities[0].sea_surface}}</td>
   </tr>
   <tr>
     <th>うねり:</th>
-    <td>{{target_outline1.swell}}</td>
+    <td>{{target_entities[0].swell}}</td>
   </tr>
 </table>
 
@@ -48,49 +48,51 @@
       <th>【クルー】</th>
     </tr>
   </thead>
-  {% for outline2 in target_outline2 %}
-  <tr>
-    <td rowspan="{{outline2.rowspan}}">{{outline2.yacht_number}}</td>
-    <td rowspan="{{outline2.rowspan}}">{{outline2.device_name}}</td>
-    <td>{{outline2.skipper1}}</td>
-    <td>{{outline2.crew1}}</td>
-  </tr>
-  {% if outline2.skipper2 %}
+  {% for outline2 in target_entities[1] %}
+    {% if outline2.yacht_number and outline2.device_name %}
     <tr>
-      <td>{{outline2.skipper2}}</td>
-      <td>{{outline2.crew2}}</td>
+      <td rowspan="{{outline2.rowspan}}">{{outline2.yacht_number}}</td>
+      <td rowspan="{{outline2.rowspan}}">{{outline2.device_name}}</td>
+      <td>{{outline2.skipper1}}</td>
+      <td>{{outline2.crew1}}</td>
     </tr>
-  {% endif %}
-  {% if outline2.skipper3 %}
-    <tr>
-      <td>{{outline2.skipper3}}</td>
-      <td>{{outline2.crew3}}</td>
-    </tr>
-  {% endif %}
+    {% endif %}
+    {% if outline2.skipper2 %}
+      <tr>
+        <td>{{outline2.skipper2}}</td>
+        <td>{{outline2.crew2}}</td>
+      </tr>
+    {% endif %}
+    {% if outline2.skipper3 %}
+      <tr>
+        <td>{{outline2.skipper3}}</td>
+        <td>{{outline2.crew3}}</td>
+      </tr>
+    {% endif %}
   {% endfor %}
 </table>
 
 <h3>【練習メニュー】</h3>
   <ol>
-    <li>{{target_outline1.training1}}</li>
-    <li>{{target_outline1.training2}}</li>
-    <li>{{target_outline1.training3}}</li>
-    <li>{{target_outline1.training4}}</li>
-    <li>{{target_outline1.training5}}</li>
-    <li>{{target_outline1.training6}}</li>
-    <li>{{target_outline1.training7}}</li>
-    <li>{{target_outline1.training8}}</li>
-    <li>{{target_outline1.training9}}</li>
-    <li>{{target_outline1.training10}}</li>
-    <li>{{target_outline1.training11}}</li>
-    <li>{{target_outline1.training12}}</li>
-    <li>{{target_outline1.training13}}</li>
-    <li>{{target_outline1.training14}}</li>
-    <li>{{target_outline1.training15}}</li>
+    <li>{{target_entities[0].training1}}</li>
+    <li>{{target_entities[0].training2}}</li>
+    <li>{{target_entities[0].training3}}</li>
+    <li>{{target_entities[0].training4}}</li>
+    <li>{{target_entities[0].training5}}</li>
+    <li>{{target_entities[0].training6}}</li>
+    <li>{{target_entities[0].training7}}</li>
+    <li>{{target_entities[0].training8}}</li>
+    <li>{{target_entities[0].training9}}</li>
+    <li>{{target_entities[0].training10}}</li>
+    <li>{{target_entities[0].training11}}</li>
+    <li>{{target_entities[0].training12}}</li>
+    <li>{{target_entities[0].training13}}</li>
+    <li>{{target_entities[0].training14}}</li>
+    <li>{{target_entities[0].training15}}</li>
   </ol>
 
+<a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id )}}">
 
-<a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_outline1.outline_id )}}">
   <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更
 </a>
 
