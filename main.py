@@ -1,16 +1,9 @@
-# coding=utf-8
-<<<<<<< Updated upstream
-=======
-from datetime import date, datetime
-
-from flask import Flask, render_template, request, redirect, url_for, flash
-# coding=utf-8
->>>>>>> Stashed changes
 from flask import Flask, render_template, request, redirect, url_for
 from gcloud import datastore
 from datetime import datetime
 from flask_bootstrap import Bootstrap
 from datetime import date
+from models import query
 
 # プロジェクトID
 project_id = "web-yacht-note-208313"
@@ -23,39 +16,71 @@ app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
 
-@app.route('/', methods=['GET'])
-def top(filter_date=None, filter_time=None, filter_wind=None, filter_wave=None):
+@app.route('/', methods=['GET','POST'])
+def top():
     """
     TOPページを表示したときの挙動
-
-    Args:
-    filter_date: 日付フィルターの引数
-    filter_wind: 風域フィルターの引数
-    filter_wave: 波フィルターの引数
     """
+    def get_form_value(form_name):
+        form_value = request.form.get(form_name)
+        if form_value in ['', '-']:
+            form_value = None
+        return form_value
+
+    filters = ['filter_date', 'filter_time', 'filter_wind_speed',
+                   'filter_wind_dir','filter_surface','filter_swell']
+
+    # サイドバーからフィルターを使う場合のフォームから読み込み"
+    form_values = {}
+    for filter in filters:
+        form_values[filter] = get_form_value(filter)
+
+    print(form_values)
+
+
     # 練習ノートの一覧を取得
-    query = client.query(kind='Outline')
+    query1 = client.query(kind='Outline')
 
     # フィルターの適用
-    if filter_date is not None:
-        query.add_filter('date', '=', filter_date)
+    if form_values['filter_date'] is not None:
+        query1.add_filter('date','=', form_values['filter_date'])
 
-    if filter_time is not None:
-        query.add_filter('time_category', '=', filter_time)
+    if form_values['filter_time'] is not None:
+        query1.add_filter('time_category','=', form_values['filter_time'])
 
-    outline_list = list(query.fetch())
+    # if filter_wind_speed is not None:
+    #     if filter_wind_speed == "軽風(0~3m/s)":
+    #         query1.add_filter('wind_speed_min', '<=', 3)
+    #     elif filter_wind_speed == "中風(4~7m/s)":
+    #         query1.add_filter('wind_speed_max', '<=', )
+    #
+    #
+    # if filter_wind_dir is not None:
+    #     if filter_wind_dir == "北風":
+    #         query1.add_filter('wind_speed_min','<', )
+    #     elif filter_wind_dir == '南風'
+    #         query1.add_filter('wind_speed_max', '>', 90)
+    #         query1.add_filter('wind_speed_max', '<', 270)
+
+    if form_values['filter_surface'] is not None:
+        query1.add_filter('sea_surface','=', form_values['filter_surface'])
+
+    if form_values['filter_swell'] is not None:
+        query1.add_filter('swell','=', form_values['filter_swell'])
+    print('query start')
+    print(query1)
+    outline_list = list(query1.fetch())
+
+    print('query finish')
 
     # 本日の日付を取得
     today = date.today()
 
-    # 時間区分list
-    time_categories = ["-", "午前", "午後", "１部", "２部", "３部"]
+    # フォームの選択肢一覧
+    outline_selections = query.get_outline_selections()
 
-    # フィルター用風区分リスト
-    filter_wind = ["-", "軽風（1~3m/s)", "中風（4~7m/s)", "強風（8~10m/s)", "爆風（10m/s以上)"]
-
-    return render_template('top.html', title='練習ノート一覧',outline_list=outline_list,
-                           today=today, time_categories=time_categories)
+    return render_template('top.html', title='練習ノート一覧', outline_list=outline_list,
+                           today=today, outline_selections=outline_selections)
 
 
 @app.route("/outline/<int:target_outline_id>", methods=['GET'])
@@ -71,16 +96,16 @@ def outline_detail(target_outline_id):
     outline_detail.htmlへ移動し、target_outline1、target_outline2のデータを表示
     """
     query1 = client.query(kind='Outline')
-    query1.add_filter('outline_id', '=', int(target_outline_id))#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
-    target_outline1 = list(query1.fetch())[0]#該当するエンティティは一つしかないため、[0]で一つ目を指定
+    query1.add_filter('outline_id', '=', int(target_outline_id))  # outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    target_outline1 = list(query1.fetch())[0]  # 該当するエンティティは一つしかないため、[0]で一つ目を指定
 
-    #艇番、スキッパー、クルーのデータを取得
-    query2 = client.query(kind='Outline_yacht_player')#outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
+    # 艇番、スキッパー、クルーのデータを取得
+    query2 = client.query(kind='Outline_yacht_player')  # outline_idプロパティ内から、特定のoutline_idに一致するエンティティを取得
     query2.add_filter('outline_id', '=', int(target_outline_id))
     target_outline2 = list(query2.fetch())
 
-    return render_template('outline_detail.html',\
-     title='練習概要', target_outline1=target_outline1, target_outline2=target_outline2)
+    return render_template('outline_detail.html', \
+                           title='練習概要', target_outline1=target_outline1, target_outline2=target_outline2)
 
 
 @app.route("/admin/show_outline/<int:target_outline_id>/", methods=['GET'])
@@ -102,49 +127,48 @@ def show_outline(target_outline_id):
     query1.add_filter('outline_id', '=', int(target_outline_id))
     target_outline1 = list(query1.fetch())[0]
 
-
     query2 = client.query(kind='Outline_yacht_player')
     query2.add_filter('outline_id', '=', int(target_outline_id))
     target_outline2 = list(query2.fetch())
 
-    #時間区分の一覧
+    # 時間区分の一覧
     time_categories = ("-", "午前", "午後", "１部", "２部", "３部")
 
-    #風速の値一覧
-    wind_speeds = range(0,21)
+    # 風速の値一覧
+    wind_speeds = range(0, 21)
 
-    #風向の値一覧
+    # 風向の値一覧
     wind_directions = range(0, 360)
 
-    #うねりと風速変化の項目
+    # うねりと風速変化の項目
     sizes = ("-", "小", "中", "大")
 
-    #海面の項目一覧
+    # 海面の項目一覧
     sea_surfaces = ("-", "フラット", "チョッピー", "高波")
 
-    #ドラムロール表示用に、艇番の一覧を取得
+    # ドラムロール表示用に、艇番の一覧を取得
     query_yacht = client.query(kind='Yacht')
     yacht_numbers = list(query_yacht.fetch())
 
-    #デバイス機種名の一覧を取得
+    # デバイス機種名の一覧を取得
     query_device = client.query(kind='Device')
     device_names = list(query_device.fetch())
 
-    #ドラムロール表示用に、部員の一覧を取得
+    # ドラムロール表示用に、部員の一覧を取得
     query_player = client.query(kind='Player')
     player_names = list(query_player.fetch())
 
-    #ドラムロール表示用に、練習メニューの一覧を取得
+    # ドラムロール表示用に、練習メニューの一覧を取得
     query_menu = client.query(kind='Menu')
     training_menus = list(query_menu.fetch())
 
-    return render_template('show_outline.html', title='練習概要変更',\
-                            target_outline1=target_outline1, target_outline2=target_outline2,\
-                            wind_speeds=wind_speeds, wind_directions=wind_directions,\
-                            time_categories=time_categories, sizes=sizes, sea_surfaces=sea_surfaces,\
-                            training_menus=training_menus, yacht_numbers=yacht_numbers,\
-                            player_names=player_names, device_names=device_names)
-                           
+    return render_template('show_outline.html', title='練習概要変更', \
+                           target_outline1=target_outline1, target_outline2=target_outline2, \
+                           wind_speeds=wind_speeds, wind_directions=wind_directions, \
+                           time_categories=time_categories, sizes=sizes, sea_surfaces=sea_surfaces, \
+                           training_menus=training_menus, yacht_numbers=yacht_numbers, \
+                           player_names=player_names, device_names=device_names)
+
 
 @app.route("/add_outline", methods=['POST'])
 def add_outline():
@@ -177,15 +201,15 @@ def add_outline():
         key2 = client.key('Outline_yacht_player')
         outline2 = datastore.Entity(key2)
         outline2.update({
-                        'outline_id': outline_id
+            'outline_id': outline_id
         })
         client.put(outline2)
 
-    #TOPページで、入力せずに追加ボタンを押した場合は、TOPに戻る
+    # TOPページで、入力せずに追加ボタンを押した場合は、TOPに戻る
     else:
         return redirect(url_for('top'))
 
-    #新規で作成したエンティティの読み込み
+    # 新規で作成したエンティティの読み込み
     query1 = client.query(kind='Outline')
     query1.add_filter('outline_id', '=', outline_id)
     target_outline1 = list(query1.fetch())[0]
@@ -194,9 +218,9 @@ def add_outline():
     query2.add_filter('outline_id', '=', outline_id)
     target_outline2 = list(query2.fetch())
 
-    #ドラムロールに表示する項目
+    # ドラムロールに表示する項目
     time_categories = ("-", "午前", "午後", "１部", "２部", "３部")
-    wind_speeds = range(0,21)
+    wind_speeds = range(0, 21)
     wind_directions = range(0, 360)
     sizes = ("-", "小", "中", "大")
     sea_surfaces = ("-", "フラット", "チョッピー", "高波")
@@ -213,13 +237,12 @@ def add_outline():
     query_menu = client.query(kind='Menu')
     training_menus = list(query_menu.fetch())
 
-
-    return render_template('show_outline.html', title="練習概要入力",\
-                            target_outline1=target_outline1, target_outline2=target_outline2,\
-                            wind_speeds=wind_speeds, wind_directions=wind_directions,\
-                            time_categories=time_categories, sizes=sizes, sea_surfaces=sea_surfaces,\
-                            training_menus=training_menus, yacht_numbers=yacht_numbers,\
-                            player_names=player_names, device_names=device_names)
+    return render_template('show_outline.html', title="練習概要入力", \
+                           target_outline1=target_outline1, target_outline2=target_outline2, \
+                           wind_speeds=wind_speeds, wind_directions=wind_directions, \
+                           time_categories=time_categories, sizes=sizes, sea_surfaces=sea_surfaces, \
+                           training_menus=training_menus, yacht_numbers=yacht_numbers, \
+                           player_names=player_names, device_names=device_names)
 
 
 @app.route("/outline/mod_outline/<int:target_outline_id>", methods=['POST'])
@@ -227,12 +250,12 @@ def mod_outline(target_outline_id):
     """
     練習概要ページのデータを修正・更新
     """
-    #日付、時間、風、波、練習メニューの値をクエリ実行して取得
+    # 日付、時間、風、波、練習メニューの値をクエリ実行して取得
     query1 = client.query(kind='Outline')
     query1.add_filter('outline_id', '=', int(target_outline_id))
     outline1 = list(query1.fetch())[0]
 
-    #日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
+    # 日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
     date = request.form.get('date')
     starttime = request.form.get('starttime')
     endtime = request.form.get('endtime')
@@ -295,21 +318,21 @@ def mod_outline(target_outline_id):
 
     client.put(outline1)
 
-    #艇番、スキッパー、クルーの値をクエリ実行して取得
+    # 艇番、スキッパー、クルーの値をクエリ実行して取得
     query2 = client.query(kind='Outline_yacht_player')
     query2.add_filter('outline_id', '=', int(target_outline_id))
     outline2s = list(query2.fetch())
 
-    #show_outline.htmlから取得した値を変数に代入
-    for i,outline2 in enumerate(outline2s):
-        yachtnumber = request.form.get('yachtnumber'+str(i))
-        devicename = request.form.get('devicename'+str(i))
-        skipper1 = request.form.get('skipper1'+str(i))
-        skipper2 = request.form.get('skipper2'+str(i))
-        skipper3 = request.form.get('skipper3'+str(i))
-        crew1 = request.form.get('crew1'+str(i))
-        crew2 = request.form.get('crew2'+str(i))
-        crew3 = request.form.get('crew3'+str(i))
+    # show_outline.htmlから取得した値を変数に代入
+    for i, outline2 in enumerate(outline2s):
+        yachtnumber = request.form.get('yachtnumber' + str(i))
+        devicename = request.form.get('devicename' + str(i))
+        skipper1 = request.form.get('skipper1' + str(i))
+        skipper2 = request.form.get('skipper2' + str(i))
+        skipper3 = request.form.get('skipper3' + str(i))
+        crew1 = request.form.get('crew1' + str(i))
+        crew2 = request.form.get('crew2' + str(i))
+        crew3 = request.form.get('crew3' + str(i))
 
         if not outline2:
             raise ValueError(
@@ -331,7 +354,6 @@ def mod_outline(target_outline_id):
     return redirect(url_for('top'))
 
 
-
 @app.route("/outline/del_outline/<int:target_outline_id>", methods=['POST'])
 def del_outline(target_outline_id):
     """
@@ -340,8 +362,8 @@ def del_outline(target_outline_id):
 
     query1 = client.query(kind='Outline')
     query1.add_filter('outline_id', '=', int(target_outline_id))
-    outline1 = list(query1.fetch())[0] #python形式のkey.idに変換
-    key1 = outline1.key.id #idを取得
+    outline1 = list(query1.fetch())[0]  # python形式のkey.idに変換
+    key1 = outline1.key.id  # idを取得
     client.delete(key1)
 
     query2 = client.query(kind='Outline_yacht_player')
@@ -377,12 +399,12 @@ def admin_player():
     query = client.query(kind='Player')
     player_list = list(query.fetch())
 
-    #「入学年」の一覧を取得
+    # 「入学年」の一覧を取得
     this_year = (datetime.now()).year
-    admission_years = list(range(this_year-10, this_year+10))
+    admission_years = list(range(this_year - 10, this_year + 10))
 
     return render_template('admin_player.html', title='選手管理', \
-    player_list=player_list, admission_years=admission_years)
+                           player_list=player_list, admission_years=admission_years)
 
 
 @app.route("/admin/addplayer", methods=['POST'])
@@ -434,12 +456,12 @@ def show_player(player_id):
     key = client.key('Player', player_id)
     target_player = client.get(key)
 
-    #入学年の一覧
+    # 入学年の一覧
     this_year = (datetime.now()).year
-    admission_years = list(range(this_year-10, this_year+10))
+    admission_years = list(range(this_year - 10, this_year + 10))
 
-    return render_template('show_player.html', title='ユーザー詳細',\
-    target_player=target_player, admission_years=admission_years)
+    return render_template('show_player.html', title='ユーザー詳細', \
+                           target_player=target_player, admission_years=admission_years)
 
 
 @app.route("/admin/modplayer/<int:player_id>", methods=['POST'])
@@ -458,7 +480,6 @@ def mod_player(player_id):
     playername = str(request.form.get('playername'))
     year = int(request.form.get('year'))
 
-
     with client.transaction():
         key = client.key('Player', player_id)
         player = client.get(key)
@@ -468,8 +489,8 @@ def mod_player(player_id):
                 'Player {} does not exist.'.format(player_id))
 
         player.update({
-            'player_name' : str(playername),
-            'admission_year' : int(year)
+            'player_name': str(playername),
+            'admission_year': int(year)
         })
 
         client.put(player)
@@ -503,7 +524,7 @@ def admin_yacht():
     query = client.query(kind='Yacht')
     yacht_list = list(query.fetch())
 
-    return render_template('admin_yacht.html', title = 'ヨット管理', yacht_list = yacht_list)
+    return render_template('admin_yacht.html', title='ヨット管理', yacht_list=yacht_list)
 
 
 @app.route("/admin/addyacht", methods=['POST'])
@@ -511,19 +532,11 @@ def add_yacht():
     """
     ヨットデータの追加
 
-<<<<<<< Updated upstream
     Args:
     yachtno(int): 艇番
     yachtclass: 艇種
     datatime_now: データの作成日
     yacht: 新規作成したヨットのエンティティ
-=======
-
-    @app.route("/admin/showdevice/<int:device_id>", methods=['GET'])
-    def show_device(device_id):
-        """
-        デバイス情報の変更画面に移動
->>>>>>> Stashed changes
 
     return: TOPページに戻る
     """
@@ -533,7 +546,7 @@ def add_yacht():
 
     if yachtno and yachtclass:
         key = client.key('Yacht')
-        yacht = datastore.Entity(key) #
+        yacht = datastore.Entity(key)  #
         yacht.update({
             'yacht_no': yachtno,
             'yacht_class': yachtclass,
@@ -544,26 +557,13 @@ def add_yacht():
     return redirect(url_for('top'))
 
 
-
 @app.route("/admin/showyacht/<int:yacht_id>", methods=['GET'])
 def show_yacht(yacht_id):
     """
     ヨットデータの変更画面に移動
 
-<<<<<<< Updated upstream
     Args:
     target_yacht: admin_yacht.htmlで選択したヨットデータ
-=======
-    @app.route("/admin/moddevice/<int:device_id>", methods=['POST'])
-    def mod_device(device_id):
-        """
-        デバイス情報の変更
-
-        Args:
-        deviceno: show_device.htmlで入力したデバイスID
-        devicaname: show_device.htmlで入力した機種名
-        device: show_device.htmlで選択したデバイス情報
->>>>>>> Stashed changes
 
     Return: show_yacht.htmlに移動。target_yachtを引き渡す。
     """
@@ -595,7 +595,7 @@ def mod_yacht(yacht_id):
         if not yacht:
             raise ValueError(
                 'Yacht {} does not exist.'.format(yacht_id))
-                           
+
         yacht.update({
             'yacht_no': int(yachtno),
             'yacht_class': yachtclass
@@ -636,7 +636,7 @@ def admin_device():
 
     return render_template('admin_device.html', title='デバイス管理', device_list=device_list)
 
-                           
+
 @app.route("/admin/adddevice", methods=['POST'])
 def add_device():
     """
@@ -665,7 +665,7 @@ def add_device():
 
     return redirect(url_for('top'))
 
-                           
+
 @app.route("/admin/showdevice/<int:device_id>", methods=['GET'])
 def show_device(device_id):
     """
@@ -682,7 +682,7 @@ def show_device(device_id):
 
     return render_template('show_device.html', title='デバイス詳細', target_device=target_device)
 
-                           
+
 @app.route("/admin/moddevice/<int:device_id>", methods=['POST'])
 def mod_device(device_id):
     """
@@ -728,7 +728,7 @@ def del_device(device_id):
 
     return redirect(url_for('top'))
 
-                           
+
 @app.route("/admin/menu")
 def admin_menu():
     """
@@ -744,7 +744,7 @@ def admin_menu():
     menu_list = list(query.fetch())
     return render_template('admin_menu.html', title='練習メニュー', menu_list=menu_list)
 
-                           
+
 @app.route("/admin/addmenu", methods=['POST'])
 def add_menu():
     """
@@ -762,7 +762,7 @@ def add_menu():
 
     return redirect(url_for('top'))
 
-                           
+
 @app.route("/admin/showmenu/<int:menu_id>", methods=['GET'])
 def show_menu(menu_id):
     """
@@ -779,7 +779,7 @@ def show_menu(menu_id):
 
     return render_template('show_menu.html', title='練習メニュー詳細', target_menu=target_menu)
 
-                           
+
 @app.route("/admin/modmenu/<int:menu_id>", methods=['POST'])
 def mod_menu(menu_id):
     """
@@ -808,7 +808,7 @@ def mod_menu(menu_id):
 
     return redirect(url_for('top'))
 
-                           
+
 @app.route("/admin/delmenu/<int:menu_id>", methods=['POST'])
 def del_menu(menu_id):
     """
