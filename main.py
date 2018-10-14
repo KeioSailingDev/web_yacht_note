@@ -75,12 +75,23 @@ def top():
     # フォームの選択肢一覧
     outline_selections = query.get_outline_selections()
 
-    # フォームのデフォルト値を設定（今フィルターしている条件）
-    if form_values['filter_date'] is None:
-        form_values['filter_date'] = today
-
     return render_template('top.html', title='練習ノート一覧', outline_list=outline_list,
                            today=today, outline_selections=outline_selections, form_default=form_values)
+
+@app.route("/how_to_use")
+def how_to_use():
+    """
+    使い方ページ
+    """
+    return render_template('how_to_use.html')
+
+
+@app.route("/about")
+def about():
+    """
+    WEBヨットノートを説明するページ
+    """
+    return render_template('about.html')
 
 
 class Outline(object):
@@ -99,7 +110,7 @@ class Outline(object):
                                 user_comments=user_comments)
 
 
-    @app.route("/admin/show_outline/<int:target_outline_id>/", methods=['GET'])
+    @app.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
     def show_outline(target_outline_id):
         """
         練習概要ページの内容を変更する画面に移動

@@ -2,13 +2,13 @@
 <html>
 <head>
   <meta charset="utf-8">
-    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
-    <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
+    <link  rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Include Sidr bundled CSS theme -->
-    <link rel="stylesheet" href="../static/css/jquery.sidr.light.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.sidr.light.css') }}">
     <!-- Your CSS -->
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   <title>{{ title }}</title>
 </head>
 
@@ -27,10 +27,10 @@
     <div id="sidr-left-top">
         <ul class="sidebar-nav">
             <li>
-                <a href="{{ url_for('top')}}">WEBヨットノートとは</a>
+                <a href="{{ url_for('about')}}">WEBヨットノートとは</a>
             </li>
             <li>
-                <a href="{{ url_for('top')}}">使い方</a>
+                <a href="{{ url_for('how_to_use')}}">使い方</a>
             </li>
             <li>
                 <a href="{{ url_for('admin_top')}}">管理ページ</a>
@@ -54,13 +54,13 @@
     <!-- /#wrapper -->
 
     <!-- Bootstrap core JavaScript -->
-    <script src="../static/jquery/jquery.min.js"></script>
-    <script src="../static/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- scrolling-nav JavaScript -->
-    <script src="../static/js/scrolling-nav.js"></script>
+    <script src="{{ url_for('static', filename='js/scrolling-nav.js') }}"></script>
 
-    <script src="../static/js/jquery.sidr.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery.sidr.js') }}"></script>
 
     <!-- Your code -->
     <script>
