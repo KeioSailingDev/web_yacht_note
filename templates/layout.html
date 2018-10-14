@@ -18,7 +18,7 @@
             <a href="{{ url_for('top')}}" style="color: white;text-decoration:none">WEBヨットノート</a>
         </p>
         <a id="sidr-left-top-button" class="menu-button left" href="#sidr-left-top">Toggle menu</a>
-        <a id="sidr-right-top-button" class="menu-button right" href="#sidr-right-top">Toggle menu</a>
+        {% block right_sidebar_button %}{% endblock %}
     </header>
 
 
@@ -37,16 +37,8 @@
             </li>
         </ul>
     </div>
-
-    <!-- Nav -->
-    <div id="sidr-right-top">
-      <ul>
-        <li><a href="index.html">All Examples</a></li>
-        <li class="active"><a href="#">Dummy 2</a></li>
-        <li><a href="#">Dummy 3</a></li>
-      </ul>
-    </div>
-
+    <!-- 右サイドバー -->
+    {% block right_sidebar %}{% endblock %}
 
     <!-- Page Content -->
     <div id="page-content-wrapper">

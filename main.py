@@ -18,23 +18,71 @@ app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def top():
     """
     TOPページを表示したときの挙動
     """
+    def get_form_value(form_name):
+        form_value = request.form.get(form_name)
+        if form_value in ['', '-']:
+            form_value = None
+        return form_value
+
+    filters = ['filter_date', 'filter_time', 'filter_wind_speed',
+                   'filter_wind_dir','filter_surface','filter_swell']
+
+    # サイドバーからフィルターを使う場合のフォームから読み込み"
+    form_values = {}
+    for filter in filters:
+        form_values[filter] = get_form_value(filter)
+
     # 練習ノートの一覧を取得
-    query = client.query(kind='Outline')
-    outline_list = list(query.fetch())
+    query1 = client.query(kind='Outline')
+
+    # フィルターの適用
+    if form_values['filter_date'] is not None:
+        query1.add_filter('date','=', form_values['filter_date'])
+
+    if form_values['filter_time'] is not None:
+        query1.add_filter('time_category','=', form_values['filter_time'])
+
+    # if filter_wind_speed is not None:
+    #     if filter_wind_speed == "軽風(0~3m/s)":
+    #         query1.add_filter('wind_speed_min', '<=', 3)
+    #     elif filter_wind_speed == "中風(4~7m/s)":
+    #         query1.add_filter('wind_speed_max', '<=', )
+    #
+    #
+    # if filter_wind_dir is not None:
+    #     if filter_wind_dir == "北風":
+    #         query1.add_filter('wind_speed_min','<', )
+    #     elif filter_wind_dir == '南風'
+    #         query1.add_filter('wind_speed_max', '>', 90)
+    #         query1.add_filter('wind_speed_max', '<', 270)
+
+    if form_values['filter_surface'] is not None:
+        query1.add_filter('sea_surface','=', form_values['filter_surface'])
+
+    if form_values['filter_swell'] is not None:
+        query1.add_filter('swell','=', form_values['filter_swell'])
+
+    # クエリの実行
+    outline_list = list(query1.fetch())
 
     # 本日の日付を取得
     today = date.today()
 
-    # 時間区分list
-    time_categories = ("-", "午前", "午後", "１部", "２部", "３部")
+    # フォームの選択肢一覧
+    outline_selections = query.get_outline_selections()
 
-    return render_template('top.html', title='練習ノート一覧',outline_list=outline_list,
-                           today=today, time_categories=time_categories)
+    # フォームのデフォルト値を設定（今フィルターしている条件）
+    if form_values['filter_date'] is None:
+        form_values['filter_date'] = today
+
+    return render_template('top.html', title='練習ノート一覧', outline_list=outline_list,
+                           today=today, outline_selections=outline_selections, form_default=form_values)
+
 
 
 class Outline(object):
@@ -614,6 +662,13 @@ class Device(object):
 
 
 class Menu(object):
+
+    @app.route("/admin/top")
+    def admin_top():
+        """
+        管理ページ一覧
+        """
+        return render_template('admin_top.html')
 
     @app.route("/admin/menu")
     def admin_menu():
