@@ -14,7 +14,7 @@ def get_outline_selections():
     wind_speeds = range(0,21)
 
     #風向の値一覧
-    wind_directions = range(0, 360)
+    wind_directions = range(0, 360, 10)
 
     #うねりと風速変化の項目
     sizes = ("-", "小", "中", "大")
