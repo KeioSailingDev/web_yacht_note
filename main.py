@@ -7,7 +7,6 @@ from flask_bootstrap import Bootstrap
 # from wyncopy.models import query
 from models import query
 
-
 # プロジェクトID
 project_id = "web-yacht-note-208313"
 
@@ -34,8 +33,8 @@ def top():
     # 時間区分list
     time_categories = ("-", "午前", "午後", "１部", "２部", "３部")
 
-    return render_template('top.html', title='練習ノート一覧',
-                           outline_list=outline_list, today=today, time_categories=time_categories)
+    return render_template('top.html', title='練習ノート一覧',outline_list=outline_list,
+                           today=today, time_categories=time_categories)
 
 
 class Outline(object):
@@ -313,6 +312,7 @@ class Player(object):
             })
             client.put(player)
 
+
         return redirect(url_for('top'))
 
 
@@ -379,9 +379,9 @@ class Player(object):
     def del_player(player_id):
         """
         選手データの削除
-
         Return: TOPページに戻る
         """
+
         key = client.key('Player', player_id)
         client.delete(key)
 
@@ -457,7 +457,6 @@ class Yacht(object):
     def mod_yacht(yacht_id):
         """
         ヨットデータの変更
-
         Args:
         yachtno: admin_yacht.htmlで入力された艇番
         yachtclass: admin_yacht.htmlで入力された艇種
@@ -484,7 +483,6 @@ class Yacht(object):
             client.put(yacht)
 
         return redirect(url_for('top'))
-
 
     @app.route("/admin/delyacht/<int:yacht_id>", methods=['POST'])
     def del_yacht(yacht_id):
@@ -549,7 +547,7 @@ class Device(object):
 
         return redirect(url_for('top'))
 
-
+      
     @app.route("/admin/showdevice/<int:device_id>", methods=['GET'])
     def show_device(device_id):
         """
@@ -572,7 +570,7 @@ class Device(object):
     def mod_device(device_id):
         """
         デバイス情報の変更
-
+        
         Args:
         deviceno: show_device.htmlで入力したデバイスID
         devicaname: show_device.htmlで入力した機種名
@@ -580,7 +578,6 @@ class Device(object):
 
         Return: TOPページに移動
         """
-
         deviceno = request.form.get('deviceno')
         devicename = request.form.get('devicename')
 
@@ -719,6 +716,7 @@ class Menu(object):
         client.delete(key)
 
         return redirect(url_for('top'))
+
 
 
 if __name__ == '__main__':
