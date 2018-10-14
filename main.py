@@ -1,4 +1,11 @@
 # coding=utf-8
+<<<<<<< Updated upstream
+=======
+from datetime import date, datetime
+
+from flask import Flask, render_template, request, redirect, url_for, flash
+# coding=utf-8
+>>>>>>> Stashed changes
 from flask import Flask, render_template, request, redirect, url_for
 from gcloud import datastore
 from datetime import datetime
@@ -504,11 +511,19 @@ def add_yacht():
     """
     ヨットデータの追加
 
+<<<<<<< Updated upstream
     Args:
     yachtno(int): 艇番
     yachtclass: 艇種
     datatime_now: データの作成日
     yacht: 新規作成したヨットのエンティティ
+=======
+
+    @app.route("/admin/showdevice/<int:device_id>", methods=['GET'])
+    def show_device(device_id):
+        """
+        デバイス情報の変更画面に移動
+>>>>>>> Stashed changes
 
     return: TOPページに戻る
     """
@@ -535,8 +550,20 @@ def show_yacht(yacht_id):
     """
     ヨットデータの変更画面に移動
 
+<<<<<<< Updated upstream
     Args:
     target_yacht: admin_yacht.htmlで選択したヨットデータ
+=======
+    @app.route("/admin/moddevice/<int:device_id>", methods=['POST'])
+    def mod_device(device_id):
+        """
+        デバイス情報の変更
+
+        Args:
+        deviceno: show_device.htmlで入力したデバイスID
+        devicaname: show_device.htmlで入力した機種名
+        device: show_device.htmlで選択したデバイス情報
+>>>>>>> Stashed changes
 
     Return: show_yacht.htmlに移動。target_yachtを引き渡す。
     """
