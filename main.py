@@ -3,8 +3,7 @@ from datetime import date, datetime
 from flask import Flask, render_template, request, redirect, url_for, flash
 from gcloud import datastore
 from flask_bootstrap import Bootstrap
-
-# from wyncopy.models import query
+from datetime import date
 from models import query
 
 # プロジェクトID
@@ -84,11 +83,7 @@ def top():
                            today=today, outline_selections=outline_selections, form_default=form_values)
 
 
-
 class Outline(object):
-
-    # def __init__(self):
-    #     self.outline_contents = query.OutlineContents()
 
     @app.route("/outline/<int:target_outline_id>", methods=['GET'])
     def outline_detail(target_outline_id):
@@ -96,12 +91,12 @@ class Outline(object):
         練習概要ページを表示する
         """
 
-        # target_entities = self.outline_contents.get_outline_entities(target_outline_id)
-
         target_entities = query.get_outline_entities(target_outline_id)
+        user_comments = query.get_user_comments(target_outline_id)
 
-        return render_template('outline_detail.html',\
-                                title='練習概要', target_entities=target_entities)
+        return render_template('outline_detail.html',title='練習概要',
+                                target_entities=target_entities,
+                                user_comments=user_comments)
 
 
     @app.route("/admin/show_outline/<int:target_outline_id>/", methods=['GET'])
@@ -293,7 +288,6 @@ class Outline(object):
         """
         練習概要ページの削除（動作テスト未）
         """
-
         target_entities = query.get_outline_entities(target_outline_id)
 
         key1 = target_entities[0].key.id #idを取得
@@ -302,6 +296,27 @@ class Outline(object):
         for outline2 in target_entities[1]:
             key2 = outline2.key.id
             client.delete(key2)
+
+        return redirect(url_for('top'))
+
+
+    @app.route("/outline/add_comment/<int:target_outline_id>", methods=['POST'])
+    def add_comment(target_outline_id):
+        name = request.form.get('name') + ":"
+        comment = request.form.get('comment')
+        outline_id = int(target_outline_id)
+
+        print(name)
+
+        if name and comment and outline_id:
+            key = client.key('Comment')
+            user_comment = datastore.Entity(key)
+            user_comment.update({
+                'name': name,
+                'comment': comment,
+                'outline_id': outline_id
+            })
+            client.put(user_comment)
 
         return redirect(url_for('top'))
 
@@ -360,7 +375,6 @@ class Player(object):
             })
             client.put(player)
 
-
         return redirect(url_for('top'))
 
 
@@ -368,7 +382,6 @@ class Player(object):
     def show_player(player_id):
         """
         選手データの変更画面に移動
-
         Args:
         target_player: 選手データのエンティティ
         admission_years: ドラムロール表示用の、今年+-10年の年の一覧
@@ -412,14 +425,14 @@ class Player(object):
             if not player:
                 raise ValueError(
                     'Player {} does not exist.'.format(player_id))
-
+                
             player.update({
                 'player_name' : str(playername),
                 'admission_year' : year
             })
 
             client.put(player)
-
+            
         return redirect(url_for('top'))
 
 
@@ -434,6 +447,7 @@ class Player(object):
         client.delete(key)
 
         return redirect(url_for('top'))
+
 
 class Yacht(object):
     """ヨットの管理に関するクラス"""
@@ -464,7 +478,7 @@ class Yacht(object):
         yachtclass: 艇種
         datatime_now: データの作成日
         yacht: 新規作成したヨットのエンティティ
-
+        
         return: TOPページに戻る
         """
         yachtno = int(request.form.get('yachtno'))
@@ -488,7 +502,7 @@ class Yacht(object):
     def show_yacht(yacht_id):
         """
         ヨットデータの変更画面に移動
-
+        
         Args:
         target_yacht: admin_yacht.htmlで選択したヨットデータ
 
@@ -542,7 +556,7 @@ class Yacht(object):
 
         key = client.key('Yacht', yacht_id)
         client.delete(key)
-
+        
         return redirect(url_for('top'))
 
 
@@ -553,7 +567,7 @@ class Device(object):
     def admin_device():
         """
         デバイス管理画面の表示
-
+        
         Args:
         device_list(list): デバイスIDと機種名の一覧
 
@@ -607,7 +621,6 @@ class Device(object):
         Return:
         show_device.htmlに移動。target_deviceを引き渡す。
         """
-
         key = client.key('Device', device_id)
         target_device = client.get(key)
 
@@ -654,22 +667,12 @@ class Device(object):
 
         Return:TOPページに戻る
         """
-
         key = client.key('Device', device_id)
         client.delete(key)
 
         return redirect(url_for('top'))
 
-
 class Menu(object):
-
-    @app.route("/admin/top")
-    def admin_top():
-        """
-        管理ページ一覧
-        """
-        return render_template('admin_top.html')
-
     @app.route("/admin/menu")
     def admin_menu():
         """
@@ -685,7 +688,6 @@ class Menu(object):
         query = client.query(kind='Menu')
         menu_list = list(query.fetch())
         return render_template('admin_menu.html', title='練習メニュー', menu_list=menu_list)
-
 
     @app.route("/admin/addmenu", methods=['POST'])
     def add_menu():
@@ -727,7 +729,7 @@ class Menu(object):
         target_menu = client.get(key)
 
         return render_template('show_menu.html', title='練習メニュー詳細', target_menu=target_menu)
-
+      
 
     @app.route("/admin/modmenu/<int:menu_id>", methods=['POST'])
     def mod_menu(menu_id):
@@ -771,7 +773,6 @@ class Menu(object):
         client.delete(key)
 
         return redirect(url_for('top'))
-
 
 
 if __name__ == '__main__':
