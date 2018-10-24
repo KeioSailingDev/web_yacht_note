@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from gcloud import datastore
 from flask_bootstrap import Bootstrap
 from datetime import date
+
 from models import query
 
 # プロジェクトID
@@ -158,8 +159,8 @@ class Outline(object):
                 'outline_id': outline_id,
                 'date': date,
                 'time_category': time_category,
-                'start_time': start_time,
-                'end_time': end_time
+                'start_time': str(start_time),
+                'end_time': str(end_time)
             })
             client.put(outline1)
 
@@ -192,15 +193,13 @@ class Outline(object):
 
         #日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
         date = request.form.get('date')
-        starttime = request.form.get('starttime')
-        endtime = request.form.get('endtime')
-        timecategory = request.form.get('timecategory')
-        windspeedmin = request.form.get('windspeedmin')
-        windspeedmax = request.form.get('windspeedmax')
-        winddirectionmin = request.form.get('winddirectionmin')
-        winddirectionmax = request.form.get('winddirectionmax')
-        windspeedchange = request.form.get('windspeedchange')
-        seasurface = request.form.get('seasurface')
+        time_category = request.form.get('timecategory')
+        wind_speedmin = request.form.get('windspeedmin')
+        wind_speedmax = request.form.get('windspeedmax')
+        wind_direction_min = request.form.get('winddirectionmin')
+        wind_direction_max = request.form.get('winddirectionmax')
+        wind_speed_change = request.form.get('windspeedchange')
+        sea_surface = request.form.get('seasurface')
         swell = request.form.get('swell')
         training1 = request.form.get('training1')
         training2 = request.form.get('training2')
@@ -218,21 +217,37 @@ class Outline(object):
         training14 = request.form.get('training14')
         training15 = request.form.get('training15')
 
+        if time_category == "午前":
+            start_time = "9:00"
+            end_time = "12:30"
+        elif time_category == "午後":
+            start_time = "13:30"
+            end_time = "16:00"
+        elif time_category == "１部":
+            start_time = "9:00"
+            end_time = "11:30"
+        elif time_category == "２部":
+            start_time = "11:30"
+            end_time = "14:00"
+        else:
+            start_time = "14:00"
+            end_time = "16:30"
+
         if not target_entities[0]:
             raise ValueError(
                 'Outline {} does not exist.'.format(outline1))
 
         target_entities[0].update({
             'date': date,
-            'start_time': starttime,
-            'end_time': endtime,
-            'time_category': timecategory,
-            'wind_speed_min': windspeedmin,
-            'wind_speed_max': windspeedmax,
-            'wind_direction_min': winddirectionmin,
-            'wind_direction_max': winddirectionmax,
-            'wind_speed_change': windspeedchange,
-            'sea_surface': seasurface,
+            'start_time': start_time,
+            'end_time': end_time,
+            'time_category': time_category,
+            'wind_speed_min': wind_speedmin,
+            'wind_speed_max': wind_speedmax,
+            'wind_direction_min': wind_direction_min,
+            'wind_direction_max': wind_direction_max,
+            'wind_speed_change': wind_speed_change,
+            'sea_surface': sea_surface,
             'swell': swell,
             'training1': training1,
             'training2': training2,
@@ -443,14 +458,14 @@ class Player(object):
             if not player:
                 raise ValueError(
                     'Player {} does not exist.'.format(player_id))
-                
+
             player.update({
                 'player_name' : str(playername),
                 'admission_year' : year
             })
 
             client.put(player)
-            
+
         return redirect(url_for('top'))
 
 
@@ -496,7 +511,7 @@ class Yacht(object):
         yachtclass: 艇種
         datatime_now: データの作成日
         yacht: 新規作成したヨットのエンティティ
-        
+
         return: TOPページに戻る
         """
         yachtno = int(request.form.get('yachtno'))
@@ -520,7 +535,7 @@ class Yacht(object):
     def show_yacht(yacht_id):
         """
         ヨットデータの変更画面に移動
-        
+
         Args:
         target_yacht: admin_yacht.htmlで選択したヨットデータ
 
@@ -574,7 +589,7 @@ class Yacht(object):
 
         key = client.key('Yacht', yacht_id)
         client.delete(key)
-        
+
         return redirect(url_for('top'))
 
 
@@ -585,7 +600,7 @@ class Device(object):
     def admin_device():
         """
         デバイス管理画面の表示
-        
+
         Args:
         device_list(list): デバイスIDと機種名の一覧
 
@@ -627,7 +642,7 @@ class Device(object):
 
         return redirect(url_for('top'))
 
-      
+
     @app.route("/admin/showdevice/<int:device_id>", methods=['GET'])
     def show_device(device_id):
         """
@@ -649,7 +664,7 @@ class Device(object):
     def mod_device(device_id):
         """
         デバイス情報の変更
-        
+
         Args:
         deviceno: show_device.htmlで入力したデバイスID
         devicaname: show_device.htmlで入力した機種名
@@ -747,7 +762,7 @@ class Menu(object):
         target_menu = client.get(key)
 
         return render_template('show_menu.html', title='練習メニュー詳細', target_menu=target_menu)
-      
+
 
     @app.route("/admin/modmenu/<int:menu_id>", methods=['POST'])
     def mod_menu(menu_id):
