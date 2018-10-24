@@ -74,21 +74,65 @@
 
 <h3>【練習メニュー】</h3>
   <ol>
-    <li>{{target_entities[0].training1}}</li>
-    <li>{{target_entities[0].training2}}</li>
-    <li>{{target_entities[0].training3}}</li>
-    <li>{{target_entities[0].training4}}</li>
-    <li>{{target_entities[0].training5}}</li>
-    <li>{{target_entities[0].training6}}</li>
-    <li>{{target_entities[0].training7}}</li>
-    <li>{{target_entities[0].training8}}</li>
-    <li>{{target_entities[0].training9}}</li>
-    <li>{{target_entities[0].training10}}</li>
-    <li>{{target_entities[0].training11}}</li>
-    <li>{{target_entities[0].training12}}</li>
-    <li>{{target_entities[0].training13}}</li>
-    <li>{{target_entities[0].training14}}</li>
-    <li>{{target_entities[0].training15}}</li>
+    {% if target_entities[0].training1 %}
+      <li>{{target_entities[0].training1}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training2 %}
+      <li>{{target_entities[0].training2}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training3 %}
+      <li>{{target_entities[0].training3}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training4 %}
+      <li>{{target_entities[0].training4}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training5 %}
+      <li>{{target_entities[0].training5}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training6 %}
+      <li>{{target_entities[0].training6}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training7 %}
+      <li>{{target_entities[0].training7}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training8 %}
+      <li>{{target_entities[0].training8}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training9 %}
+      <li>{{target_entities[0].training9}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training10 %}
+      <li>{{target_entities[0].training10}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training11 %}
+      <li>{{target_entities[0].training11}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training12 %}
+      <li>{{target_entities[0].training12}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training13 %}
+      <li>{{target_entities[0].training13}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training14 %}
+      <li>{{target_entities[0].training14}}</li>
+    {% endif %}
+
+    {% if target_entities[0].training15 %}
+      <li>{{target_entities[0].training15}}</li>
+    {% endif %}
   </ol>
 
 <h3>【コメント欄】</h3>
@@ -98,7 +142,7 @@
     <label for="name">コメント</label><br>
       <textarea class="form-control" rows=2 id="comment" name="comment"></textarea><br>
     <button type="submit" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> コメント追加
     </button>
   </form>
 
@@ -109,7 +153,6 @@
 
 
 <a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id )}}">
-
   <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更
 </a>
 
