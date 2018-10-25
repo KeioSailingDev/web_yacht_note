@@ -808,5 +808,32 @@ class Menu(object):
         return redirect(url_for('top'))
 
 
+class Ranking(object):
+    """ランキングクラス"""
+
+    @app.route("/ranking", methods=['GET','POST'])
+    def ranking():
+        """
+        ランキング画面の表示
+
+        Args:
+
+
+        Return:
+        """
+        filter_name = 'filter_outline'
+
+        # サイドバーでフィルターした値
+        outline_id = request.form.get(filter_name)
+
+
+        # フィルターにかける練習ノートの一覧を取得
+        query1 = client.query(kind='Outline')
+        outline_list = list(query1.fetch())
+
+        return render_template('ranking.html', title = 'ランキング', outline_list=outline_list,
+                               outline_id=outline_id)
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
