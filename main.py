@@ -8,7 +8,7 @@ from datetime import date
 from models import query
 
 # プロジェクトID
-project_id = "web-yacht-note-208313"
+project_id = "webyachtnote"
 
 # DataStoreに接続するためのオブジェクトを作成
 client = datastore.Client(project_id)
@@ -344,7 +344,7 @@ class Outline(object):
             })
             client.put(user_comment)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('outline_detail', target_outline_id=target_outline_id))
 
 class Player(object):
     """選手の管理に関するクラス"""
@@ -408,7 +408,8 @@ class Player(object):
             })
             client.put(player)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('admin_player'
+                                ''))
 
 
     @app.route("/admin/showplayer/<int:player_id>", methods=['GET'])
@@ -466,7 +467,7 @@ class Player(object):
 
             client.put(player)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('admin_player'))
 
 
     @app.route("/admin/delplayer/<int:player_id>", methods=['POST'])
@@ -479,7 +480,7 @@ class Player(object):
         key = client.key('Player', player_id)
         client.delete(key)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('admin_player'))
 
 
 class Yacht(object):
@@ -528,7 +529,7 @@ class Yacht(object):
             })
             client.put(yacht)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('admin_yacht'))
 
 
     @app.route("/admin/showyacht/<int:yacht_id>", methods=['GET'])
@@ -577,7 +578,7 @@ class Yacht(object):
 
             client.put(yacht)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('admin_yacht'))
 
     @app.route("/admin/delyacht/<int:yacht_id>", methods=['POST'])
     def del_yacht(yacht_id):
@@ -590,7 +591,7 @@ class Yacht(object):
         key = client.key('Yacht', yacht_id)
         client.delete(key)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('admin_yacht'))
 
 
 class Device(object):
@@ -640,7 +641,7 @@ class Device(object):
             })
             client.put(device)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('admin_device'))
 
 
     @app.route("/admin/showdevice/<int:device_id>", methods=['GET'])
@@ -690,7 +691,7 @@ class Device(object):
 
             client.put(device)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('admin_device'))
 
 
     @app.route("/admin/deldevice/<int:device_id>", methods=['POST'])
@@ -703,7 +704,7 @@ class Device(object):
         key = client.key('Device', device_id)
         client.delete(key)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('admin_device'))
 
 class Menu(object):
     @app.route("/admin/menu")
@@ -743,7 +744,7 @@ class Menu(object):
             })
             client.put(menu)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('admin_menu'))
 
 
     @app.route("/admin/showmenu/<int:menu_id>", methods=['GET'])
@@ -791,7 +792,7 @@ class Menu(object):
 
             client.put(menu)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('admin_menu'))
 
 
     @app.route("/admin/delmenu/<int:menu_id>", methods=['POST'])
@@ -805,7 +806,7 @@ class Menu(object):
         key = client.key('Menu', menu_id)
         client.delete(key)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('admin_menu'))
 
 
 class Ranking(object):
