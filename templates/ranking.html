@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block right_sidebar_button %}
+<a id="sidr-right-top-button" class="menu-button right" href="#sidr-right-top">Toggle menu</a>
+{% endblock %}
+
+{% block right_sidebar %}
+<div id="sidr-right-top">
+    <form action="{{ url_for('ranking') }}" method="post" class="form-inline">
+      <ul>
+        <li>
+          時間区分：
+            <select name="filter_outline" id="filter_outline" class="form-control">
+              {% for outline in outline_list %}
+                <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
+              {% endfor %}
+            </select>
+        </li>
+
+      </ul>
+
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> フィルター
+      </button>
+    </form>
+</div>
+{% endblock %}
+
+
+{% block content %}
+  <h2>{{ outline_id}}</h2>
+
+  <h2>一覧</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>日付</th>
+        <th>時間</th>
+        <th>詳細</th>
+      </tr>
+      </tr>
+    </thead>
+    <tbody>
+      {% for outline in outline_list %}
+      <tr>
+        <td>{{ outline.date }}</td>
+        <td>{{ outline.time_category }}</td>
+        <td>
+          <a class="btn btn-success" href="{{ url_for('outline_detail', target_outline_id=outline.outline_id) }}">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 詳細
+          </a>
+      </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+
+{% endblock %}

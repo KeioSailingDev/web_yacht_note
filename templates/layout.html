@@ -5,10 +5,15 @@
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
     <link  rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ios でホーム画面から開いたときにアプリっぽく全画面表示する -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <!-- Include Sidr bundled CSS theme -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.sidr.light.css') }}">
     <!-- Your CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- アイコン画像 -->
+    <link rel="apple-touch-icon-precomposed" href="{{ url_for('static', filename='img/icon.jpg') }}" />
   <title>{{ title }}</title>
 </head>
 
@@ -31,6 +36,9 @@
             </li>
             <li>
                 <a href="{{ url_for('how_to_use')}}">使い方</a>
+            </li>
+            <li>
+                <a href="{{ url_for('ranking')}}">ランキング</a>
             </li>
             <li>
                 <a href="{{ url_for('admin_top')}}">管理ページ</a>

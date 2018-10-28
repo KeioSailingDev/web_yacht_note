@@ -1,6 +1,6 @@
 from gcloud import datastore
 
-project_id = "web-yacht-note-208313"
+project_id = "webyachtnote"
 client = datastore.Client(project_id)
 
 # class OutlineContents(object):
@@ -43,6 +43,7 @@ def get_outline_selections():
 
     return outline_selections
 
+
 def get_outline_entities(target_outline_id):
     query1 = client.query(kind='Outline')
     query1.add_filter('outline_id', '=', int(target_outline_id))
@@ -55,6 +56,7 @@ def get_outline_entities(target_outline_id):
     target_entities = [target_outline1, target_outline2]
 
     return target_entities
+
 
 def get_user_comments(target_outline_id):
     query = client.query(kind='Comment')
