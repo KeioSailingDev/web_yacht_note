@@ -30,7 +30,7 @@
 {% block content %}
   <h2>{{ outline_name }}</h2>
 
-  <h3>MAXスピードランキング(knot)</h3>
+  <h3 class="h3">MAXスピードランキング(knot)</h3>
     <script src="{{ url_for('static', filename='js/Chart.bundle.js') }}"></script>
     <canvas id="myChart" width="400" height="250"></canvas>
     <script>
@@ -80,9 +80,9 @@
               propagate: true
             }
           },
-          animation: {
-            duration: 1, // アニメーションストップ
-          },
+          // animation: {
+          //   duration: 1, // アニメーションストップ
+          // },
           // legend: {
           //   position:'top',//ラベル上表示
           // },
@@ -92,7 +92,7 @@
             xAxes: [{
               ticks: { // 目盛の設定
                 min: 0, // Y軸の最大値
-                max: 4, // Y軸の最小値
+                max: Math.round(Math.max.apply(null, max_speed))+1, // Y軸の最小値
                 beginAtZero: true,
                 type: "time",
                 time: {
@@ -118,6 +118,40 @@
             }],
           },
         };
+
+        // Define a plugin to provide data labels
+        Chart.plugins.register({
+            afterDatasetsDraw: function (chart, easing) {
+                // To only draw at the end of animation, check for easing === 1
+                var ctx = chart.ctx;
+
+                chart.data.datasets.forEach(function (dataset, i) {
+                    var meta = chart.getDatasetMeta(i);
+                    if (!meta.hidden) {
+                        meta.data.forEach(function (element, index) {
+                            // Draw the text in black, with the specified font
+                            ctx.fillStyle = 'rgb(10, 10, 10)';
+
+                            var fontSize = 16;
+                            var fontStyle = 'normal';
+                            var fontFamily = 'Helvetica Neue';
+                            ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+
+                            // Just naively convert to string for now
+                            var dataString = dataset.data[index].toString();
+
+                            // Make sure alignment settings are correct
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+
+                            var padding = 5;
+                            var position = element.tooltipPosition();
+                            ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+                        });
+                    }
+                });
+            }
+        });
 
         // グラフ出力
         var ctx = document.getElementById('myChart');
