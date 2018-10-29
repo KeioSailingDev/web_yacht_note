@@ -194,10 +194,10 @@ class Outline(object):
         #日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
         date = request.form.get('date')
         time_category = request.form.get('timecategory')
-        wind_speedmin = request.form.get('windspeedmin')
-        wind_speedmax = request.form.get('windspeedmax')
-        wind_direction_min = request.form.get('winddirectionmin')
-        wind_direction_max = request.form.get('winddirectionmax')
+        wind_speedmin = int(request.form.get('windspeedmin'))
+        wind_speedmax = int(request.form.get('windspeedmax'))
+        wind_direction_min = int(request.form.get('winddirectionmin'))
+        wind_direction_max = int(request.form.get('winddirectionmax'))
         wind_speed_change = request.form.get('windspeedchange')
         sea_surface = request.form.get('seasurface')
         swell = request.form.get('swell')
@@ -408,8 +408,7 @@ class Player(object):
             })
             client.put(player)
 
-        return redirect(url_for('admin_player'
-                                ''))
+        return redirect(url_for('admin_player'))
 
 
     @app.route("/admin/showplayer/<int:player_id>", methods=['GET'])

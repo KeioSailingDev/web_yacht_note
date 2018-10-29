@@ -275,245 +275,256 @@
       {% endfor %}
     </table>
 
+    <button id="open-yacht" type="button" class="btn">行追加</button>
+
     <h4>【練習メニュー】</h4>
 
-    <div class="form-group">
-      <label for="training1" class="col-sm-2 control-label">練習1</label>
-      <div class="col-sm-10">
-        <select name="training1" id="training1" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training1 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="training2" class="col-sm-2 control-label">練習2</label>
-      <div class="col-sm-10">
-        <select name="training2" id="training2" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training2 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="training3" class="col-sm-2 control-label">練習3</label>
-      <div class="col-sm-10">
-        <select name="training3" id="training3" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training3 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="training4" class="col-sm-2 control-label">練習4</label>
-      <div class="col-sm-10">
-        <select name="training4" id="training4" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training4 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="training5" class="col-sm-2 control-label">練習5</label>
-      <div class="col-sm-10">
-        <select name="training5" id="training5" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training5 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="training6" class="col-sm-2 control-label">練習6</label>
-      <div class="col-sm-10">
-        <select name="training6" id="training6" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training6 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-    </div>
-    <div class="form-group">
-      <label for="training7" class="col-sm-2 control-label">練習7</label>
-      <div class="col-sm-10">
-        <select name="training7" id="training7" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training7 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="training8" class="col-sm-2 control-label">練習8</label>
-      <div class="col-sm-10">
-        <select name="training8" id="training8" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training8 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="training9" class="col-sm-2 control-label">練習9</label>
-      <div class="col-sm-10">
-        <select name="training9" id="training9" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training9 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="training10" class="col-sm-2 control-label">練習10</label>
-      <div class="col-sm-10">
-        <select name="training10" id="training10" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training10 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-    </div>
-    <div class="form-group">
-      <label for="training11" class="col-sm-2 control-label">練習11</label>
-      <div class="col-sm-10">
-        <select name="training11" id="training11" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training11 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="training12" class="col-sm-2 control-label">練習12</label>
-      <div class="col-sm-10">
-        <select name="training12" id="training12" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training12 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="training13" class="col-sm-2 control-label">練習13</label>
-      <div class="col-sm-10">
-        <select name="training13" id="training13" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training13 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="training14" class="col-sm-2 control-label">練習14</label>
-      <div class="col-sm-10">
-        <select name="training14" id="training14" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training14 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="training15" class="col-sm-2 control-label">練習15</label>
-      <div class="col-sm-10">
-        <select name="training15" id="training15" class="form-control">
-          <option value="">-</option>
-          {% for training_menu in outline_selections[8] %}
-            {% if training_menu.training_menu == target_entities[0].training15 %}
-              <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
-            {% else %}
-              <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
+    <ol id="menu">
+      <li>
+        <label for="training1" class="col-sm-2 control-label">練習1</label>
+        <div class="col-sm-10">
+          <select name="training1" id="training1" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training1 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training2" class="col-sm-2 control-label">練習2</label>
+        <div class="col-sm-10">
+          <select name="training2" id="training2" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training2 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training3" class="col-sm-2 control-label">練習3</label>
+        <div class="col-sm-10">
+          <select name="training3" id="training3" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training3 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training4" class="col-sm-2 control-label">練習4</label>
+        <div class="col-sm-10">
+          <select name="training4" id="training4" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training4 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training5" class="col-sm-2 control-label">練習5</label>
+        <div class="col-sm-10">
+          <select name="training5" id="training5" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training5 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training6" class="col-sm-2 control-label">練習6</label>
+        <div class="col-sm-10">
+          <select name="training6" id="training6" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training6 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </Li>
+      <li>
+        <label for="training7" class="col-sm-2 control-label">練習7</label>
+        <div class="col-sm-10">
+          <select name="training7" id="training7" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training7 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training8" class="col-sm-2 control-label">練習8</label>
+        <div class="col-sm-10">
+          <select name="training8" id="training8" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training8 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training9" class="col-sm-2 control-label">練習9</label>
+        <div class="col-sm-10">
+          <select name="training9" id="training9" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training9 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training10" class="col-sm-2 control-label">練習10</label>
+        <div class="col-sm-10">
+          <select name="training10" id="training10" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training10 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training11" class="col-sm-2 control-label">練習11</label>
+        <div class="col-sm-10">
+          <select name="training11" id="training11" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training11 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training12" class="col-sm-2 control-label">練習12</label>
+        <div class="col-sm-10">
+          <select name="training12" id="training12" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training12 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training13" class="col-sm-2 control-label">練習13</label>
+        <div class="col-sm-10">
+          <select name="training13" id="training13" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training13 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training14" class="col-sm-2 control-label">練習14</label>
+        <div class="col-sm-10">
+          <select name="training14" id="training14" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training14 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+      <li>
+        <label for="training15" class="col-sm-2 control-label">練習15</label>
+        <div class="col-sm-10">
+          <select name="training15" id="training15" class="form-control">
+            <option value="">-</option>
+            {% for training_menu in outline_selections[8] %}
+              {% if training_menu.training_menu == target_entities[0].training15 %}
+                <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
+              {% else %}
+                <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </li>
+    </ol>
+
+    <button id="menu-open" type="button" class="btn">行追加</button>
+    <script type="text/javascript" src="{{url_for('static', filename='js/outline.js')}}"></script>
+
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-primary">
-          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 変更
+          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 内容を確定
         </button>
       </div>
     </div>
   </form>
   <form class="text-right" action="{{ url_for('del_outline', target_outline_id=target_entities[0].outline_id) }}" method="post">
     <button type="submit" class="btn btn-danger">
-      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 削除
+      <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ノートを削除
     </button>
   </form>
   <a class="btn btn-default" href="{{ url_for('top') }}">
     <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> 戻る
   </a>
+
 {% endblock %}
