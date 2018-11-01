@@ -3,7 +3,6 @@ from datetime import date, datetime
 from flask import Flask, render_template, request, redirect, url_for, flash
 from gcloud import datastore
 from flask_bootstrap import Bootstrap
-from datetime import date
 import numpy as np
 import pandas as pd
 from models import query
@@ -823,6 +822,7 @@ class Ranking(object):
 
         Return:
         """
+        print("1"+str(datetime.now()))
         filter_name = 'filter_outline'
         target_outline_id = '20181028222330'
 
@@ -834,16 +834,25 @@ class Ranking(object):
         query1.add_filter('outline_id', '=', int(target_outline_id))
         outline = list(query1.fetch())[0]
         outline_name = dict(outline).get('date') + dict(outline).get('time_category')
+        print("1" + str(datetime.now()))
 
-        # ログデータを取得
-        query2 = client.query(kind='Sensorlog')
-        logs = list(query2.fetch())
 
         # 配艇情報を取得
-        query3 = client.query(kind='Outline_yacht_player')
-        query3.add_filter('outline_id', '=', int(target_outline_id))
-        haitei = list(query3.fetch())
-        print(haitei)
+        query2 = client.query(kind='Outline_yacht_player')
+        query2.add_filter('outline_id', '=', int(target_outline_id))
+        haitei = list(query2.fetch())
+
+        devices = list(set([dict(h).get("device_id") for h in haitei]))
+
+        print(devices)
+
+        logs = []
+        # ログデータを取得
+        for device in devices:
+            print(str(datetime.now()))
+            query3 = client.query(kind='Sensorlog')
+            query3.add_filter('deviceID', '=', device)
+            logs.extend(list(query3.fetch()))
 
         # logをDataFrameにまとめる
         logdata = pd.DataFrame({"speed": [dict(log).get('speed') for log in logs],
@@ -858,6 +867,10 @@ class Ranking(object):
                                    "crew3": [dict(h).get('crew3') for h in haitei],
                                    "device": [dict(h).get("device_id") for h in haitei],
                                    "yacht_number": [dict(h).get("yacht_number") for h in haitei]})
+
+        # メモリを節約するためいらない変数は削除
+        del logs, haitei
+        print("4" + str(datetime.now()))
         print(haiteidata)
         # 艇番＋乗艇者をまとめる
         haiteidata["haitei"] = haiteidata["yacht_number"] + "/" + \
@@ -866,15 +879,14 @@ class Ranking(object):
 
         # デバイス名で紐づけ
         joindata = pd.merge(logdata, haiteidata, on='device')
-
-        print(logdata.head())
-        print(haiteidata)
-        print(joindata.head())
+        print("5" + str(datetime.now()))
+        # メモリを節約するためいらない変数は削除
+        del logdata, haiteidata
 
         # 船ごとに集計
         max_speed_df = joindata.groupby('haitei', as_index=False)["speed"].max()
         max_speed_df = max_speed_df.sort_values("speed", ascending=False)
-
+        print("6" + str(datetime.now()))
         # htmlにわたす辞書に結果をまとめる
         rank_values = dict()
         # スピードはknotに変換
