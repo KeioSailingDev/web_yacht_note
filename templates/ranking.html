@@ -28,31 +28,138 @@
 
 
 {% block content %}
-  <h2>{{ outline_id}}</h2>
+  <h2>{{ outline_name }}</h2>
 
-  <h2>一覧</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>日付</th>
-        <th>時間</th>
-        <th>詳細</th>
-      </tr>
-      </tr>
-    </thead>
-    <tbody>
-      {% for outline in outline_list %}
-      <tr>
-        <td>{{ outline.date }}</td>
-        <td>{{ outline.time_category }}</td>
-        <td>
-          <a class="btn btn-success" href="{{ url_for('outline_detail', target_outline_id=outline.outline_id) }}">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 詳細
-          </a>
-      </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-    </table>
+  <h3 class="h3">MAXスピードランキング(knot)</h3>
+    <script src="{{ url_for('static', filename='js/Chart.bundle.js') }}"></script>
+    <canvas id="myChart" width="400" height="250"></canvas>
+    <script>
+        var max_speed = {{ rank_values.speed | tojson }};
+        var labels = {{ rank_values.label | tojson }};
+            // 縦軸ラベル
+        var datalabels = labels;
+        // データ
+        var data = {
+          // X軸のラベル
+          labels: datalabels,
+          datasets: [{
+            // 線の太さを指定(px)
+            borderWidth: 1,
+            hoverBorderWidth:100, // ホバー時の枠線の太さ
+            label: "最高スピード(knot)", // 凡例とツールチップに表示するデータセットのラベル
+            // 背景色指定(各グラフ毎)
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+            ],
+            //棒グラフの外枠線の色指定(グラフ毎)
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+            ],
+            //グラフの数値
+            data: max_speed,
+          }]
+        };
+
+        var option = {
+          plugins: {
+            filler: {
+              propagate: true
+            }
+          },
+          // animation: {
+          //   duration: 1, // アニメーションストップ
+          // },
+          // legend: {
+          //   position:'top',//ラベル上表示
+          // },
+          // 目盛の設定
+          scales: {
+            // 横軸の設定
+            xAxes: [{
+              ticks: { // 目盛の設定
+                min: 0, // Y軸の最大値
+                max: Math.round(Math.max.apply(null, max_speed))+1, // Y軸の最小値
+                beginAtZero: true,
+                type: "time",
+                time: {
+                  unit: 'minute',
+                  displayFormat: 'HH:mm',
+                },
+              },
+              // グリッド線の設定
+              gridLines:{
+                drawBorder:false,
+                lineWidth:1,
+              },
+            }],
+            //縦軸の設定
+            yAxes: [{
+              barThickness:15,  //各バーの幅
+              ticks: {
+                beginAtZero: true, //開始値を0にする
+                fontSize: 10,       //フォントサイズ
+                maxRotation: 0,  // 最大角度
+                minRotation: 0, // 斜めに表示
+              },
+            }],
+          },
+        };
+
+        // Define a plugin to provide data labels
+        Chart.plugins.register({
+            afterDatasetsDraw: function (chart, easing) {
+                // To only draw at the end of animation, check for easing === 1
+                var ctx = chart.ctx;
+
+                chart.data.datasets.forEach(function (dataset, i) {
+                    var meta = chart.getDatasetMeta(i);
+                    if (!meta.hidden) {
+                        meta.data.forEach(function (element, index) {
+                            // Draw the text in black, with the specified font
+                            ctx.fillStyle = 'rgb(10, 10, 10)';
+
+                            var fontSize = 16;
+                            var fontStyle = 'normal';
+                            var fontFamily = 'Helvetica Neue';
+                            ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+
+                            // Just naively convert to string for now
+                            var dataString = dataset.data[index].toString();
+
+                            // Make sure alignment settings are correct
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+
+                            var padding = 5;
+                            var position = element.tooltipPosition();
+                            ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
+                        });
+                    }
+                });
+            }
+        });
+
+        // グラフ出力
+        var ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+          type: 'horizontalBar',
+          data: data,
+          options: option,
+        });
+    </script>
 
 {% endblock %}

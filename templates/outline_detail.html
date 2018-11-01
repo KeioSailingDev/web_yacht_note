@@ -49,10 +49,10 @@
     </tr>
   </thead>
   {% for outline2 in target_entities[1] %}
-    {% if outline2.yacht_number and outline2.device_name %}
+    {% if outline2.yacht_number and outline2.device_id %}
     <tr>
       <td rowspan="{{outline2.rowspan}}">{{outline2.yacht_number}}</td>
-      <td rowspan="{{outline2.rowspan}}">{{outline2.device_name}}</td>
+      <td rowspan="{{outline2.rowspan}}">{{outline2.device_id}}</td>
       <td>{{outline2.skipper1}}</td>
       <td>{{outline2.crew1}}</td>
     </tr>

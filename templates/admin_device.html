@@ -4,10 +4,8 @@
 
   <h2>【新規追加】</h2>
   <form action="{{ url_for('add_device') }}" method="post" class="form-inline">
-    <label for="deviceno">デバイスID</label>
-      <input type="text" class="form-control" id="deviceno" name="deviceno">
-    <label for="devicename">デバイス機種</label>
-      <input type="text" class="form-control" id="devicename" name="devicename">
+    <label for="device_id">デバイスID</label>
+      <input type="text" class="form-control" id="device_id" name="device_id">
     <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
     </button>
@@ -18,7 +16,6 @@
     <thead>
       <tr>
         <th>デバイスID</th>
-        <th>デバイス機種</th>
         <th></th>
         <th></th>
       </tr>
@@ -26,8 +23,7 @@
     <tbody>
       {% for device in device_list %}
       <tr>
-        <td>{{device.device_no}}</td>
-        <td>{{device.device_name}}</td>
+        <td>{{device.device_id}}</td>
         <td>
           <a class="btn btn-success" href="{{ url_for('show_device', device_id=device.key.id) }}">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更
