@@ -136,7 +136,7 @@
 
     {% for outline2 in target_entities[1] %}
     <div class="yacht-skipper">
-      <label for="yachtnumber{{loop.index0}}" class="col-sm-2 control-label">艇番</label>
+      <label for="yachtnumber{{loop.index0}}" class="col-sm-2 control-label">艇番{{ target_entities[1].index(outline2)+1 }}</label>
       <div class="col-sm-10">
         <select name="yachtnumber{{loop.index0}}" id="yachtnumber{{loop.index0}}" class="form-control">
           <option value="">-</option>
