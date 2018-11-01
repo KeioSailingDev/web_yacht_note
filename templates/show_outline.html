@@ -1,6 +1,8 @@
 {% extends 'layout.html' %}
 {% block content %}
 
+  <script type="text/javascript" src="{{url_for('static', filename='js/outline.js')}}"></script>
+
   <h1>{{ title }}</h1>
   <form action="{{ url_for('mod_outline', target_outline_id=target_entities[0].outline_id) }}" method="post" class="form-horizontal">
     <div class="form-group">
@@ -130,52 +132,43 @@
         </select>
     </div>
 
-    <table class="table">
-      <thead>
+    <h4>【艇番とスキッパー情報】</h4>
+
+    {% for outline2 in target_entities[1] %}
+    <div class="yacht-skipper">
+      <label for="yachtnumber{{loop.index0}}" class="col-sm-2 control-label">艇番</label>
+      <div class="col-sm-10">
+        <select name="yachtnumber{{loop.index0}}" id="yachtnumber{{loop.index0}}" class="form-control">
+          <option value="">-</option>
+            {% for yacht_number in outline_selections[5] %}
+              {% if yacht_number.yacht_no == outline2.yacht_number %}
+                <option value={{ yacht_number.yacht_no }} selected>{{ yacht_number.yacht_no }}</option>
+              {% else %}
+                <option value={{ yacht_number.yacht_no }}>{{ yacht_number.yacht_no }}</option>
+              {% endif %}
+            {% endfor %}
+        </select>
+      </div>
+
+      <label for="devicename{{loop.index0}}" class="col-sm-2 control-label">デバイス</label>
+      <div class="col-sm-10">
+        <select name="devicename{{loop.index0}}" id="devicename{{loop.index0}}" class="form-control">
+          <option value="">-</option>
+          {% for device_name in outline_selections[7] %}
+            {% if device_name.device_name == outline2.device_name %}
+              <option value={{ device_name.device_name }} selected>{{ device_name.device_name }}</option>
+            {% else %}
+              <option value={{ device_name.device_name }}>{{ device_name.device_name }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+
+      <table>
         <tr>
-          <th>【艇番】</th>
-          <th>【デバイス】</th>
-          <th>【スキッパー】</th>
-          <th>【クルー】</th>
-        </tr>
-      </thead>
-      {% for outline2 in target_entities[1] %}
-      <tr>
-        <td rowspan="3">
-          <div class="form-group">
+          <td>
             <div class="col-sm-10">
-              <select name="yachtnumber{{loop.index0}}" id="yachtnumber{{loop.index0}}" class="form-control">
-                <option value="">-</option>
-                {% for yacht_number in outline_selections[5] %}
-                  {% if yacht_number.yacht_no == outline2.yacht_number %}
-                    <option value={{ yacht_number.yacht_no }} selected>{{ yacht_number.yacht_no }}</option>
-                  {% else %}
-                    <option value={{ yacht_number.yacht_no }}>{{ yacht_number.yacht_no }}</option>
-                  {% endif %}
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-        </td>
-        <td rowspan="3">
-          <div class="form-group">
-            <div class="col-sm-10">
-              <select name="devicename{{loop.index0}}" id="devicename{{loop.index0}}" class="form-control">
-                <option value="">-</option>
-                {% for device_name in outline_selections[7] %}
-                  {% if device_name.device_name == outline2.device_name %}
-                    <option value={{ device_name.device_name }} selected>{{ device_name.device_name }}</option>
-                  {% else %}
-                    <option value={{ device_name.device_name }}>{{ device_name.device_name }}</option>
-                  {% endif %}
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-        </td>
-        <td>
-          <div class="form-group">
-            <div class="col-sm-10">
+              <label for="skipper1{{loop.index0}}" class="col-sm-2 control-label">スキッパー1</label>
               <select name="skipper1{{loop.index0}}" id="skipper1{{loop.index0}}" class="form-control">
                 <option value="">-</option>
                 {% for player_name in outline_selections[6] %}
@@ -186,11 +179,11 @@
                   {% endif %}
                 {% endfor %}
               </select>
-          </div>
-        </td>
-        <td>
-          <div class="form-group">
+            </div>
+          </td>
+          <td>
             <div class="col-sm-10">
+              <label for="crew1{{loop.index0}}" class="col-sm-2 control-label">クルー1</label>
               <select name="crew1{{loop.index0}}" id="crew1{{loop.index0}}" class="form-control">
                 <option value="">-</option>
                 {% for player_name in outline_selections[6] %}
@@ -201,13 +194,14 @@
                   {% endif %}
                 {% endfor %}
               </select>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="form-group">
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
             <div class="col-sm-10">
+              <label for="skipper2{{loop.index0}}" class="col-sm-2 control-label">スキッパー2</label>
               <select name="skipper2{{loop.index0}}" id="skipper2{{loop.index0}}" class="form-control">
                 <option value="">-</option>
                 {% for player_name in outline_selections[6] %}
@@ -219,11 +213,10 @@
                 {% endfor %}
               </select>
             </div>
-          </div>
-        </td>
-        <td>
-          <div class="form-group">
+          </td>
+          <td>
             <div class="col-sm-10">
+              <label for="crew2{{loop.index0}}" class="col-sm-2 control-label">クルー2</label>
               <select name="crew2{{loop.index0}}" id="crew2{{loop.index0}}" class="form-control">
                 <option value="">-</option>
                 {% for player_name in outline_selections[6] %}
@@ -235,13 +228,13 @@
                 {% endfor %}
               </select>
             </div>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <div class="form-group">
+          </td>
+        </tr>
+
+        <tr>
+          <td>
             <div class="col-sm-10">
+              <label for="skipper3{{loop.index0}}" class="col-sm-2 control-label">スキッパー3</label>
               <select name="skipper3{{loop.index0}}" id="skipper3{{loop.index0}}" class="form-control">
                 <option value="">-</option>
                 {% for player_name in outline_selections[6] %}
@@ -253,11 +246,10 @@
                 {% endfor %}
               </select>
             </div>
-          </div>
-        </td>
-        <td>
-          <div class="form-group">
+          </td>
+          <td>
             <div class="col-sm-10">
+              <label for="crew3{{loop.index0}}" class="col-sm-2 control-label">クルー3</label>
               <select name="crew3{{loop.index0}}" id="crew3{{loop.index0}}" class="form-control">
                 <option value="">-</option>
                 {% for player_name in outline_selections[6] %}
@@ -269,13 +261,16 @@
                 {% endfor %}
               </select>
             </div>
-          </div>
-        </td>
-      </tr>
-      {% endfor %}
-    </table>
+          </td>
+        </tr>
+      </table>
+      <hr>
+    </div>
 
-    <button id="open-yacht" type="button" class="btn">行追加</button>
+
+      {% endfor %}
+
+    <button id="open-yacht-skipper" type="button" class="btn">艇番追加</button>
 
     <h4>【練習メニュー】</h4>
 
@@ -508,7 +503,6 @@
     </ol>
 
     <button id="menu-open" type="button" class="btn">行追加</button>
-    <script type="text/javascript" src="{{url_for('static', filename='js/outline.js')}}"></script>
 
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
