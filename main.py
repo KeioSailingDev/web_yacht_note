@@ -194,10 +194,10 @@ class Outline(object):
         #日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
         date = request.form.get('date')
         time_category = request.form.get('timecategory')
-        wind_speedmin = int(request.form.get('windspeedmin'))
-        wind_speedmax = int(request.form.get('windspeedmax'))
-        wind_direction_min = int(request.form.get('winddirectionmin'))
-        wind_direction_max = int(request.form.get('winddirectionmax'))
+        wind_speedmin = request.form.get('windspeedmin')
+        wind_speedmax = request.form.get('windspeedmax')
+        wind_direction_min = request.form.get('winddirectionmin')
+        wind_direction_max = request.form.get('winddirectionmax')
         wind_speed_change = request.form.get('windspeedchange')
         sea_surface = request.form.get('seasurface')
         swell = request.form.get('swell')
@@ -271,7 +271,7 @@ class Outline(object):
         #show_outline.htmlから取得した値を変数に代入
         for i,outline2 in enumerate(target_entities[1]):
             yachtnumber = request.form.get('yachtnumber'+str(i))
-            device_id = request.form.get('device_id'+str(i))
+            deviceid = request.form.get('deviceid'+str(i))
             skipper1 = request.form.get('skipper1'+str(i))
             skipper2 = request.form.get('skipper2'+str(i))
             skipper3 = request.form.get('skipper3'+str(i))
@@ -287,14 +287,13 @@ class Outline(object):
             else:
                 rowspan = 1
 
-
             if not outline2:
                 raise ValueError(
                     'Outline {} does not exist.'.format(outline2))
 
             outline2.update({
                 'yacht_number': yachtnumber,
-                'device_id': device_id,
+                'device_id': deviceid,
                 'skipper1': skipper1,
                 'skipper2': skipper2,
                 'skipper3': skipper3,
@@ -312,15 +311,28 @@ class Outline(object):
     @app.route("/outline/del_outline/<int:target_outline_id>", methods=['POST'])
     def del_outline(target_outline_id):
         """
-        練習概要ページの削除（動作テスト未）
+        練習概要ページの削除
+
+        Args:
+        target_entities(list):
+            インデックス0には、日時・波風・練習メニュー、インデックス1にはヨットとデバイス、部員のエンティティ
+        entity_id_1(int): Outline kindのエンティティのID
+        entity_id_2(int): Outline_yacht_player kindのエンティティのID
+
+        Return:
+        練習概要を削除し、TOPページに戻る
         """
+
         target_entities = query.get_outline_entities(target_outline_id)
 
-        key1 = target_entities[0].key.id #idを取得
+        entity_id_1 = target_entities[0].key.id
+
+        key1 = client.key('Outline', entity_id_1)
         client.delete(key1)
 
         for outline2 in target_entities[1]:
-            key2 = outline2.key.id
+            entity_id_2 =  outline2.key.id
+            key2 = client.key('Outline_yacht_player', entity_id_2)
             client.delete(key2)
 
         return redirect(url_for('top'))
@@ -328,6 +340,16 @@ class Outline(object):
 
     @app.route("/outline/add_comment/<int:target_outline_id>", methods=['POST'])
     def add_comment(target_outline_id):
+        """
+        練習概要ページへのコメントの追加
+
+        Args:
+        name: コメント者の名前
+        comment: コメント
+
+        Return:
+        練習概要にコメントを追加し、再び練習概要ページに戻る
+        """
         name = request.form.get('name') + ":"
         comment = request.form.get('comment')
         outline_id = int(target_outline_id)
@@ -477,6 +499,8 @@ class Player(object):
         """
 
         key = client.key('Player', player_id)
+        print(key)
+        print(type(key))
         client.delete(key)
 
         return redirect(url_for('admin_player'))
@@ -514,7 +538,7 @@ class Yacht(object):
 
         return: TOPページに戻る
         """
-        yachtno = int(request.form.get('yachtno'))
+        yachtno = request.form.get('yachtno')
         yachtclass = request.form.get('yachtclass')
         datetime_now = datetime.now()
 
@@ -571,7 +595,7 @@ class Yacht(object):
                 raise ValueError(
                     'Yacht {} does not exist.'.format(yacht_id))
             yacht.update({
-                'yacht_no': int(yachtno),
+                'yacht_no': yachtno,
                 'yacht_class': yachtclass
             })
 
