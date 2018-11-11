@@ -7,12 +7,15 @@
     <label for="playername">氏名</label>
       <input type="text" class="form-control" id="playername" name="playername">
     <label for="year">入学年</label>
-      <select name="year">
-        <option value"">-</option>
-      {% for admission_year in admission_years %}
-        <option value={{ admission_year }}>{{ admission_year }}</option>
-      {% endfor %}
-      </select>　
+      <div class="col-sm-10">
+        <select name="year">
+          <option value"">-</option>
+        {% for admission_year in admission_years %}
+          <option value={{ admission_year }}>{{ admission_year }}</option>
+        {% endfor %}
+        </select>　
+      </div>
+    <br>
     <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
     </button>
