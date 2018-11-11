@@ -68,17 +68,14 @@ def top():
     if form_values['filter_swell'] is not None:
         query1.add_filter('swell','=', form_values['filter_swell'])
 
-    # クエリの実行
+    # 各練習概要を表示
     outline_list = list(query1.fetch())
 
-    # 本日の日付を取得
-    today = date.today()
-
-    # フォームの選択肢一覧
+    #右サイドバーのフィルター用の項目
     outline_selections = query.get_outline_selections()
 
-    return render_template('top.html', title='練習ノート一覧', outline_list=outline_list,
-                           today=today, outline_selections=outline_selections, form_default=form_values)
+    return render_template('top.html', title='練習ノート一覧', outline_list=outline_list, \
+                           outline_selections=outline_selections, form_default=form_values)
 
 @app.route("/how_to_use")
 def how_to_use():
@@ -133,35 +130,36 @@ class Outline(object):
 
         # フォームからデータを取得
         outline_id = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
-        date = request.form.get('date')
-        time_category = request.form.get('time_category')
 
-        if time_category == "午前":
-            start_time = "9:00"
-            end_time = "12:30"
-        elif time_category == "午後":
-            start_time = "13:30"
-            end_time = "16:00"
-        elif time_category == "１部":
-            start_time = "9:00"
-            end_time = "11:30"
-        elif time_category == "２部":
-            start_time = "11:30"
-            end_time = "14:00"
-        else:
-            start_time = "14:00"
-            end_time = "16:30"
+        #TOPから直接show_outline.htmlに接続する場合、不要
+        # date = request.form.get('date')
+        # time_category = request.form.get('time_category')
+        # if time_category == "午前":
+        #     start_time = "9:00"
+        #     end_time = "12:30"
+        # elif time_category == "午後":
+        #     start_time = "13:30"
+        #     end_time = "16:00"
+        # elif time_category == "１部":
+        #     start_time = "9:00"
+        #     end_time = "11:30"
+        # elif time_category == "２部":
+        #     start_time = "11:30"
+        #     end_time = "14:00"
+        # else:
+        #     start_time = "14:00"
+        #     end_time = "16:30"
 
         # DataStoreに格納
-        if date and time_category:
+        if outline_id:
             key1 = client.key('Outline')
             outline1 = datastore.Entity(key1)
             outline1.update({
                 'outline_id': outline_id,
-                'date': date,
-                'time_category': time_category,
-                'start_time': str(start_time),
-                'end_time': str(end_time)
+                # 'date': date,
+                # 'time_category': time_category,
+                # 'start_time': str(start_time),
+                # 'end_time': str(end_time)
             })
             client.put(outline1)
 
@@ -180,7 +178,9 @@ class Outline(object):
         outline_selections = query.get_outline_selections()
         target_entities = query.get_outline_entities(outline_id)
 
-        return render_template('show_outline.html', title="練習概要入力",\
+        today = date.today()
+
+        return render_template('show_outline.html', title="練習概要入力",today=today, \
                                 target_entities=target_entities, outline_selections=outline_selections)
 
 
