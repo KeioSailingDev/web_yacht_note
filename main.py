@@ -858,14 +858,16 @@ class Ranking(object):
         devices_str = "'"+"','".join(devices)+"'"
         query_string = """
             SELECT
-                speed
-                ,device_id
+                device_id
+                ,speed
+                ,distance
             FROM 
                 `{}`
             WHERE
                 device_id IN ({})
             """.format(table_name, devices_str)
         query_job = client_bq.query(query_string)
+        # TODO 時間でフィルター
 
         return query_job.result()
 
@@ -874,8 +876,9 @@ class Ranking(object):
 
         """
         # logをDataFrameにまとめる
-        logdata = pd.DataFrame({"speed": [dict(l).get('speed') for l in sensorlog],
-                                "device": [dict(l).get("device_id") for l in sensorlog]})
+        logdata = pd.DataFrame({"device": [dict(l).get("device_id") for l in sensorlog],
+                                "speed": [dict(l).get('speed') for l in sensorlog],
+                                "distance": [dict(l).get('distance') for l in sensorlog]})
 
         # 配艇情報をDataFrameにまとめる
         haiteidata = pd.DataFrame({"skipper1": [dict(h).get('skipper1') for h in haitei],
@@ -895,9 +898,9 @@ class Ranking(object):
         # デバイス名で紐づけ
         return pd.merge(logdata, haiteidata, on='device')
 
-    def summarise_max_speed(self,merged_data):
+    def summarise_max_speed(self, merged_data):
         """
-        配艇ごとに、ランキングを集計する
+        配艇ごとに、最高スピードを集計する
 
         :param merge_logdata:
         :return:
@@ -907,6 +910,19 @@ class Ranking(object):
         max_speed_df = max_speed_df.sort_values("speed", ascending=False)
 
         return max_speed_df
+
+    def summarise_sum_distance(self, merged_data):
+        """
+        配艇ごとに、走行距離を集計する
+
+        :param merge_logdata:
+        :return:
+        """
+        # 船ごとに集計
+        sum_distance_df = merged_data.groupby('haitei', as_index=False)["distance"].sum()
+        sum_distance_df = sum_distance_df.sort_values("distance", ascending=False)
+
+        return sum_distance_df
 
 
     @app.route("/ranking", methods=['GET','POST'])
@@ -948,13 +964,23 @@ class Ranking(object):
         # 最高スピードを計算する
         max_speed_df = r.summarise_max_speed(merge_data)
 
+        # 合計走行距離を計算する
+        sum_distance_df = r.summarise_sum_distance(merge_data)
+
         # htmlにわたす用に、dict型に変換
-        rank_values = dict()
-        rank_values["speed"] = [round(x * 1.94384, 2) for x in max_speed_df["speed"].tolist()]
-        rank_values["label"] = max_speed_df["haitei"].tolist()
+        max_speed_values = dict()
+        max_speed_values["speed"] = [round(x * 1.94384, 2) for x in max_speed_df["speed"].tolist()]
+        max_speed_values["label"] = max_speed_df["haitei"].tolist()
+
+        # htmlにわたす用に、dict型に変換
+        sum_distance_values = dict()
+        sum_distance_values["distance"] = sum_distance_df["distance"].tolist()
+        sum_distance_values["label"] = sum_distance_df["haitei"].tolist()
 
         return render_template('ranking.html', title='ランキング',
-                               rank_values=rank_values, outline_name=outline_name)
+                               outline_name=outline_name,
+                               max_speed_values=max_speed_values,
+                               sum_distance_values=sum_distance_values)
 
 
 if __name__ == '__main__':

@@ -28,138 +28,147 @@
 
 
 {% block content %}
+  <script src="{{ url_for('static', filename='js/Chart.bundle.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
   <h2>{{ outline_name }}</h2>
 
-  <h3 class="h3">MAXスピードランキング(knot)</h3>
-    <script src="{{ url_for('static', filename='js/Chart.bundle.js') }}"></script>
-    <canvas id="myChart" width="400" height="250"></canvas>
-    <script>
-        var max_speed = {{ rank_values.speed | tojson }};
-        var labels = {{ rank_values.label | tojson }};
-            // 縦軸ラベル
-        var datalabels = labels;
-        // データ
-        var data = {
-          // X軸のラベル
-          labels: datalabels,
-          datasets: [{
-            // 線の太さを指定(px)
-            borderWidth: 1,
-            hoverBorderWidth:100, // ホバー時の枠線の太さ
-            label: "最高スピード(knot)", // 凡例とツールチップに表示するデータセットのラベル
-            // 背景色指定(各グラフ毎)
-            backgroundColor: [
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-            ],
-            //棒グラフの外枠線の色指定(グラフ毎)
-            borderColor: [
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(54, 162, 235, 1)',
-            ],
-            //グラフの数値
-            data: max_speed,
-          }]
-        };
+  <span class="h4">最高速度(knot)</span>
+  <canvas id="max_speed"></canvas>
 
-        var option = {
-          plugins: {
-            filler: {
-              propagate: true
-            }
-          },
-          // animation: {
-          //   duration: 1, // アニメーションストップ
-          // },
-          // legend: {
-          //   position:'top',//ラベル上表示
-          // },
-          // 目盛の設定
-          scales: {
-            // 横軸の設定
-            xAxes: [{
-              ticks: { // 目盛の設定
-                min: 0, // Y軸の最大値
-                max: Math.round(Math.max.apply(null, max_speed))+1, // Y軸の最小値
-                beginAtZero: true,
-                type: "time",
-                time: {
-                  unit: 'minute',
-                  displayFormat: 'HH:mm',
-                },
+  <span class="h4">合計航行距離(m)</span>
+  <canvas id="sum_distance"></canvas>
+
+  <!--チャート設定-->
+  <script>
+      var max_speed = {{ max_speed_values.speed | tojson }};
+      var labels_max_speed = {{ max_speed_values.label | tojson }};
+      var sum_distance = {{ sum_distance_values.distance | tojson }};
+      var labels_sum_distance = {{ sum_distance_values.label | tojson }};
+
+      // 最高スピードの値
+      var data_max_speed = {
+        // X軸のラベル
+        labels: labels_max_speed,
+        datasets: [{
+          // 線の太さを指定(px)
+          borderWidth: 1,
+          hoverBorderWidth:100, // ホバー時の枠線の太さ
+          // 背景色指定(各グラフ毎)
+          backgroundColor: Array.apply(null, Array(20)).map(function(){ return 'rgba(255, 206, 86, 0.2)' }),
+          //棒グラフの外枠線の色指定(グラフ毎)
+          borderColor: Array.apply(null, Array(20)).map(function(){ return 'rgba(255, 206, 86, 1)' }),
+          //グラフの数値
+          data: max_speed,
+          datalabels: {
+              align: 'end',
+              anchor: 'end',
+              color: '#111',
+              font: {
+                  size: 10
               },
-              // グリッド線の設定
-              gridLines:{
-                drawBorder:false,
-                lineWidth:1,
+          }
+        }]
+      };
+
+      // 合計走行距離の値
+      var data_sum_distance = {
+        // X軸のラベル
+        labels: labels_sum_distance,
+        datasets: [{
+          // 線の太さを指定(px)
+          borderWidth: 1,
+          hoverBorderWidth:100, // ホバー時の枠線の太さ
+          // 背景色指定(各グラフ毎)
+          backgroundColor: Array.apply(null, Array(20)).map(function(){ return 'rgba(75, 192, 192, 0.2)'}),
+          //棒グラフの外枠線の色指定(グラフ毎)
+          borderColor: Array.apply(null, Array(20)).map(function(){ return 'rgba(75, 192, 192, 1)' }),
+          //グラフの数値
+          data: sum_distance,
+          datalabels: {
+              align: 'end',
+              anchor: 'end',
+              color: '#111',
+              font: {
+                  size: 10
               },
-            }],
-            //縦軸の設定
-            yAxes: [{
-              barThickness:15,  //各バーの幅
-              ticks: {
-                beginAtZero: true, //開始値を0にする
-                fontSize: 10,       //フォントサイズ
-                maxRotation: 0,  // 最大角度
-                minRotation: 0, // 斜めに表示
+          }
+        }]
+      };
+
+      var option = {
+        plugins: {
+          filler: {
+            propagate: true
+          }
+        },
+        legend: {
+          display: false,
+        },
+        // 目盛の設定
+        scales: {
+          // 横軸の設定
+          xAxes: [{
+            ticks: { // 目盛の設定
+              display:false,
+              min: 0, // Y軸の最大値
+              max: Math.round(Math.max.apply(null, max_speed)) * 1.3, // Y軸の最小値
+              beginAtZero: true,
+              type: "time",
+              time: {
+                unit: 'minute',
+                displayFormat: 'HH:mm',
               },
-            }],
-          },
-        };
+            },
+            // グリッド線の設定
+            gridLines:{
+              display: false,
+              // drawBorder:false,
+              // lineWidth:1,
+            },
+          }],
+          //縦軸の設定
+          yAxes: [{
+            barThickness:20,  //各バーの幅
+            ticks: {
+              beginAtZero: true, //開始値を0にする
+              fontSize: 10,       //フォントサイズ
+              maxRotation: 0,  // 最大角度
+              minRotation: 0, // 斜めに表示
+            },
+          }],
+        },
+      };
 
-        // Define a plugin to provide data labels
-        Chart.plugins.register({
-            afterDatasetsDraw: function (chart, easing) {
-                // To only draw at the end of animation, check for easing === 1
-                var ctx = chart.ctx;
+      // // コピー
+      var option_max_speed = JSON.parse(JSON.stringify(option));
+      var option_sum_distance = JSON.parse(JSON.stringify(option));
 
-                chart.data.datasets.forEach(function (dataset, i) {
-                    var meta = chart.getDatasetMeta(i);
-                    if (!meta.hidden) {
-                        meta.data.forEach(function (element, index) {
-                            // Draw the text in black, with the specified font
-                            ctx.fillStyle = 'rgb(10, 10, 10)';
+      //
+      option_max_speed.scales.xAxes[0].ticks.max = Math.round(Math.max.apply(null, max_speed)) * 1.3;
+      option_sum_distance.scales.xAxes[0].ticks.max = Math.round(Math.max.apply(null, sum_distance)) * 1.3;
+      //
+      // print(option_max_speed);
+      //
+      // print("---");
+      //
+      // print(option_sum_distance);
 
-                            var fontSize = 16;
-                            var fontStyle = 'normal';
-                            var fontFamily = 'Helvetica Neue';
-                            ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+      // グラフ出力
+      var ctx = document.getElementById('max_speed');
+      new Chart(ctx, {
+        type: 'horizontalBar',
+        data: data_max_speed,
+        options: option_max_speed,
+      });
 
-                            // Just naively convert to string for now
-                            var dataString = dataset.data[index].toString();
-
-                            // Make sure alignment settings are correct
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-
-                            var padding = 5;
-                            var position = element.tooltipPosition();
-                            ctx.fillText(dataString, position.x, position.y - (fontSize / 2) - padding);
-                        });
-                    }
-                });
-            }
-        });
-
-        // グラフ出力
-        var ctx = document.getElementById('myChart');
-        new Chart(ctx, {
-          type: 'horizontalBar',
-          data: data,
-          options: option,
-        });
-    </script>
+      // グラフ出力
+      var ctx = document.getElementById('sum_distance');
+      new Chart(ctx, {
+        type: 'horizontalBar',
+        data: data_sum_distance,
+        options: option_sum_distance,
+      });
+  </script>
 
 {% endblock %}
