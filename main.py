@@ -969,12 +969,12 @@ class Ranking(object):
 
         # htmlにわたす用に、dict型に変換
         max_speed_values = dict()
-        max_speed_values["speed"] = [round(x * 1.94384, 2) for x in max_speed_df["speed"].tolist()]
+        max_speed_values["speed"] = [round(x * 1.94384, 1) for x in max_speed_df["speed"].tolist()]
         max_speed_values["label"] = max_speed_df["haitei"].tolist()
 
         # htmlにわたす用に、dict型に変換
         sum_distance_values = dict()
-        sum_distance_values["distance"] = sum_distance_df["distance"].tolist()
+        sum_distance_values["distance"] = [round(d, 1) for d in sum_distance_df["distance"].tolist()]
         sum_distance_values["label"] = sum_distance_df["haitei"].tolist()
 
         return render_template('ranking.html', title='ランキング',
