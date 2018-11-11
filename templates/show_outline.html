@@ -155,11 +155,11 @@
       <div class="col-sm-10">
         <select name="deviceid{{loop.index0}}" id="deviceid{{loop.index0}}" class="form-control">
           <option value="">-</option>
-          {% for device_name in outline_selections[7] %}
-            {% if device_name.device_id == outline2.device_id %}
-              <option value={{ device_name.device_id }} selected>{{ device_name.device_id }}</option>
+          {% for device in outline_selections[7] %}
+            {% if device.device_id == outline2.device_id %}
+              <option value={{ device.device_id }} selected>{{ device.device_id }}</option>
             {% else %}
-              <option value={{ device_name.device_id }}>{{ device_name.device_id }}</option>
+              <option value={{ device.device_id }}>{{ device.device_id }}</option>
             {% endif %}
           {% endfor %}
         </select>
