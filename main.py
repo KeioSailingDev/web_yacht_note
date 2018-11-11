@@ -835,59 +835,47 @@ class Menu(object):
 
 class Ranking(object):
     """ランキングクラス"""
-
-    @app.route("/ranking", methods=['GET','POST'])
-    def ranking():
+    def query_by_outlineid(self,kind_name, target_outline_id):
         """
-        ランキング画面の表示
-
-        Args:
-
-
-        Return:
+        Datastore のkind をoutline_idでフィルターして取得
         """
-        print("1"+str(datetime.now()))
-        filter_name = 'filter_outline'
-        target_outline_id = '20181111125606'
-
-        # サイドバーでフィルターした値
-        outline_id = request.form.get(filter_name)
-
         # 練習ノート情報を取得
-        query1 = client.query(kind='Outline')
-        query1.add_filter('outline_id', '=', int(target_outline_id))
-        outline = list(query1.fetch())[0]
-        outline_name = dict(outline).get('date') + dict(outline).get('time_category')
-        print("1" + str(datetime.now()))
+        query = client.query(kind=kind_name)
+        query.add_filter('outline_id', '=', int(target_outline_id))
+        result = query.fetch()
 
+        return result
 
-        # 配艇情報を取得
-        query2 = client.query(kind='Outline_yacht_player')
-        query2.add_filter('outline_id', '=', int(target_outline_id))
-        haitei = list(query2.fetch())
-
-        devices = list(set([dict(h).get("device_id") for h in haitei if dict(h).get("device_id") is not None]))
-
-        print(devices)
-
+    def bq_query_by_deviceid(self,table_name, devices):
+        """
+        Bigquery のテーブル をoutline_idでフィルターして取得
+        """
+        # 練習ノート情報を取得
         # デバイスごとにログデータを取得
         client_bq = bigquery.Client()
+
+        # クエリを作成
+        devices_str = "'"+"','".join(devices)+"'"
         query_string = """
             SELECT
                 speed
                 ,device_id
             FROM 
-                `webyachtnote.smartphone_log.sensorlog`
+                `{}`
             WHERE
                 device_id IN ({})
-            """.format("'"+"','".join(devices)+"'")
+            """.format(table_name, devices_str)
         query_job = client_bq.query(query_string)
-        logs = list(query_job.result())
 
+        return query_job.result()
 
+    def merge_logdata(self, sensorlog, haitei):
+        """
+
+        """
         # logをDataFrameにまとめる
-        logdata = pd.DataFrame({"speed": [dict(log).get('speed') for log in logs],
-                                "device": [dict(log).get("device_id") for log in logs]})
+        logdata = pd.DataFrame({"speed": [dict(l).get('speed') for l in sensorlog],
+                                "device": [dict(l).get("device_id") for l in sensorlog]})
 
         # 配艇情報をDataFrameにまとめる
         haiteidata = pd.DataFrame({"skipper1": [dict(h).get('skipper1') for h in haitei],
@@ -899,33 +887,75 @@ class Ranking(object):
                                    "device": [dict(h).get("device_id") for h in haitei],
                                    "yacht_number": [dict(h).get("yacht_number") for h in haitei]})
 
-        # メモリを節約するためいらない変数は削除
-        del logs, haitei
-
         # 艇番＋乗艇者をまとめる
         haiteidata["haitei"] = haiteidata["yacht_number"] + "/" + \
-                               haiteidata['skipper1'] + haiteidata['skipper2'] + haiteidata['skipper3'] + "/"\
+                               haiteidata['skipper1'] + haiteidata['skipper2'] + haiteidata['skipper3'] + "/" \
                                + haiteidata['crew1'] + haiteidata['crew2'] + haiteidata['crew3']
 
         # デバイス名で紐づけ
-        joindata = pd.merge(logdata, haiteidata, on='device')
+        return pd.merge(logdata, haiteidata, on='device')
 
-        # メモリを節約するためいらない変数は削除
-        del logdata, haiteidata
+    def summarise_max_speed(self,merged_data):
+        """
+        配艇ごとに、ランキングを集計する
 
+        :param merge_logdata:
+        :return:
+        """
         # 船ごとに集計
-        max_speed_df = joindata.groupby('haitei', as_index=False)["speed"].max()
+        max_speed_df = merged_data.groupby('haitei', as_index=False)["speed"].max()
         max_speed_df = max_speed_df.sort_values("speed", ascending=False)
 
-        # htmlにわたす辞書に結果をまとめる
-        rank_values = dict()
+        return max_speed_df
 
-        # スピードはknotに変換
+
+    @app.route("/ranking", methods=['GET','POST'])
+    def ranking():
+        """
+        ランキング画面の表示
+
+        Args:
+
+
+        Return:
+        """
+        target_outline_id = '20181111125606'
+
+        r = Ranking()
+
+        # 対象
+        outline = list(r.query_by_outlineid(kind_name="Outline",
+                                            target_outline_id=target_outline_id))[0]
+        outline_name = dict(outline).get('date') + dict(outline).get('time_category')
+
+        # 配艇情報を取得
+        haitei = list(r.query_by_outlineid(kind_name="Outline_yacht_player",
+                                           target_outline_id=target_outline_id))
+
+        # 対象の練習で使ったデバイス一覧
+        devices = list(set([dict(h).get("device_id") for h in haitei if dict(h).get("device_id") is not None]))
+
+        # 対象の練習時間のログを取得
+        logs = list(r.bq_query_by_deviceid(table_name="webyachtnote.smartphone_log.sensorlog",
+                                              devices=devices))
+
+        # ログデータと配艇データをマージする
+        merge_data = r.merge_logdata(sensorlog=logs, haitei=haitei)
+
+        # メモリを節約するためいらない変数は削除
+        del logs, haitei
+
+        # 最高スピードを計算する
+        max_speed_df = r.summarise_max_speed(merge_data)
+
+        # htmlにわたす用に、dict型に変換
+        rank_values = dict()
         rank_values["speed"] = [round(x * 1.94384, 2) for x in max_speed_df["speed"].tolist()]
         rank_values["label"] = max_speed_df["haitei"].tolist()
 
         return render_template('ranking.html', title='ランキング',
                                rank_values=rank_values, outline_name=outline_name)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
