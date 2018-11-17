@@ -181,7 +181,7 @@ class Outline(object):
         target_entities = query.get_outline_entities(target_outline_id)
 
         #日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
-        date = request.form.get('start_time')[:-9]
+        date = request.form.get('date')
         start_time = request.form.get('start_time')
         end_time = request.form.get('end_time')
         time_category = request.form.get('timecategory')
@@ -834,14 +834,13 @@ class Ranking(object):
 
         return result
 
-    def bq_query_by_deviceid(self, table_name, devices):
+    def run_bq_query(self, table_name, devices, start_time, end_time):
         """
         Bigquery のテーブル をoutline_idでフィルターして取得
         """
         # 練習ノート情報を取得
         # デバイスごとにログデータを取得
         client_bq = bigquery.Client()
-        start_time = '2018-10-20'
 
         # クエリを作成
         devices_str = "'"+"','".join(devices)+"'"
@@ -854,10 +853,14 @@ class Ranking(object):
                 `{}`
             WHERE
                 device_id IN ({})
+                AND (TIMESTAMP_ADD(loggingTime, INTERVAL 9 HOUR) >= TIMESTAMP('{}') 
+                    AND TIMESTAMP_ADD(loggingTime, INTERVAL 9 HOUR) < TIMESTAMP('{}')
+                )
                 
-            """.format(table_name, devices_str)
+            """.format(table_name, devices_str, start_time, end_time)
+        print(query_string)
+
         query_job = client_bq.query(query_string)
-        # TODO 時間でフィルター
 
         return query_job.result()
 
@@ -925,14 +928,16 @@ class Ranking(object):
 
         Return:
         """
-        target_outline_id = '20181111125606'
+        target_outline_id = '20181117182238'
 
         r = Ranking()
 
-        # 対象
+        # 対象となるノート
         outline = list(r.query_by_outlineid(kind_name="Outline",
                                             target_outline_id=target_outline_id))[0]
         outline_name = dict(outline).get('date') + dict(outline).get('time_category')
+        start_time = dict(outline).get('start_time') + ":00"
+        end_time = dict(outline).get('end_time') + ":00"
 
         # 配艇情報を取得
         haitei = list(r.query_by_outlineid(kind_name="Outline_yacht_player",
@@ -942,11 +947,13 @@ class Ranking(object):
         devices = list(set([dict(h).get("device_id") for h in haitei if dict(h).get("device_id") is not None]))
 
         # 対象の練習時間のログを取得
-        logs = list(r.bq_query_by_deviceid(table_name="webyachtnote.smartphone_log.sensorlog",
-                                              devices=devices))
+        logs = list(r.run_bq_query(table_name="webyachtnote.smartphone_log.sensorlog",
+                                              devices=devices, start_time=start_time, end_time=end_time))
 
         # ログデータと配艇データをマージする
         merge_data = r.merge_logdata(sensorlog=logs, haitei=haitei)
+
+        print(merge_data.head())
 
         # メモリを節約するためいらない変数は削除
         del logs, haitei
@@ -966,6 +973,9 @@ class Ranking(object):
         sum_distance_values = dict()
         sum_distance_values["distance"] = [round(d, 1) for d in sum_distance_df["distance"].tolist()]
         sum_distance_values["label"] = sum_distance_df["haitei"].tolist()
+
+        print(max_speed_values)
+        print(sum_distance_values)
 
         return render_template('ranking.html', title='ランキング',
                                outline_name=outline_name,

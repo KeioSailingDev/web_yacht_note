@@ -8,6 +8,13 @@
   <form action="{{ url_for('mod_outline', target_outline_id=target_entities[0].outline_id) }}" method="post" class="form-horizontal">
 
     <div class="form-group">
+      <label for="date" class="col-sm-2 control-label">練習日</label>
+      <div class="col-sm-10">
+          <input type="date" class="form-control" id="date" name="date" value="{{ target_entities[0].date }}">
+      </div>
+    </div>
+
+    <div class="form-group">
       <label for="timecategory" class="col-sm-2 control-label">時間帯</label>
       <div class="col-sm-10">
         <select name="timecategory" id="timecategory" class="form-control">
@@ -30,7 +37,7 @@
 
       <label for="end_time" class="col-sm-2 control-label">練習終了時間</label>
       <div class="col-sm-10">
-          <input type="datetime-local" class="form-control" id="end_time" name="start_time" value="{{ target_entities[0].end_time }}">
+          <input type="datetime-local" class="form-control" id="end_time" name="end_time" value="{{ target_entities[0].end_time }}">
       </div>
     </div>
 
