@@ -68,13 +68,14 @@ def top():
     if form_values['filter_swell'] is not None:
         query1.add_filter('swell','=', form_values['filter_swell'])
 
-    # 各練習概要を表示
+    # 各練習概要を表示（日付で降順に並び替え）
     outline_list = list(query1.fetch())
+    sorted_outline = sorted(outline_list, key=lambda outline: outline["date"], reverse=True)
 
     #右サイドバーのフィルター用の項目
     outline_selections = query.get_outline_selections()
 
-    return render_template('top.html', title='練習ノート一覧', outline_list=outline_list, \
+    return render_template('top.html', title='練習ノート一覧', outline_list=sorted_outline, \
                            outline_selections=outline_selections, form_default=form_values)
 
 @app.route("/how_to_use")
@@ -128,27 +129,8 @@ class Outline(object):
         TOPページから練習概要の日付、開始・終了時間、時間帯、IDを追加
         """
 
-        # フォームからデータを取得
+        # 追加ボタンを押したタイミングで、outline IDを生成する
         outline_id = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
-
-        #TOPから直接show_outline.htmlに接続する場合、不要
-        # date = request.form.get('date')
-        # time_category = request.form.get('time_category')
-        # if time_category == "午前":
-        #     start_time = "9:00"
-        #     end_time = "12:30"
-        # elif time_category == "午後":
-        #     start_time = "13:30"
-        #     end_time = "16:00"
-        # elif time_category == "１部":
-        #     start_time = "9:00"
-        #     end_time = "11:30"
-        # elif time_category == "２部":
-        #     start_time = "11:30"
-        #     end_time = "14:00"
-        # else:
-        #     start_time = "14:00"
-        #     end_time = "16:30"
 
         # DataStoreに格納
         if outline_id:
@@ -156,10 +138,6 @@ class Outline(object):
             outline1 = datastore.Entity(key1)
             outline1.update({
                 'outline_id': outline_id,
-                # 'date': date,
-                # 'time_category': time_category,
-                # 'start_time': str(start_time),
-                # 'end_time': str(end_time)
             })
             client.put(outline1)
 
@@ -500,8 +478,6 @@ class Player(object):
         """
 
         key = client.key('Player', player_id)
-        print(key)
-        print(type(key))
         client.delete(key)
 
         return redirect(url_for('admin_player'))
@@ -861,7 +837,7 @@ class Ranking(object):
                 device_id
                 ,speed
                 ,distance
-            FROM 
+            FROM
                 `{}`
             WHERE
                 device_id IN ({})
