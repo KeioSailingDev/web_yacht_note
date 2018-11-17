@@ -110,10 +110,15 @@
     </tbody>
   </table>
 
-  <form action="{{ url_for('add_outline') }}" method="post" class="form-inline text-center">
-    <button type="submit" class="btn btn-primary">
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-    </button>
-  </form>
+
+
+<div id="button-footer" class="">
+   <a href="{{ url_for('add_outline') }}">
+        <img id="add-button" class="center-block" src="../static/css/plus.png">
+   </a>
+</div>
+
+
+
 
 {% endblock %}

@@ -11,6 +11,8 @@ header{
     color: snow;
 }
 
+
+
 #wrapper{
     margin-top: 40px;
 }
@@ -50,8 +52,6 @@ header{
 }
 
 #overlay {
-    position: absolute;
-    position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
@@ -64,6 +64,15 @@ header{
 
 .sidr-open #overlay {
     display: block;
+}
+
+
+#button-footer {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
 }
 
 /* Settings for fullwidth */

@@ -8,7 +8,7 @@ client = datastore.Client(project_id)
 def get_outline_selections():
 
     #時間帯の選択肢一覧
-    time_categories = ("-", "午前", "午後", "１部", "２部", "３部")
+    time_categories = ("午前", "午後", "１部", "２部", "３部", "その他")
 
     #風速の値一覧
     wind_speeds = range(0,21)
@@ -17,10 +17,10 @@ def get_outline_selections():
     wind_directions = range(0, 360, 10)
 
     #うねりと風速変化の項目
-    sizes = ("-", "小", "中", "大")
+    sizes = ("小", "中", "大")
 
     #海面の項目一覧
-    sea_surfaces = ("-", "フラット", "チョッピー", "高波")
+    sea_surfaces = ("フラット", "チョッピー", "高波")
 
     #艇番の一覧を取得
     query_yacht = client.query(kind='Yacht')
