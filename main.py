@@ -120,7 +120,7 @@ class Outline(object):
         return render_template('show_outline.html', title='練習概要変更',\
                                 target_entities=target_entities, outline_selections=outline_selections)
 
-    @app.route("/add_outline", methods=['POST'])
+    @app.route("/add_outline", methods=['POST', 'GET'])
     def add_outline():
         """
         TOPページから練習概要の日付、開始・終了時間、時間帯、IDを追加
@@ -130,11 +130,11 @@ class Outline(object):
         outline_id = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
 
         if datetime.now().hour <= 12:
-            start_hour = ' 09:00:00'
-            end_hour = ' 12:00:00'
+            start_hour = 'T09:00:00'
+            end_hour = 'T12:00:00'
         else:
-            start_hour = ' 13:00:00'
-            end_hour = ' 16:00:00'
+            start_hour = 'T13:00:00'
+            end_hour = 'T16:00:00'
 
         date = datetime.strftime(datetime.now(), '%Y-%m-%d')
         start_time = date + start_hour
