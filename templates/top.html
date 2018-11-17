@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block right_sidebar %}
+<script src="{{ url_for('static', filename='js/toppage.js') }}"></script>
 <div id="sidr-right-top">
     <form action="{{ url_for('top') }}" method="post" class="form-inline">
       <ul>
@@ -102,7 +103,7 @@
     </thead>
     <tbody>
       {% for outline in outline_list %}
-      <tr data-href="{{ url_for('outline_detail', target_outline_id=outline.outline_id) }}">
+      <tr data-href="outline/{{ outline.outline_id }}">
         <td>{{ outline.date }}</td>
         <td>{{ outline.time_category }}</td>
       </tr>
@@ -112,9 +113,9 @@
 
 
 
-<div id="button-footer" class="">
-   <a href="{{ url_for('add_outline') }}">
-        <img id="add-button" class="center-block" src="../static/css/plus.png">
+<div id="button-footer" class="text-center">
+   <a href="{{ url_for('add_outline') }}" class="text-center">
+        <img id="add-button" class="text-center" src="../static/css/plus.png">
    </a>
 </div>
 
