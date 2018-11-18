@@ -102,11 +102,11 @@ class Outline(object):
         """
 
         target_entities = query.get_outline_entities(target_outline_id)
-        user_comments = query.get_user_comments(target_outline_id)
+        sorted_comments = query.get_user_comments(target_outline_id)
 
         return render_template('outline_detail.html',title='練習概要',
                                 target_entities=target_entities,
-                                user_comments=user_comments)
+                                sorted_comments=sorted_comments)
 
 
     @app.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
@@ -334,18 +334,24 @@ class Outline(object):
         """
         練習概要ページへのコメントの追加
 
-        Args:
+        【Args】
         name: コメント者の名前
         comment: コメント
+        outline_id(int): 各練習概要のoutline_id
+        created_date(int)：コメントを入力日時順に並び替えるための変数。
+        commented_date: 練習概要に表示するための、コメントの投稿日時
 
-        Return:
+        【Return】
         練習概要にコメントを追加し、再び練習概要ページに戻る
         """
-        name = request.form.get('name') + ":"
+        name = request.form.get('name')
         comment = request.form.get('comment')
         outline_id = int(target_outline_id)
+        created_date = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
+        commented_date = datetime.strftime(datetime.now(), '%Y/%m/%d %H:%M')
 
-        print(name)
+        print(created_date)
+        print(commented_date)
 
         if name and comment and outline_id:
             key = client.key('Comment')
@@ -353,7 +359,9 @@ class Outline(object):
             user_comment.update({
                 'name': name,
                 'comment': comment,
-                'outline_id': outline_id
+                'outline_id': outline_id,
+                'created_date': created_date,
+                'commented_date': commented_date
             })
             client.put(user_comment)
 
@@ -853,10 +861,10 @@ class Ranking(object):
                 `{}`
             WHERE
                 device_id IN ({})
-                AND (TIMESTAMP_ADD(loggingTime, INTERVAL 9 HOUR) >= TIMESTAMP('{}') 
+                AND (TIMESTAMP_ADD(loggingTime, INTERVAL 9 HOUR) >= TIMESTAMP('{}')
                     AND TIMESTAMP_ADD(loggingTime, INTERVAL 9 HOUR) < TIMESTAMP('{}')
                 )
-                
+
             """.format(table_name, devices_str, start_time, end_time)
         print(query_string)
 

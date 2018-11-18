@@ -46,13 +46,16 @@
                 <a href="{{ url_for('admin_top')}}">管理ページ</a>
             </li>
         </ul>
+        <footer　class="footer fixed-bottom">
+            <p class="text-muted text-center">© 2018 Webヨットノート</p>
+        </footer>
     </div>
     <!-- 右サイドバー -->
     {% block right_sidebar %}{% endblock %}
 
     <!-- Page Content -->
     <div id="page-content-wrapper" class="col-12">
-        <div class="container-fluid" class="col-12>
+        <div class="container-fluid" class="col-12">
             {% block content %}{% endblock %}
         </div>
     </div>
@@ -94,10 +97,6 @@
         });
 
     </script>
-
-  <footer　class="footer fixed-bottom">
-      <p class="text-muted text-center">Copyright 2018 Webヨットノート</p>
-  </footer>
 
 </body>
 </html>
