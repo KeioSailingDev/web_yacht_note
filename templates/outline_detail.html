@@ -4,7 +4,7 @@
 <h1>{{ target_entities[0].date }}{{ target_entities[0].time_category }}</h1>
 <h3>開始：{{ target_entities[0].start_time }}</h3>
 <h3>終了：{{ target_entities[0].end_time }}</h3>
-
+テスト
 <h2>風</h2>
 <table class="table">
   <tr>
@@ -145,13 +145,12 @@
         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> コメント追加
     </button>
   </form>
-  <hr>
 
-  {% for user_comment in sorted_comments %}
-    <div>{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
-    <div class="mb-2">{{user_comment.comment}}</div>
-    <hr>
+  {% for user_comment in user_comments %}
+    <p>{{user_comment.name}}</p><br>
+    <p>{{user_comment.comment}}</p><br>
   {% endfor %}
+
 
 <a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id )}}">
   <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更

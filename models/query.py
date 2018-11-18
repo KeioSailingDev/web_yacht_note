@@ -62,6 +62,5 @@ def get_user_comments(target_outline_id):
     query = client.query(kind='Comment')
     query.add_filter('outline_id', '=', int(target_outline_id))
     user_comments = list(query.fetch())
-    sorted_comments = sorted(user_comments, key=lambda user_comment: user_comment["created_date"], reverse=True)
 
-    return sorted_comments
+    return user_comments
