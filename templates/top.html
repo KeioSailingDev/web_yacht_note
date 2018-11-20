@@ -99,7 +99,6 @@
         <th>日付</th>
         <th>時間</th>
       </tr>
-      </tr>
     </thead>
     <tbody>
       {% for outline in outline_list %}
@@ -111,11 +110,11 @@
     </tbody>
   </table>
 
-<div id="button-footer" class="text-center">
-   <a href="{{ url_for('add_outline') }}" class="text-center">
-        <img id="add-button" class="text-center" src="../static/css/plus.png">
-   </a>
-</div>
+  <div id="button-footer" class="text-center">
+     <a href="{{ url_for('add_outline') }}">
+        <img id="add-button" src="../static/css/plus.png">
+     </a>
+  </div>
 
 
 
