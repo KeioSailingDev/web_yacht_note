@@ -42,10 +42,10 @@ def top():
 
     # フィルターの適用
     if form_values['filter_date'] is not None:
-        query1.add_filter('date','=', form_values['filter_date'])
+        query1.add_filter('date', '=', form_values['filter_date'])
 
     if form_values['filter_time'] is not None:
-        query1.add_filter('time_category','=', form_values['filter_time'])
+        query1.add_filter('time_category', '=', form_values['filter_time'])
 
     # if filter_wind_speed is not None:
     #     if filter_wind_speed == "軽風(0~3m/s)":
@@ -62,10 +62,10 @@ def top():
     #         query1.add_filter('wind_speed_max', '<', 270)
 
     if form_values['filter_surface'] is not None:
-        query1.add_filter('sea_surface','=', form_values['filter_surface'])
+        query1.add_filter('sea_surface', '=', form_values['filter_surface'])
 
     if form_values['filter_swell'] is not None:
-        query1.add_filter('swell','=', form_values['filter_swell'])
+        query1.add_filter('swell', '=', form_values['filter_swell'])
 
     # 各練習概要を表示（日付で降順に並び替え）
     outline_list = list(query1.fetch())
@@ -180,7 +180,7 @@ class Outline(object):
 
         target_entities = query.get_outline_entities(target_outline_id)
 
-        #日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
+        # 日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
         date = request.form.get('date')
         start_time = request.form.get('start_time')
         end_time = request.form.get('end_time')
@@ -932,13 +932,33 @@ class Ranking(object):
 
         Return:
         """
-        target_outline_id = '20181117182238'
-
         r = Ranking()
 
+        def get_form_value(form_name):
+            form_value = request.form.get(form_name)
+            if form_value in ['', '-']:
+                form_value = None
+            return form_value
+
+        target_outline_id = get_form_value("filter_outline")
+
+        if target_outline_id is None:
+            # 練習ノートの一覧を取得
+            # query1 = client.query(kind='Outline')
+            # outline_list = list(query1.fetch())
+            # sorted_outline = sorted(outline_list, key=lambda outline: outline["date"], reverse=True)
+            #
+            # target_outline_id = sorted_outline[0]["outline_id"]
+            target_outline_id = "20181121134415"
+
+        # 練習ノートの一覧を取得
+        query1 = client.query(kind='Outline')
+        outline_list = list(query1.fetch())
+        sorted_outline = sorted(outline_list, key=lambda outline: outline["date"], reverse=True)
+
         # 対象となるノート
-        outline = list(r.query_by_outlineid(kind_name="Outline",
-                                            target_outline_id=target_outline_id))[0]
+        print(sorted_outline[0]["outline_id"])
+        outline = [o for o in sorted_outline if o["outline_id"] == int(target_outline_id)][0]
         outline_name = dict(outline).get('date') + dict(outline).get('time_category')
         start_time = dict(outline).get('start_time') + ":00"
         end_time = dict(outline).get('end_time') + ":00"
@@ -957,7 +977,8 @@ class Ranking(object):
         # ログデータと配艇データをマージする
         merge_data = r.merge_logdata(sensorlog=logs, haitei=haitei)
 
-        print(merge_data.head())
+        # データがない場合のメッセージ
+        no_value_message = "GPSデータがありません" if (len(merge_data) == 0) else  None
 
         # メモリを節約するためいらない変数は削除
         del logs, haitei
@@ -975,16 +996,15 @@ class Ranking(object):
 
         # htmlにわたす用に、dict型に変換
         sum_distance_values = dict()
-        sum_distance_values["distance"] = [round(d, 1) for d in sum_distance_df["distance"].tolist()]
+        sum_distance_values["distance"] = [round(d, 0) for d in sum_distance_df["distance"].tolist()]
         sum_distance_values["label"] = sum_distance_df["haitei"].tolist()
 
-        print(max_speed_values)
-        print(sum_distance_values)
-
         return render_template('ranking.html', title='ランキング',
+                               no_value_message=no_value_message,
                                outline_name=outline_name,
                                max_speed_values=max_speed_values,
-                               sum_distance_values=sum_distance_values)
+                               sum_distance_values=sum_distance_values,
+                               filter_list=sorted_outline)
 
 
 if __name__ == '__main__':
