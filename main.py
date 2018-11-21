@@ -640,23 +640,19 @@ class Device(object):
         デバイス情報を追加
 
         Args:
-        deviceno: デバイスID
-        decicename: デバイスの機種名
+        device_id: デバイスID
         datetime_now: 新規データの作成日時
 
         Return: TOPページに戻る
         """
-
-        deviceno = request.form.get('deviceno')
-        devicename = request.form.get('devicename')
+        device_id = request.form.get('device_id')
         datetime_now = datetime.now()
 
-        if deviceno and devicename:
+        if device_id:
             key = client.key('Device')
             device = datastore.Entity(key)
             device.update({
-                'device_no': deviceno,
-                'device_name': devicename,
+                'device_id': device_id,
                 'created_date': datetime_now
             })
             client.put(device)
