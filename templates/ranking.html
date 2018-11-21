@@ -11,7 +11,7 @@
         <li>
           時間区分：
             <select name="filter_outline" id="filter_outline" class="form-control">
-              {% for outline in outline_list %}
+              {% for outline in filter_list %}
                 <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
               {% endfor %}
             </select>
@@ -33,6 +33,10 @@
 
   <h2>{{ outline_name }}</h2>
 
+  {% if no_value_message is not none %}
+    <span class="h5 center-block">{{ no_value_message }}</span>
+  {% else %}
+  {%endif %}
   <span class="h4">最高速度(knot)</span>
   <canvas id="max_speed"></canvas>
   <span class="h4">合計航行距離(m)</span>
@@ -145,13 +149,6 @@
       //
       option_max_speed.scales.xAxes[0].ticks.max = Math.round(Math.max.apply(null, max_speed)) * 1.3;
       option_sum_distance.scales.xAxes[0].ticks.max = Math.round(Math.max.apply(null, sum_distance)) * 1.3;
-      //
-      // print(option_max_speed);
-      //
-      // print("---");
-      //
-      // print(option_sum_distance);
-
       // グラフ出力
       var ctx = document.getElementById('max_speed');
       new Chart(ctx, {
