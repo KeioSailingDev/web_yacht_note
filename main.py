@@ -43,9 +43,9 @@ def top():
     # フィルターの適用
     if form_values['filter_date'] is not None:
         query1.add_filter('date', '=', form_values['filter_date'])
-
-    if form_values['filter_time'] is not None:
-        query1.add_filter('time_category', '=', form_values['filter_time'])
+    #
+    # if form_values['filter_time'] is not None:
+    #     query1.add_filter('time_category', '=', form_values['filter_time'])
 
     # if filter_wind_speed is not None:
     #     if filter_wind_speed == "軽風(0~3m/s)":
@@ -60,12 +60,12 @@ def top():
     #     elif filter_wind_dir == '南風'
     #         query1.add_filter('wind_speed_max', '>', 90)
     #         query1.add_filter('wind_speed_max', '<', 270)
-
-    if form_values['filter_surface'] is not None:
-        query1.add_filter('sea_surface', '=', form_values['filter_surface'])
-
-    if form_values['filter_swell'] is not None:
-        query1.add_filter('swell', '=', form_values['filter_swell'])
+    #
+    # if form_values['filter_surface'] is not None:
+    #     query1.add_filter('sea_surface', '=', form_values['filter_surface'])
+    #
+    # if form_values['filter_swell'] is not None:
+    #     query1.add_filter('swell', '=', form_values['filter_swell'])
 
     # 各練習概要を表示（日付で降順に並び替え）
     outline_list = list(query1.fetch())
@@ -74,8 +74,12 @@ def top():
     # 右サイドバーのフィルター用の項目
     outline_selections = query.get_outline_selections()
 
+    # フィルターのデフォルト日付
+    default_date = sorted_outline[0]["date"]
+
     return render_template('top.html', title='練習ノート一覧', outline_list=sorted_outline, \
-                           outline_selections=outline_selections, form_default=form_values)
+                           outline_selections=outline_selections, form_default=form_values,
+                           default_date = default_date)
 
 @app.route("/how_to_use")
 def how_to_use():
@@ -366,6 +370,7 @@ class Outline(object):
             client.put(user_comment)
 
         return redirect(url_for('outline_detail', target_outline_id=target_outline_id))
+
 
 class Player(object):
     """選手の管理に関するクラス"""

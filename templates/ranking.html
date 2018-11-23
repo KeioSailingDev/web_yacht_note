@@ -7,9 +7,9 @@
 {% block right_sidebar %}
 <div id="sidr-right-top">
     <form action="{{ url_for('ranking') }}" method="post" class="form-inline">
-      <ul>
+      <ul class="col-12">
         <li>
-          時間区分：
+          <label for="filter_outline">日付</label>
             <select name="filter_outline" id="filter_outline" class="form-control">
               {% for outline in filter_list %}
                 <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
@@ -17,7 +17,7 @@
             </select>
         </li>
 
-      </ul>
+      </ulcol-12>
 
       <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> フィルター

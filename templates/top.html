@@ -7,28 +7,28 @@
 {% block right_sidebar %}
 <script src="{{ url_for('static', filename='js/toppage.js') }}"></script>
 <div id="sidr-right-top">
-    <form action="{{ url_for('top') }}" method="post" class="form-inline">
-      <ul>
+  <form action="{{ url_for('top') }}" method="post" class="form-inline">
+      <ul class="col-12">
         <li>
-          日付：
-          <input type="date" class="form-control" id="filter_date" name="filter_date", value={{ form_default.filter_date }}>
+          <label for="filter_date">日付</label>
+          <input type="date" class="form-control col-12" id="filter_date" name="filter_date", value={{ default_date }}>
         </li>
 
         <li>
-          時間区分：
-            <select name="filter_time" id="filter_time" class="form-control">
-              {% for time_category in outline_selections[0] %}
-                {% if time_category == form_default.filter_time  %}
-                    <option selected value={{ time_category }}>{{ time_category }}</option>
-                {% else %}
-                    <option value={{ time_category }}>{{ time_category }}</option>
-                {% endif %}
-              {% endfor %}
-            </select>
+          <label for="filter_time">時間区分</label>
+          <select name="filter_time" id="filter_time" class="form-control col-12">
+            {% for time_category in outline_selections[0] %}
+              {% if time_category == form_default.filter_time  %}
+                  <option selected value={{ time_category }}>{{ time_category }}</option>
+              {% else %}
+                  <option value={{ time_category }}>{{ time_category }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
         </li>
 
-        <li>
-          風速：
+        <!--<li>-->
+          <!--風速：-->
           <!--<select name="filter_wind_speed" id="filter_wind_speed" class="form-control">-->
             <!--{% for wind_speed_category in outline_selections[9] %}-->
                 <!--{% if wind_speed_category == form_default.filter_wind_speed  %}-->
@@ -38,10 +38,10 @@
                 <!--{% endif %}-->
             <!--{% endfor %}-->
           <!--</select>-->
-        </li>
+        <!--</li>-->
 
-        <li>
-          風向：
+        <!--<li>-->
+          <!--風向：-->
           <!--<select name="filter_wind_dir" id="filter_wind_dir" class="form-control" value={{ form_default.filter_wind_dir }}>-->
             <!--{% for wind_dir_category in outline_selections[10] %}-->
                 <!--{% if wind_dir_category == form_default.filter_wind_dir  %}-->
@@ -51,35 +51,34 @@
                 <!--{% endif %}-->
             <!--{% endfor %}-->
           <!--</select>-->
-        </li>
+        <!--</li>-->
 
 
-        <li>
-          海面：
-          <select name="filter_surface" id="filter_surface" class="form-control"}}>
-            {% for surface_category in outline_selections[4] %}
-              {% if surface_category == form_default.filter_surface  %}
-                <option selected value={{ surface_category }}>{{ surface_category }}</option>
-              {% else %}
-                  <option value={{ surface_category }}>{{ surface_category }}</option>
-              {% endif %}
-            {% endfor %}
-          </select>
-        </li>
+        <!--<li>-->
+          <!--海面：-->
+          <!--<select name="filter_surface" id="filter_surface" class="form-control"}}>-->
+            <!--{% for surface_category in outline_selections[4] %}-->
+              <!--{% if surface_category == form_default.filter_surface  %}-->
+                <!--<option selected value={{ surface_category }}>{{ surface_category }}</option>-->
+              <!--{% else %}-->
+                  <!--<option value={{ surface_category }}>{{ surface_category }}</option>-->
+              <!--{% endif %}-->
+            <!--{% endfor %}-->
+          <!--</select>-->
+        <!--</li>-->
 
-        <li>
-          うねり：
-          <select name="filter_swell" id="filter_swell" class="form-control">
-            {% for swell_category in outline_selections[3] %}
-              {% if swell_category == form_default.filter_swell  %}
-                <option selected value={{ swell_category }}>{{ swell_category }}</option>
-              {% else %}
-                  <option value={{ swell_category }}>{{ swell_category }}</option>
-              {% endif %}
-            {% endfor %}
-          </select>
-        </li>
-
+        <!--<li>-->
+          <!--うねり：-->
+          <!--<select name="filter_swell" id="filter_swell" class="form-control">-->
+            <!--{% for swell_category in outline_selections[3] %}-->
+              <!--{% if swell_category == form_default.filter_swell  %}-->
+                <!--<option selected value={{ swell_category }}>{{ swell_category }}</option>-->
+              <!--{% else %}-->
+                  <!--<option value={{ swell_category }}>{{ swell_category }}</option>-->
+              <!--{% endif %}-->
+            <!--{% endfor %}-->
+          <!--</select>-->
+        <!--</li>-->
       </ul>
 
       <button type="submit" class="btn btn-primary">
