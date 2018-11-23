@@ -86,6 +86,42 @@ html.wf-active {
   visibility: visible;
 }
 
+.main-size {
+position: relative;
+width: 100%;
+min-height: 1px;
+padding-right: 0px;
+padding-left: 0px;
+-ms-flex: 0 0 100%;
+flex: 0 0 100%;
+max-width: 100%;
+}
+
+
+.top-page-size {
+  width: 100%;
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+.h5-title-div {
+  width: 100%;
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+
+}
+.h5title {
+  background-color: rgb(94,92,96);
+  color: rgb(255,255,255);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+}
 /* Settings for fullwidth */
 .sidr.fullwidth {
     width: 100%;
