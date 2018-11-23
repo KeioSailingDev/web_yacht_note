@@ -3,7 +3,11 @@
 
 <h1>{{ target_entities[0].date }}{{ target_entities[0].time_category }}</h1>
 <h3>練習時間　{{ target_entities[0].start_time_str}}〜{{ target_entities[0].end_time_str }}</h3>
-
+{% if log_message == 'GPSログなし' %}
+    {{ no_value_message }}
+{% else %}
+    <iframe src="{{url_for('static', filename='map/gps_map.html')}}" width="100%" height="300px" ></iframe>
+{% endif %}
 <h2>風</h2>
 <table class="table">
   <tr>
