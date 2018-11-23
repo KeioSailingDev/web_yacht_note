@@ -1,11 +1,12 @@
 from datetime import date, datetime
 
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 from gcloud import datastore
 from google.cloud import bigquery
 from flask_bootstrap import Bootstrap
 import pandas as pd
 from models import query
+from retry import retry
 
 # プロジェクトID
 project_id = "webyachtnote"
@@ -18,6 +19,7 @@ app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
 
+@retry(tries=5)
 @app.route('/', methods=['GET','POST'])
 def top():
     """
