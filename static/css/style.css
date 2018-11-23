@@ -135,8 +135,8 @@ max-width: 100%;
     right: -100%;
 }
 
-input[type=text] {
-  font-size: 16px;
+input {
+  font-size: 1px;
 }
 /* END Settings for fullwidth */
 
