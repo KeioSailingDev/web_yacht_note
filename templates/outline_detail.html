@@ -1,48 +1,54 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<h1>{{ target_entities[0].date }}{{ target_entities[0].time_category }}</h1>
-<h3>練習時間　{{ target_entities[0].start_time_str}}〜{{ target_entities[0].end_time_str }}</h3>
+<h3 class="text-center">{{ target_entities[0].date }}{{ target_entities[0].time_category }}</h3>
 
-<h2>風</h2>
-<table class="table">
-  <tr>
-    <th>風速</th>
-    <td>{{target_entities[0].wind_speed_min}}</td>
-    <td>〜</td>
-    <td>{{target_entities[0].wind_speed_max}}</td>
-    <td>m/s</td>
-  </tr>
-  <tr>
-    <th>風向</th>
-    <td>{{target_entities[0].wind_direction_min}}</td>
-    <td>〜</td>
-    <td>{{target_entities[0].wind_direction_max}}</td>
-    <td>°</td>
-  </tr>
-  <tr>
-    <th>強弱</th>
-    <td>{{target_entities[0].wind_speed_change}}</td>
-  </tr>
+<div class="h5-title-div">
+  <h5 class="h5title">■ 海面状況</h5>
+</div>
+
+<table>
+
+<tr>
+  <td rowspan=2 class="col-xs-4">
+    <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
+  </td>
+  <td>風速：{{target_entities[0].wind_speed_min}}〜{{target_entities[0].wind_speed_max}}m/s</td>
+</tr>
+<tr>
+  <td>強弱：{{target_entities[0].wind_speed_change}}</td>
+</tr>
+
+<tr>
+  <td rowspan=2 class="col-xs-4">
+    <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
+  </td>
+  <td>風向：{{target_entities[0].wind_direction_min}}</td>
+</tr>
+<tr>
+  <td>強弱：{{target_entities[0].wind_speed_change}}</td>
+</tr>
+
+<tr>
+  <td rowspan=2 class="col-xs-4">
+    <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
+  </td>
+  <td>波：{{target_entities[0].sea_surface}}</td>
+</tr>
+<tr>
+  <td>うねり：{{target_entities[0].sea_surface}}</td>
+</tr>
+
 </table>
 
-<h2>波</h2>
-<table class="table">
-  <tr>
-    <th>海面</th>
-    <td>{{target_entities[0].sea_surface}}</td>
-  </tr>
-  <tr>
-    <th>うねり:</th>
-    <td>{{target_entities[0].swell}}</td>
-  </tr>
-</table>
+<div class="h5-title-div">
+  <h5 class="h5title">■ 配艇</h5>
+</div>
 
 <table class="table">
   <thead>
     <tr>
       <th>艇番</th>
-      <th>デバイス</th>
       <th>スキッパー</th>
       <th>クルー</th>
     </tr>
@@ -51,7 +57,6 @@
     {% if outline2.yacht_number and outline2.device_id %}
     <tr>
       <td rowspan="{{outline2.rowspan}}">{{outline2.yacht_number}}</td>
-      <td rowspan="{{outline2.rowspan}}">{{outline2.device_id}}</td>
       <td>{{outline2.skipper1}}</td>
       <td>{{outline2.crew1}}</td>
     </tr>
@@ -71,7 +76,10 @@
   {% endfor %}
 </table>
 
-<h3>練習メニュー</h3>
+<div class="h5-title-div">
+  <h5 class="h5title">■ 練習メニュー</h5>
+</div>
+
   <ol>
     {% if target_entities[0].training1 %}
       <li>{{target_entities[0].training1}}</li>

@@ -16,6 +16,7 @@
     <link rel="apple-touch-icon-precomposed" href="{{ url_for('static', filename='img/icon.jpg') }}" />
 
     <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+
     <script src="{{ url_for('static', filename='js/font.js') }}"></script>
 
   <title>{{ title }}</title>
@@ -31,7 +32,7 @@
     </header>
 
 
-    <div id="wrapper" class="col-sm-12" style="margin-top: 40px">
+    <div id="wrapper" class="main-size" style="margin-top: 40px">
        <!-- Nav -->
     <div id="sidr-left-top">
         <ul class="sidebar-nav">
@@ -61,7 +62,7 @@
 
     <!-- Page Content -->
     <div id="page-content-wrapper" class="col-12">
-        <div class="container-fluid" class="col-12">
+        <div class="top-page-size" class="col-12">
             {% block content %}{% endblock %}
         </div>
     </div>

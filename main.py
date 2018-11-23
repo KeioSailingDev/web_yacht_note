@@ -175,14 +175,10 @@ class Outline(object):
             })
             client.put(outline2)
 
-        # #TOPページで、入力せずに追加ボタンを押した場合は、TOPに戻る
-        # else:
-        #     return redirect(url_for('top'))
-
         outline_selections = query.get_outline_selections()
         target_entities = query.get_outline_entities(outline_id)
 
-        return render_template('show_outline.html', title="練習概要入力",
+        return render_template('show_outline.html', title="新規ノート作成",
                                target_entities=target_entities, outline_selections=outline_selections, is_new=is_new)
 
 
