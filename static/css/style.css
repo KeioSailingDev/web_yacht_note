@@ -73,6 +73,19 @@ header{
     left: 0;
 }
 
+body {
+  font-family: "VDL-GigaJr", sans-serif;
+}
+
+@font-face {
+  font-family: "VDL-GigaJr", sans-serif;
+  font-display: swap;
+}
+
+html.wf-active {
+  visibility: visible;
+}
+
 /* Settings for fullwidth */
 .sidr.fullwidth {
     width: 100%;
@@ -90,3 +103,8 @@ input[type=text] {
   font-size: 16px;
 }
 /* END Settings for fullwidth */
+
+input {
+ font-size: 10px;
+ /* transform: scale(0.8); */
+}
