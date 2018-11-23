@@ -4,7 +4,12 @@
   <script type="text/javascript" src="{{url_for('static', filename='js/outline.js')}}"></script>
 
   <h1>{{ title }}</h1>
-  <h5>{{ target_entities[0].date }}の練習ノート</h5>
+  {% if is_new %}
+     <h5>練習ノートを新規作成</h5>
+  {% else %}
+    <h5>練習ノートを編集</h5>
+  {% endif %}
+
   <form action="{{ url_for('mod_outline', target_outline_id=target_entities[0].outline_id) }}" method="post" class="form-horizontal">
 
     <div class="form-group">

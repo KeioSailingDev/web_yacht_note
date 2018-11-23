@@ -79,9 +79,9 @@ def top():
     # フィルターのデフォルト日付
     default_date = sorted_outline[0]["date"]
 
-    return render_template('top.html', title='練習ノート一覧', outline_list=sorted_outline, \
+    return render_template('top.html', title='練習ノート一覧', outline_list=sorted_outline,
                            outline_selections=outline_selections, form_default=form_values,
-                           default_date = default_date)
+                           default_date=default_date)
 
 @app.route("/how_to_use")
 def how_to_use():
@@ -110,25 +110,33 @@ class Outline(object):
         target_entities = query.get_outline_entities(target_outline_id)
         sorted_comments = query.get_user_comments(target_outline_id)
 
+        # 練習開始時間と終了時間
+        target_entities[0]["start_time_str"] = target_entities[0]["start_time"][-5:]
+        target_entities[0]["end_time_str"] = target_entities[0]["end_time"][-5:]
+
         return render_template('outline_detail.html',title='練習概要',
                                 target_entities=target_entities,
                                 sorted_comments=sorted_comments)
 
 
     @app.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
-    def show_outline(target_outline_id):
+    def show_outline(target_outline_id, is_new=None):
         """
         練習概要ページの内容を変更する画面に移動
-        """
 
+        :arg
+         target_outline_id:編集する練習ノートID
+         is_new:新規作成かどうか（トップページからアクセスしたかどうか）
+        """
         outline_selections = query.get_outline_selections()
         target_entities = query.get_outline_entities(target_outline_id)
 
         return render_template('show_outline.html', title='練習概要変更',\
-                                target_entities=target_entities, outline_selections=outline_selections)
+                                target_entities=target_entities, outline_selections=outline_selections,
+                               is_new=is_new)
 
     @app.route("/add_outline", methods=['POST', 'GET'])
-    def add_outline():
+    def add_outline(is_new=None):
         """
         TOPページから練習概要の日付、開始・終了時間、時間帯、IDを追加
         """
@@ -175,7 +183,7 @@ class Outline(object):
         target_entities = query.get_outline_entities(outline_id)
 
         return render_template('show_outline.html', title="練習概要入力",
-                               target_entities=target_entities, outline_selections=outline_selections)
+                               target_entities=target_entities, outline_selections=outline_selections, is_new=is_new)
 
 
     @app.route("/outline/mod_outline/<int:target_outline_id>", methods=['POST'])
