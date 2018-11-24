@@ -111,6 +111,7 @@
       <label for="windspeedchange" class="col-sm-2">風速変化</label>
       <div class="col-sm-10">
         <select name="windspeedchange" id="windspeedchange" class="form-control">
+            <option value="">未入力</option>
           {% for size in outline_selections[3] %}
             {% if size == target_entities[0].wind_speed_change %}
               <option value={{ size }} selected>{{ size }}</option>
@@ -128,6 +129,7 @@
       <label for="seasurface" class="col-sm-2 control-label">海面</label>
       <div class="col-sm-10">
         <select name="seasurface" id="seasurface" class="form-control">
+            <option value="">未入力</option>
           {% for sea_surface in outline_selections[4] %}
             {% if sea_surface == target_entities[0].sea_surface %}
               <option value={{ sea_surface }} selected>{{ sea_surface }}</option>
@@ -143,6 +145,7 @@
       <label for="swell" class="col-sm-2 control-label">うねり</label>
       <div class="col-sm-10">
         <select name="swell" id="swell" class="form-control">
+            <option value="">未入力</option>
           {% for size in outline_selections[3] %}
             {% if size == target_entities[0].swell %}
               <option value={{ size }} selected>{{ size }}</option>
