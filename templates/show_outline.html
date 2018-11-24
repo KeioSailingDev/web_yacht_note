@@ -51,7 +51,7 @@
       <label for="windspeedmin" class="col-sm-2 control-label">最低風速</label>
       <div class="col-sm-10">
         <select name="windspeedmin" id="windspeedmin" class="form-control">
-         <option value="">-</option>
+         <option value="">未入力</option>
           {% for wind_speed in outline_selections[1] %}
             {% if wind_speed == target_entities[0].wind_speed_min %}
               <option value={{ wind_speed }} selected>{{ wind_speed }}</option>
@@ -66,7 +66,7 @@
       <label for="windspeedmax" class="col-sm-2 control-label">最大風速</label>
       <div class="col-sm-10">
         <select name="windspeedmax" id="windspeedmax" class="form-control">
-         <option value="">-</option>
+         <option value="">未入力</option>
           {% for wind_speed in outline_selections[1] %}
             {% if wind_speed == target_entities[0].wind_speed_max %}
               <option value={{ wind_speed }} selected>{{ wind_speed }}</option>
@@ -81,7 +81,7 @@
       <label for="winddirectionmin" class="col-sm-2 control-label">風向（最小）</label>
       <div class="col-sm-10">
         <select name="winddirectionmin" id="winddirectionmin" class="form-control">
-         <option value="">-</option>
+         <option value="">未入力</option>
           {% for wind_direction in outline_selections[2] %}
             {% if wind_direction == target_entities[0].wind_direction_min %}
               <option value={{ wind_direction }} selected>{{ wind_direction }}</option>
@@ -96,7 +96,7 @@
       <label for="winddirectionmax" class="col-sm-2 control-label">風向（最大）</label>
       <div class="col-sm-10">
         <select name="winddirectionmax" id="winddirectionmax" class="form-control">
-         <option value="">-</option>
+         <option value="">未入力</option>
           {% for wind_direction in outline_selections[2] %}
             {% if wind_direction == target_entities[0].wind_direction_max %}
               <option value={{ wind_direction }} selected>{{ wind_direction }}</option>
@@ -164,7 +164,7 @@
         </label>
         <div class="col-sm-10">
           <select name="yachtnumber{{loop.index0}}" id="yachtnumber{{loop.index0}}" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
               {% for yacht_number in outline_selections[5] %}
                 {% if yacht_number.yacht_no == outline2.yacht_number %}
                   <option value={{ yacht_number.yacht_no }} selected>{{ yacht_number.yacht_no }}</option>
@@ -180,7 +180,7 @@
         <label for="deviceid{{loop.index0}}" class="col-sm-2 control-label">デバイス</label>
         <div class="col-sm-10">
           <select name="deviceid{{loop.index0}}" id="deviceid{{loop.index0}}" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for device in outline_selections[7] %}
               {% if device.device_id == outline2.device_id %}
                 <option value={{ device.device_id }} selected>{{ device.device_id }}</option>
@@ -200,7 +200,7 @@
               <label for="skipper1{{loop.index0}}" class="col-xs-10 col-sm-4 control-label　text-left">スキッパー1</label>
               <div class="col-xs-11 col-sm-8">
                 <select name="skipper1{{loop.index0}}" id="skipper1{{loop.index0}}" class="form-control">
-                  <option value="">-</option>
+                  <option value="">未入力</option>
                   {% for player_name in outline_selections[6] %}
                     {% if player_name.player_name == outline2.skipper1 %}
                       <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
@@ -218,7 +218,7 @@
               <label for="crew1{{loop.index0}}" class="col-xs-10 col-sm-3 control-label　text-left">クルー1</label>
               <div class="col-xs-12 col-sm-9">
                 <select name="crew1{{loop.index0}}" id="crew1{{loop.index0}}" class="form-control">
-                  <option value="">-</option>
+                  <option value="">未入力</option>
                   {% for player_name in outline_selections[6] %}
                     {% if player_name.player_name == outline2.crew1 %}
                       <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
@@ -237,7 +237,7 @@
               <label for="skipper2{{loop.index0}}" class="col-xs-10 col-sm-4 control-label　text-left">スキッパー2</label>
               <div class="col-xs-11 col-sm-8">
                 <select name="skipper2{{loop.index0}}" id="skipper2{{loop.index0}}" class="form-control">
-                  <option value="">-</option>
+                  <option value="">未入力</option>
                   {% for player_name in outline_selections[6] %}
                     {% if player_name.player_name == outline2.skipper2 %}
                       <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
@@ -255,7 +255,7 @@
               <label for="crew2{{loop.index0}}" class="col-xs-10 col-sm-3 control-label　text-left">クルー2</label>
               <div class="col-xs-12 col-sm-9">
                 <select name="crew2{{loop.index0}}" id="crew2{{loop.index0}}" class="form-control">
-                  <option value="">-</option>
+                  <option value="">未入力</option>
                   {% for player_name in outline_selections[6] %}
                     {% if player_name.player_name == outline2.crew2 %}
                       <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
@@ -275,7 +275,7 @@
               <label for="skipper3{{loop.index0}}" class="col-xs-10 col-sm-4 control-label　text-left">スキッパー3</label>
               <div class="col-xs-11 col-sm-8">
                 <select name="skipper3{{loop.index0}}" id="skipper3{{loop.index0}}" class="form-control">
-                  <option value="">-</option>
+                  <option value="">未入力</option>
                   {% for player_name in outline_selections[6] %}
                     {% if player_name.player_name == outline2.skipper3 %}
                       <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
@@ -293,7 +293,7 @@
               <label for="crew3{{loop.index0}}" class="col-xs-10 col-sm-3 control-label　text-left">クルー3</label>
               <div class="col-xs-12 col-sm-9">
                 <select name="crew3{{loop.index0}}" id="crew3{{loop.index0}}" class="form-control">
-                  <option value="">-</option>
+                  <option value="">未入力</option>
                   {% for player_name in outline_selections[6] %}
                     {% if player_name.player_name == outline2.crew3 %}
                       <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
@@ -322,7 +322,7 @@
         <label for="training1" class="col-sm-2 control-label">練習1</label>
         <div class="col-sm-10">
           <select name="training1" id="training1" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training1 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -337,7 +337,7 @@
         <label for="training2" class="col-sm-2 control-label">練習2</label>
         <div class="col-sm-10">
           <select name="training2" id="training2" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training2 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -352,7 +352,7 @@
         <label for="training3" class="col-sm-2 control-label">練習3</label>
         <div class="col-sm-10">
           <select name="training3" id="training3" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training3 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -367,7 +367,7 @@
         <label for="training4" class="col-sm-2 control-label">練習4</label>
         <div class="col-sm-10">
           <select name="training4" id="training4" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training4 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -382,7 +382,7 @@
         <label for="training5" class="col-sm-2 control-label">練習5</label>
         <div class="col-sm-10">
           <select name="training5" id="training5" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training5 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -397,7 +397,7 @@
         <label for="training6" class="col-sm-2 control-label">練習6</label>
         <div class="col-sm-10">
           <select name="training6" id="training6" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training6 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -412,7 +412,7 @@
         <label for="training7" class="col-sm-2 control-label">練習7</label>
         <div class="col-sm-10">
           <select name="training7" id="training7" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training7 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -427,7 +427,7 @@
         <label for="training8" class="col-sm-2 control-label">練習8</label>
         <div class="col-sm-10">
           <select name="training8" id="training8" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training8 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -442,7 +442,7 @@
         <label for="training9" class="col-sm-2 control-label">練習9</label>
         <div class="col-sm-10">
           <select name="training9" id="training9" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training9 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -457,7 +457,7 @@
         <label for="training10" class="col-sm-2 control-label">練習10</label>
         <div class="col-sm-10">
           <select name="training10" id="training10" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training10 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -472,7 +472,7 @@
         <label for="training11" class="col-sm-2 control-label">練習11</label>
         <div class="col-sm-10">
           <select name="training11" id="training11" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training11 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -487,7 +487,7 @@
         <label for="training12" class="col-sm-2 control-label">練習12</label>
         <div class="col-sm-10">
           <select name="training12" id="training12" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training12 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -502,7 +502,7 @@
         <label for="training13" class="col-sm-2 control-label">練習13</label>
         <div class="col-sm-10">
           <select name="training13" id="training13" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training13 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -517,7 +517,7 @@
         <label for="training14" class="col-sm-2 control-label">練習14</label>
         <div class="col-sm-10">
           <select name="training14" id="training14" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training14 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
@@ -532,7 +532,7 @@
         <label for="training15" class="col-sm-2 control-label">練習15</label>
         <div class="col-sm-10">
           <select name="training15" id="training15" class="form-control">
-            <option value="">-</option>
+            <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training15 %}
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
