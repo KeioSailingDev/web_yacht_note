@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for,send_file
 from gcloud import datastore
 from google.cloud import bigquery
 from flask_bootstrap import Bootstrap
@@ -8,7 +8,9 @@ import pandas as pd
 from models import query
 from retry import retry
 from google.cloud import storage
+import io
 import folium
+import tempfile
 
 # プロジェクトID
 project_id = "webyachtnote"
@@ -19,7 +21,7 @@ client = datastore.Client(project_id)
 
 # cloud storageのクライアント
 storage_client = storage.Client()
-bucket = storage_client.get_bucket('gps_img')
+bucket = storage_client.get_bucket('gps_map')
 
 # アプリケーションを作成
 app = Flask(__name__)
@@ -107,7 +109,7 @@ def about():
 
 
 class Outline(object):
-    def run_bq_query(self, table_name, devices, start_time, end_time):
+    def run_bq_log(self, table_name, devices, start_time, end_time):
         """
         Bigquery のテーブル をoutline_idでフィルターして取得
         """
@@ -138,6 +140,44 @@ class Outline(object):
 
         return query_job.result()
 
+    def run_bq_html(self, table_name, outline_id):
+        """
+        Bigquery のテーブル をoutline_idでフィルターして取得
+        """
+        # 練習ノート情報を取得
+        client_bq = bigquery.Client()
+
+        # クエリを作成
+        query_string = """
+            SELECT
+                outline_id
+                ,html_name
+            FROM
+                `{}`
+            WHERE
+                outline_id = '{}'
+
+            """.format(table_name, outline_id)
+        print(query_string)
+
+        query_job = client_bq.query(query_string)
+
+        return query_job.result()
+
+    def export_items_to_bigquery(self, dataset_id, tablename, rows_to_insert):
+        # Instantiates a client
+        bigquery_client = bigquery.Client()
+
+        # Prepares a reference to the dataset
+        dataset_ref = bigquery_client.dataset(dataset_id)
+
+        table_ref = dataset_ref.table(tablename)
+        table = bigquery_client.get_table(table_ref)  # API call
+
+        errors = bigquery_client.insert_rows(table, rows_to_insert)  # API request
+        print(errors)
+        assert errors == []
+
     @app.route("/outline/<int:target_outline_id>", methods=['GET'])
     def outline_detail(target_outline_id):
         """
@@ -145,13 +185,17 @@ class Outline(object):
         """
         o = Outline()
 
-        map_path = 'static/map/gps_map.html'
+        # cloudstorageに保存するファイル名
         output_map_name = str(target_outline_id) + '.html'
+
+        # デバイスごとの航跡色
+        colors = ["#b80117", "#222584", "#00904a", "#edc600", "#261e1c", "#6d1782", "#8f253b", "#a0c238"]
 
         # query
         target_entities = query.get_outline_entities(target_outline_id)
         sorted_comments = query.get_user_comments(target_outline_id)
-
+        outline_html = list(o.run_bq_html(table_name="webyachtnote.smartphone_log.log_map",
+                                     outline_id=target_outline_id))
         # デバイスid
         devices = [x for x in
                    [dict(e).get('device_id') for e in list(target_entities[1]) if not dict(e).get('device_id') == ''] if
@@ -159,45 +203,53 @@ class Outline(object):
 
         if len(devices) < 1:
             log_message = "GPSログなし"
+            public_url = ""
         else:
             log_message = "GPSログあり"
-            # storageに既にHTMLが生成されているか
-            blobs = bucket.list_blobs()
-            if output_map_name not in blobs:
-                # 地図を生成
-                m = folium.Map([35.28101047969915, 139.5466370602506], zoom_start=14)
 
-                # デバイスごとに取得
-                for d in devices:
-                    sensorlogs = list(o.run_bq_query(table_name="webyachtnote.smartphone_log.sensorlog",devices=[d],
+            # storageに既にHTMLが生成されているか
+            if len(outline_html) < 1:
+                # 地図を生成
+                m = folium.Map([35.282758, 139.558934],
+                               zoom_start=14,
+                               tiles='stamenterrain')
+                # デバイスごとにログを取得し、描画
+                for i, d in enumerate(devices):
+                    sensorlogs = list(o.run_bq_log(table_name="webyachtnote.smartphone_log.sensorlog",devices=[d],
                                               start_time=target_entities[0]["start_time"] + ":00",
                                               end_time=target_entities[0]["end_time"] + ":00"))
                     locations = [[dict(l).get("locationLatitude"), dict(l).get("locationLongitude")] for l in sensorlogs][::10]
-                    line = folium.PolyLine(locations=locations, color="green")
+                    line = folium.PolyLine(locations=locations, color=colors[i], weight=1, opacity=0.5)
                     m.add_child(line)
 
-                # 地図に描画
-                m.save(map_path)
+                # 一時ファイルに地図を出力
+                with tempfile.NamedTemporaryFile(mode='w+') as f:
+                    tmp_path = f.name
+                    m.save(tmp_path)
 
-                # storageと接続
-                blob = bucket.blob(output_map_name)
-                blob.upload_from_filename(filename=map_path)
+                    # storageと接続
+                    blob = bucket.blob(output_map_name)
+                    blob.upload_from_filename(tmp_path, content_type="text/html")
+                    public_url = blob.public_url
+
+                # bigqueryにhtmlファイルのURLを保存
+                rows_to_insert = [[str(target_outline_id), public_url]]
+                o.export_items_to_bigquery(dataset_id="smartphone_log",
+                                           tablename="log_map",
+                                           rows_to_insert=rows_to_insert)
             else:
                 # storageからhtmlをダウンロード
-                blob = bucket.blob(output_map_name)
-                blob.download_to_filename(filename=map_path)
-
-            # htmlファイルを読み込み
-            map_file = open(map_path, "r")
+                public_url = dict(outline_html[0]).get("html_name")
 
         # 練習開始時間と終了時間
         target_entities[0]["start_time_str"] = target_entities[0]["start_time"][-5:]
         target_entities[0]["end_time_str"] = target_entities[0]["end_time"][-5:]
 
-        return render_template('outline_detail.html',title='練習概要',
+        return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,
                                 sorted_comments=sorted_comments,
-                               log_message=log_message)
+                               log_message=log_message,
+                               html_url=public_url)
 
 
     @app.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
