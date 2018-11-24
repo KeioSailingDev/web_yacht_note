@@ -75,6 +75,7 @@ header{
 
 body {
   font-family: "VDL-GigaJr", sans-serif;
+  margin-bottom: 100px;
 }
 
 @font-face {
