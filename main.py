@@ -109,7 +109,7 @@ def about():
 
 
 class Outline(object):
-    def run_bq_log(self, table_name, devices, start_time, end_time):
+    def run_bq_log(self, selects, table_name, devices, start_time, end_time, order_by_time=False):
         """
         Bigquery のテーブル をoutline_idでフィルターして取得
         """
@@ -118,11 +118,12 @@ class Outline(object):
         client_bq = bigquery.Client()
 
         # クエリを作成
+        select_str = ",".join(selects)
         devices_str = "'"+"','".join(devices)+"'"
+        order_by_str = "ORDER BY loggingTime" if order_by_time else ""
         query_string = """
             SELECT
-                locationLatitude
-                ,locationLongitude
+                {}
             FROM
                 `{}`
             WHERE
@@ -130,10 +131,9 @@ class Outline(object):
                 AND (TIMESTAMP_ADD(loggingTime, INTERVAL 9 HOUR) >= TIMESTAMP('{}')
                     AND TIMESTAMP_ADD(loggingTime, INTERVAL 9 HOUR) < TIMESTAMP('{}')
                 )
-            ORDER BY
-                loggingTime
+            {}
 
-            """.format(table_name, devices_str, start_time, end_time)
+            """.format(select_str, table_name, devices_str, start_time, end_time, order_by_str)
         print(query_string)
 
         query_job = client_bq.query(query_string)
@@ -142,7 +142,7 @@ class Outline(object):
 
     def run_bq_html(self, table_name, outline_id):
         """
-        Bigquery のテーブル をoutline_idでフィルターして取得
+        Bigqueryにあるcloud storage上のhtmlファイル名テーブルをoutline_idでフィルターして取得
         """
         # 練習ノート情報を取得
         client_bq = bigquery.Client()
@@ -165,6 +165,13 @@ class Outline(object):
         return query_job.result()
 
     def export_items_to_bigquery(self, dataset_id, tablename, rows_to_insert):
+        """
+        big queryにデータを挿入する
+        :param dataset_id:
+        :param tablename:
+        :param rows_to_insert:
+        :return:
+        """
         # Instantiates a client
         bigquery_client = bigquery.Client()
 
@@ -201,7 +208,20 @@ class Outline(object):
                    [dict(e).get('device_id') for e in list(target_entities[1]) if not dict(e).get('device_id') == ''] if
                    x is not None]
 
+        # デバイスが登録されていなければ、GPSログなし、あれば、GPSログの数をカウント
         if len(devices) < 1:
+            cnt_log = 0
+        else:
+            sensor_logs = list(o.run_bq_log(selects=["count(loggingTime) AS cnt"],
+                                            table_name="webyachtnote.smartphone_log.sensorlog",
+                                            devices=devices,
+                                            start_time=target_entities[0]["start_time"],
+                                            end_time=target_entities[0]["end_time"],
+                                            order_by_time=False))
+            cnt_log = dict(sensor_logs[0]).get("cnt")
+
+        # GPSログがなければ、なにもなし。GPSログがあれば地図に描画
+        if cnt_log < 1:
             log_message = "GPSログなし"
             public_url = ""
         else:
@@ -210,15 +230,17 @@ class Outline(object):
             # storageに既にHTMLが生成されているか
             if len(outline_html) < 1:
                 # 地図を生成
-                m = folium.Map([35.282758, 139.558934],
+                m = folium.Map([35.284651, 139.555159],
                                zoom_start=14,
                                tiles='stamenterrain')
                 # デバイスごとにログを取得し、描画
                 for i, d in enumerate(devices):
-                    sensorlogs = list(o.run_bq_log(table_name="webyachtnote.smartphone_log.sensorlog",devices=[d],
-                                              start_time=target_entities[0]["start_time"] + ":00",
-                                              end_time=target_entities[0]["end_time"] + ":00"))
-                    locations = [[dict(l).get("locationLatitude"), dict(l).get("locationLongitude")] for l in sensorlogs][::10]
+                    sensor_logs = list(o.run_bq_log(selects=["locationLatitude", "locationLongitude"],
+                                                    table_name="webyachtnote.smartphone_log.sensorlog", devices=[d],
+                                                    start_time=target_entities[0]["start_time"],
+                                                    end_time=target_entities[0]["end_time"],
+                                                    order_by_time=True))
+                    locations = [[dict(l).get("locationLatitude"), dict(l).get("locationLongitude")] for l in sensor_logs][::10]
                     line = folium.PolyLine(locations=locations, color=colors[i], weight=1, opacity=0.5)
                     m.add_child(line)
 
@@ -278,11 +300,11 @@ class Outline(object):
         outline_id = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
 
         if datetime.now().hour <= 12:
-            start_hour = 'T09:00:00'
-            end_hour = 'T12:00:00'
+            start_hour = 'T09:00'
+            end_hour = 'T12:00'
         else:
-            start_hour = 'T13:00:00'
-            end_hour = 'T16:00:00'
+            start_hour = 'T13:00'
+            end_hour = 'T16:00'
 
         date = datetime.strftime(datetime.now(), '%Y-%m-%d')
         start_time = date + start_hour
@@ -325,8 +347,8 @@ class Outline(object):
 
         # 日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
         date = request.form.get('date')
-        start_time = request.form.get('start_time')
-        end_time = request.form.get('end_time')
+        start_time = request.form.get('start_time') + ":00"
+        end_time = request.form.get('end_time') + ":00"
         time_category = request.form.get('timecategory')
         wind_speedmin = request.form.get('windspeedmin')
         wind_speedmax = request.form.get('windspeedmax')
@@ -350,22 +372,6 @@ class Outline(object):
         training13 = request.form.get('training13')
         training14 = request.form.get('training14')
         training15 = request.form.get('training15')
-        #
-        # if time_category == "午前":
-        #     start_time = "9:00"
-        #     end_time = "12:30"
-        # elif time_category == "午後":
-        #     start_time = "13:30"
-        #     end_time = "16:00"
-        # elif time_category == "１部":
-        #     start_time = "9:00"
-        #     end_time = "11:30"
-        # elif time_category == "２部":
-        #     start_time = "11:30"
-        #     end_time = "14:00"
-        # else:
-        #     start_time = "14:00"
-        #     end_time = "16:30"
 
         if not target_entities[0]:
             raise ValueError(
@@ -402,7 +408,7 @@ class Outline(object):
 
         client.put(target_entities[0])
 
-        #show_outline.htmlから取得した値を変数に代入
+        # show_outline.htmlから取得した値を変数に代入
         for i,outline2 in enumerate(target_entities[1]):
             yachtnumber = request.form.get('yachtnumber'+str(i))
             deviceid = request.form.get('deviceid'+str(i))
@@ -413,7 +419,7 @@ class Outline(object):
             crew2 = request.form.get('crew2'+str(i))
             crew3 = request.form.get('crew3'+str(i))
 
-            #艇番と選手の表を最適化する
+            # 艇番と選手の表を最適化する
             if skipper3:
                 rowspan = 3
             elif skipper2:
@@ -1104,8 +1110,8 @@ class Ranking(object):
         print(sorted_outline[0]["outline_id"])
         outline = [o for o in sorted_outline if o["outline_id"] == int(target_outline_id)][0]
         outline_name = dict(outline).get('date') + dict(outline).get('time_category')
-        start_time = dict(outline).get('start_time') + ":00"
-        end_time = dict(outline).get('end_time') + ":00"
+        start_time = dict(outline).get('start_time')
+        end_time = dict(outline).get('end_time')
 
         # 配艇情報を取得
         haitei = list(r.query_by_outlineid(kind_name="Outline_yacht_player",
