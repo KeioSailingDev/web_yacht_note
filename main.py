@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Flask, render_template, request, redirect, url_for,send_file
+from flask import Flask, render_template, request, redirect, url_for
 from gcloud import datastore
 from google.cloud import bigquery
 from flask_bootstrap import Bootstrap
@@ -8,7 +8,6 @@ import pandas as pd
 from models import query
 from retry import retry
 from google.cloud import storage
-import io
 import folium
 import tempfile
 
