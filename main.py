@@ -309,7 +309,6 @@ class Outline(object):
         start_time = date + start_hour
         end_time = date + end_hour
 
-
         # DataStoreに格納
         key1 = client.key('Outline')
         outline1 = datastore.Entity(key1)
@@ -670,7 +669,6 @@ class Yacht(object):
 
         return render_template('admin_yacht.html', title = 'ヨット管理', yacht_list = yacht_list)
 
-
     @app.route("/admin/addyacht", methods=['POST'])
     def add_yacht():
         """
@@ -700,7 +698,6 @@ class Yacht(object):
 
         return redirect(url_for('admin_yacht'))
 
-
     @app.route("/admin/showyacht/<int:yacht_id>", methods=['GET'])
     def show_yacht(yacht_id):
         """
@@ -716,7 +713,6 @@ class Yacht(object):
         target_yacht = client.get(key)
 
         return render_template('show_yacht.html', title='ユーザー詳細', target_yacht=target_yacht)
-
 
     @app.route("/admin/modyacht/<int:yacht_id>", methods=['POST'])
     def mod_yacht(yacht_id):
@@ -782,7 +778,6 @@ class Device(object):
 
         return render_template('admin_device.html', title='デバイス管理', device_list=device_list)
 
-
     @app.route("/admin/adddevice", methods=['POST'])
     def add_device():
         """
@@ -808,7 +803,6 @@ class Device(object):
 
         return redirect(url_for('admin_device'))
 
-
     @app.route("/admin/showdevice/<int:device_id>", methods=['GET'])
     def show_device(device_id):
         """
@@ -824,7 +818,6 @@ class Device(object):
         target_device = client.get(key)
 
         return render_template('show_device.html', title='デバイス詳細', target_device=target_device)
-
 
     @app.route("/admin/moddevice/<int:device_id>", methods=['POST'])
     def mod_device(device_id):
@@ -858,7 +851,6 @@ class Device(object):
 
         return redirect(url_for('admin_device'))
 
-
     @app.route("/admin/deldevice/<int:device_id>", methods=['POST'])
     def del_device(device_id):
         """
@@ -870,6 +862,7 @@ class Device(object):
         client.delete(key)
 
         return redirect(url_for('admin_device'))
+
 
 class Menu(object):
     @app.route("/admin/menu")
@@ -911,7 +904,6 @@ class Menu(object):
 
         return redirect(url_for('admin_menu'))
 
-
     @app.route("/admin/showmenu/<int:menu_id>", methods=['GET'])
     def show_menu(menu_id):
         """
@@ -928,7 +920,6 @@ class Menu(object):
         target_menu = client.get(key)
 
         return render_template('show_menu.html', title='練習メニュー詳細', target_menu=target_menu)
-
 
     @app.route("/admin/modmenu/<int:menu_id>", methods=['POST'])
     def mod_menu(menu_id):
@@ -958,7 +949,6 @@ class Menu(object):
             client.put(menu)
 
         return redirect(url_for('admin_menu'))
-
 
     @app.route("/admin/delmenu/<int:menu_id>", methods=['POST'])
     def del_menu(menu_id):
@@ -1092,12 +1082,7 @@ class Ranking(object):
         target_outline_id = get_form_value("filter_outline")
 
         if target_outline_id is None:
-            # 練習ノートの一覧を取得
-            # query1 = client.query(kind='Outline')
-            # outline_list = list(query1.fetch())
-            # sorted_outline = sorted(outline_list, key=lambda outline: outline["date"], reverse=True)
-            #
-            # target_outline_id = sorted_outline[0]["outline_id"]
+            # デフォルトの表示ランキングを設定
             target_outline_id = "20181121134415"
 
         # 練習ノートの一覧を取得
