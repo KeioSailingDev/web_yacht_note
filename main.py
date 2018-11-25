@@ -345,8 +345,8 @@ class Outline(object):
 
         # 日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
         date = request.form.get('date')
-        start_time = request.form.get('start_time') + ":00"
-        end_time = request.form.get('end_time') + ":00"
+        start_time = request.form.get('start_time') + ":00" if len(request.form.get('start_time')) == 19 else request.form.get('start_time')
+        end_time = request.form.get('end_time') + ":00" if len(request.form.get('end_time')) == 19 else request.form.get('end_time')
         time_category = request.form.get('timecategory')
         wind_speedmin = request.form.get('windspeedmin')
         wind_speedmax = request.form.get('windspeedmax')
