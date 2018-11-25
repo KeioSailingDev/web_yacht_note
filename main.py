@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 
 from flask import Flask, render_template, request, redirect, url_for
 from gcloud import datastore
@@ -7,6 +7,9 @@ from flask_bootstrap import Bootstrap
 import pandas as pd
 from models import query
 from retry import retry
+from google.cloud import storage
+import folium
+import tempfile
 
 # プロジェクトID
 project_id = "webyachtnote"
@@ -14,10 +17,14 @@ project_id = "webyachtnote"
 # DataStoreに接続するためのオブジェクトを作成
 client = datastore.Client(project_id)
 
+
+# cloud storageのクライアント
+storage_client = storage.Client()
+bucket = storage_client.get_bucket('gps_map')
+
 # アプリケーションを作成
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
-
 
 @retry(tries=5)
 @app.route('/', methods=['GET','POST'])
@@ -83,6 +90,7 @@ def top():
                            outline_selections=outline_selections, form_default=form_values,
                            default_date=default_date)
 
+
 @app.route("/how_to_use")
 def how_to_use():
     """
@@ -100,23 +108,169 @@ def about():
 
 
 class Outline(object):
+    def run_bq_log(self, selects, table_name, devices, start_time, end_time, order_by_time=False):
+        """
+        Bigquery のテーブル をoutline_idでフィルターして取得
+        """
+        # 練習ノート情報を取得
+        # デバイスごとにログデータを取得
+        client_bq = bigquery.Client()
+
+        # クエリを作成
+        select_str = ",".join(selects)
+        devices_str = "'"+"','".join(devices)+"'"
+        order_by_str = "ORDER BY loggingTime" if order_by_time else ""
+        query_string = """
+            SELECT
+                {}
+            FROM
+                `{}`
+            WHERE
+                device_id IN ({})
+                AND (TIMESTAMP_ADD(loggingTime, INTERVAL 9 HOUR) >= TIMESTAMP('{}')
+                    AND TIMESTAMP_ADD(loggingTime, INTERVAL 9 HOUR) < TIMESTAMP('{}')
+                )
+            {}
+
+            """.format(select_str, table_name, devices_str, start_time, end_time, order_by_str)
+        print(query_string)
+
+        query_job = client_bq.query(query_string)
+
+        return query_job.result()
+
+    def run_bq_html(self, table_name, outline_id):
+        """
+        Bigqueryにあるcloud storage上のhtmlファイル名テーブルをoutline_idでフィルターして取得
+        """
+        # 練習ノート情報を取得
+        client_bq = bigquery.Client()
+
+        # クエリを作成
+        query_string = """
+            SELECT
+                outline_id
+                ,html_name
+            FROM
+                `{}`
+            WHERE
+                outline_id = '{}'
+
+            """.format(table_name, outline_id)
+        print(query_string)
+
+        query_job = client_bq.query(query_string)
+
+        return query_job.result()
+
+    def export_items_to_bigquery(self, dataset_id, tablename, rows_to_insert):
+        """
+        big queryにデータを挿入する
+        :param dataset_id:
+        :param tablename:
+        :param rows_to_insert:
+        :return:
+        """
+        # Instantiates a client
+        bigquery_client = bigquery.Client()
+
+        # Prepares a reference to the dataset
+        dataset_ref = bigquery_client.dataset(dataset_id)
+
+        table_ref = dataset_ref.table(tablename)
+        table = bigquery_client.get_table(table_ref)  # API call
+
+        errors = bigquery_client.insert_rows(table, rows_to_insert)  # API request
+        print(errors)
+        assert errors == []
 
     @app.route("/outline/<int:target_outline_id>", methods=['GET'])
     def outline_detail(target_outline_id):
         """
         練習概要ページを表示する
         """
+        o = Outline()
 
+        # cloudstorageに保存するファイル名
+        output_map_name = str(target_outline_id) + '.html'
+
+        # デバイスごとの航跡色
+        colors = ["#b80117", "#222584", "#00904a", "#edc600", "#261e1c", "#6d1782", "#8f253b", "#a0c238"]
+
+        # query
         target_entities = query.get_outline_entities(target_outline_id)
         sorted_comments = query.get_user_comments(target_outline_id)
+        outline_html = list(o.run_bq_html(table_name="webyachtnote.smartphone_log.log_map",
+                                     outline_id=target_outline_id))
+        # デバイスid
+        devices = [x for x in
+                   [dict(e).get('device_id') for e in list(target_entities[1]) if not dict(e).get('device_id') == ''] if
+                   x is not None]
+
+        # デバイスが登録されていなければ、GPSログなし、あれば、GPSログの数をカウント
+        if len(devices) < 1:
+            cnt_log = 0
+        else:
+            sensor_logs = list(o.run_bq_log(selects=["count(loggingTime) AS cnt"],
+                                            table_name="webyachtnote.smartphone_log.sensorlog",
+                                            devices=devices,
+                                            start_time=target_entities[0]["start_time"],
+                                            end_time=target_entities[0]["end_time"],
+                                            order_by_time=False))
+            cnt_log = dict(sensor_logs[0]).get("cnt")
+
+        # GPSログがなければ、なにもなし。GPSログがあれば地図に描画
+        if cnt_log < 1:
+            log_message = "GPSログなし"
+            public_url = ""
+        else:
+            log_message = "GPSログあり"
+
+            # storageに既にHTMLが生成されているか
+            if len(outline_html) < 1:
+                # 地図を生成
+                m = folium.Map([35.284651, 139.555159],
+                               zoom_start=14,
+                               tiles='stamenterrain')
+                # デバイスごとにログを取得し、描画
+                for i, d in enumerate(devices):
+                    sensor_logs = list(o.run_bq_log(selects=["locationLatitude", "locationLongitude"],
+                                                    table_name="webyachtnote.smartphone_log.sensorlog", devices=[d],
+                                                    start_time=target_entities[0]["start_time"],
+                                                    end_time=target_entities[0]["end_time"],
+                                                    order_by_time=True))
+                    locations = [[dict(l).get("locationLatitude"), dict(l).get("locationLongitude")] for l in sensor_logs][::10]
+                    line = folium.PolyLine(locations=locations, color=colors[i], weight=1, opacity=0.5)
+                    m.add_child(line)
+
+                # 一時ファイルに地図を出力
+                with tempfile.NamedTemporaryFile(mode='w+') as f:
+                    tmp_path = f.name
+                    m.save(tmp_path)
+
+                    # storageと接続
+                    blob = bucket.blob(output_map_name)
+                    blob.upload_from_filename(tmp_path, content_type="text/html")
+                    public_url = blob.public_url
+
+                # bigqueryにhtmlファイルのURLを保存
+                rows_to_insert = [[str(target_outline_id), public_url]]
+                o.export_items_to_bigquery(dataset_id="smartphone_log",
+                                           tablename="log_map",
+                                           rows_to_insert=rows_to_insert)
+            else:
+                # storageからhtmlをダウンロード
+                public_url = dict(outline_html[0]).get("html_name")
 
         # 練習開始時間と終了時間
         target_entities[0]["start_time_str"] = target_entities[0]["start_time"][-5:]
         target_entities[0]["end_time_str"] = target_entities[0]["end_time"][-5:]
 
-        return render_template('outline_detail.html',title='練習概要',
+        return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,
-                                sorted_comments=sorted_comments)
+                                sorted_comments=sorted_comments,
+                               log_message=log_message,
+                               html_url=public_url)
 
 
     @app.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
@@ -145,16 +299,15 @@ class Outline(object):
         outline_id = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
 
         if datetime.now().hour <= 12:
-            start_hour = 'T09:00:00'
-            end_hour = 'T12:00:00'
+            start_hour = 'T09:00'
+            end_hour = 'T12:00'
         else:
-            start_hour = 'T13:00:00'
-            end_hour = 'T16:00:00'
+            start_hour = 'T13:00'
+            end_hour = 'T16:00'
 
         date = datetime.strftime(datetime.now(), '%Y-%m-%d')
         start_time = date + start_hour
         end_time = date + end_hour
-
 
         # DataStoreに格納
         key1 = client.key('Outline')
@@ -192,8 +345,8 @@ class Outline(object):
 
         # 日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
         date = request.form.get('date')
-        start_time = request.form.get('start_time')
-        end_time = request.form.get('end_time')
+        start_time = request.form.get('start_time') + ":00"
+        end_time = request.form.get('end_time') + ":00"
         time_category = request.form.get('timecategory')
         wind_speedmin = request.form.get('windspeedmin')
         wind_speedmax = request.form.get('windspeedmax')
@@ -253,7 +406,7 @@ class Outline(object):
 
         client.put(target_entities[0])
 
-        #show_outline.htmlから取得した値を変数に代入
+        # show_outline.htmlから取得した値を変数に代入
         for i,outline2 in enumerate(target_entities[1]):
             yachtnumber = request.form.get('yachtnumber'+str(i))
             deviceid = request.form.get('deviceid'+str(i))
@@ -264,7 +417,7 @@ class Outline(object):
             crew2 = request.form.get('crew2'+str(i))
             crew3 = request.form.get('crew3'+str(i))
 
-            #艇番と選手の表を最適化する
+            # 艇番と選手の表を最適化する
             if skipper3:
                 rowspan = 3
             elif skipper2:
@@ -516,7 +669,6 @@ class Yacht(object):
 
         return render_template('admin_yacht.html', title = 'ヨット管理', yacht_list = yacht_list)
 
-
     @app.route("/admin/addyacht", methods=['POST'])
     def add_yacht():
         """
@@ -546,7 +698,6 @@ class Yacht(object):
 
         return redirect(url_for('admin_yacht'))
 
-
     @app.route("/admin/showyacht/<int:yacht_id>", methods=['GET'])
     def show_yacht(yacht_id):
         """
@@ -562,7 +713,6 @@ class Yacht(object):
         target_yacht = client.get(key)
 
         return render_template('show_yacht.html', title='ユーザー詳細', target_yacht=target_yacht)
-
 
     @app.route("/admin/modyacht/<int:yacht_id>", methods=['POST'])
     def mod_yacht(yacht_id):
@@ -628,7 +778,6 @@ class Device(object):
 
         return render_template('admin_device.html', title='デバイス管理', device_list=device_list)
 
-
     @app.route("/admin/adddevice", methods=['POST'])
     def add_device():
         """
@@ -654,7 +803,6 @@ class Device(object):
 
         return redirect(url_for('admin_device'))
 
-
     @app.route("/admin/showdevice/<int:device_id>", methods=['GET'])
     def show_device(device_id):
         """
@@ -670,7 +818,6 @@ class Device(object):
         target_device = client.get(key)
 
         return render_template('show_device.html', title='デバイス詳細', target_device=target_device)
-
 
     @app.route("/admin/moddevice/<int:device_id>", methods=['POST'])
     def mod_device(device_id):
@@ -704,7 +851,6 @@ class Device(object):
 
         return redirect(url_for('admin_device'))
 
-
     @app.route("/admin/deldevice/<int:device_id>", methods=['POST'])
     def del_device(device_id):
         """
@@ -716,6 +862,7 @@ class Device(object):
         client.delete(key)
 
         return redirect(url_for('admin_device'))
+
 
 class Menu(object):
     @app.route("/admin/menu")
@@ -757,7 +904,6 @@ class Menu(object):
 
         return redirect(url_for('admin_menu'))
 
-
     @app.route("/admin/showmenu/<int:menu_id>", methods=['GET'])
     def show_menu(menu_id):
         """
@@ -774,7 +920,6 @@ class Menu(object):
         target_menu = client.get(key)
 
         return render_template('show_menu.html', title='練習メニュー詳細', target_menu=target_menu)
-
 
     @app.route("/admin/modmenu/<int:menu_id>", methods=['POST'])
     def mod_menu(menu_id):
@@ -804,7 +949,6 @@ class Menu(object):
             client.put(menu)
 
         return redirect(url_for('admin_menu'))
-
 
     @app.route("/admin/delmenu/<int:menu_id>", methods=['POST'])
     def del_menu(menu_id):
@@ -938,12 +1082,7 @@ class Ranking(object):
         target_outline_id = get_form_value("filter_outline")
 
         if target_outline_id is None:
-            # 練習ノートの一覧を取得
-            # query1 = client.query(kind='Outline')
-            # outline_list = list(query1.fetch())
-            # sorted_outline = sorted(outline_list, key=lambda outline: outline["date"], reverse=True)
-            #
-            # target_outline_id = sorted_outline[0]["outline_id"]
+            # デフォルトの表示ランキングを設定
             target_outline_id = "20181121134415"
 
         # 練習ノートの一覧を取得
@@ -955,8 +1094,8 @@ class Ranking(object):
         print(sorted_outline[0]["outline_id"])
         outline = [o for o in sorted_outline if o["outline_id"] == int(target_outline_id)][0]
         outline_name = dict(outline).get('date') + dict(outline).get('time_category')
-        start_time = dict(outline).get('start_time') + ":00"
-        end_time = dict(outline).get('end_time') + ":00"
+        start_time = dict(outline).get('start_time')
+        end_time = dict(outline).get('end_time')
 
         # 配艇情報を取得
         haitei = list(r.query_by_outlineid(kind_name="Outline_yacht_player",
