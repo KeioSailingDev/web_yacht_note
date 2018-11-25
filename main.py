@@ -285,7 +285,7 @@ class Outline(object):
         outline_selections = query.get_outline_selections()
         target_entities = query.get_outline_entities(target_outline_id)
 
-        return render_template('show_outline.html', title='練習概要変更',\
+        return render_template('show_outline.html', title='練習ノートを編集',\
                                 target_entities=target_entities, outline_selections=outline_selections,
                                is_new=is_new)
 

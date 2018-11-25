@@ -3,25 +3,30 @@
 
   <script type="text/javascript" src="{{url_for('static', filename='js/outline.js')}}"></script>
 
+<div class="contents-whole">
+
   <h1 class="text-center">{{ title }}</h1>
-  {% if is_new %}
-     <h5>練習ノートを新規作成</h5>
-  {% else %}
-    <h5>練習ノートを編集</h5>
-  {% endif %}
 
   <form action="{{ url_for('mod_outline', target_outline_id=target_entities[0].outline_id) }}" method="post" class="form-horizontal">
-    <h5>■日時情報</h5>
+
+    <div class="h5-title-div">
+      <h5 class="h5title">■ 日時情報</h5>
+    </div>
+
+  <div class="contents-each">
+
     <div class="form-group">
       <label for="date" class="col-xs-3 col-sm-2 control-label text-left">練習日</label>
       <div class="col-xs-9 col-sm-10">
           <input type="date" class="form-control" id="date" name="date" value="{{ target_entities[0].date }}">
       </div>
     </div>
-
+    
     <div class="form-group">
-      <label for="timecategory" class="col-sm-2 control-label">時間帯</label>
-      <div class="col-sm-10">
+      <div class="col-xs-3 col-sm-3 label-div">
+        <label for="timecategory" class="label-layout">時間帯</label>
+      </div>
+      <div class="col-xs-9 col-sm-9">
         <select name="timecategory" id="timecategory" class="form-control">
           {% for time_category in outline_selections[0] %}
             {% if time_category == target_entities[0].time_category %}
@@ -45,8 +50,11 @@
           <input type="datetime-local" class="form-control" id="end_time" name="end_time" value="{{ target_entities[0].end_time }}">
       </div>
     </div>
+  </div>
 
-    <h5>■風情報</h5>
+    <div class="h5-title-div">
+      <h5 class="h5title">■ 風情報</h5>
+    </div>
     <div class="form-group">
       <label for="windspeedmin" class="col-sm-2 control-label">最低風速</label>
       <div class="col-sm-10">
@@ -123,7 +131,9 @@
       </div>
     </div>
 
-    <h5>■海面情報</h5>
+    <div class="h5-title-div">
+      <h5 class="h5title">■ 海面情報</h5>
+    </div>
 
     <div class="form-group">
       <label for="seasurface" class="col-sm-2 control-label">海面</label>
@@ -157,7 +167,9 @@
        </div>
     </div>
 
-    <h5>■配艇</h5>
+    <div class="h5-title-div">
+      <h5 class="h5title">■配艇</h5>
+    </div>
 
     {% for outline2 in target_entities[1] %}
     <div class="yacht-skipper">
@@ -318,7 +330,9 @@
 
     <button id="open-yacht-skipper" type="button" class="btn btn-outline-secondary">艇番追加</button>
 
-    <h5>■練習メニュー</h5>
+    <div class="h5-title-div">
+      <h5 class="h5title">■ 練習メニュー</h5>
+    </div>
 
     <ol id="menu">
       <li>
@@ -548,26 +562,31 @@
       </li>
     </ol>
 
-    <div class="mx-auto">
+    <div class="add-row-div">
       <button id="menu-open" type="button" class="btn btn-outline-secondary">行追加</button>
     </div>
 
 
     <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
+      <div class="col-sm-10">
         <button type="submit" class="btn btn-primary">
           <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 内容を確定
         </button>
       </div>
     </div>
   </form>
+
   <form class="text-right" action="{{ url_for('del_outline', target_outline_id=target_entities[0].outline_id) }}" method="post">
     <button type="submit" class="btn btn-danger">
       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ノートを削除
     </button>
   </form>
-  <a class="btn btn-default" href="{{ url_for('top') }}">
-    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> 戻る
-  </a>
+
+  <div class="button-padding">
+    <a class="btn btn-default" href="{{ url_for('top') }}">
+      <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> 戻る
+    </a>
+  </div>
+</div>
 
 {% endblock %}
