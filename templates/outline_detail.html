@@ -1,84 +1,102 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<h3 class="text-center">{{ target_entities[0].date }}{{ target_entities[0].time_category }}</h3>
+<div class="contents-whole">
+  <h3 class="text-center">{{ target_entities[0].date }} {{ target_entities[0].time_category }}</h3>
 
-<div class="h5-title-div">
-  <h5 class="h5title">■ 海面状況</h5>
-</div>
+  <div class="h5-title-div">
+    <h5 class="h5title">■ 海面状況</h5>
+  </div>
 
-<table>
+  <table>
+    <tr>
+      <td rowspan=2 class="col-xs-4">
+        <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
+      </td>
+      <td>風速：{{target_entities[0].wind_speed_min}}〜{{target_entities[0].wind_speed_max}}m/s</td>
+    </tr>
+    <tr>
+      <td>強弱：{{target_entities[0].wind_speed_change}}</td>
+    </tr>
 
-<tr>
-  <td rowspan=2 class="col-xs-4">
-    <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
-  </td>
-  <td>風速：{{target_entities[0].wind_speed_min}}〜{{target_entities[0].wind_speed_max}}m/s</td>
-</tr>
-<tr>
-  <td>強弱：{{target_entities[0].wind_speed_change}}</td>
-</tr>
+    <tr>
+      <td rowspan=2 class="col-xs-4">
+        <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
+      </td>
+      <td>風向：{{target_entities[0].wind_direction_min}}</td>
+    </tr>
+    <tr>
+      <td>強弱：{{target_entities[0].wind_speed_change}}</td>
+    </tr>
 
-<tr>
-  <td rowspan=2 class="col-xs-4">
-    <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
-  </td>
-  <td>風向：{{target_entities[0].wind_direction_min}}</td>
-</tr>
-<tr>
-  <td>強弱：{{target_entities[0].wind_speed_change}}</td>
-</tr>
+    <tr>
+      <td rowspan=2 class="col-xs-4">
+        <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
+      </td>
+      <td>波：{{target_entities[0].sea_surface}}</td>
+    </tr>
+    <tr>
+      <td>うねり：{{target_entities[0].swell}}</td>
+    </tr>
+  </table>
 
-<tr>
-  <td rowspan=2 class="col-xs-4">
-    <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
-  </td>
-  <td>波：{{target_entities[0].sea_surface}}</td>
-</tr>
-<tr>
-  <td>うねり：{{target_entities[0].sea_surface}}</td>
-</tr>
-
-</table>
 
 <div class="h5-title-div">
   <h5 class="h5title">■ 配艇</h5>
 </div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>艇番</th>
-      <th>スキッパー</th>
-      <th>クルー</th>
-    </tr>
-  </thead>
   {% for outline2 in target_entities[1] %}
-    {% if outline2.yacht_number and outline2.device_id %}
-    <tr>
-      <td rowspan="{{outline2.rowspan}}">{{outline2.yacht_number}}</td>
-      <td>{{outline2.skipper1}}</td>
-      <td>{{outline2.crew1}}</td>
-    </tr>
+
+    {% if outline2.yacht_number %}
+    <div class="yacht-number-div">
+      <span class="yacht-number-span">{{outline2.yacht_number}}</span>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>スキッパー</th>
+          <th>クルー</th>
+        </tr>
+      </thead>
+
+      {% if outline2.skipper1 %}
+        <tr>
+          <td>1.</td>
+          <td>{{outline2.skipper1}}</td>
+          <td>{{outline2.crew1}}</td>
+        </tr>
+      {% endif %}
+
+      {% if outline2.skipper2 %}
+        <tr>
+          <td>2.</td>
+          <td>{{outline2.skipper2}}</td>
+          <td>{{outline2.crew2}}</td>
+        </tr>
+      {% endif %}
+
+      {% if outline2.skipper3 %}
+        <tr>
+          <td>3.</td>
+          <td>{{outline2.skipper3}}</td>
+          <td>{{outline2.crew3}}</td>
+        </tr>
+      {% endif %}
+
+    </table>
+
     {% endif %}
-    {% if outline2.skipper2 %}
-      <tr>
-        <td>{{outline2.skipper2}}</td>
-        <td>{{outline2.crew2}}</td>
-      </tr>
-    {% endif %}
-    {% if outline2.skipper3 %}
-      <tr>
-        <td>{{outline2.skipper3}}</td>
-        <td>{{outline2.crew3}}</td>
-      </tr>
-    {% endif %}
+
   {% endfor %}
-</table>
+
+
 
 <div class="h5-title-div">
   <h5 class="h5title">■ 練習メニュー</h5>
 </div>
+
 
   <ol>
     {% if target_entities[0].training1 %}
@@ -142,8 +160,13 @@
     {% endif %}
   </ol>
 
-<h3>コメント欄</h3>
-  <form action="{{ url_for('add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" class="form-inline">
+
+<div class="h5-title-div">
+  <h5 class="h5title">■ コメント欄</h5>
+</div>
+
+
+  <form action="{{ url_for('add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" class="form-inline padding-lr-15">
     <label for="name">名前</label><br>
       <input type="text" class="form-control" id="name" name="name"><br>
     <label for="name">コメント</label><br>
@@ -155,13 +178,17 @@
   <hr>
 
   {% for user_comment in sorted_comments %}
-    <div>{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
-    <div class="mb-2">{{user_comment.comment}}</div>
+    <div class="padding-lr-15">{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
+    <div class="padding-lr-15">{{user_comment.comment}}</div>
     <hr>
   {% endfor %}
 
-<a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id )}}">
-  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更
-</a>
+  <div class="button-padding">
+    <a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id )}}">
+      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更
+    </a>
+  </div>
+
+</div>
 
 {% endblock %}

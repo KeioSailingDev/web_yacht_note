@@ -5,7 +5,7 @@ header{
     top: 0;
     left: 0;
     height: 40px;
-    background: #0267C1;
+    background-color: rgb(43,40,41);
     width: 100%;
     z-index: 2;
     color: snow;
@@ -107,21 +107,87 @@ max-width: 100%;
 }
 
 
+/* 全般的な設定 */
 .h5-title-div {
   width: 100%;
   padding-right: 0px;
   padding-left: 0px;
   margin-right: auto;
   margin-left: auto;
+  height: 25px;
+  background-color: rgb(94,92,96);
+}
+
+h5.h5title {
+  color: rgb(255,255,255);
+  padding-left: 15px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.button-padding {
+  padding-left: 15px;
+  padding-bottom: 25px;
+}
+
+/* 練習概要、練習概要変更ページの全体にかける */
+.contents-whole {
+  background-color: rgb(71,70,71);
+  color: rgb(255,255,255);
+  border-collapse: collapse;
+}
+
+.contents-each {
+  padding: 15px;
+}
+
+/* 入力項目に関するクラス */
+
+.label-div {
+  height: 34px;
+  display:  table-cell;
+  vertical-align: middle;
+}
+
+.label-layout {
+  display: block;
+  text-align: center;
 
 }
-.h5title {
-  background-color: rgb(94,92,96);
-  color: rgb(255,255,255);
-  padding-top: 5px;
-  padding-bottom: 5px;
+
+.padding-lr-15 {
   padding-left: 15px;
+  padding-right: 15px;
 }
+
+/* 練習概要-艇番 */
+.yacht-number-div {
+  padding-left: 8px;
+  padding-top: 8px;
+}
+
+.yacht-number-span {
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(255,255,255);
+  padding: 2px;
+}
+
+/* 練習概要-スキッパーとクルー-表 */
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+}
+
+/* 練習概要変更-艇番追加と行追加ボタン */
+.add-row-div {
+  padding-right: 15px;
+}
+
+/* 練習概要変更-入力項目 */
+
 /* Settings for fullwidth */
 .sidr.fullwidth {
     width: 100%;

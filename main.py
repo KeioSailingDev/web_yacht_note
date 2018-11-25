@@ -131,7 +131,7 @@ class Outline(object):
         outline_selections = query.get_outline_selections()
         target_entities = query.get_outline_entities(target_outline_id)
 
-        return render_template('show_outline.html', title='練習概要変更',\
+        return render_template('show_outline.html', title='練習ノートを編集',\
                                 target_entities=target_entities, outline_selections=outline_selections,
                                is_new=is_new)
 
@@ -217,22 +217,6 @@ class Outline(object):
         training13 = request.form.get('training13')
         training14 = request.form.get('training14')
         training15 = request.form.get('training15')
-        #
-        # if time_category == "午前":
-        #     start_time = "9:00"
-        #     end_time = "12:30"
-        # elif time_category == "午後":
-        #     start_time = "13:30"
-        #     end_time = "16:00"
-        # elif time_category == "１部":
-        #     start_time = "9:00"
-        #     end_time = "11:30"
-        # elif time_category == "２部":
-        #     start_time = "11:30"
-        #     end_time = "14:00"
-        # else:
-        #     start_time = "14:00"
-        #     end_time = "16:30"
 
         if not target_entities[0]:
             raise ValueError(
