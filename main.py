@@ -26,8 +26,8 @@ bucket = storage_client.get_bucket('gps_map')
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
-@retry(tries=5)
-@app.route('/', methods=['GET','POST'])
+@retry(tries=3, delay=2)
+@app.route('/', methods=['GET', 'POST'])
 def top():
     """
     TOPページを表示したときの挙動
@@ -184,6 +184,7 @@ class Outline(object):
         print(errors)
         assert errors == []
 
+    @retry(tries=3, delay=2)
     @app.route("/outline/<int:target_outline_id>", methods=['GET'])
     def outline_detail(target_outline_id):
         """
