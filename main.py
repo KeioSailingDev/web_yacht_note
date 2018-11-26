@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 from flask import Flask, render_template, request, redirect, url_for
 from gcloud import datastore
@@ -12,14 +12,14 @@ import folium
 import tempfile
 
 # 環境変数を開発用と本番用で切り替え
-# os.environ['PROJECT_ID'] = 'webyachtnote'  #本番用
-# os.environ['LOG_TABLE'] = 'webyachtnote.smartphone_log.sensorlog'  #本番用
-# os.environ['HTML_TABLE'] = "webyachtnote.smartphone_log.log_map"  #本番用
-# os.environ['MAP_BUCKET'] = "gps_map"  #本番用
-os.environ['PROJECT_ID'] = 'web-yacht-note-208313'  # 開発用
-os.environ['LOG_TABLE'] = 'web-yacht-note-208313.smartphone_log.sensorlog'  # 開発用
-os.environ['HTML_TABLE'] = "web-yacht-note-208313.smartphone_log.log_map"  # 開発用
-os.environ['MAP_BUCKET'] = "gps_map_dev"  # 開発用
+os.environ['PROJECT_ID'] = 'webyachtnote'  #本番用
+os.environ['LOG_TABLE'] = 'webyachtnote.smartphone_log.sensorlog'  #本番用
+os.environ['HTML_TABLE'] = "webyachtnote.smartphone_log.log_map"  #本番用
+os.environ['MAP_BUCKET'] = "gps_map"  #本番用
+# os.environ['PROJECT_ID'] = 'web-yacht-note-208313'  # 開発用
+# os.environ['LOG_TABLE'] = 'web-yacht-note-208313.smartphone_log.sensorlog'  # 開発用
+# os.environ['HTML_TABLE'] = "web-yacht-note-208313.smartphone_log.log_map"  # 開発用
+# os.environ['MAP_BUCKET'] = "gps_map_dev"  # 開発用
 
 project_id = os.environ.get('PROJECT_ID')
 
@@ -212,6 +212,7 @@ class Outline(object):
         sorted_comments = query.get_user_comments(target_outline_id)
         outline_html = list(o.run_bq_html(table_name=os.environ.get('HTML_TABLE'),
                                      outline_id=target_outline_id))
+
         # デバイスid
         devices = [x for x in
                    [dict(e).get('device_id') for e in list(target_entities[1]) if not dict(e).get('device_id') == ''] if
@@ -505,7 +506,7 @@ class Outline(object):
         comment = request.form.get('comment')
         outline_id = int(target_outline_id)
         created_date = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
-        commented_date = datetime.strftime(datetime.now(), '%Y/%m/%d %H:%M')
+        commented_date = datetime.strftime(datetime.now() + timedelta(hours=9), '%Y/%m/%d %H:%M')
 
         print(created_date)
         print(commented_date)
