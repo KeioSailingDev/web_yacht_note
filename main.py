@@ -1,5 +1,5 @@
 from datetime import datetime
-
+import os
 from flask import Flask, render_template, request, redirect, url_for
 from gcloud import datastore
 from google.cloud import bigquery
@@ -11,8 +11,17 @@ from google.cloud import storage
 import folium
 import tempfile
 
-# プロジェクトID
-project_id = "webyachtnote"
+# 環境変数を開発用と本番用で切り替え
+# os.environ['PROJECT_ID'] = 'webyachtnote'  #本番用
+# os.environ['LOG_TABLE'] = 'webyachtnote.smartphone_log.sensorlog'  #本番用
+# os.environ['HTML_TABLE'] = "webyachtnote.smartphone_log.log_map"  #本番用
+# os.environ['MAP_BUCKET'] = "gps_map"  #本番用
+os.environ['PROJECT_ID'] = 'web-yacht-note-208313'  # 開発用
+os.environ['LOG_TABLE'] = 'web-yacht-note-208313.smartphone_log.sensorlog'  # 開発用
+os.environ['HTML_TABLE'] = "web-yacht-note-208313.smartphone_log.log_map"  # 開発用
+os.environ['MAP_BUCKET'] = "gps_map_dev"  # 開発用
+
+project_id = os.environ.get('PROJECT_ID')
 
 # DataStoreに接続するためのオブジェクトを作成
 client = datastore.Client(project_id)
@@ -20,7 +29,7 @@ client = datastore.Client(project_id)
 
 # cloud storageのクライアント
 storage_client = storage.Client()
-bucket = storage_client.get_bucket('gps_map')
+bucket = storage_client.get_bucket(os.environ.get('MAP_BUCKET'))
 
 # アプリケーションを作成
 app = Flask(__name__)
@@ -201,7 +210,7 @@ class Outline(object):
         # query
         target_entities = query.get_outline_entities(target_outline_id)
         sorted_comments = query.get_user_comments(target_outline_id)
-        outline_html = list(o.run_bq_html(table_name="webyachtnote.smartphone_log.log_map",
+        outline_html = list(o.run_bq_html(table_name=os.environ.get('HTML_TABLE'),
                                      outline_id=target_outline_id))
         # デバイスid
         devices = [x for x in
@@ -213,7 +222,7 @@ class Outline(object):
             cnt_log = 0
         else:
             sensor_logs = list(o.run_bq_log(selects=["count(loggingTime) AS cnt"],
-                                            table_name="webyachtnote.smartphone_log.sensorlog",
+                                            table_name=os.environ.get('LOG_TABLE'),
                                             devices=devices,
                                             start_time=target_entities[0]["start_time"],
                                             end_time=target_entities[0]["end_time"],
@@ -231,12 +240,12 @@ class Outline(object):
             if len(outline_html) < 1:
                 # 地図を生成
                 m = folium.Map([35.284651, 139.555159],
-                               zoom_start=14,
+                               zoom_start=13,
                                tiles='stamenterrain')
                 # デバイスごとにログを取得し、描画
                 for i, d in enumerate(devices):
                     sensor_logs = list(o.run_bq_log(selects=["locationLatitude", "locationLongitude"],
-                                                    table_name="webyachtnote.smartphone_log.sensorlog", devices=[d],
+                                                    table_name=os.environ.get('LOG_TABLE'), devices=[d],
                                                     start_time=target_entities[0]["start_time"],
                                                     end_time=target_entities[0]["end_time"],
                                                     order_by_time=True))
@@ -1106,7 +1115,7 @@ class Ranking(object):
         devices = list(set([dict(h).get("device_id") for h in haitei if dict(h).get("device_id") is not None]))
 
         # 対象の練習時間のログを取得
-        logs = list(r.run_bq_query(table_name="webyachtnote.smartphone_log.sensorlog",
+        logs = list(r.run_bq_query(table_name=os.environ.get('LOG_TABLE'),
                                               devices=devices, start_time=start_time, end_time=end_time))
 
         # ログデータと配艇データをマージする

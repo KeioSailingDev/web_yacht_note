@@ -1,40 +1,40 @@
 from gcloud import datastore
+import os
 
-project_id = "webyachtnote"
+project_id = os.environ.get('PROJECT_ID')
 client = datastore.Client(project_id)
 
-# class OutlineContents(object):
 
 def get_outline_selections():
 
-    #時間帯の選択肢一覧
+    # 時間帯の選択肢一覧
     time_categories = ("午前", "午後", "１部", "２部", "３部", "その他")
 
-    #風速の値一覧
-    wind_speeds = range(0,21)
+    # 風速の値一覧
+    wind_speeds = range(0, 21)
 
-    #風向の値一覧
+    # 風向の値一覧
     wind_directions = range(0, 360, 10)
 
-    #うねりと風速変化の項目
+    # うねりと風速変化の項目
     sizes = ("小", "中", "大")
 
-    #海面の項目一覧
+    # 海面の項目一覧
     sea_surfaces = ("フラット", "チョッピー", "高波")
 
-    #艇番の一覧を取得
+    # 艇番の一覧を取得
     query_yacht = client.query(kind='Yacht')
     yacht_numbers = list(query_yacht.fetch())
 
-    #デバイス機種名の一覧を取得
+    # デバイス機種名の一覧を取得
     query_device = client.query(kind='Device')
     device_names = list(query_device.fetch())
 
-    #ドラムロール表示用に、部員の一覧を取得
+    # ドラムロール表示用に、部員の一覧を取得
     query_player = client.query(kind='Player')
     player_names = list(query_player.fetch())
 
-    #ドラムロール表示用に、練習メニューの一覧を取得
+    # ドラムロール表示用に、練習メニューの一覧を取得
     query_menu = client.query(kind='Menu')
     training_menus = list(query_menu.fetch())
 
