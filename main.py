@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import os
 from flask import Flask, render_template, request, redirect, url_for
-from google.cloud import datastore
+from gcloud import datastore
 from google.cloud import bigquery
 from flask_bootstrap import Bootstrap
 import pandas as pd
@@ -26,7 +26,7 @@ os.environ['MAP_BUCKET'] = "gps_map"  #本番用
 project_id = os.environ.get('PROJECT_ID')
 
 # DataStoreに接続するためのオブジェクトを作成
-client = datastore.Client()
+client = datastore.Client(project_id)
 
 # cloud storageのクライアント
 storage_client = storage.Client()
@@ -87,7 +87,7 @@ def top():
     #     query1.add_filter('swell', '=', form_values['filter_swell'])
 
     # 各練習概要を表示（日付で降順に並び替え）
-    outline_list = list(query1.fetch())
+    outline_list = list(query.fetch_retry(query1, num=20))
     sorted_outline = sorted(outline_list, key=lambda outline: outline["date"], reverse=True)
 
     # 右サイドバーのフィルター用の項目
@@ -141,7 +141,6 @@ class Outline(object):
                     AND TIMESTAMP_ADD(loggingTime, INTERVAL 9 HOUR) < TIMESTAMP('{}')
                 )
             {}
-
             """.format(select_str, table_name, devices_str, start_time, end_time, order_by_str)
         print(query_string)
 
@@ -362,8 +361,7 @@ class Outline(object):
         time_category = request.form.get('timecategory')
         wind_speedmin = request.form.get('windspeedmin')
         wind_speedmax = request.form.get('windspeedmax')
-        wind_direction_min = request.form.get('winddirectionmin')
-        wind_direction_max = request.form.get('winddirectionmax')
+        wind_direction = request.form.get('winddirection')
         wind_speed_change = request.form.get('windspeedchange')
         sea_surface = request.form.get('seasurface')
         swell = request.form.get('swell')
@@ -383,19 +381,15 @@ class Outline(object):
         training14 = request.form.get('training14')
         training15 = request.form.get('training15')
 
-        if not target_entities[0]:
-            raise ValueError(
-                'Outline {} does not exist.'.format(target_outline_id))
-
+        # エンティティに値を入れる
         target_entities[0].update({
             'date': date,
             'start_time': start_time,
             'end_time': end_time,
             'time_category': time_category,
             'wind_speed_min': 0 if wind_speedmin == '' else int(wind_speedmin),
-            'wind_speed_max': 0 if wind_speedmin == '' else int(wind_speedmax),
-            'wind_direction_min': 0 if wind_speedmin == '' else int(wind_direction_min),
-            'wind_direction_max': 0 if wind_speedmin == '' else int(wind_direction_max),
+            'wind_speed_max': 0 if wind_speedmax == '' else int(wind_speedmax),
+            'wind_direction': wind_direction,
             'wind_speed_change': wind_speed_change,
             'sea_surface': sea_surface,
             'swell': swell,
@@ -418,6 +412,8 @@ class Outline(object):
 
         client.put(target_entities[0])
 
+        # outlineのエンティティを取得
+
         # show_outline.htmlから取得した値を変数に代入
         for i,outline2 in enumerate(target_entities[1]):
             yachtnumber = request.form.get('yachtnumber'+str(i))
@@ -436,10 +432,6 @@ class Outline(object):
                 rowspan = 2
             else:
                 rowspan = 1
-
-            if not outline2:
-                raise ValueError(
-                    'Outline {} does not exist.'.format(outline2))
 
             outline2.update({
                 'yacht_number': yachtnumber,
@@ -481,7 +473,7 @@ class Outline(object):
         client.delete(key1)
 
         for outline2 in target_entities[1]:
-            entity_id_2 =  outline2.key.id
+            entity_id_2 = outline2.key.id
             key2 = client.key('Outline_yacht_player', entity_id_2)
             client.delete(key2)
 
@@ -549,8 +541,8 @@ class Player(object):
         Return: admin_player.htmlに移動。選手と年のリストを引き渡す
         """
 
-        query = client.query(kind='Player')
-        player_list = list(query.fetch())
+        query_p = client.query(kind='Player')
+        player_list = list(query.fetch_retry(query_p))
 
         #「入学年」の一覧を取得
         this_year = (datetime.now()).year
@@ -676,8 +668,8 @@ class Yacht(object):
 
         Return: admin_yacht.htmlに移動。yacht_listを引き渡す。
         """
-        query = client.query(kind='Yacht')
-        yacht_list = list(query.fetch())
+        query_y = client.query(kind='Yacht')
+        yacht_list = list(query.fetch_retry(query_y))
 
         return render_template('admin_yacht.html', title = 'ヨット管理', yacht_list = yacht_list)
 
@@ -785,8 +777,8 @@ class Device(object):
         Return:
         admin_device.htmlに移動。device_listを引き渡す。
         """
-        query = client.query(kind='Device')
-        device_list = list(query.fetch())
+        query_d = client.query(kind='Device')
+        device_list = list(query.fetch_retry(query_d))
 
         return render_template('admin_device.html', title='デバイス管理', device_list=device_list)
 
@@ -889,8 +881,8 @@ class Menu(object):
         admin_menu.htmlに移動。menu_listを引き渡す。
         """
 
-        query = client.query(kind='Menu')
-        menu_list = list(query.fetch())
+        query_m = client.query(kind='Menu')
+        menu_list = list(query.fetch_retry(query_m))
         return render_template('admin_menu.html', title='練習メニュー', menu_list=menu_list)
 
     @app.route("/admin/addmenu", methods=['POST'])
@@ -983,9 +975,9 @@ class Ranking(object):
         Datastore のkind をoutline_idでフィルターして取得
         """
         # 練習ノート情報を取得
-        query = client.query(kind=kind_name)
-        query.add_filter('outline_id', '=', int(target_outline_id))
-        result = query.fetch()
+        _query = client.query(kind=kind_name)
+        _query.add_filter('outline_id', '=', int(target_outline_id))
+        result = query.fetch_retry(_query)
 
         return result
 
@@ -1099,7 +1091,7 @@ class Ranking(object):
 
         # 練習ノートの一覧を取得
         query1 = client.query(kind='Outline')
-        outline_list = list(query1.fetch())
+        outline_list = list(query.fetch_retry(query1))
         sorted_outline = sorted(outline_list, key=lambda outline: outline["date"], reverse=True)
 
         # 対象となるノート

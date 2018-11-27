@@ -86,30 +86,15 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="winddirectionmin" class="col-sm-2 control-label">風向（最小）</label>
+      <label for="winddirection" class="col-sm-2 control-label">風向</label>
       <div class="col-sm-10">
-        <select name="winddirectionmin" id="winddirectionmin" class="form-control">
+        <select name="winddirection" id="winddirection" class="form-control">
          <option value="">未入力</option>
           {% for wind_direction in outline_selections[2] %}
-            {% if wind_direction == target_entities[0].wind_direction_min %}
-              <option value={{ wind_direction }} selected>{{ wind_direction }}</option>
+            {% if wind_direction.value == target_entities[0].wind_direction %}
+              <option value={{ wind_direction.value }} selected>{{ wind_direction.name }}</option>
             {% else %}
-              <option value={{ wind_direction }}>{{ wind_direction }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="winddirectionmax" class="col-sm-2 control-label">風向（最大）</label>
-      <div class="col-sm-10">
-        <select name="winddirectionmax" id="winddirectionmax" class="form-control">
-         <option value="">未入力</option>
-          {% for wind_direction in outline_selections[2] %}
-            {% if wind_direction == target_entities[0].wind_direction_max %}
-              <option value={{ wind_direction }} selected>{{ wind_direction }}</option>
-            {% else %}
-              <option value={{ wind_direction }}>{{ wind_direction }}</option>
+              <option value={{ wind_direction.value }}>{{ wind_direction.name }}</option>
             {% endif %}
           {% endfor %}
         </select>

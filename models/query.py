@@ -14,7 +14,7 @@ def get_outline_selections():
     wind_speeds = range(0, 21)
 
     # 風向の値一覧
-    wind_directions = range(0, 360, 10)
+    wind_directions = ['北', '北東', '東', '南東', '南', '南西', '西', '北西']
 
     # うねりと風速変化の項目
     sizes = ("小", "中", "大")
@@ -47,11 +47,27 @@ def get_outline_selections():
 def get_outline_entities(target_outline_id):
     query1 = client.query(kind='Outline')
     query1.add_filter('outline_id', '=', int(target_outline_id))
-    target_outline1 = list(query1.fetch())[0]
+
+    # 成功するまで実行
+    for _ in range(10):
+        while True:
+            try:
+                target_outline1 = list(query1.fetch())[0]
+            except:
+                pass
+            break
 
     query2 = client.query(kind='Outline_yacht_player')
     query2.add_filter('outline_id', '=', int(target_outline_id))
-    target_outline2 = list(query2.fetch())
+
+    # 成功するまで実行
+    for _ in range(10):
+        while True:
+            try:
+                target_outline2 = list(query2.fetch())
+            except:
+                pass
+            break
 
     target_entities = [target_outline1, target_outline2]
 
@@ -65,3 +81,14 @@ def get_user_comments(target_outline_id):
     sorted_comments = sorted(user_comments, key=lambda user_comment: user_comment["created_date"], reverse=True)
 
     return sorted_comments
+
+def fetch_retry(query_, num=20):
+    # 成功するまで実行
+    for _ in range(num):
+        while True:
+            try:
+                res = query_.fetch()
+            except:
+                pass
+            break
+    return res
