@@ -33,7 +33,7 @@ header{
 .menu-button.right {
     right: 20px;
     left: auto;
-    background-image: url(filter.png);
+    background-image: url(search.png);
 }
 
 .menu-button.left {
@@ -71,6 +71,7 @@ header{
     width: 100%;
     height: 100px;
     left: 0;
+
 }
 
 body {
