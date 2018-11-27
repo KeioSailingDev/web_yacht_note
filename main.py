@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import os
 from flask import Flask, render_template, request, redirect, url_for
-from gcloud import datastore
+from google.cloud import datastore
 from google.cloud import bigquery
 from flask_bootstrap import Bootstrap
 import pandas as pd
@@ -10,6 +10,8 @@ from retry import retry
 from google.cloud import storage
 import folium
 import tempfile
+# from gcloud_requests import DatastoreRequestsProxy
+# from gcloud_requests import CloudStorageRequestsProxy
 
 # 環境変数を開発用と本番用で切り替え
 os.environ['PROJECT_ID'] = 'webyachtnote'  #本番用
@@ -24,8 +26,7 @@ os.environ['MAP_BUCKET'] = "gps_map"  #本番用
 project_id = os.environ.get('PROJECT_ID')
 
 # DataStoreに接続するためのオブジェクトを作成
-client = datastore.Client(project_id)
-
+client = datastore.Client()
 
 # cloud storageのクライアント
 storage_client = storage.Client()
@@ -356,8 +357,8 @@ class Outline(object):
 
         # 日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
         date = request.form.get('date')
-        start_time = request.form.get('start_time') + ":00" if len(request.form.get('start_time')) == 19 else request.form.get('start_time')
-        end_time = request.form.get('end_time') + ":00" if len(request.form.get('end_time')) == 19 else request.form.get('end_time')
+        start_time = request.form.get('start_time') + ":00" if len(request.form.get('start_time')) == 16 else request.form.get('start_time')
+        end_time = request.form.get('end_time') + ":00" if len(request.form.get('end_time')) == 16 else request.form.get('end_time')
         time_category = request.form.get('timecategory')
         wind_speedmin = request.form.get('windspeedmin')
         wind_speedmax = request.form.get('windspeedmax')
@@ -391,10 +392,10 @@ class Outline(object):
             'start_time': start_time,
             'end_time': end_time,
             'time_category': time_category,
-            'wind_speed_min': int(wind_speedmin),
-            'wind_speed_max': int(wind_speedmax),
-            'wind_direction_min': int(wind_direction_min),
-            'wind_direction_max': int(wind_direction_max),
+            'wind_speed_min': 0 if wind_speedmin == '' else int(wind_speedmin),
+            'wind_speed_max': 0 if wind_speedmin == '' else int(wind_speedmax),
+            'wind_direction_min': 0 if wind_speedmin == '' else int(wind_direction_min),
+            'wind_direction_max': 0 if wind_speedmin == '' else int(wind_direction_max),
             'wind_speed_change': wind_speed_change,
             'sea_surface': sea_surface,
             'swell': swell,
