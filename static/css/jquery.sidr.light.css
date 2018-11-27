@@ -4,7 +4,7 @@
   /*top: 0;*/
   height: 100%;
   z-index: 999999;
-  width: 250px;
+  width: 300px;
   overflow-x: hidden;
   overflow-y: auto;
   font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
@@ -22,10 +22,10 @@
 }
 .sidr.right {
   left: auto;
-  right: -250px;
+  right: -300px;
 }
 .sidr.left {
-  left: -250px;
+  left: -300px;
   right: auto;
 }
 .sidr h1,
