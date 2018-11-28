@@ -10,6 +10,13 @@ from retry import retry
 from google.cloud import storage
 import folium
 import tempfile
+import httplib2shim
+from oauth2client.client import GoogleCredentials
+
+# 不具合のあるhttplib2.Httpをhttplib2shim.Httpで上書きする
+credentials = GoogleCredentials.get_application_default()
+http = httplib2shim.Http()
+credentials.authorize(http)
 
 # 環境変数を開発用と本番用で切り替え
 os.environ['PROJECT_ID'] = 'webyachtnote'  #本番用
@@ -714,8 +721,8 @@ class Yacht(object):
         query_y = client.query(kind='Yacht')
         yacht_list = list(query.fetch_retry(query_y))
 
-        colors = ["#45aaf2", "#4b7bec", "#3867d6", "#eb3b5a", "#20bf6b",
-                  "#fa8231", "#d1d8e0", "#fed330", "#0fb9b1", "#778ca3"]
+        colors = ["#45aaf2", "#eb3b5a", "#20bf6b","#3867d6", "#fa8231",
+                  "#d1d8e0", "#fed330", "#0fb9b1", "#4b7bec","#778ca3"]
         color = colors[len(yacht_list) % 10]
 
         if yachtno and yachtclass:
