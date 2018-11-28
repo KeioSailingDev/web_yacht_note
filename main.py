@@ -468,7 +468,7 @@ class Outline(object):
 
             client.put(yacht)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('outline_detail', target_outline_id=target_outline_id))
 
 
     @app.route("/outline/del_outline/<int:target_outline_id>", methods=['POST'])
