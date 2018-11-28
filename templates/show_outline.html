@@ -91,10 +91,10 @@
         <select name="winddirection" id="winddirection" class="form-control">
          <option value="">未入力</option>
           {% for wind_direction in outline_selections[2] %}
-            {% if wind_direction.value == target_entities[0].wind_direction %}
-              <option value={{ wind_direction.value }} selected>{{ wind_direction.name }}</option>
+            {% if wind_direction == target_entities[0].wind_direction %}
+              <option value={{ wind_direction }} selected>{{ wind_direction }}</option>
             {% else %}
-              <option value={{ wind_direction.value }}>{{ wind_direction.name }}</option>
+              <option value={{ wind_direction }}>{{ wind_direction }}</option>
             {% endif %}
           {% endfor %}
         </select>
