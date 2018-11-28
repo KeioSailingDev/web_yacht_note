@@ -9,6 +9,7 @@ header{
     width: 100%;
     z-index: 2;
     color: snow;
+    box-shadow: 2px 0px 4px black;
 }
 
 
