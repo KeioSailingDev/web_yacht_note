@@ -7,6 +7,9 @@
 {% else %}
     <iframe src="{{ html_url }}" width="100%" height="300px" >#document</iframe>
 {% endif %}
+{% for yc in yacht_color %}
+<span style="color:{{ yc.color }}">{{ yc.yacht }}　</span>
+{% endfor %}
 <div class="h5-title-div">
   <h5 class="h5title">■ 海面状況</h5>
 </div>

@@ -202,19 +202,31 @@ class Outline(object):
         # cloudstorageに保存するファイル名
         output_map_name = str(target_outline_id) + '.html'
 
-        # デバイスごとの航跡色
-        colors = ["#b80117", "#222584", "#00904a", "#edc600", "#261e1c", "#6d1782", "#8f253b", "#a0c238"]
-
         # query
         target_entities = query.get_outline_entities(target_outline_id)
         sorted_comments = query.get_user_comments(target_outline_id)
         outline_html = list(o.run_bq_html(table_name=os.environ.get('HTML_TABLE'),
                                      outline_id=target_outline_id))
 
-        # デバイスid
-        devices = [x for x in
-                   [dict(e).get('device_id') for e in list(target_entities[1]) if not dict(e).get('device_id') == ''] if
+        # エンティティ
+        entities = [x for x in
+                   [e for e in list(target_entities[1]) if not dict(e).get('device_id') == ''] if
                    x is not None]
+
+        # デバイスID
+        devices = [dict(e).get("device_id") for e in entities]
+
+        # デバイスID
+        yacht_number = [dict(e).get("yacht_number") for e in entities]
+
+        # デバイスカラーを取得
+        colors = []
+        for e in entities:
+            yacht_no = dict(e).get("yacht_number")
+            query_y = client.query(kind="Yacht")
+            query_y.add_filter('yacht_no', '=', yacht_no)
+            res = list(query_y.fetch())[0]
+            colors.append(dict(res).get("color"))
 
         # デバイスが登録されていなければ、GPSログなし、あれば、GPSログの数をカウント
         if len(devices) < 1:
@@ -275,11 +287,15 @@ class Outline(object):
         target_entities[0]["start_time_str"] = target_entities[0]["start_time"][-5:]
         target_entities[0]["end_time_str"] = target_entities[0]["end_time"][-5:]
 
+        # デバイスとカラー
+        yacht_color = [{"yacht":y, "color":c} for y, c in zip(yacht_number, colors)]
+
         return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,
                                 sorted_comments=sorted_comments,
                                log_message=log_message,
-                               html_url=public_url)
+                               html_url=public_url,
+                               yacht_color=yacht_color)
 
 
     @app.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
@@ -695,13 +711,21 @@ class Yacht(object):
         yachtclass = request.form.get('yachtclass')
         datetime_now = datetime.now()
 
+        query_y = client.query(kind='Yacht')
+        yacht_list = list(query.fetch_retry(query_y))
+
+        colors = ["#45aaf2", "#4b7bec", "#3867d6", "#eb3b5a", "#20bf6b",
+                  "#fa8231", "#d1d8e0", "#fed330", "#0fb9b1", "#778ca3"]
+        color = colors[len(yacht_list) % 10]
+
         if yachtno and yachtclass:
             key = client.key('Yacht')
             yacht = datastore.Entity(key) #
             yacht.update({
                 'yacht_no': yachtno,
                 'yacht_class': yachtclass,
-                'created_date': datetime_now
+                'created_date': datetime_now,
+                'color': color
             })
             client.put(yacht)
 
