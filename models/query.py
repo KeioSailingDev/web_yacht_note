@@ -5,6 +5,18 @@ project_id = os.environ.get('PROJECT_ID')
 client = datastore.Client(project_id)
 
 
+def fetch_retry(query_, num=20):
+    # 成功するまで実行
+    for _ in range(num):
+        while True:
+            try:
+                res = query_.fetch()
+            except:
+                pass
+            break
+    return res
+
+
 def get_outline_selections():
 
     # 時間帯の選択肢一覧
@@ -24,19 +36,19 @@ def get_outline_selections():
 
     # 艇番の一覧を取得
     query_yacht = client.query(kind='Yacht')
-    yacht_numbers = list(query_yacht.fetch())
+    yacht_numbers = list(fetch_retry(query_yacht))
 
     # デバイス機種名の一覧を取得
     query_device = client.query(kind='Device')
-    device_names = list(query_device.fetch())
+    device_names = list(fetch_retry(query_device))
 
     # ドラムロール表示用に、部員の一覧を取得
     query_player = client.query(kind='Player')
-    player_names = list(query_player.fetch())
+    player_names = list(fetch_retry(query_player))
 
     # ドラムロール表示用に、練習メニューの一覧を取得
     query_menu = client.query(kind='Menu')
-    training_menus = list(query_menu.fetch())
+    training_menus = list(fetch_retry(query_menu))
 
     outline_selections = [time_categories, wind_speeds, wind_directions, sizes, sea_surfaces, \
                           yacht_numbers, player_names, device_names, training_menus]
@@ -82,13 +94,3 @@ def get_user_comments(target_outline_id):
 
     return sorted_comments
 
-def fetch_retry(query_, num=20):
-    # 成功するまで実行
-    for _ in range(num):
-        while True:
-            try:
-                res = query_.fetch()
-            except:
-                pass
-            break
-    return res
