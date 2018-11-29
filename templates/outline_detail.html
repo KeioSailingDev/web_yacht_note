@@ -14,30 +14,30 @@
   <h5 class="h5title">■ 海面状況</h5>
 </div>
 
-  <table>
+  <table class="text-center">
     <tr>
       <td rowspan=2 class="col-xs-4">
-        <img id="add-button" src="../static/img/flag/{{ icons.flag }}" class="sea-icon">
+        <img id="add-button" src="../static/img/flag/{{ icons.flag }}" class="img-responsive">
       </td>
-      <td>風速：{{target_entities[0].wind_speed_min}}〜{{target_entities[0].wind_speed_max}}m/s</td>
+      <td class="col-xs-6">風速：{{target_entities[0].wind_speed_min}}〜{{target_entities[0].wind_speed_max}}m/s</td>
     </tr>
     <tr>
-      <td>強弱：{{target_entities[0].wind_speed_change}}</td>
+      <td class="col-xs-6">強弱：{{target_entities[0].wind_speed_change}}</td>
     </tr>
 
     <tr>
       <td rowspan=2 class="col-xs-4">
-        <img id="add-button" src="../static/img/compass/{{ icons.compass }}" class="sea-icon">
+        <img id="add-button" src="../static/img/compass/{{ icons.compass }}" class="img-responsive">
       </td>
-      <td>風向：{{target_entities[0].wind_direction}}</td>
+      <td class="col-xs-6">風向：{{target_entities[0].wind_direction}}</td>
     </tr>
     <tr>
-      <td>強弱：{{target_entities[0].wind_speed_change}}</td>
+      <td class="col-xs-6">強弱：{{target_entities[0].wind_speed_change}}</td>
     </tr>
 
     <tr>
       <td rowspan=2 class="col-xs-4">
-        <img id="add-button" src="../static/img/wave/{{ icons.wave }}" class="sea-icon">
+        <img id="add-button" src="../static/img/wave/{{ icons.wave }}" class="img-responsive">
       </td>
       <td>波：{{target_entities[0].sea_surface}}</td>
     </tr>
