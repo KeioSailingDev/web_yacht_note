@@ -215,10 +215,9 @@ class Outline(object):
         outline_html = list(o.run_bq_html(table_name=os.environ.get('HTML_TABLE'),
                                      outline_id=target_outline_id))
 
-        # エンティティ
-        entities = [x for x in
-                   [e for e in list(target_entities[1]) if not dict(e).get('device_id') == ''] if
-                   x is not None]
+        # エンティティ Noneは取り除く
+        entities = [x for x in [e for e in list(target_entities[1]) if not dict(e).get('device_id') == '']
+                    if dict(x).get("device_id") is not None]
 
         # デバイスID
         devices = [dict(e).get("device_id") for e in entities]
@@ -226,19 +225,23 @@ class Outline(object):
         # デバイスID
         yacht_number = [dict(e).get("yacht_number") for e in entities]
 
-        # デバイスカラーを取得
-        colors = []
-        for e in entities:
-            yacht_no = dict(e).get("yacht_number")
-            query_y = client.query(kind="Yacht")
-            query_y.add_filter('yacht_no', '=', yacht_no)
-            res = list(query_y.fetch())[0]
-            colors.append(dict(res).get("color"))
-
         # デバイスが登録されていなければ、GPSログなし、あれば、GPSログの数をカウント
-        if len(devices) < 1:
+        if len(entities) < 1:
             cnt_log = 0
+            yacht_color = [["", ""]]
         else:
+            # デバイスカラーを取得
+            colors = []
+            for e in entities:
+                yacht_no = dict(e).get("yacht_number")
+                query_y = client.query(kind="Yacht")
+                query_y.add_filter('yacht_no', '=', yacht_no)
+                res = list(query_y.fetch())[0]
+                colors.append(dict(res).get("color"))
+
+            # デバイスとカラー
+            yacht_color = [{"yacht": y, "color": c} for y, c in zip(yacht_number, colors)]
+
             sensor_logs = list(o.run_bq_log(selects=["count(loggingTime) AS cnt"],
                                             table_name=os.environ.get('LOG_TABLE'),
                                             devices=devices,
@@ -294,16 +297,12 @@ class Outline(object):
         target_entities[0]["start_time_str"] = target_entities[0]["start_time"][-5:]
         target_entities[0]["end_time_str"] = target_entities[0]["end_time"][-5:]
 
-        # デバイスとカラー
-        yacht_color = [{"yacht":y, "color":c} for y, c in zip(yacht_number, colors)]
-
         return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,
                                 sorted_comments=sorted_comments,
                                log_message=log_message,
                                html_url=public_url,
                                yacht_color=yacht_color)
-
 
     @app.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
     def show_outline(target_outline_id, is_new=None):
@@ -365,7 +364,6 @@ class Outline(object):
 
         return render_template('show_outline.html', title="新規ノート作成",
                                target_entities=target_entities, outline_selections=outline_selections, is_new=is_new)
-
 
     @app.route("/outline/mod_outline/<int:target_outline_id>", methods=['POST'])
     def mod_outline(target_outline_id):
