@@ -3,31 +3,27 @@
 
   <script type="text/javascript" src="{{url_for('static', filename='js/outline.js')}}"></script>
 
-<div class="contents-whole">
-
-  <h1 class="text-center">{{ title }}</h1>
+  <h3 class="sub-fix-var">{{ title }}</h3>
 
   <form action="{{ url_for('mod_outline', target_outline_id=target_entities[0].outline_id) }}" method="post" class="form-horizontal">
 
-    <div class="h5-title-div">
-      <h5 class="h5title">■ 日時情報</h5>
-    </div>
+    <h5 class="first-sub-title">■ 日時情報</h5>
 
-  <div class="contents-each">
-
-    <div class="form-group">
-      <label for="date" class="col-xs-3 col-sm-2 control-label text-left">練習日</label>
-      <div class="col-xs-9 col-sm-10">
-          <input type="date" class="form-control" id="date" name="date" value="{{ target_entities[0].date }}">
+    <div class="form-set clearfix">
+      <div class="float-label">
+        <label for="date">練習日</label>
+      </div>
+      <div class="float-input">
+        <input type="date" class="input-form" id="date" name="date" value="{{ target_entities[0].date }}">
       </div>
     </div>
-    
-    <div class="form-group">
-      <div class="col-xs-3 col-sm-3 label-div">
-        <label for="timecategory" class="label-layout">時間帯</label>
+
+    <div class="form-set clearfix">
+      <div class="float-label">
+        <label for="timecategory">時間帯</label>
       </div>
-      <div class="col-xs-9 col-sm-9">
-        <select name="timecategory" id="timecategory" class="form-control">
+      <div class="float-input">
+        <select name="timecategory" id="timecategory" class="input-form">
           {% for time_category in outline_selections[0] %}
             {% if time_category == target_entities[0].time_category %}
               <option value={{ time_category }} selected>{{ time_category }}</option>
@@ -39,26 +35,32 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="start_time" class="col-sm-2 control-label">開始時間</label>
-      <div class="col-sm-10">
-          <input type="datetime-local" class="form-control" id="start_time" name="start_time" value="{{ target_entities[0].start_time }}">
+    <div class="form-set clearfix">
+      <div class="float-label">
+        <label for="start_time">開始時間</label>
       </div>
-
-      <label for="end_time" class="col-sm-2 control-label">終了時間</label>
-      <div class="col-sm-10">
-          <input type="datetime-local" class="form-control" id="end_time" name="end_time" value="{{ target_entities[0].end_time }}">
+      <div class="float-input">
+        <input type="datetime-local" class="input-form" id="start_time" name="start_time" value="{{ target_entities[0].start_time }}">
       </div>
     </div>
-  </div>
 
-    <div class="h5-title-div">
-      <h5 class="h5title">■ 風情報</h5>
+    <div class="form-set clearfix">
+      <div class="float-label">
+        <label for="end_time">終了時間</label>
+      </div>
+      <div class="float-input">
+        <input type="datetime-local" class="input-form" id="end_time" name="end_time" value="{{ target_entities[0].end_time }}">
+      </div>
     </div>
-    <div class="form-group">
-      <label for="windspeedmin" class="col-sm-2 control-label">最低風速</label>
-      <div class="col-sm-10">
-        <select name="windspeedmin" id="windspeedmin" class="form-control">
+
+  <h5 class="sub-title">■ 風情報</h5>
+
+    <div class="form-set clearfix">
+      <div class="float-label">
+        <label for="windspeedmin">最低風速</label>
+      </div>
+      <div class="float-input">
+        <select class="input-form" name="windspeedmin" id="windspeedmin" class="input-form">
          <option value="">未入力</option>
           {% for wind_speed in outline_selections[1] %}
             {% if wind_speed == target_entities[0].wind_speed_min %}
@@ -70,10 +72,13 @@
         </select>
       </div>
     </div>
-    <div class="form-group">
-      <label for="windspeedmax" class="col-sm-2 control-label">最大風速</label>
-      <div class="col-sm-10">
-        <select name="windspeedmax" id="windspeedmax" class="form-control">
+
+    <div class="form-set clearfix">
+      <div class="float-label">
+        <label for="windspeedmax">最大風速</label>
+      </div>
+      <div class="float-input">
+        <select name="windspeedmax" id="windspeedmax" class="input-form">
          <option value="">未入力</option>
           {% for wind_speed in outline_selections[1] %}
             {% if wind_speed == target_entities[0].wind_speed_max %}
@@ -85,10 +90,13 @@
         </select>
       </div>
     </div>
-    <div class="form-group">
-      <label for="winddirection" class="col-sm-2 control-label">風向</label>
-      <div class="col-sm-10">
-        <select name="winddirection" id="winddirection" class="form-control">
+
+    <div class="form-set clearfix">
+      <div class="float-label">
+        <label for="winddirection">風向</label>
+      </div>
+      <div class="float-input">
+        <select name="winddirection" id="winddirection" class="input-form">
          <option value="">未入力</option>
           {% for wind_direction in outline_selections[2] %}
             {% if wind_direction == target_entities[0].wind_direction %}
@@ -100,10 +108,13 @@
         </select>
       </div>
     </div>
-    <div class="form-group">
-      <label for="windspeedchange" class="col-sm-2">風速変化</label>
-      <div class="col-sm-10">
-        <select name="windspeedchange" id="windspeedchange" class="form-control">
+
+    <div class="form-set clearfix">
+      <div class="float-label">
+        <label for="windspeedchange">風速変化</label>
+      </div>
+      <div class="float-input">
+        <select name="windspeedchange" id="windspeedchange" class="input-form">
             <option value="">未入力</option>
           {% for size in outline_selections[3] %}
             {% if size == target_entities[0].wind_speed_change %}
@@ -116,14 +127,14 @@
       </div>
     </div>
 
-    <div class="h5-title-div">
-      <h5 class="h5title">■ 海面情報</h5>
-    </div>
+  <h5 class="sub-title">■ 海面情報</h5>
 
-    <div class="form-group">
-      <label for="seasurface" class="col-sm-2 control-label">海面</label>
-      <div class="col-sm-10">
-        <select name="seasurface" id="seasurface" class="form-control">
+    <div class="form-set clearfix">
+      <div class="float-label">
+        <label for="seasurface">海面</label>
+      </div>
+      <div class="float-input">
+        <select name="seasurface" id="seasurface" class="input-form">
             <option value="">未入力</option>
           {% for sea_surface in outline_selections[4] %}
             {% if sea_surface == target_entities[0].sea_surface %}
@@ -136,10 +147,12 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="swell" class="col-sm-2 control-label">うねり</label>
-      <div class="col-sm-10">
-        <select name="swell" id="swell" class="form-control">
+    <div class="form-set clearfix">
+      <div class="float-label">
+        <label for="swell" class="col-sm-2 control-label">うねり</label>
+      </div>
+      <div class="float-input">
+        <select name="swell" id="swell" class="input-form">
             <option value="">未入力</option>
           {% for size in outline_selections[3] %}
             {% if size == target_entities[0].swell %}
@@ -149,21 +162,21 @@
             {% endif %}
           {% endfor %}
         </select>
-       </div>
+      </div>
     </div>
 
-    <div class="h5-title-div">
-      <h5 class="h5title">■配艇</h5>
-    </div>
+  <h5 class="sub-title">■ 配艇</h5>
 
-    {% for outline2 in target_entities[1] %}
-    <div class="yacht-skipper">
-      <div class="form-group">
-        <label for="yachtnumber{{loop.index0}}" class="col-sm-2 control-label">
-          艇番{{ target_entities[1].index(outline2)+1 }}
-        </label>
-        <div class="col-sm-10">
-          <select name="yachtnumber{{loop.index0}}" id="yachtnumber{{loop.index0}}" class="form-control">
+  {% for outline2 in target_entities[1] %}
+  <div class="yacht-skipper">
+      <div class="form-set clearfix">
+        <div class="float-label">
+          <label for="yachtnumber{{loop.index0}}" class="col-sm-2 control-label">
+            艇番{{ target_entities[1].index(outline2)+1 }}
+          </label>
+        </div>
+        <div class="float-input">
+          <select name="yachtnumber{{loop.index0}}" id="yachtnumber{{loop.index0}}" class="input-form">
             <option value="">未入力</option>
               {% for yacht_number in outline_selections[5] %}
                 {% if yacht_number.yacht_no == outline2.yacht_number %}
@@ -176,10 +189,12 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="deviceid{{loop.index0}}" class="col-sm-2 control-label">デバイス</label>
-        <div class="col-sm-10">
-          <select name="deviceid{{loop.index0}}" id="deviceid{{loop.index0}}" class="form-control">
+      <div class="form-set clearfix">
+        <div class="float-label">
+          <label for="deviceid{{loop.index0}}" class="col-sm-2 control-label">デバイス</label>
+        </div>
+        <div class="float-input">
+          <select name="deviceid{{loop.index0}}" id="deviceid{{loop.index0}}" class="input-form">
             <option value="">未入力</option>
             {% for device in outline_selections[7] %}
               {% if device.device_id == outline2.device_id %}
@@ -192,138 +207,110 @@
         </div>
       </div>
 
-      <table class="table">
+    <table id="edit-outline-table" class="table" >
 
-        <tr>
-          <td>
-            <div class="form-group">
-              <label for="skipper1{{loop.index0}}" class="col-xs-10 col-sm-4 control-label　text-left">スキッパー1</label>
-              <div class="col-xs-11 col-sm-8">
-                <select name="skipper1{{loop.index0}}" id="skipper1{{loop.index0}}" class="form-control">
-                  <option value="">未入力</option>
-                  {% for player_name in outline_selections[6] %}
-                    {% if player_name.player_name == outline2.skipper1 %}
-                      <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
-                    {% else %}
-                      <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
-                    {% endif %}
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-          </td>
+      <tr>
+        <td class="outline-td-skipper">
+          <label for="skipper1{{loop.index0}}">スキッパー1</label>
+          <select name="skipper1{{loop.index0}}" id="skipper1{{loop.index0}}" class="input-form">
+            <option value="">未入力</option>
+            {% for player_name in outline_selections[6] %}
+              {% if player_name.player_name == outline2.skipper1 %}
+                <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+              {% else %}
+                <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </td>
+        <td class="outline-td-crew">
+          <label for="crew1{{loop.index0}}">クルー1</label>
+          <select name="crew1{{loop.index0}}" id="crew1{{loop.index0}}" class="input-form">
+            <option value="">未入力</option>
+            {% for player_name in outline_selections[6] %}
+              {% if player_name.player_name == outline2.crew1 %}
+                <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+              {% else %}
+                <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </td>
+      </tr>
 
-          <td>
-            <div class="form-group">
-              <label for="crew1{{loop.index0}}" class="col-xs-10 col-sm-3 control-label　text-left">クルー1</label>
-              <div class="col-xs-12 col-sm-9">
-                <select name="crew1{{loop.index0}}" id="crew1{{loop.index0}}" class="form-control">
-                  <option value="">未入力</option>
-                  {% for player_name in outline_selections[6] %}
-                    {% if player_name.player_name == outline2.crew1 %}
-                      <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
-                    {% else %}
-                      <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
-                    {% endif %}
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="form-group">
-              <label for="skipper2{{loop.index0}}" class="col-xs-10 col-sm-4 control-label　text-left">スキッパー2</label>
-              <div class="col-xs-11 col-sm-8">
-                <select name="skipper2{{loop.index0}}" id="skipper2{{loop.index0}}" class="form-control">
-                  <option value="">未入力</option>
-                  {% for player_name in outline_selections[6] %}
-                    {% if player_name.player_name == outline2.skipper2 %}
-                      <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
-                    {% else %}
-                      <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
-                    {% endif %}
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-          </td>
+      <tr>
+        <td class="outline-td-skipper">
+          <label for="skipper2{{loop.index0}}">スキッパー2</label>
+          <select name="skipper2{{loop.index0}}" id="skipper2{{loop.index0}}" class="input-form">
+            <option value="">未入力</option>
+            {% for player_name in outline_selections[6] %}
+              {% if player_name.player_name == outline2.skipper2 %}
+                <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+              {% else %}
+                <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </td>
+        <td class="outline-td-crew">
+          <label for="crew2{{loop.index0}}">クルー2</label>
+          <select name="crew2{{loop.index0}}" id="crew2{{loop.index0}}" class="input-form">
+            <option value="">未入力</option>
+            {% for player_name in outline_selections[6] %}
+              {% if player_name.player_name == outline2.crew2 %}
+                <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+              {% else %}
+                <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </td>
+      </tr>
 
-          <td>
-            <div class="form-group">
-              <label for="crew2{{loop.index0}}" class="col-xs-10 col-sm-3 control-label　text-left">クルー2</label>
-              <div class="col-xs-12 col-sm-9">
-                <select name="crew2{{loop.index0}}" id="crew2{{loop.index0}}" class="form-control">
-                  <option value="">未入力</option>
-                  {% for player_name in outline_selections[6] %}
-                    {% if player_name.player_name == outline2.crew2 %}
-                      <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
-                    {% else %}
-                      <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
-                    {% endif %}
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-          </td>
-        </tr>
+      <tr>
+        <td class="outline-td-skipper">
+          <label for="skipper3{{loop.index0}}">スキッパー3</label>
+          <select name="skipper3{{loop.index0}}" id="skipper3{{loop.index0}}" class="input-form">
+            <option value="">未入力</option>
+            {% for player_name in outline_selections[6] %}
+              {% if player_name.player_name == outline2.skipper3 %}
+                <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+              {% else %}
+                <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </td>
+        <td class="outline-td-crew">
+          <label for="crew3{{loop.index0}}">クルー3</label>
+          <select name="crew3{{loop.index0}}" id="crew3{{loop.index0}}" class="input-form">
+            <option value="">未入力</option>
+            {% for player_name in outline_selections[6] %}
+              {% if player_name.player_name == outline2.crew3 %}
+                <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+              {% else %}
+                <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </td>
+      </tr>
 
-        <tr>
-          <td>
-            <div class="form-group">
-              <label for="skipper3{{loop.index0}}" class="col-xs-10 col-sm-4 control-label　text-left">スキッパー3</label>
-              <div class="col-xs-11 col-sm-8">
-                <select name="skipper3{{loop.index0}}" id="skipper3{{loop.index0}}" class="form-control">
-                  <option value="">未入力</option>
-                  {% for player_name in outline_selections[6] %}
-                    {% if player_name.player_name == outline2.skipper3 %}
-                      <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
-                    {% else %}
-                      <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
-                    {% endif %}
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-          </td>
+    </table>
+    <hr>
+  </div>
+  {% endfor %}
 
-          <td>
-            <div class="form-group">
-              <label for="crew3{{loop.index0}}" class="col-xs-10 col-sm-3 control-label　text-left">クルー3</label>
-              <div class="col-xs-12 col-sm-9">
-                <select name="crew3{{loop.index0}}" id="crew3{{loop.index0}}" class="form-control">
-                  <option value="">未入力</option>
-                  {% for player_name in outline_selections[6] %}
-                    {% if player_name.player_name == outline2.crew3 %}
-                      <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
-                    {% else %}
-                      <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
-                    {% endif %}
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </table>
-      <hr>
-    </div>
+  <div class="clearfix">
+    <button id="open-yacht-skipper" type="button" class="btn-for-outline">艇番追加</button>
+  </div>
 
-
-      {% endfor %}
-
-    <button id="open-yacht-skipper" type="button" class="btn btn-outline-secondary">艇番追加</button>
-
-    <div class="h5-title-div">
-      <h5 class="h5title">■ 練習メニュー</h5>
-    </div>
+  <h5 class="sub-title">■ 練習メニュー</h5>
 
     <ol id="menu">
       <li>
-        <label for="training1" class="col-sm-2 control-label">練習1</label>
-        <div class="col-sm-10">
-          <select name="training1" id="training1" class="form-control">
+        <div class="form-set">
+          <select name="training1" id="training1" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training1 %}
@@ -336,9 +323,8 @@
         </div>
       </li>
       <li>
-        <label for="training2" class="col-sm-2 control-label">練習2</label>
-        <div class="col-sm-10">
-          <select name="training2" id="training2" class="form-control">
+        <div class="form-set">
+          <select name="training2" id="training2" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training2 %}
@@ -351,9 +337,8 @@
         </div>
       </li>
       <li>
-        <label for="training3" class="col-sm-2 control-label">練習3</label>
-        <div class="col-sm-10">
-          <select name="training3" id="training3" class="form-control">
+        <div class="form-set">
+          <select name="training3" id="training3" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training3 %}
@@ -366,9 +351,8 @@
         </div>
       </li>
       <li>
-        <label for="training4" class="col-sm-2 control-label">練習4</label>
-        <div class="col-sm-10">
-          <select name="training4" id="training4" class="form-control">
+        <div class="form-set">
+          <select name="training4" id="training4" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training4 %}
@@ -381,9 +365,8 @@
         </div>
       </li>
       <li>
-        <label for="training5" class="col-sm-2 control-label">練習5</label>
-        <div class="col-sm-10">
-          <select name="training5" id="training5" class="form-control">
+        <div class="form-set">
+          <select name="training5" id="training5" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training5 %}
@@ -396,9 +379,8 @@
         </div>
       </li>
       <li>
-        <label for="training6" class="col-sm-2 control-label">練習6</label>
-        <div class="col-sm-10">
-          <select name="training6" id="training6" class="form-control">
+        <div class="form-set">
+          <select name="training6" id="training6" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training6 %}
@@ -411,9 +393,8 @@
         </div>
       </Li>
       <li>
-        <label for="training7" class="col-sm-2 control-label">練習7</label>
-        <div class="col-sm-10">
-          <select name="training7" id="training7" class="form-control">
+        <div class="form-set">
+          <select name="training7" id="training7" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training7 %}
@@ -426,9 +407,8 @@
         </div>
       </li>
       <li>
-        <label for="training8" class="col-sm-2 control-label">練習8</label>
-        <div class="col-sm-10">
-          <select name="training8" id="training8" class="form-control">
+        <div class="form-set">
+          <select name="training8" id="training8" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training8 %}
@@ -441,9 +421,8 @@
         </div>
       </li>
       <li>
-        <label for="training9" class="col-sm-2 control-label">練習9</label>
-        <div class="col-sm-10">
-          <select name="training9" id="training9" class="form-control">
+        <div class="form-set">
+          <select name="training9" id="training9" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training9 %}
@@ -456,9 +435,8 @@
         </div>
       </li>
       <li>
-        <label for="training10" class="col-sm-2 control-label">練習10</label>
-        <div class="col-sm-10">
-          <select name="training10" id="training10" class="form-control">
+        <div class="form-set">
+          <select name="training10" id="training10" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training10 %}
@@ -471,9 +449,8 @@
         </div>
       </li>
       <li>
-        <label for="training11" class="col-sm-2 control-label">練習11</label>
-        <div class="col-sm-10">
-          <select name="training11" id="training11" class="form-control">
+        <div class="form-set">
+          <select name="training11" id="training11" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training11 %}
@@ -486,9 +463,8 @@
         </div>
       </li>
       <li>
-        <label for="training12" class="col-sm-2 control-label">練習12</label>
-        <div class="col-sm-10">
-          <select name="training12" id="training12" class="form-control">
+        <div class="form-set">
+          <select name="training12" id="training12" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training12 %}
@@ -501,9 +477,8 @@
         </div>
       </li>
       <li>
-        <label for="training13" class="col-sm-2 control-label">練習13</label>
-        <div class="col-sm-10">
-          <select name="training13" id="training13" class="form-control">
+        <div class="form-set">
+          <select name="training13" id="training13" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training13 %}
@@ -516,9 +491,8 @@
         </div>
       </li>
       <li>
-        <label for="training14" class="col-sm-2 control-label">練習14</label>
-        <div class="col-sm-10">
-          <select name="training14" id="training14" class="form-control">
+        <div class="form-set">
+          <select name="training14" id="training14" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training14 %}
@@ -531,9 +505,8 @@
         </div>
       </li>
       <li>
-        <label for="training15" class="col-sm-2 control-label">練習15</label>
-        <div class="col-sm-10">
-          <select name="training15" id="training15" class="form-control">
+        <div class="form-set">
+          <select name="training15" id="training15" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
               {% if training_menu.training_menu == target_entities[0].training15 %}
@@ -547,31 +520,23 @@
       </li>
     </ol>
 
-    <div class="add-row-div">
-      <button id="menu-open" type="button" class="btn btn-outline-secondary">行追加</button>
+    <div class="clearfix">
+      <button id="menu-open" type="button" class="btn-for-outline">行の追加</button>
     </div>
 
+  <div id="bgc-for-btn">
+    <button type="submit" class="btn btn-primary btn-submit">
+      <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> ノートを保存
+    </button>
 
-    <div class="form-group">
-      <div class="col-sm-10">
-        <button type="submit" class="btn btn-primary">
-          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 内容を確定
-        </button>
-      </div>
-    </div>
   </form>
 
-  <form class="text-right" action="{{ url_for('del_outline', target_outline_id=target_entities[0].outline_id) }}" method="post">
-    <button type="submit" class="btn btn-danger">
+
+  <form action="{{ url_for('del_outline', target_outline_id=target_entities[0].outline_id) }}" method="post">
+    <button type="submit" class="btn btn-danger btn-delete">
       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ノートを削除
     </button>
   </form>
-
-  <div class="button-padding">
-    <a class="btn btn-default" href="{{ url_for('top') }}">
-      <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> 戻る
-    </a>
-  </div>
 </div>
 
 {% endblock %}

@@ -31,8 +31,7 @@
         {% block right_sidebar_button %}{% endblock %}
     </header>
 
-
-    <div id="wrapper" class="main-size" style="margin-top: 40px">
+  <div id="wrapper" class="main-size">
        <!-- Nav -->
     <div id="sidr-left-top">
         <ul class="sidebar-nav">
@@ -61,11 +60,7 @@
     {% block right_sidebar %}{% endblock %}
 
     <!-- Page Content -->
-    <div id="page-content-wrapper" class="col-12">
-        <div class="top-page-size" class="col-12">
-            {% block content %}{% endblock %}
-        </div>
-    </div>
+    {% block content %}{% endblock %}
 
     <!-- /#page-content-wrapper -->
   </div>
