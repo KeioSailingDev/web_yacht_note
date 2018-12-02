@@ -31,15 +31,16 @@
   <script src="{{ url_for('static', filename='js/Chart.bundle.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
-  <h2>{{ outline_name }}</h2>
+<h3 class="sub-fix-var">{{ outline_name }}</h3>
 
   {% if no_value_message is not none %}
     <p class="bg-warning text-center">{{ no_value_message }}</p>
   {% else %}
   {%endif %}
-  <span class="h4">最高速度(knot)</span>
+  <h5 class="first-sub-title">■最高速度(knot)</h5>
   <canvas id="max_speed"></canvas>
-  <span class="h4">合計航行距離(m)</span>
+
+  <h5 class="sub-title">■合計航行距離(m)</h5>
   <canvas id="sum_distance"></canvas>
   <!--チャート設定-->
   <script>
@@ -65,9 +66,9 @@
           datalabels: {
               align: 'end',
               anchor: 'end',
-              color: '#111',
+              color: '#fff',
               font: {
-                  size: 10
+                  size: 15
               },
           }
         }]
@@ -90,9 +91,9 @@
           datalabels: {
               align: 'end',
               anchor: 'end',
-              color: '#111',
+              color: '#fff',
               font: {
-                  size: 10
+                  size: 15
               },
           }
         }]
@@ -114,7 +115,7 @@
             ticks: { // 目盛の設定
               display:false,
               min: 0, // Y軸の最大値
-              max: Math.round(Math.max.apply(null, max_speed)) * 1.3, // Y軸の最小値
+              max: Math.round(Math.max.apply(null, max_speed)) * 1.5, // Y軸の最小値
               beginAtZero: true,
               type: "time",
               time: {
@@ -134,7 +135,8 @@
             barThickness:20,  //各バーの幅
             ticks: {
               beginAtZero: true, //開始値を0にする
-              fontSize: 10,       //フォントサイズ
+              fontSize: 15,       //フォントサイズ
+              fontColor: "#fff", //フォントカラー
               maxRotation: 0,  // 最大角度
               minRotation: 0, // 斜めに表示
             },
@@ -142,13 +144,14 @@
         },
       };
 
-      // // コピー
+      // コピー
       var option_max_speed = JSON.parse(JSON.stringify(option));
       var option_sum_distance = JSON.parse(JSON.stringify(option));
 
-      //
+      // knot形式になおす
       option_max_speed.scales.xAxes[0].ticks.max = Math.round(Math.max.apply(null, max_speed)) * 1.3;
       option_sum_distance.scales.xAxes[0].ticks.max = Math.round(Math.max.apply(null, sum_distance)) * 1.3;
+
       // グラフ出力
       var ctx = document.getElementById('max_speed');
       new Chart(ctx, {

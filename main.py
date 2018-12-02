@@ -1289,6 +1289,11 @@ class Ranking(object):
                                sum_distance_values=sum_distance_values,
                                filter_list=sorted_outline)
 
+class log_insert(object):
+    @app.route("/log", methods=['POST'])
+    def log_insert_bigquery(self):
+        return 0
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
