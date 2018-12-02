@@ -56,10 +56,10 @@
     </div>
     <!-- 右サイドバー -->
     {% block right_sidebar %}{% endblock %}
-
-    <!-- Page Content -->
-    {% block content %}{% endblock %}
-
+    <div id="content">
+        <!-- Page Content -->
+        {% block content %}{% endblock %}
+    </div>
     <!-- /#page-content-wrapper -->
   </div>
 
@@ -100,7 +100,7 @@
     <script type="text/javascript">// <![CDATA[
         function loading(){
             $("#loading").show();
-            $("#page-content-wrapper").hide();
+            $("#content").hide();
         }
 // ]]></script>
 
