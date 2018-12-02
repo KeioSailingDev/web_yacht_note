@@ -1226,7 +1226,7 @@ class Ranking(object):
             form_value = request.form.get(form_name)
             if form_value in ['', '-']:
                 form_value = None
-            return form_valuezd
+            return form_value
 
         target_outline_id = get_form_value("filter_outline")
 
@@ -1288,6 +1288,11 @@ class Ranking(object):
                                max_speed_values=max_speed_values,
                                sum_distance_values=sum_distance_values,
                                filter_list=sorted_outline)
+
+class log_insert(object):
+    @app.route("/log", methods=['POST'])
+    def log_insert_bigquery(self):
+        return 0
 
 
 if __name__ == '__main__':
