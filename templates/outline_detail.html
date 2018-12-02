@@ -191,7 +191,7 @@
   {% endfor %}
 
   <div class="btn-edit">
-    <a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id )}}">
+    <a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id )}}" onClick="loading();">
       <span class="glyphicon glyphicon-search" aria-hidden="true"></span> ノートを編集
     </a>
   </div>

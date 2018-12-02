@@ -1,22 +1,16 @@
 from datetime import datetime, timedelta
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, abort
+import httplib2shim
+httplib2shim.patch()
 from google.cloud import datastore
 from google.cloud import bigquery
 from flask_bootstrap import Bootstrap
 import pandas as pd
 from models import query
-from retry import retry
 from google.cloud import storage
 import folium
 import tempfile
-import httplib2shim
-from oauth2client.client import GoogleCredentials
-
-# 不具合のあるhttplib2.Httpをhttplib2shim.Httpで上書きする
-credentials = GoogleCredentials.get_application_default()
-http = httplib2shim.Http()
-credentials.authorize(http)
 
 # 環境変数を開発用と本番用で切り替え
 os.environ['PROJECT_ID'] = 'webyachtnote'  #本番用
@@ -41,7 +35,7 @@ bucket = storage_client.get_bucket(os.environ.get('MAP_BUCKET'))
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
-@retry(tries=3, delay=2)
+
 @app.route('/', methods=['GET', 'POST'])
 def top():
     """
@@ -120,6 +114,38 @@ def about():
     WEBヨットノートを説明するページ
     """
     return render_template('about.html')
+#
+# # error ====
+# @app.route('/403')
+# def abort403():
+#     abort(403)
+#
+#
+# @app.route('/404')
+# def abort404():
+#     abort(404)
+#
+#
+# @app.route('/500')
+# def abort500():
+#     abort(500)
+#
+# @app.errorhandler(403)
+# @app.errorhandler(404)
+# @app.errorhandler(500)
+# def error_handler(error):
+#     print(error.code)
+#     if error.code == 404:
+#         error_message = "ページが存在しませんm(_ _)m"
+#     elif error.code == 500:
+#         error_message = "サーバーエラーが発生していますm(_ _)m。何度かページを更新すると改善することがあります。"
+#     else:
+#         error_message = "エラーが発生しました"
+#     print(error_message)
+#
+#     return render_template("error_page.html", error_message=error_message)
+
+# error ここまで====
 
 
 class Outline(object):
@@ -198,7 +224,6 @@ class Outline(object):
         print(errors)
         assert errors == []
 
-    @retry(tries=3, delay=2)
     @app.route("/outline/<int:target_outline_id>", methods=['GET'])
     def outline_detail(target_outline_id):
         """
