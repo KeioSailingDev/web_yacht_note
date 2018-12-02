@@ -295,8 +295,6 @@ class Outline(object):
         return flag_file
 
 
-
-    @retry(tries=3, delay=2)
     @app.route("/outline/<int:target_outline_id>", methods=['GET'])
     def outline_detail(target_outline_id):
         """
@@ -1228,7 +1226,7 @@ class Ranking(object):
             form_value = request.form.get(form_name)
             if form_value in ['', '-']:
                 form_value = None
-            return form_value
+            return form_valuezd
 
         target_outline_id = get_form_value("filter_outline")
 
