@@ -13,8 +13,9 @@ header{
 }
 
 
-#wrapper{
+div#wrapper{
     margin-top: 40px;
+    margin-bottom:0px;
 }
 
 .menu-button {
@@ -71,13 +72,9 @@ header{
     width: 100%;
     height: 100px;
     left: 0;
-
 }
 
-body {
-  font-family: "VDL-GigaJr", sans-serif;
-  margin-bottom: 100px;
-}
+
 
 @font-face {
   font-family: "VDL-GigaJr", sans-serif;
@@ -99,96 +96,223 @@ flex: 0 0 100%;
 max-width: 100%;
 }
 
-
-.top-page-size {
+/*==========ページ全体(layout.html)への設定==========*/
+body {
+  font-family: "VDL-GigaJr", sans-serif;
+  color: white;
   width: 100%;
-  padding-right: 0px;
-  padding-left: 0px;
-  margin-right: auto;
-  margin-left: auto;
+  height: 100%;
+  background-color: rgb(71,70,71);
+  margin-bottom: 0px;
 }
+/*================================================*/
 
-
-/* 全般的な設定 */
-.h5-title-div {
+/* ==========タイトルバーに関する設定 ==========*/
+/*上部、セカンド固定バー*/
+h3.sub-fix-var {
   width: 100%;
-  padding-right: 0px;
-  padding-left: 0px;
-  margin-right: auto;
-  margin-left: auto;
   height: 25px;
-  background-color: rgb(94,92,96);
+  margin: -25px 0px 0px 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: rgb(0,0,0);
+  position: fixed;
+  color: rgb(255,255,255);
+  text-align: center;
+  font-size: 15px;
 }
 
-h5.h5title {
+/*h5タイトルバー*/
+h5.first-sub-title {
+  background-color: rgb(94,92,96);
+  width: 100%;
+  height: 22px;
   color: rgb(255,255,255);
+  font-size: 14px;
+  text-align: left;
   padding-left: 15px;
+
+  margin: 65px 0px 0px 0px;
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-.button-padding {
-  padding-left: 15px;
-  padding-bottom: 25px;
-}
-
-/* 練習概要、練習概要変更ページの全体にかける */
-.contents-whole {
-  background-color: rgb(71,70,71);
-  color: rgb(255,255,255);
-  border-collapse: collapse;
-}
-
-.contents-each {
-  padding: 15px;
-}
-
-/* 入力項目に関するクラス */
-
-.label-div {
-  height: 34px;
-  display:  table-cell;
-  vertical-align: middle;
-}
-
-.label-layout {
-  display: block;
-  text-align: center;
-
-}
-
-.padding-lr-15 {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-/* 練習概要-艇番 */
-.yacht-number-div {
-  padding-left: 8px;
-  padding-top: 8px;
-}
-
-.yacht-number-span {
-  border-style: solid;
-  border-width: 1px;
-  border-color: rgb(255,255,255);
-  padding: 2px;
-}
-
-/* 練習概要-スキッパーとクルー-表 */
-.table {
+h5.sub-title {
+  background-color: rgb(94,92,96);
   width: 100%;
-  max-width: 100%;
-  margin-bottom: 1rem;
-  background-color: transparent;
+  height: 22px;
+  color: rgb(255,255,255);
+  font-size: 14px;
+  text-align: left;
+  padding-left: 15px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+/*==========================================*/
+
+/*==========入力項目に関するクラス==========*/
+/*input要素・select要素とlabel要素の位置関係*/
+div.form-set {
+  margin:10px 15px 10px 15px;
 }
 
-/* 練習概要変更-艇番追加と行追加ボタン */
-.add-row-div {
-  padding-right: 15px;
+div.float-label label {
+  float: left;
+  width: 60px;
+  height: 35px;
+  padding: 6px 0px 14px 0px;
+  margin:0px 10px 0px 0px;
+  font-size: 15px;
+  font-weight: normal;
 }
 
-/* 練習概要変更-入力項目 */
+div.float-input input {
+  float: right;
+  width: -webkit-calc(100% - 70px);
+  width: calc(100% - 70px);
+}
+
+div.float-input select {
+  float: right;
+  width: -webkit-calc(100% - 70px);
+  width: calc(100% - 70px);
+}
+
+/*入力項目の詳細設定*/
+input.input-form,
+select.input-form,
+textarea.input-form  {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgb(255,255,255);
+  background-color: rgb(71,70,71);
+  background-clip: padding-box;
+  border: 1px solid rgb(255,255,255);
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input.input-form,
+select.input-form {
+  height: 30px;
+}
+/*======================================*/
+
+
+/*==========TOPページ（top.html)==========*/
+table#toppage-table tbody tr:nth-of-type(odd) {
+  background-color: rgba(94,92,96);
+}
+
+table#toppage-table tbody tr:nth-of-type(even) {
+  background-color: rgba(71,70,71);
+}
+
+table#toppage-table thead tr th,
+table#toppage-table tbody tr td {
+  text-align: center;
+}
+
+table#toppage-table thead tr {
+  background-color: rgb(0,0,0);
+}
+/*=======================================*/
+
+/*==========練習概要ページ(outline_detail.html)==========*/
+div.yacht-number {
+  display:inline-block;
+  margin: 10px auto 10px 15px;
+  border: 1px solid rgb(255,255,255);
+}
+
+
+table.detail-outline-table-sc {
+  margin: 10px 15px 10px 15px;
+}
+table.detail-outline-table-sc thead th,
+table.detail-outline-table-sc tr td {
+  border: none;
+}
+
+button.btn-add-comment {
+  float: right;
+  margin: 10px 15px 10px auto;
+}
+
+div.btn-edit {
+  float: right;
+  margin: 10px 15px 10px auto;
+}
+
+div.name-comment {
+    margin: 0px 15px 0px 15px;
+}
+/*=======================================================*/
+
+/*========練習概要追加・変更ページ(show_outline.html)========*/
+/*スキッパーとクルーの表*/
+table#edit-outline-table tr td {
+  border: none;
+}
+
+table#edit-outline-table tr td.outline-td-skipper {
+  padding: 10px 5px 10px 15px;
+  width: 50%;
+}
+
+table#edit-outline-table tr td.outline-td-crew {
+  padding: 10px 15px 10px 5px;
+  width: 50%;
+}
+
+/*行の追加ボタン*/
+button.btn-for-outline {
+  float: right;
+  display: inline-block;
+  height: 34px;
+  background-color: rgb(0,0,0);
+
+  width: 90px;
+
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 15px;
+
+  border: 1px solid transparent;
+  border-radius: 5px;
+
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  padding: 0.375rem 0.75rem;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/*「ノートを保存」ボタン*/
+button.btn-submit {
+  float: right;
+}
+
+/*「ノートを保存」「ノートを削除」ボタンの背景*/
+div#bgc-for-btn {
+  background-color: rgb(94,92,96);
+  margin-left: 0px;
+  margin-right: 0px;
+  padding: 10px 15px 10px 15px;
+}
+/*=======================================================*/
+
 
 /* Settings for fullwidth */
 .sidr.fullwidth {
@@ -198,6 +322,7 @@ h5.h5title {
 .sidr.left.fullwidth {
     left: -100%;
 }
+
 
 .sidr.right.fullwidth {
     right: -100%;
@@ -212,3 +337,9 @@ input {
  font-size: 10px;
  /* transform: scale(0.8); */
 }
+
+/*ローディングアイコン*/
+p#loading {
+    display: none;
+    cursor: wait;
+    }

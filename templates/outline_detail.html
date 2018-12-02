@@ -1,7 +1,9 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<h3 class="text-center">{{ target_entities[0].date }}{{ target_entities[0].time_category }}</h3>
+<h3 class="sub-fix-var">{{ target_entities[0].date }}{{ target_entities[0].time_category }}</h3>
+
+<h5 class="first-sub-title">■ GPSログデータ</h5>
 {% if log_message == 'GPSログなし' %}
     {{ no_value_message }}
 {% else %}
@@ -10,10 +12,10 @@
     <span style="color:{{ yc.color }}">{{ yc.yacht }}　</span>
     {% endfor %}
 {% endif %}
+
 <div class="h5-title-div">
   <h5 class="h5title">■ 海面状況</h5>
 </div>
-
   <table class="text-center">
     <tr>
       <td rowspan=2 class="col-xs-4">
@@ -46,19 +48,17 @@
     </tr>
   </table>
 
-
-<div class="h5-title-div">
-  <h5 class="h5title">■ 配艇</h5>
-</div>
+  <h5 class="sub-title">■ 配艇</h5>
 
   {% for outline2 in target_entities[1] %}
 
     {% if outline2.yacht_number %}
-    <div class="yacht-number-div">
-      <span class="yacht-number-span">{{outline2.yacht_number}}</span>
+
+    <div class="yacht-number">
+      {{outline2.yacht_number}}
     </div>
 
-    <table class="table">
+    <table class="table detail-outline-table-sc">
       <thead>
         <tr>
           <th></th>
@@ -99,9 +99,9 @@
 
 
 
-<div class="h5-title-div">
-  <h5 class="h5title">■ 練習メニュー</h5>
-</div>
+
+  <h5 class="sub-title">■ 練習メニュー</h5>
+
 
 
   <ol>
@@ -166,35 +166,35 @@
     {% endif %}
   </ol>
 
+  <h5 class="sub-title">■ コメント欄</h5>
 
-<div class="h5-title-div">
-  <h5 class="h5title">■ コメント欄</h5>
-</div>
-
-
-  <form action="{{ url_for('add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" class="form-inline padding-lr-15">
-    <label for="name">名前</label><br>
-      <input type="text" class="form-control" id="name" name="name"><br>
-    <label for="name">コメント</label><br>
-      <textarea class="form-control" rows=2 id="comment" name="comment"></textarea><br>
-    <button type="submit" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> コメント追加
-    </button>
+  <form action="{{ url_for('add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" class="form-inline">
+    <div class="form-set">
+      <label for="name">名前</label>
+      <input type="text" class="input-form" id="name" name="name">
+    </div>
+    <div class="form-set">
+      <label for="name">コメント</label>
+      <textarea class="input-form" rows=2 id="comment" name="comment"></textarea>
+    </div>
+    <div class="clearfix">
+      <button type="submit" class="btn btn-primary btn-add-comment">
+          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> コメント追加
+      </button>
+    </div>
   </form>
   <hr>
 
   {% for user_comment in sorted_comments %}
-    <div class="padding-lr-15">{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
-    <div class="padding-lr-15">{{user_comment.comment}}</div>
+    <div class="name-comment">{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
+    <div class="name-comment">{{user_comment.comment}}</div>
     <hr>
   {% endfor %}
 
-  <div class="button-padding">
-    <a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id )}}">
-      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更
+  <div class="btn-edit">
+    <a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id )}}" onClick="loading();">
+      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> ノートを編集
     </a>
   </div>
-
-</div>
 
 {% endblock %}
