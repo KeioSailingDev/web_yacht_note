@@ -1226,7 +1226,7 @@ class Ranking(object):
             form_value = request.form.get(form_name)
             if form_value in ['', '-']:
                 form_value = None
-            return form_valuezd
+            return form_value
 
         target_outline_id = get_form_value("filter_outline")
 

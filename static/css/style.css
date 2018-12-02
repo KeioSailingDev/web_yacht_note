@@ -15,7 +15,7 @@ header{
 
 div#wrapper{
     margin-top: 40px;
-    margin-bottom:0px;
+    margin-bottom:100px;
 }
 
 .menu-button {
@@ -327,11 +327,6 @@ div#bgc-for-btn {
 .sidr.right.fullwidth {
     right: -100%;
 }
-
-input {
-  font-size: 1px;
-}
-/* END Settings for fullwidth */
 
 input {
  font-size: 10px;
