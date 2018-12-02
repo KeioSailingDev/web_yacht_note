@@ -101,7 +101,7 @@
     </thead>
     <tbody>
       {% for outline in outline_list %}
-      <tr data-href="outline/{{ outline.outline_id }}">
+      <tr data-href="outline/{{ outline.outline_id }}" onClick="loading();">
         <td>{{ outline.date }}</td>
         <td>{{ outline.time_category }}</td>
       </tr>
@@ -110,7 +110,7 @@
   </table>
 
   <div id="button-footer" class="text-center">
-     <a href="{{ url_for('add_outline', is_new='new')}}">
+     <a href="{{ url_for('add_outline', is_new='new')}}" onClick="loading();">
         <img id="add-button" src="../static/css/plus_button.png" width="64px" height="64px">
      </a>
   </div>

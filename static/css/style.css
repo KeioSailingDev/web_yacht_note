@@ -213,3 +213,9 @@ input {
  font-size: 10px;
  /* transform: scale(0.8); */
 }
+
+/*ローディングアイコン*/
+p#loading {
+    display: none;
+    cursor: wait;
+    }
