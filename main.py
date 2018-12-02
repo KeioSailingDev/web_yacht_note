@@ -11,7 +11,6 @@ from models import query
 from google.cloud import storage
 import folium
 import tempfile
-from oauth2client.client import GoogleCredentials
 
 # 環境変数を開発用と本番用で切り替え
 os.environ['PROJECT_ID'] = 'webyachtnote'  #本番用
