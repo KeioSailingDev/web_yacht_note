@@ -31,8 +31,7 @@
         {% block right_sidebar_button %}{% endblock %}
     </header>
 
-
-    <div id="wrapper" class="main-size" style="margin-top: 40px">
+  <div id="wrapper" class="main-size">
         <!--ローディング    -->
             <p id="loading" class="bg-info text-center" style="display: none">データを読み込み中・・・</p>       <!-- Nav -->
     <div id="sidr-left-top">
@@ -59,11 +58,7 @@
     {% block right_sidebar %}{% endblock %}
 
     <!-- Page Content -->
-    <div id="page-content-wrapper" class="col-12">
-        <div class="top-page-size" class="col-12">
-            {% block content %}{% endblock %}
-        </div>
-    </div>
+    {% block content %}{% endblock %}
 
     <!-- /#page-content-wrapper -->
   </div>

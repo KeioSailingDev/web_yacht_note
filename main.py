@@ -322,7 +322,7 @@ class Outline(object):
         target_entities[0]["start_time_str"] = target_entities[0]["start_time"][-5:]
         target_entities[0]["end_time_str"] = target_entities[0]["end_time"][-5:]
 
-        return render_template('outline_detail.html', title='練習概要',
+        return render_template('outline_detail.html',title="練習概要",
                                 target_entities=target_entities,
                                 sorted_comments=sorted_comments,
                                log_message=log_message,
