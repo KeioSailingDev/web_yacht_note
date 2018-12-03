@@ -172,6 +172,7 @@ div.float-input select {
 input.input-form,
 select.input-form,
 textarea.input-form  {
+  -webkit-appearance: none;
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem;
