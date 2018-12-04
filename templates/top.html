@@ -92,14 +92,9 @@
 
   <script src="{{url_for('static', filename='jquery/toppage.js')}}"></script>
 
+  <h3 class="sub-fix-var">練習ノート一覧</h3>
+
   <table id="toppage-table" class="table table-hover">
-    <thead>
-      <tr>
-        <th>日付</th>
-        <th>時間</th>
-        <th>海況</th>
-      </tr>
-    </thead>
     <tbody>
       {% for outline in outline_list %}
       <tr data-href="outline/{{ outline.outline_id }}" onClick="loading();">
