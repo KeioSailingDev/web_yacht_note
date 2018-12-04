@@ -357,11 +357,14 @@ class Outline(object):
             log_message = "GPSログあり"
 
             # storageに既にHTMLが生成されているか
-            if len(outline_html) < 1:
+            print(folium.TileLayer())
+            if len(outline_html) >= 1:
                 # 地図を生成
-                m = folium.Map([35.284651, 139.555159],
+                my_map = folium.Map([35.284651, 139.555159],
                                zoom_start=13,
-                               tiles='stamenterrain')
+                               tiles='https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png',
+                                    attr= '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>')
+
                 # デバイスごとにログを取得し、描画
                 for i, d in enumerate(devices):
                     sensor_logs = list(o.run_bq_log(selects=["locationLatitude", "locationLongitude"],
@@ -371,12 +374,12 @@ class Outline(object):
                                                     order_by_time=True))
                     locations = [[dict(l).get("locationLatitude"), dict(l).get("locationLongitude")] for l in sensor_logs][::10]
                     line = folium.PolyLine(locations=locations, color=colors[i], weight=1, opacity=0.5)
-                    m.add_child(line)
+                    my_map.add_child(line)
 
                 # 一時ファイルに地図を出力
                 with tempfile.NamedTemporaryFile(mode='w+') as f:
                     tmp_path = f.name
-                    m.save(tmp_path)
+                    my_map.save(tmp_path)
 
                     # storageと接続
                     blob = bucket.blob(output_map_name)

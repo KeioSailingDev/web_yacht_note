@@ -5,7 +5,7 @@
 
 <h5 class="first-sub-title">■ GPSログデータ</h5>
 {% if log_message == 'GPSログなし' %}
-    {{ no_value_message }}
+    GPSログなし
 {% else %}
     <iframe src="{{ html_url }}" width="100%" height="300px" >#document</iframe>
     {% for yc in yacht_color %}
@@ -18,7 +18,7 @@
   <table id="sea-status">
     <tr>
       <td rowspan=2 class="outline-icon">
-        <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
+        <img id="add-button" src="../static/img/flag/{{ icons.flag }}" class="img-responsive">
       </td>
       <td>風速：{{target_entities[0].wind_speed_min}}〜{{target_entities[0].wind_speed_max}}m/s</td>
     </tr>
@@ -28,7 +28,7 @@
 
     <tr>
       <td rowspan=2 class="outline-icon">
-        <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
+        <img id="add-button" src="../static/img/compass/{{ icons.compass }}" class="img-responsive">
       </td>
       <td>風向：{{target_entities[0].wind_direction}}</td>
     </tr>
@@ -38,7 +38,7 @@
 
     <tr>
       <td rowspan=2 class="outline-icon">
-        <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
+        <img id="add-button" src="../static/img/wave/{{ icons.wave }}" class="img-responsive">
       </td>
       <td>波：{{target_entities[0].sea_surface}}</td>
     </tr>
