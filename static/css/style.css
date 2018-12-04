@@ -103,6 +103,7 @@ body {
   height: 100%;
   background-color: rgb(71,70,71);
   margin-bottom: 0px;
+  -webkit-text-size-adjust: none;
 }
 /*================================================*/
 
@@ -183,8 +184,11 @@ select.input-form,
 textarea.input-form  {
   display: block;
   width: 100%;
-  padding: 0.375rem 0.75rem;
-  font-size: 13px;
+
+  /* padding: 0.375rem 0.75rem; */
+  padding-left: 10px;
+
+  font-size: 14px;
   line-height: 1.5;
   color: rgb(255,255,255);
   background-color: rgb(71,70,71);
@@ -192,6 +196,7 @@ textarea.input-form  {
   border: 1px solid rgb(255,255,255);
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  overflow: visible;
 }
 
 input.input-form,
@@ -202,6 +207,10 @@ select.input-form {
 
 
 /*==========TOPページ（top.html)==========*/
+table#toppage-table {
+  margin: 65px 0px 0px 0px;
+}
+
 table#toppage-table tbody tr:nth-of-type(odd) {
   background-color: rgba(94,92,96);
 }
@@ -221,12 +230,19 @@ table#toppage-table thead tr {
 /*=======================================*/
 
 /*==========練習概要ページ(outline_detail.html)==========*/
+table#sea-status {
+  margin: 10px 15px 10px 15px;
+}
+
+td.outline-icon {
+  width: 33%;
+}
+
 div.yacht-number {
   display:inline-block;
   margin: 10px auto 10px 15px;
   border: 1px solid rgb(255,255,255);
 }
-
 
 table.detail-outline-table-sc {
   margin: 10px 15px 10px 15px;
@@ -247,7 +263,7 @@ div.btn-edit {
 }
 
 div.name-comment {
-    margin: 0px 15px 0px 15px;
+  margin: 0px 15px 0px 15px;
 }
 /*=======================================================*/
 

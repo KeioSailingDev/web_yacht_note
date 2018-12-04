@@ -15,9 +15,9 @@
 
 <h5 class="sub-title">■ 海面状況</h5>
 
-  <table>
+  <table id="sea-status">
     <tr>
-      <td rowspan=2 class="col-xs-4">
+      <td rowspan=2 class="outline-icon">
         <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
       </td>
       <td>風速：{{target_entities[0].wind_speed_min}}〜{{target_entities[0].wind_speed_max}}m/s</td>
@@ -27,7 +27,7 @@
     </tr>
 
     <tr>
-      <td rowspan=2 class="col-xs-4">
+      <td rowspan=2 class="outline-icon">
         <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
       </td>
       <td>風向：{{target_entities[0].wind_direction}}</td>
@@ -37,7 +37,7 @@
     </tr>
 
     <tr>
-      <td rowspan=2 class="col-xs-4">
+      <td rowspan=2 class="outline-icon">
         <img id="add-button" src="../static/css/flag_red.png" class="img-responsive">
       </td>
       <td>波：{{target_entities[0].sea_surface}}</td>
