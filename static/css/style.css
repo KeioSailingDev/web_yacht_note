@@ -292,6 +292,7 @@ button.btn-for-outline {
   -ms-user-select: none;
   user-select: none;
 
+  color: rgb(255,255,255);
   padding: 0.375rem 0.75rem;
   font-size: 14px;
   line-height: 1.5;
