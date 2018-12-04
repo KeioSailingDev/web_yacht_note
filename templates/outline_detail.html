@@ -8,10 +8,10 @@
     {{ no_value_message }}
 {% else %}
     <iframe src="{{ html_url }}" width="100%" height="300px" >#document</iframe>
+    {% for yc in yacht_color %}
+    <span style="color:{{ yc.color }}">{{ yc.yacht }}　</span>
+    {% endfor %}
 {% endif %}
-{% for yc in yacht_color %}
-<span style="color:{{ yc.color }}">{{ yc.yacht }}　</span>
-{% endfor %}
 
 <h5 class="sub-title">■ 海面状況</h5>
 
