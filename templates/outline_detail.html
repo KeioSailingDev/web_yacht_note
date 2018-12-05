@@ -17,33 +17,33 @@
 
   <table id="sea-status">
     <tr>
-      <td rowspan=2 class="outline-icon">
+      <td rowspan=2 class="status-icon">
         <img id="add-button" src="../static/img/flag/{{ icons.flag }}" class="img-responsive">
       </td>
-      <td>風速：{{target_entities[0].wind_speed_min}}〜{{target_entities[0].wind_speed_max}}m/s</td>
+      <td class="status-detail">風速：{{target_entities[0].wind_speed_min}}〜{{target_entities[0].wind_speed_max}}m/s</td>
     </tr>
     <tr>
-      <td>風速変化：{{target_entities[0].wind_speed_change}}</td>
+      <td class="status-detail">強弱：{{target_entities[0].wind_speed_change}}</td>
     </tr>
 
     <tr>
-      <td rowspan=2 class="outline-icon">
+      <td rowspan=2 class="status-icon">
         <img id="add-button" src="../static/img/compass/{{ icons.compass }}" class="img-responsive">
       </td>
-      <td>風向：{{target_entities[0].wind_direction}}</td>
+      <td class="status-detail">風向：{{target_entities[0].wind_direction}}</td>
     </tr>
     <tr>
-      <td>振れ：{{target_entities[0].wind_speed_change}}</td>
+      <td class="status-detail">強弱：{{target_entities[0].wind_speed_change}}</td>
     </tr>
 
     <tr>
-      <td rowspan=2 class="outline-icon">
+      <td rowspan=2 class="status-icon">
         <img id="add-button" src="../static/img/wave/{{ icons.wave }}" class="img-responsive">
       </td>
-      <td>波：{{target_entities[0].sea_surface}}</td>
+      <td class="status-detail">波：{{target_entities[0].sea_surface}}</td>
     </tr>
     <tr>
-      <td>うねり：{{target_entities[0].swell}}</td>
+      <td class="status-detail">うねり：{{target_entities[0].swell}}</td>
     </tr>
   </table>
 
@@ -96,12 +96,7 @@
 
   {% endfor %}
 
-
-
-
   <h5 class="sub-title">■ 練習メニュー</h5>
-
-
 
   <ol>
     {% if target_entities[0].training1 %}
@@ -177,6 +172,7 @@
       <textarea class="input-form" rows=2 id="comment" name="comment"></textarea>
     </div>
     <div class="clearfix">
+      <div class="adjust-comment-button"></div>
       <button type="submit" class="btn btn-primary btn-add-comment">
           <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> コメント追加
       </button>

@@ -251,8 +251,14 @@ table#sea-status {
   margin: 10px 15px 10px 15px;
 }
 
-td.outline-icon {
+td.status-icon {
   width: 33%;
+  height: auto;
+}
+
+td.status-detail {
+  width: 66%;
+  text-align: center;
 }
 
 div.yacht-number {
@@ -267,6 +273,12 @@ table.detail-outline-table-sc {
 table.detail-outline-table-sc thead th,
 table.detail-outline-table-sc tr td {
   border: none;
+}
+
+div.adjust-comment-button {
+  float: left;
+  width: -webkit-calc(100% - 145px);
+  width: calc(100% - 145px);
 }
 
 button.btn-add-comment {
