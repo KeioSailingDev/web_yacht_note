@@ -5,7 +5,7 @@
 
 <h5 class="first-sub-title">■ GPSログデータ</h5>
 {% if log_message == 'GPSログなし' %}
-    {{ no_value_message }}
+    GPSログなし
 {% else %}
     <iframe src="{{ html_url }}" width="100%" height="300px" >#document</iframe>
     {% for yc in yacht_color %}
@@ -13,38 +13,37 @@
     {% endfor %}
 {% endif %}
 
-<div class="h5-title-div">
-  <h5 class="sub-title">■ 海面状況</h5>
-</div>
-  <table class="text-center">
+<h5 class="sub-title">■ 海面状況</h5>
+
+  <table id="sea-status">
     <tr>
-      <td rowspan=2 class="col-xs-4">
-        <img id="add-button" src="../static/img/flag/{{ icons.flag }}" class="img-responsive">
+      <td rowspan=2 class="status-icon">
+        <img src="../static/img/flag/{{ icons.flag }}" class="img-responsive">
       </td>
-      <td>風速：{{target_entities[0].wind_speed_min}}〜{{target_entities[0].wind_speed_max}}m/s</td>
+      <td class="status-detail">風速：{{target_entities[0].wind_speed_min}}〜{{target_entities[0].wind_speed_max}}m/s</td>
     </tr>
     <tr>
-      <td>強弱：{{target_entities[0].wind_speed_change}}</td>
+      <td class="status-detail">強弱：{{target_entities[0].wind_speed_change}}</td>
     </tr>
 
     <tr>
-      <td rowspan=2 class="col-xs-4">
-        <img id="add-button" src="../static/img/compass/{{ icons.compass }}" class="img-responsive">
+      <td rowspan=2 class="status-icon">
+        <img src="../static/img/compass/{{ icons.compass }}" class="img-responsive">
       </td>
-      <td>風向：{{target_entities[0].wind_direction}}</td>
+      <td class="status-detail">風向：{{target_entities[0].wind_direction}}</td>
     </tr>
     <tr>
-      <td>強弱：{{target_entities[0].wind_speed_change}}</td>
+      <td class="status-detail">強弱：{{target_entities[0].wind_speed_change}}</td>
     </tr>
 
     <tr>
-      <td rowspan=2 class="col-xs-4">
-        <img id="add-button" src="../static/img/wave/{{ icons.wave }}" class="img-responsive">
+      <td rowspan=2 class="status-icon">
+        <img src="../static/img/wave/{{ icons.wave }}" class="img-responsive">
       </td>
-      <td>波：{{target_entities[0].sea_surface}}</td>
+      <td class="status-detail">波：{{target_entities[0].sea_surface}}</td>
     </tr>
     <tr>
-      <td>うねり：{{target_entities[0].swell}}</td>
+      <td class="status-detail">うねり：{{target_entities[0].swell}}</td>
     </tr>
   </table>
 
@@ -97,12 +96,7 @@
 
   {% endfor %}
 
-
-
-
   <h5 class="sub-title">■ 練習メニュー</h5>
-
-
 
   <ol>
     {% if target_entities[0].training1 %}
@@ -178,10 +172,13 @@
       <textarea class="input-form" rows=2 id="comment" name="comment"></textarea>
     </div>
     <div class="clearfix">
-      <button type="submit" class="btn btn-primary btn-add-comment">
-          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> コメント追加
-      </button>
-    </div>
+      <div class="clearfix">
+        <div class="btn-add-comment">
+          <button type="submit" class="btn btn-primary btn-add-comment">
+              <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> コメント追加
+          </button>
+        </div>
+      </div>
   </form>
   <hr>
 
