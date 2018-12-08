@@ -166,17 +166,13 @@ div.float-label label {
   font-weight: normal;
 }
 
-div.float-input input {
-  float: right;
-  width: -webkit-calc(100% - 130px);
-  width: calc(100% - 130px);
-}
-
+div.float-input input,
 div.float-input select {
   float: right;
   width: -webkit-calc(100% - 130px);
   width: calc(100% - 130px);
 }
+
 
 /*入力項目の詳細設定*/
 input.input-form,
