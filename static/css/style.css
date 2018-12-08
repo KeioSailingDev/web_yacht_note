@@ -8,6 +8,7 @@ body {
   margin-bottom: 0px;
 }
 
+/*==========headerに関するクラス=========*/
 header{
     overflow: hidden;
     position: fixed;
@@ -20,6 +21,12 @@ header{
     z-index: 2;
     color: snow;
     box-shadow: 2px 0px 4px black;
+}
+
+p#top-title {
+  text-align: center;
+  padding: 5px 0px 5px 0px;
+  font-size: 20px;
 }
 
 
@@ -166,17 +173,13 @@ div.float-label label {
   font-weight: normal;
 }
 
-div.float-input input {
-  float: right;
-  width: -webkit-calc(100% - 70px);
-  width: calc(100% - 70px);
-}
-
+div.float-input input,
 div.float-input select {
   float: right;
-  width: -webkit-calc(100% - 70px);
-  width: calc(100% - 70px);
+  width: -webkit-calc(100% - 130px);
+  width: calc(100% - 130px);
 }
+
 
 /*入力項目の詳細設定*/
 input.input-form,
@@ -256,6 +259,11 @@ td.status-icon {
   height: auto;
 }
 
+td.status-icon img {
+  width: 100%;
+  height: auto;
+}
+
 td.status-detail {
   width: 66%;
   text-align: center;
@@ -281,7 +289,11 @@ div.adjust-comment-button {
   width: calc(100% - 145px);
 }
 
-button.btn-add-comment {
+div.btn-add-comment {
+  width: 100%;
+}
+
+div.btn-add-comment button {
   float: right;
   margin: 10px 15px 10px auto;
 }
@@ -377,9 +389,12 @@ input {
  font-size: 10px;
  /* transform: scale(0.8); */
 }
+<<<<<<< HEAD
+=======
 
 /*ローディングアイコン*/
 p#loading {
     display: none;
     cursor: wait;
     }
+>>>>>>> f5542686e35100bca08d340159a20d29c63d0515
