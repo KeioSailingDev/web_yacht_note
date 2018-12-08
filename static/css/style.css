@@ -8,6 +8,7 @@ body {
   margin-bottom: 0px;
 }
 
+/*==========headerに関するクラス=========*/
 header{
     overflow: hidden;
     position: fixed;
@@ -20,6 +21,12 @@ header{
     z-index: 2;
     color: snow;
     box-shadow: 2px 0px 4px black;
+}
+
+p#top-title {
+  text-align: center;
+  padding: 5px 0px 5px 0px;
+  font-size: 20px;
 }
 
 
