@@ -192,7 +192,7 @@ textarea.input-form  {
   /* padding: 0.375rem 0.75rem; */
   padding-left: 10px;
 
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
   color: rgb(255,255,255);
   background-color: rgb(71,70,71);
@@ -328,6 +328,15 @@ table#edit-outline-table tr td.outline-td-skipper {
 table#edit-outline-table tr td.outline-td-crew {
   padding: 10px 15px 10px 5px;
   width: 50%;
+}
+
+ol#menu li {
+  padding-right: 15px;
+}
+
+div.input-menu {
+  display: inline-block;
+  width: 100%;
 }
 
 /*行の追加ボタン*/
