@@ -400,4 +400,6 @@ input {
 p#loading {
     display: none;
     cursor: wait;
+    /*position: relative;*/
+    /*margin-top: 25px;*/
     }
