@@ -351,14 +351,14 @@ class Outline(object):
 
         # GPSログがなければ、なにもなし。GPSログがあれば地図に描画
         if cnt_log < 1:
-            log_message = "GPSログなし"
+            log_message = "GPSデータなし"
             public_url = ""
         else:
-            log_message = "GPSログあり"
+            log_message = "GPSデータあり"
 
             # storageに既にHTMLが生成されているか
             print(folium.TileLayer())
-            if len(outline_html) >= 1:
+            if len(outline_html) < 1:
                 # 地図を生成
                 my_map = folium.Map([35.284651, 139.555159],
                                zoom_start=13,

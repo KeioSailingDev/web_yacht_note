@@ -395,12 +395,9 @@ input {
  font-size: 10px;
  /* transform: scale(0.8); */
 }
-<<<<<<< HEAD
-=======
 
 /*ローディングアイコン*/
 p#loading {
     display: none;
     cursor: wait;
     }
->>>>>>> f5542686e35100bca08d340159a20d29c63d0515
