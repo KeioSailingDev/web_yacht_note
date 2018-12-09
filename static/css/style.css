@@ -274,7 +274,6 @@ div.yacht-number {
   margin: 10px auto 10px 15px;
   border: 1px solid rgb(255,255,255);
 }
-
 table.detail-outline-table-sc {
   margin: 10px 15px 10px 15px;
 }
@@ -389,12 +388,9 @@ input {
  font-size: 10px;
  /* transform: scale(0.8); */
 }
-<<<<<<< HEAD
-=======
 
 /*ローディングアイコン*/
 p#loading {
     display: none;
     cursor: wait;
     }
->>>>>>> f5542686e35100bca08d340159a20d29c63d0515
