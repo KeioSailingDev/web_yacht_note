@@ -275,9 +275,10 @@ div.yacht-number {
   border: 1px solid rgb(255,255,255);
 }
 
-table.detail-outline-table-sc {
+/* table.detail-outline-table-sc {
   margin: 10px 15px 10px 15px;
-}
+} */
+
 table.detail-outline-table-sc thead th,
 table.detail-outline-table-sc tr td {
   border: none;
