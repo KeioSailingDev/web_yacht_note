@@ -362,8 +362,8 @@ class Outline(object):
                 # 地図を生成
                 my_map = folium.Map([35.284651, 139.555159],
                                zoom_start=13,
-                               tiles='https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png',
-                                    attr= '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>')
+                               tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                                    attr= 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community')
 
                 # デバイスごとにログを取得し、描画
                 for i, d in enumerate(devices):

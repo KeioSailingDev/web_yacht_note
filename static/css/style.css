@@ -408,7 +408,9 @@ input {
 /*ローディングアイコン*/
 p#loading {
     display: none;
-    cursor: wait;
+    /*cursor: wait;*/
     /*position: relative;*/
-    /*margin-top: 25px;*/
+    /*margin-top: 100px;*/
+    position: fixed;
+    width: 100%;
     }
