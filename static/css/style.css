@@ -330,6 +330,15 @@ table#edit-outline-table tr td.outline-td-crew {
   width: 50%;
 }
 
+ol#menu li {
+  padding-right: 15px;
+}
+
+div.input-menu {
+  display: inline-block;
+  width: 100%;
+}
+
 /*行の追加ボタン*/
 button.btn-for-outline {
   float: right;
