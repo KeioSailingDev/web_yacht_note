@@ -7,7 +7,7 @@ from google.cloud import datastore
 from google.cloud import bigquery
 from flask_bootstrap import Bootstrap
 import pandas as pd
-from models import query
+from models import query, icon_selections
 from google.cloud import storage
 import folium
 import tempfile
@@ -224,77 +224,6 @@ class Outline(object):
         print(errors)
         assert errors == []
 
-    def select_flag(self, wind_max):
-        """
-        風速に合わせて旗画像を選択
-        :param wind_max:
-        :return:
-        """
-        if wind_max:
-            if wind_max < 3:
-                flag_file = "flag_s.png"
-            elif wind_max < 7:
-                flag_file = "flag_m.png"
-            elif wind_max > 12:
-                flag_file = "flag_l.png"
-            else:
-                flag_file = "flag_m.png"
-        else:
-            flag_file = None
-
-        return flag_file
-
-    def select_compass(self, wind_direction):
-        """
-        風向に合わせてコンパス画像を選択
-        :param wind_direction:
-        :return:
-        """
-        if wind_direction:
-            if len(wind_direction) < 1:
-                wind_direction_file = None
-            else:
-                # 変換ルール
-                table = str.maketrans({
-                    '北': 'n',
-                    '南': 's',
-                    '西': 'w',
-                    '東': 'e',
-                })
-                # まとめて置換
-                _wind_direction_en = str(wind_direction).translate(table)
-
-                # 北はNではなく、NNに
-                wind_direction_en = _wind_direction_en + _wind_direction_en if len(_wind_direction_en) == 1 else _wind_direction_en
-
-                # ファイル名
-                wind_direction_file = "compass_" + wind_direction_en + ".png"
-        else:
-            wind_direction_file = None
-
-        return wind_direction_file
-
-    def select_wave(self, sea_surface):
-        """
-        海面情報に合わせて海面画像を選択
-        :param sea_surface:
-        :return:
-        """
-        if sea_surface:
-            if sea_surface == "フラット":
-                flag_file = "wave_s.png"
-            elif sea_surface == "チョッピー":
-                flag_file = "wave_m.png"
-            elif sea_surface == "高波":
-                flag_file = "wave_l.png"
-            else:
-                flag_file = None
-        else:
-            flag_file = None
-
-        return flag_file
-
-
     @app.route("/outline/<int:target_outline_id>", methods=['GET'])
     def outline_detail(target_outline_id):
         """
@@ -399,11 +328,12 @@ class Outline(object):
         target_entities[0]["start_time_str"] = target_entities[0]["start_time"][-5:]
         target_entities[0]["end_time_str"] = target_entities[0]["end_time"][-5:]
 
+        class_icon_selection = icon_selections.IconSelections()
         # 各種海況画像ファイル
         icons = {}
-        icons["flag"] = o.select_flag(dict(target_entities[0]).get("wind_speed_max"))
-        icons["compass"] = o.select_compass(dict(target_entities[0]).get("wind_direction"))
-        icons["wave"] = o.select_wave(dict(target_entities[0]).get("sea_surface"))
+        icons["flag"] = class_icon_selection.select_flag(dict(target_entities[0]).get("wind_speed_max"))
+        icons["compass"] = class_icon_selection.select_compass(dict(target_entities[0]).get("wind_direction"))
+        icons["wave"] = class_icon_selection.select_wave(dict(target_entities[0]).get("sea_surface"))
 
         # データが無い場合のデフォルト
         icons["flag"] = "flag_m.png" if icons["flag"] is None else icons["flag"]
