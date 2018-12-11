@@ -103,7 +103,15 @@
       <tr data-href="outline/{{ outline.outline_id }}" onClick="loading();">
         <td>{{ outline.date }}</td>
         <td>{{ outline.time_category }}</td>
-        <td>風方向波</td>
+        <td>
+          <img src="../static/img/flag/{{ outline.icon_flag }}" class="img-responsive">
+        </td>
+        <td class="icon-center">
+          <img src="../static/img/compass/{{ outline.icon_compass }}" class="img-responsive">
+        </td>
+        <td>
+          <img src="../static/img/wave/{{ outline.icon_wave }}" class="img-responsive">
+        </td>
       </tr>
       {% endfor %}
     </tbody>

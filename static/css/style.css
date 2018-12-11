@@ -234,6 +234,16 @@ table#toppage-table tbody tr td {
   text-align: center;
 }
 
+table#toppage-table thead tr td.icon-center {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+table#toppage-table tbody tr td img {
+  height: 20px;
+  width: auto;
+}
+
 table#toppage-table thead tr {
   background-color: rgb(0,0,0);
 }
@@ -274,10 +284,6 @@ div.yacht-number {
   margin: 10px auto 10px 15px;
   border: 1px solid rgb(255,255,255);
 }
-
-/* table.detail-outline-table-sc {
-  margin: 10px 15px 10px 15px;
-} */
 
 table.detail-outline-table-sc thead th,
 table.detail-outline-table-sc tr td {

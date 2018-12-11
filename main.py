@@ -7,7 +7,7 @@ from google.cloud import datastore
 from google.cloud import bigquery
 from flask_bootstrap import Bootstrap
 import pandas as pd
-from models import query
+from models import query, icon_selections
 from google.cloud import storage
 import folium
 import tempfile
@@ -240,77 +240,6 @@ class Outline(object):
         print(errors)
         assert errors == []
 
-    def select_flag(self, wind_max):
-        """
-        風速に合わせて旗画像を選択
-        :param wind_max:
-        :return:
-        """
-        if wind_max:
-            if wind_max < 3:
-                flag_file = "flag_s.png"
-            elif wind_max < 7:
-                flag_file = "flag_m.png"
-            elif wind_max > 12:
-                flag_file = "flag_l.png"
-            else:
-                flag_file = "flag_m.png"
-        else:
-            flag_file = None
-
-        return flag_file
-
-    def select_compass(self, wind_direction):
-        """
-        風向に合わせてコンパス画像を選択
-        :param wind_direction:
-        :return:
-        """
-        if wind_direction:
-            if len(wind_direction) < 1:
-                wind_direction_file = None
-            else:
-                # 変換ルール
-                table = str.maketrans({
-                    '北': 'n',
-                    '南': 's',
-                    '西': 'w',
-                    '東': 'e',
-                })
-                # まとめて置換
-                _wind_direction_en = str(wind_direction).translate(table)
-
-                # 北はNではなく、NNに
-                wind_direction_en = _wind_direction_en + _wind_direction_en if len(_wind_direction_en) == 1 else _wind_direction_en
-
-                # ファイル名
-                wind_direction_file = "compass_" + wind_direction_en + ".png"
-        else:
-            wind_direction_file = None
-
-        return wind_direction_file
-
-    def select_wave(self, sea_surface):
-        """
-        海面情報に合わせて海面画像を選択
-        :param sea_surface:
-        :return:
-        """
-        if sea_surface:
-            if sea_surface == "フラット":
-                flag_file = "wave_s.png"
-            elif sea_surface == "チョッピー":
-                flag_file = "wave_m.png"
-            elif sea_surface == "高波":
-                flag_file = "wave_l.png"
-            else:
-                flag_file = None
-        else:
-            flag_file = None
-
-        return flag_file
-
-
     @app.route("/outline/<int:target_outline_id>", methods=['GET'])
     def outline_detail(target_outline_id):
         """
@@ -415,24 +344,12 @@ class Outline(object):
         target_entities[0]["start_time_str"] = target_entities[0]["start_time"][-5:]
         target_entities[0]["end_time_str"] = target_entities[0]["end_time"][-5:]
 
-        # 各種海況画像ファイル
-        icons = {}
-        icons["flag"] = o.select_flag(dict(target_entities[0]).get("wind_speed_max"))
-        icons["compass"] = o.select_compass(dict(target_entities[0]).get("wind_direction"))
-        icons["wave"] = o.select_wave(dict(target_entities[0]).get("sea_surface"))
-
-        # データが無い場合のデフォルト
-        icons["flag"] = "flag_m.png" if icons["flag"] is None else icons["flag"]
-        icons["compass"] = "compass_nn.png" if icons["compass"] is None else icons["compass"]
-        icons["wave"] = "wave_m.png" if icons["wave"] is None else icons["wave"]
-
         return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,
                                 sorted_comments=sorted_comments,
                                log_message=log_message,
                                html_url=public_url,
-                               yacht_color=yacht_color,
-                               icons=icons)
+                               yacht_color=yacht_color)
 
     @app.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
     def show_outline(target_outline_id, is_new=None):
@@ -511,8 +428,8 @@ class Outline(object):
         start_time = request.form.get('start_time') + ":00" if len(request.form.get('start_time')) == 16 else request.form.get('start_time')
         end_time = request.form.get('end_time') + ":00" if len(request.form.get('end_time')) == 16 else request.form.get('end_time')
         time_category = request.form.get('timecategory')
-        wind_speedmin = request.form.get('windspeedmin')
-        wind_speedmax = request.form.get('windspeedmax')
+        wind_speedmin = int(request.form.get('windspeedmin'))
+        wind_speedmax = int(request.form.get('windspeedmax'))
         wind_direction = request.form.get('winddirection')
         wind_speed_change = request.form.get('windspeedchange')
         sea_surface = request.form.get('seasurface')
@@ -532,6 +449,11 @@ class Outline(object):
         training13 = request.form.get('training13')
         training14 = request.form.get('training14')
         training15 = request.form.get('training15')
+
+        class_icon_selection = icon_selections.IconSelections()
+        icon_flag = class_icon_selection.select_flag(wind_speedmax)
+        icon_compass = class_icon_selection.select_compass(wind_direction)
+        icon_wave = class_icon_selection.select_wave(sea_surface)
 
         # エンティティに値を入れる
         outline.update({
@@ -559,7 +481,10 @@ class Outline(object):
             'training12': training12,
             'training13': training13,
             'training14': training14,
-            'training15': training15
+            'training15': training15,
+            'icon_flag': icon_flag,
+            'icon_wave': icon_wave,
+            'icon_compass': icon_compass
         })
 
         client.put(outline)
@@ -610,15 +535,6 @@ class Outline(object):
     def del_outline(target_outline_id):
         """
         練習概要ページの削除
-
-        Args:
-        target_entities(list):
-            インデックス0には、日時・波風・練習メニュー、インデックス1にはヨットとデバイス、部員のエンティティ
-        entity_id_1(int): Outline kindのエンティティのID
-        entity_id_2(int): Outline_yacht_player kindのエンティティのID
-
-        Return:
-        練習概要を削除し、TOPページに戻る
         """
 
         target_entities = query.get_outline_entities(target_outline_id)
@@ -640,16 +556,6 @@ class Outline(object):
     def add_comment(target_outline_id):
         """
         練習概要ページへのコメントの追加
-
-        【Args】
-        name: コメント者の名前
-        comment: コメント
-        outline_id(int): 各練習概要のoutline_id
-        created_date(int)：コメントを入力日時順に並び替えるための変数。
-        commented_date: 練習概要に表示するための、コメントの投稿日時
-
-        【Return】
-        練習概要にコメントを追加し、再び練習概要ページに戻る
         """
         name = request.form.get('name')
         comment = request.form.get('comment')
@@ -689,12 +595,6 @@ class Player(object):
     def admin_player():
         """
         選手の管理画面を表示
-
-        Args:
-        player_list(list): 選手名と入学した年の一覧
-        admission_years(list): ドラムロール表示用に、今年から+-10年の年の一覧
-
-        Return: admin_player.htmlに移動。選手と年のリストを引き渡す
         """
 
         query_p = client.query(kind='Player')
@@ -712,15 +612,6 @@ class Player(object):
     def add_player():
         """
         選手データの追加
-
-        Args:
-        playername(str):admin_player.htmlで入力した選手名
-        year(int):admin_player.htmlで入力した入学年
-        datetime_now:データを作成した日時
-        player: 新規で作成した、選手データのエンティティ。
-
-        Return:
-        TOPページに戻る
         """
 
         playername = str(request.form.get('playername'))
@@ -744,13 +635,6 @@ class Player(object):
     def show_player(player_id):
         """
         選手データの変更画面に移動
-        Args:
-        target_player: 選手データのエンティティ
-        admission_years: ドラムロール表示用の、今年+-10年の年の一覧
-
-        Return:
-        show_player.htmlに移動
-        target_playerとadmission_yearsを引き渡す
         """
 
         key = client.key('Player', player_id)
@@ -768,13 +652,6 @@ class Player(object):
     def mod_player(player_id):
         """
         選手データの更新
-
-        Args:
-        playername(str): admin_player.htmlで選択した選手名
-        year(int) :admin_player.htmlで選択した選手の入学年
-        player: admin_player.htmlで選択した選手のエンティティ
-
-        Return: TOPページに戻る
         """
 
         playername = str(request.form.get('playername'))
@@ -802,7 +679,6 @@ class Player(object):
     def del_player(player_id):
         """
         選手データの削除
-        Return: TOPページに戻る
         """
 
         key = client.key('Player', player_id)
@@ -818,11 +694,6 @@ class Yacht(object):
     def admin_yacht():
         """
         ヨットの管理画面の表示
-
-        Args:
-        yacht_list(list):艇番と艇種を含んだエンティティのリスト
-
-        Return: admin_yacht.htmlに移動。yacht_listを引き渡す。
         """
         query_y = client.query(kind='Yacht')
         yacht_list = list(query.fetch_retry(query_y))
@@ -833,14 +704,6 @@ class Yacht(object):
     def add_yacht():
         """
         ヨットデータの追加
-
-        Args:
-        yachtno(int): 艇番
-        yachtclass: 艇種
-        datatime_now: データの作成日
-        yacht: 新規作成したヨットのエンティティ
-
-        return: TOPページに戻る
         """
         yachtno = request.form.get('yachtno')
         yachtclass = request.form.get('yachtclass')
@@ -870,11 +733,6 @@ class Yacht(object):
     def show_yacht(yacht_id):
         """
         ヨットデータの変更画面に移動
-
-        Args:
-        target_yacht: admin_yacht.htmlで選択したヨットデータ
-
-        Return: show_yacht.htmlに移動。target_yachtを引き渡す。
         """
 
         key = client.key('Yacht', yacht_id)
@@ -886,12 +744,6 @@ class Yacht(object):
     def mod_yacht(yacht_id):
         """
         ヨットデータの変更
-        Args:
-        yachtno: admin_yacht.htmlで入力された艇番
-        yachtclass: admin_yacht.htmlで入力された艇種
-        yacht: admin_yacht.htmlで選択したヨットのエンティティ
-
-        Return: TOPページに戻る
         """
 
         yachtno = request.form.get('yachtno')
@@ -917,8 +769,6 @@ class Yacht(object):
     def del_yacht(yacht_id):
         """
         ヨットデータの削除
-
-        Return: TOPページに戻る
         """
 
         key = client.key('Yacht', yacht_id)
@@ -934,12 +784,6 @@ class Device(object):
     def admin_device():
         """
         デバイス管理画面の表示
-
-        Args:
-        device_list(list): デバイスIDと機種名の一覧
-
-        Return:
-        admin_device.htmlに移動。device_listを引き渡す。
         """
         query_d = client.query(kind='Device')
         device_list = list(query.fetch_retry(query_d))
@@ -950,12 +794,6 @@ class Device(object):
     def add_device():
         """
         デバイス情報を追加
-
-        Args:
-        device_id: デバイスID
-        datetime_now: 新規データの作成日時
-
-        Return: TOPページに戻る
         """
         device_id = request.form.get('device_id')
         datetime_now = datetime.now()
@@ -975,12 +813,6 @@ class Device(object):
     def show_device(device_id):
         """
         デバイス情報の変更画面に移動
-
-        Args:
-        target_device: admin_device.htmlで選択したデバイス情報
-
-        Return:
-        show_device.htmlに移動。target_deviceを引き渡す。
         """
         key = client.key('Device', device_id)
         target_device = client.get(key)
@@ -991,13 +823,6 @@ class Device(object):
     def mod_device(device_id):
         """
         デバイス情報の変更
-
-        Args:
-        deviceno: show_device.htmlで入力したデバイスID
-        devicaname: show_device.htmlで入力した機種名
-        device: show_device.htmlで選択したデバイス情報
-
-        Return: TOPページに移動
         """
         deviceno = request.form.get('deviceno')
         devicename = request.form.get('devicename')
@@ -1023,8 +848,6 @@ class Device(object):
     def del_device(device_id):
         """
         デバイス情報の削除
-
-        Return:TOPページに戻る
         """
         key = client.key('Device', device_id)
         client.delete(key)
@@ -1037,12 +860,6 @@ class Menu(object):
     def admin_menu():
         """
         練習メニューの管理画面を表示
-
-        Args:
-        menu_list(list): 練習メニューの一覧
-
-        Return:
-        admin_menu.htmlに移動。menu_listを引き渡す。
         """
 
         query_m = client.query(kind='Menu')
@@ -1053,12 +870,6 @@ class Menu(object):
     def add_menu():
         """
         練習メニューの追加
-
-        Args:
-        menu_name: admin_menu.htmlから入力された練習メニュー
-
-        Return:
-        TOPページに戻る
         """
         menu_name = request.form.get('menu')
 
@@ -1076,12 +887,6 @@ class Menu(object):
     def show_menu(menu_id):
         """
         練習メニューの変更画面を表示
-
-        Args:
-        target_menu: admin_menu.htmlで選択した練習メニュー
-
-        Return:
-        show_menu.htmlに移動。target_menuを引き渡す
         """
 
         key = client.key('Menu', menu_id)
@@ -1093,12 +898,6 @@ class Menu(object):
     def mod_menu(menu_id):
         """
         練習メニューの変更
-
-        Args:
-        menu_name: admin_menu.htmlで選択した練習メニュー
-        menu: admin_menu.htmlで選択した練習メニューのエンティティ
-
-        Return: TOPページに戻る
         """
         menu_name = request.form.get('menu')
 
@@ -1122,8 +921,6 @@ class Menu(object):
     def del_menu(menu_id):
         """
         練習メニューの削除
-
-        Return: TOPページに戻る
         """
 
         key = client.key('Menu', menu_id)

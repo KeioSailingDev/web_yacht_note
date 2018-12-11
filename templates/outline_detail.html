@@ -18,7 +18,7 @@
   <table id="sea-status">
     <tr>
       <td rowspan=2 class="status-icon">
-        <img src="../static/img/flag/{{ icons.flag }}" class="img-responsive">
+        <img src="../static/img/flag/{{ target_entities[0].icon_flag }}" class="img-responsive">
       </td>
       <td class="status-detail">風速：{{target_entities[0].wind_speed_min}}〜{{target_entities[0].wind_speed_max}}m/s</td>
     </tr>
@@ -28,7 +28,7 @@
 
     <tr>
       <td rowspan=2 class="status-icon">
-        <img src="../static/img/compass/{{ icons.compass }}" class="img-responsive">
+        <img src="../static/img/compass/{{ target_entities[0].icon_compass }}" class="img-responsive">
       </td>
       <td class="status-detail">風向：{{target_entities[0].wind_direction}}</td>
     </tr>
@@ -38,7 +38,7 @@
 
     <tr>
       <td rowspan=2 class="status-icon">
-        <img src="../static/img/wave/{{ icons.wave }}" class="img-responsive">
+        <img src="../static/img/wave/{{ target_entities[0].icon_wave }}" class="img-responsive">
       </td>
       <td class="status-detail">波：{{target_entities[0].sea_surface}}</td>
     </tr>
