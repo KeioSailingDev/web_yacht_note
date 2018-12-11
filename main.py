@@ -37,6 +37,11 @@ bootstrap = Bootstrap(app)
 
 
 @app.route('/', methods=['GET', 'POST'])
+def index():
+    return redirect('/list')
+
+
+@app.route('/list', methods=['GET', 'POST'])
 def top():
     """
     TOPページを表示したときの挙動
