@@ -114,6 +114,17 @@ def about():
     WEBヨットノートを説明するページ
     """
     return render_template('about.html')
+
+@app.route("/demand")
+def demand():
+    """
+    要望ページ
+    """
+    # 練習ノートの一覧を取得
+    query1 = client.query(kind='Demand')
+    demands = list(query.fetch_retry(query1, num=20))
+    # フィルター
+    return render_template('demand.html', demands=demands)
 #
 # # error ====
 # @app.route('/403')
