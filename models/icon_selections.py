@@ -18,7 +18,7 @@ class IconSelections(object):
             elif wind_max > 12:
                 flag_file = "flag_l.png"
             else:
-                flag_file = "flag_m.png"
+                flag_file = "flag_null.png"
         else:
             flag_file = None
 
@@ -50,7 +50,7 @@ class IconSelections(object):
                 # ファイル名
                 wind_direction_file = "compass_" + wind_direction_en + ".png"
         else:
-            wind_direction_file = None
+            wind_direction_file = "compass_null.png"
 
         return wind_direction_file
 
@@ -68,7 +68,7 @@ class IconSelections(object):
             elif sea_surface == "高波":
                 wave_file = "wave_l.png"
             else:
-                wave_file = None
+                wave_file = "wave_null.png"
         else:
             wave_file = None
 

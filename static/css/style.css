@@ -234,6 +234,11 @@ table#toppage-table tbody tr td {
   text-align: center;
 }
 
+table#toppage-table thead tr td.icon-center {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 table#toppage-table tbody tr td img {
   height: 20px;
   width: auto;
