@@ -38,11 +38,14 @@
             <li>
                 <a href="{{ url_for('top')}}"><img src="{{ url_for('static', filename='img/home.png') }}" height="30px"> トップページ</a>
             </li>
+            <!--<li>-->
+                <!--<a href="{{ url_for('about')}}"><img src="{{ url_for('static', filename='img/question_mark.png') }}" height="30px"> Webヨットノートとは</a>-->
+            <!--</li>-->
+            <!--<li>-->
+                <!--<a href="{{ url_for('how_to_use')}}"><img src="{{ url_for('static', filename='img/gear.png') }}" height="30px"> 使い方</a>-->
+            <!--</li>-->
             <li>
-                <a href="{{ url_for('about')}}"><img src="{{ url_for('static', filename='img/question_mark.png') }}" height="30px"> Webヨットノートとは</a>
-            </li>
-            <li>
-                <a href="{{ url_for('how_to_use')}}"><img src="{{ url_for('static', filename='img/gear.png') }}" height="30px"> 使い方</a>
+                <a href="{{ url_for('demand')}}" onClick="loading();"><img src="{{ url_for('static', filename='img/gear.png') }}" height="30px"> アップデート予定</a>
             </li>
             <li>
                 <a href="{{ url_for('ranking')}}" onClick="loading();"><img src="{{ url_for('static', filename='img/crown.png') }}" height="30px"> ランキング</a>
