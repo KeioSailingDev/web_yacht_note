@@ -9,6 +9,7 @@ class IconSelections(object):
         :param wind_max:
         :return:
         """
+
         if wind_max:
             if wind_max < 3:
                 flag_file = "flag_s.png"
@@ -61,14 +62,14 @@ class IconSelections(object):
         """
         if sea_surface:
             if sea_surface == "フラット":
-                flag_file = "wave_s.png"
+                wave_file = "wave_s.png"
             elif sea_surface == "チョッピー":
-                flag_file = "wave_m.png"
+                wave_file = "wave_m.png"
             elif sea_surface == "高波":
-                flag_file = "wave_l.png"
+                wave_file = "wave_l.png"
             else:
-                flag_file = None
+                wave_file = None
         else:
-            flag_file = None
+            wave_file = None
 
-        return flag_file
+        return wave_file
