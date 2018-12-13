@@ -20,7 +20,7 @@ class IconSelections(object):
             else:
                 flag_file = "flag_null.png"
         else:
-            flag_file = None
+            flag_file = "flag_null.png"
 
         return flag_file
 
@@ -70,6 +70,6 @@ class IconSelections(object):
             else:
                 wave_file = "wave_null.png"
         else:
-            wave_file = None
+            wave_file = "wave_null.png"
 
         return wave_file
