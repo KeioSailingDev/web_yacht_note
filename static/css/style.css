@@ -400,10 +400,10 @@ div#bgc-for-btn {
 /*=======================================================*/
 
 /*==========管理画面==========*/
+/*管理画面一覧*/
 div.admin-list {
   margin: 65px 15px 10px 15px;
 }
-
 
 div.left-admin {
   float: left;
@@ -439,6 +439,10 @@ p.admin-title {
 }
 
 
+table.admin-table {
+  margin: 10px 15px 10px 15px;
+}
+
 /*===========================*/
 
 /* Settings for fullwidth */
@@ -449,7 +453,6 @@ p.admin-title {
 .sidr.left.fullwidth {
     left: -100%;
 }
-
 
 .sidr.right.fullwidth {
     right: -100%;
