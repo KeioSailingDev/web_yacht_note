@@ -298,7 +298,7 @@ table.detail-outline-table-sc tr td {
   border: none;
 }
 
-div.adjust-comment-button {
+div.adjust-button {
   float: left;
   width: -webkit-calc(100% - 145px);
   width: calc(100% - 145px);
@@ -324,7 +324,6 @@ div.name-comment {
 
 div.comment-form-set {
   margin:10px 15px 10px 15px;
-  width: 100%;
 }
 /*=======================================================*/
 
