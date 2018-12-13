@@ -399,6 +399,47 @@ div#bgc-for-btn {
 }
 /*=======================================================*/
 
+/*==========管理画面==========*/
+div.admin-list {
+  margin: 65px 15px 10px 15px;
+}
+
+
+div.left-admin {
+  float: left;
+
+  width: 45%;
+  height: auto;
+
+  margin: 5px;
+  padding: 10px;
+
+  border: 1px solid rgb(255,255,255);
+  border-radius: 10px;
+
+}
+
+div.right-admin {
+  float: right;
+
+  width: 45%;
+  height: auto;
+
+  margin: 5px;
+  padding: 10px;
+
+  border: 1px solid rgb(255,255,255);
+  border-radius: 10px;
+
+}
+
+p.admin-title {
+  text-align: center;
+  color: rgb(255,255,255);
+}
+
+
+/*===========================*/
 
 /* Settings for fullwidth */
 .sidr.fullwidth {

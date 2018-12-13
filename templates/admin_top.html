@@ -1,9 +1,51 @@
 {% extends 'layout.html' %}
 {% block content %}
-  <h1>管理画面</h1>
+  <h3 class="sub-fix-var">管理画面</h3>
 
-  <h2>※通常時は編集しない</h2> <!-- 動作確認OK! -->
-     <ul class="list-group">
+  <div class="admin-list">
+
+    <div class="clearfix">
+      <a href="{{ url_for('admin_player')}}">
+        <div class="left-admin">
+          <div>
+            <img src="../static/img/admin/player_example.png" class="img-responsive">
+          </div>
+          <p class="admin-title">選手</p>
+        </div>
+      </a>
+      <a href="{{ url_for('admin_yacht')}}">
+        <div class="right-admin">
+          <div>
+            <img src="../static/img/admin/yacht_example.png" class="img-responsive">
+          </div>
+          <p class="admin-title">ヨット</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="clearfix">
+      <a href="{{ url_for('admin_device')}}">
+        <div class="left-admin">
+          <div>
+            <img src="../static/img/admin/device_example.png" class="img-responsive">
+          </div>
+          <p class="admin-title">デバイス</p>
+        </div>
+      </a>
+      <a href="{{ url_for('admin_menu')}}">
+        <div class="right-admin">
+          <div>
+            <img src="../static/img/admin/menu_example.png" class="img-responsive">
+          </div>
+          <p class="admin-title">練習メニュー</p>
+        </div>
+      </a>
+    </div>
+
+  </div>
+
+
+     <!-- <ul class="list-group">
         <li class="list-group-item">
             <a href="{{ url_for('admin_player')}}">選手管理</a>
         </li>
@@ -16,6 +58,6 @@
         <li class="list-group-item">
             <a href="{{ url_for('admin_menu')}}"> 練習メニュー</a>
         </li>
-    </ul>
+    </ul> -->
 
 {% endblock %}
