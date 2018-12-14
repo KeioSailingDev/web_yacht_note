@@ -92,6 +92,6 @@ def get_user_comments(target_outline_id):
     user_comments = list(query.fetch())
 
     #コメントを最新順にする場合は、以下をコメントアウト
-    # sorted_comments = sorted(user_comments, key=lambda user_comment: user_comment["created_date"], reverse=True)
+    sorted_comments = sorted(user_comments, key=lambda user_comment: user_comment["created_date"])
 
-    return user_comments
+    return sorted_comments

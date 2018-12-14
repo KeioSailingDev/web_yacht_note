@@ -182,7 +182,7 @@
   </form>
   <hr>
 
-  {% for user_comment in user_comments %}
+  {% for user_comment in sorted_comments %}
     <div class="name-comment">{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
     <div class="name-comment">{{user_comment.comment}}</div>
     <hr>

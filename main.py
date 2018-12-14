@@ -236,7 +236,7 @@ class Outline(object):
 
         # query
         target_entities = query.get_outline_entities(target_outline_id)
-        user_comments = query.get_user_comments(target_outline_id)
+        sorted_comments = query.get_user_comments(target_outline_id)
         outline_html = list(o.run_bq_html(table_name=os.environ.get('HTML_TABLE'),
                                      outline_id=target_outline_id))
 
@@ -330,7 +330,7 @@ class Outline(object):
 
         return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,
-                                user_comments=user_comments,
+                                sorted_comments=sorted_comments,
                                log_message=log_message,
                                html_url=public_url,
                                yacht_color=yacht_color)
