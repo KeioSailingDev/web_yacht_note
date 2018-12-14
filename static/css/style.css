@@ -234,9 +234,17 @@ table#toppage-table tbody tr td {
   text-align: center;
 }
 
-table#toppage-table thead tr td.icon-center {
+table#toppage-table tr td:nth-of-type(3) {
+  padding-right: 0px;
+}
+
+table#toppage-table tr td:nth-of-type(4) {
   padding-left: 0px;
   padding-right: 0px;
+}
+
+table#toppage-table tr td:nth-of-type(5) {
+  padding-left: 0px;
 }
 
 table#toppage-table tbody tr td img {
