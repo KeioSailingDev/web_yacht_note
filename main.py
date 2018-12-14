@@ -236,7 +236,7 @@ class Outline(object):
 
         # query
         target_entities = query.get_outline_entities(target_outline_id)
-        sorted_comments = query.get_user_comments(target_outline_id)
+        user_comments = query.get_user_comments(target_outline_id)
         outline_html = list(o.run_bq_html(table_name=os.environ.get('HTML_TABLE'),
                                      outline_id=target_outline_id))
 
@@ -330,7 +330,7 @@ class Outline(object):
 
         return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,
-                                sorted_comments=sorted_comments,
+                                user_comments=user_comments,
                                log_message=log_message,
                                html_url=public_url,
                                yacht_color=yacht_color)
@@ -546,9 +546,6 @@ class Outline(object):
         outline_id = int(target_outline_id)
         created_date = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
         commented_date = datetime.strftime(datetime.now() + timedelta(hours=9), '%Y/%m/%d %H:%M')
-
-        print(created_date)
-        print(commented_date)
 
         if name and comment and outline_id:
             key = client.key('Comment')
