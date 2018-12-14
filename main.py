@@ -563,9 +563,6 @@ class Outline(object):
         created_date = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
         commented_date = datetime.strftime(datetime.now() + timedelta(hours=9), '%Y/%m/%d %H:%M')
 
-        print(created_date)
-        print(commented_date)
-
         if name and comment and outline_id:
             key = client.key('Comment')
             user_comment = datastore.Entity(key)

@@ -133,27 +133,27 @@ h3.sub-fix-var {
 h5.first-sub-title {
   background-color: rgb(94,92,96);
   width: 100%;
-  height: 22px;
+  height: 26px;
   color: rgb(255,255,255);
-  font-size: 14px;
+  font-size: 16px;
   text-align: left;
   padding-left: 15px;
 
   margin: 65px 0px 0px 0px;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 h5.sub-title {
   background-color: rgb(94,92,96);
   width: 100%;
-  height: 22px;
+  height: 26px;
   color: rgb(255,255,255);
-  font-size: 14px;
+  font-size: 16px;
   text-align: left;
   padding-left: 15px;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 /*==========================================*/
 
@@ -298,7 +298,7 @@ table.detail-outline-table-sc tr td {
   border: none;
 }
 
-div.adjust-comment-button {
+div.adjust-button {
   float: left;
   width: -webkit-calc(100% - 145px);
   width: calc(100% - 145px);
@@ -324,7 +324,6 @@ div.name-comment {
 
 div.comment-form-set {
   margin:10px 15px 10px 15px;
-  width: 100%;
 }
 /*=======================================================*/
 
@@ -400,6 +399,50 @@ div#bgc-for-btn {
 }
 /*=======================================================*/
 
+/*==========管理画面==========*/
+/*管理画面一覧*/
+div.admin-list {
+  margin: 65px 15px 10px 15px;
+}
+
+div.left-admin {
+  float: left;
+
+  width: 45%;
+  height: auto;
+
+  margin: 5px;
+  padding: 10px;
+
+  border: 1px solid rgb(255,255,255);
+  border-radius: 10px;
+
+}
+
+div.right-admin {
+  float: right;
+
+  width: 45%;
+  height: auto;
+
+  margin: 5px;
+  padding: 10px;
+
+  border: 1px solid rgb(255,255,255);
+  border-radius: 10px;
+
+}
+
+p.admin-title {
+  text-align: center;
+  color: rgb(255,255,255);
+}
+
+
+table.admin-table {
+  margin: 10px 15px 10px 15px;
+}
+/*===========================*/
 
 /* Settings for fullwidth */
 .sidr.fullwidth {
@@ -409,7 +452,6 @@ div#bgc-for-btn {
 .sidr.left.fullwidth {
     left: -100%;
 }
-
 
 .sidr.right.fullwidth {
     right: -100%;
