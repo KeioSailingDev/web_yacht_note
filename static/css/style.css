@@ -221,13 +221,14 @@ table#toppage-table {
   margin: 65px 0px 0px 0px;
 }
 
-table#toppage-table tbody tr:nth-of-type(odd) {
-  background-color: rgba(94,92,96);
+/*TOPページをストライプにする場合は、コメントアウトしてください*/
+/* table#toppage-table tbody tr:nth-of-type(odd) {
+  background-color: rgb(94,92,96);
 }
 
 table#toppage-table tbody tr:nth-of-type(even) {
-  background-color: rgba(71,70,71);
-}
+  background-color: rgb(71,70,71);
+} */
 
 table#toppage-table thead tr th,
 table#toppage-table tbody tr td {
