@@ -37,11 +37,11 @@
     <p class="bg-warning text-center">{{ no_value_message }}</p>
   {% else %}
   {%endif %}
-  <h5 class="first-sub-title">■最高速度(knot)</h5>
-  <canvas id="max_speed"></canvas>
+  <h5 class="first-sub-title">■ 最高速度(knot)</h5>
+  <canvas id="max_speed" class="ranking-graph"></canvas>
 
-  <h5 class="sub-title">■合計航行距離(m)</h5>
-  <canvas id="sum_distance"></canvas>
+  <h5 class="sub-title">■ 合計航行距離(m)</h5>
+  <canvas id="sum_distance" class="ranking-graph"></canvas>
   <!--チャート設定-->
   <script>
       var max_speed = {{ max_speed_values.speed | tojson }};

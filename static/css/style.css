@@ -8,6 +8,11 @@ body {
   margin-bottom: 0px;
 }
 
+div#sidr-left-top,
+div#sidr-right-top{
+  font-family: "VDL-GigaJr", sans-serif;
+}
+
 /*==========headerに関するクラス=========*/
 header{
     overflow: hidden;
@@ -417,7 +422,6 @@ div.left-admin {
 
   border: 1px solid rgb(255,255,255);
   border-radius: 10px;
-
 }
 
 div.right-admin {
@@ -431,7 +435,6 @@ div.right-admin {
 
   border: 1px solid rgb(255,255,255);
   border-radius: 10px;
-
 }
 
 p.admin-title {
@@ -445,6 +448,13 @@ table.admin-table {
   margin: 10px 15px 10px 15px;
 }
 /*===========================*/
+
+/*==========ランキング==========*/
+canvas.ranking-graph {
+  width: 100%;
+}
+
+/*============================*/
 
 /* Settings for fullwidth */
 .sidr.fullwidth {
