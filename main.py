@@ -107,24 +107,18 @@ def top():
 
 @app.route("/how_to_use")
 def how_to_use():
-    """
-    使い方ページ
-    """
+    """使い方ページ"""
     return render_template('how_to_use.html')
 
 
 @app.route("/about")
 def about():
-    """
-    WEBヨットノートを説明するページ
-    """
+    """WEBヨットノートを説明するページ"""
     return render_template('about.html')
 
 @app.route("/demand")
 def demand():
-    """
-    要望ページ
-    """
+    """要望ページ"""
     # 練習ノートの一覧を取得
     query1 = client.query(kind='Demand')
     demands = list(query.fetch_retry(query1, num=20))
@@ -166,9 +160,7 @@ def demand():
 
 class Outline(object):
     def run_bq_log(self, selects, table_name, devices, start_time, end_time, order_by_time=False):
-        """
-        Bigquery のテーブル をoutline_idでフィルターして取得
-        """
+        """Bigquery のテーブル をoutline_idでフィルターして取得"""
         # 練習ノート情報を取得
         # デバイスごとにログデータを取得
         client_bq = bigquery.Client()
@@ -242,9 +234,7 @@ class Outline(object):
 
     @app.route("/outline/<int:target_outline_id>", methods=['GET'])
     def outline_detail(target_outline_id):
-        """
-        練習概要ページを表示する
-        """
+        """練習概要ページを表示する"""
         o = Outline()
 
         # cloudstorageに保存するファイル名
@@ -369,9 +359,7 @@ class Outline(object):
 
     @app.route("/add_outline", methods=['POST', 'GET'])
     def add_outline(is_new=None):
-        """
-        TOPページから練習概要の日付、開始・終了時間、時間帯、IDを追加
-        """
+        """TOPページから練習概要の日付、開始・終了時間、時間帯、IDを追加"""
 
         # 追加ボタンを押したタイミングで、outline IDを生成する
         outline_id = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
@@ -384,6 +372,11 @@ class Outline(object):
             end_hour = 'T16:00'
 
         date = datetime.strftime(datetime.now(), '%Y-%m-%d')
+
+        #日付に対する曜日を取得
+        day_tuple = ("(月)", "(火)", "(水)", "(木)", "(金)", "(土)", "(日)")
+        day = day_tuple[datetime.now().weekday()]
+
         start_time = date + start_hour
         end_time = date + end_hour
 
@@ -393,6 +386,7 @@ class Outline(object):
         outline1.update({
             'outline_id': outline_id,
             'date': date,
+            'day': day,
             'start_time': start_time,
             'end_time': end_time,
         })
@@ -414,9 +408,7 @@ class Outline(object):
 
     @app.route("/outline/mod_outline/<int:target_outline_id>", methods=['POST'])
     def mod_outline(target_outline_id):
-        """
-        練習概要ページのデータを修正・更新
-        """
+        """練習概要ページのデータを修正・更新"""
 
         target_entities = query.get_outline_entities(target_outline_id)
         key_id_outline = target_entities[0].key.id
@@ -450,6 +442,10 @@ class Outline(object):
         training14 = request.form.get('training14')
         training15 = request.form.get('training15')
 
+        day_tuple = ("(月)", "(火)", "(水)", "(木)", "(金)", "(土)", "(日)")
+        day = day_tuple[datetime.strptime(date, '%Y-%m-%d').weekday()]
+
+        #最大風速・風向・波に応じて、使用するアイコンを指定
         class_icon_selection = icon_selections.IconSelections()
         icon_flag = class_icon_selection.select_flag(wind_speedmax)
         icon_compass = class_icon_selection.select_compass(wind_direction)
@@ -458,6 +454,7 @@ class Outline(object):
         # エンティティに値を入れる
         outline.update({
             'date': date,
+            'day': day,
             'start_time': start_time,
             'end_time': end_time,
             'time_category': time_category,
@@ -533,9 +530,7 @@ class Outline(object):
 
     @app.route("/outline/del_outline/<int:target_outline_id>", methods=['POST'])
     def del_outline(target_outline_id):
-        """
-        練習概要ページの削除
-        """
+        """練習概要ページの削除"""
 
         target_entities = query.get_outline_entities(target_outline_id)
 
@@ -554,9 +549,7 @@ class Outline(object):
 
     @app.route("/outline/add_comment/<int:target_outline_id>", methods=['POST'])
     def add_comment(target_outline_id):
-        """
-        練習概要ページへのコメントの追加
-        """
+        """練習概要ページへのコメントの追加"""
         name = request.form.get('name')
         comment = request.form.get('comment')
         outline_id = int(target_outline_id)
@@ -590,9 +583,7 @@ class Player(object):
 
     @app.route("/admin/player")
     def admin_player():
-        """
-        選手の管理画面を表示
-        """
+        """選手の管理画面を表示"""
 
         query_p = client.query(kind='Player')
         player_list = list(query.fetch_retry(query_p))
@@ -607,9 +598,7 @@ class Player(object):
 
     @app.route("/admin/addplayer", methods=['POST'])
     def add_player():
-        """
-        選手データの追加
-        """
+        """選手データの追加"""
 
         playername = str(request.form.get('playername'))
         year = request.form.get('year')
@@ -630,9 +619,7 @@ class Player(object):
 
     @app.route("/admin/showplayer/<int:player_id>", methods=['GET'])
     def show_player(player_id):
-        """
-        選手データの変更画面に移動
-        """
+        """選手データの変更画面に移動"""
 
         key = client.key('Player', player_id)
         target_player = client.get(key)
@@ -647,9 +634,7 @@ class Player(object):
 
     @app.route("/admin/modplayer/<int:player_id>", methods=['POST'])
     def mod_player(player_id):
-        """
-        選手データの更新
-        """
+        """選手データの更新"""
 
         playername = str(request.form.get('playername'))
         year = request.form.get('year')
@@ -674,9 +659,7 @@ class Player(object):
 
     @app.route("/admin/delplayer/<int:player_id>", methods=['POST'])
     def del_player(player_id):
-        """
-        選手データの削除
-        """
+        """選手データの削除"""
 
         key = client.key('Player', player_id)
         client.delete(key)
@@ -699,9 +682,7 @@ class Yacht(object):
 
     @app.route("/admin/addyacht", methods=['POST'])
     def add_yacht():
-        """
-        ヨットデータの追加
-        """
+        """ヨットデータの追加"""
         yachtno = request.form.get('yachtno')
         yachtclass = request.form.get('yachtclass')
         datetime_now = datetime.now()
@@ -728,10 +709,7 @@ class Yacht(object):
 
     @app.route("/admin/showyacht/<int:yacht_id>", methods=['GET'])
     def show_yacht(yacht_id):
-        """
-        ヨットデータの変更画面に移動
-        """
-
+        """ヨットデータの変更画面に移動"""
         key = client.key('Yacht', yacht_id)
         target_yacht = client.get(key)
 
@@ -739,10 +717,7 @@ class Yacht(object):
 
     @app.route("/admin/modyacht/<int:yacht_id>", methods=['POST'])
     def mod_yacht(yacht_id):
-        """
-        ヨットデータの変更
-        """
-
+        """ヨットデータの変更"""
         yachtno = request.form.get('yachtno')
         yachtclass = request.form.get('yachtclass')
 
@@ -764,10 +739,7 @@ class Yacht(object):
 
     @app.route("/admin/delyacht/<int:yacht_id>", methods=['POST'])
     def del_yacht(yacht_id):
-        """
-        ヨットデータの削除
-        """
-
+        """ヨットデータの削除"""
         key = client.key('Yacht', yacht_id)
         client.delete(key)
 
@@ -779,9 +751,8 @@ class Device(object):
 
     @app.route("/admin/device")
     def admin_device():
-        """
-        デバイス管理画面の表示
-        """
+        """デバイス管理画面の表示"""
+
         query_d = client.query(kind='Device')
         device_list = list(query.fetch_retry(query_d))
 
@@ -789,9 +760,8 @@ class Device(object):
 
     @app.route("/admin/adddevice", methods=['POST'])
     def add_device():
-        """
-        デバイス情報を追加
-        """
+        """デバイス情報を追加"""
+
         device_id = request.form.get('device_id')
         datetime_now = datetime.now()
 
@@ -808,9 +778,8 @@ class Device(object):
 
     @app.route("/admin/showdevice/<int:device_id>", methods=['GET'])
     def show_device(device_id):
-        """
-        デバイス情報の変更画面に移動
-        """
+        """デバイス情報の変更画面に移動"""
+
         key = client.key('Device', device_id)
         target_device = client.get(key)
 
@@ -818,9 +787,8 @@ class Device(object):
 
     @app.route("/admin/moddevice/<int:device_id>", methods=['POST'])
     def mod_device(device_id):
-        """
-        デバイス情報の変更
-        """
+        """デバイス情報の変更"""
+
         deviceno = request.form.get('deviceno')
         devicename = request.form.get('devicename')
 
@@ -843,9 +811,8 @@ class Device(object):
 
     @app.route("/admin/deldevice/<int:device_id>", methods=['POST'])
     def del_device(device_id):
-        """
-        デバイス情報の削除
-        """
+        """デバイス情報の削除"""
+
         key = client.key('Device', device_id)
         client.delete(key)
 
@@ -855,9 +822,7 @@ class Device(object):
 class Menu(object):
     @app.route("/admin/menu")
     def admin_menu():
-        """
-        練習メニューの管理画面を表示
-        """
+        """練習メニューの管理画面を表示"""
 
         query_m = client.query(kind='Menu')
         menu_list = list(query.fetch_retry(query_m))
@@ -865,9 +830,8 @@ class Menu(object):
 
     @app.route("/admin/addmenu", methods=['POST'])
     def add_menu():
-        """
-        練習メニューの追加
-        """
+        """練習メニューの追加"""
+
         menu_name = request.form.get('menu')
 
         if menu_name:
@@ -882,9 +846,7 @@ class Menu(object):
 
     @app.route("/admin/showmenu/<int:menu_id>", methods=['GET'])
     def show_menu(menu_id):
-        """
-        練習メニューの変更画面を表示
-        """
+        """練習メニューの変更画面を表示"""
 
         key = client.key('Menu', menu_id)
         target_menu = client.get(key)
@@ -893,9 +855,8 @@ class Menu(object):
 
     @app.route("/admin/modmenu/<int:menu_id>", methods=['POST'])
     def mod_menu(menu_id):
-        """
-        練習メニューの変更
-        """
+        """練習メニューの変更"""
+
         menu_name = request.form.get('menu')
 
         with client.transaction():
@@ -916,9 +877,7 @@ class Menu(object):
 
     @app.route("/admin/delmenu/<int:menu_id>", methods=['POST'])
     def del_menu(menu_id):
-        """
-        練習メニューの削除
-        """
+        """練習メニューの削除"""
 
         key = client.key('Menu', menu_id)
         client.delete(key)
@@ -928,10 +887,10 @@ class Menu(object):
 
 class Ranking(object):
     """ランキングクラス"""
+
     def query_by_outlineid(self,kind_name, target_outline_id):
-        """
-        Datastore のkind をoutline_idでフィルターして取得
-        """
+        """Datastore のkind をoutline_idでフィルターして取得"""
+
         # 練習ノート情報を取得
         _query = client.query(kind=kind_name)
         _query.add_filter('outline_id', '=', int(target_outline_id))
@@ -1029,8 +988,6 @@ class Ranking(object):
         ランキング画面の表示
 
         Args:
-
-
         Return:
         """
         r = Ranking()
