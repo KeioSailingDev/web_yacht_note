@@ -447,8 +447,9 @@ p.admin-title {
   margin: 0px;
 }
 
-div.admin-add-commen {
+div.admin-add-comment {
   width: 100%;
+  margin: 10px 15px 10px 15px;
 }
 
 div.admin-add-comment button {
