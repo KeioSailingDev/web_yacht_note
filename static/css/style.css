@@ -117,6 +117,14 @@ body {
   margin-bottom: 0px;
   -webkit-text-size-adjust: none;
 }
+
+/*ローディングアイコン*/
+p#loading {
+    display: none;
+    position: fixed;
+    width: 100%;
+}
+
 /*================================================*/
 
 /* ==========タイトルバーに関する設定 ==========*/
@@ -454,6 +462,10 @@ canvas.ranking-graph {
   width: 100%;
 }
 
+#btn-filter {
+  float: right;
+  margin: 10px 15px 10px auto;
+}
 /*============================*/
 
 /* Settings for fullwidth */
@@ -474,12 +486,3 @@ input {
  /* transform: scale(0.8); */
 }
 
-/*ローディングアイコン*/
-p#loading {
-    display: none;
-    /*cursor: wait;*/
-    /*position: relative;*/
-    /*margin-top: 100px;*/
-    position: fixed;
-    width: 100%;
-    }

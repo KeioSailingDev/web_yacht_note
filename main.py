@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import os
+import re
 from flask import Flask, render_template, request, redirect, url_for, abort
 import httplib2shim
 httplib2shim.patch()
@@ -373,7 +374,7 @@ class Outline(object):
 
         date = datetime.strftime(datetime.now(), '%Y-%m-%d')
 
-        #日付に対する曜日を取得
+        # 日付に対する曜日を取得
         day_tuple = ("(月)", "(火)", "(水)", "(木)", "(金)", "(土)", "(日)")
         day = day_tuple[datetime.now().weekday()]
 
@@ -948,9 +949,10 @@ class Ranking(object):
                                    "yacht_number": [dict(h).get("yacht_number") for h in haitei]})
 
         # 艇番＋乗艇者をまとめる
-        haiteidata["haitei"] = haiteidata["yacht_number"] + "/" + \
-                               haiteidata['skipper1'] + haiteidata['skipper2'] + haiteidata['skipper3'] + "/" \
-                               + haiteidata['crew1'] + haiteidata['crew2'] + haiteidata['crew3']
+        haiteidata["haitei"] = [(y, re.sub("\s*$", "", s), re.sub("\s*$", "", c)) for y, s, c in
+                                zip(haiteidata["yacht_number"],
+                                haiteidata['skipper1']+" "+haiteidata['skipper2']+" "+haiteidata['skipper3'],
+                               haiteidata['crew1']+" "+haiteidata['crew2']+" "+haiteidata['crew3'])]
 
         # デバイス名で紐づけ
         return pd.merge(logdata, haiteidata, on='device')
@@ -975,12 +977,12 @@ class Ranking(object):
         :param merge_logdata:
         :return:
         """
+        print(merged_data)
         # 船ごとに集計
         sum_distance_df = merged_data.groupby('haitei', as_index=False)["distance"].sum()
         sum_distance_df = sum_distance_df.sort_values("distance", ascending=False)
 
         return sum_distance_df
-
 
     @app.route("/ranking", methods=['GET','POST'])
     def ranking():
@@ -1049,7 +1051,7 @@ class Ranking(object):
 
         # htmlにわたす用に、dict型に変換
         sum_distance_values = dict()
-        sum_distance_values["distance"] = [round(d, 0) for d in sum_distance_df["distance"].tolist()]
+        sum_distance_values["distance"] = [round(d / 1000, 1) for d in sum_distance_df["distance"].tolist()] # km単位
         sum_distance_values["label"] = sum_distance_df["haitei"].tolist()
 
         return render_template('ranking.html', title='ランキング',

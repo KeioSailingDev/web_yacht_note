@@ -17862,7 +17862,16 @@ module.exports = function(Chart) {
 			var spacing = 1.5 * fontSize;
 
 			for (var i = 0; i < text.length; ++i) {
-				ctx.fillText(text[i], position.x, y);
+				if (pointLabels[i].indexOf("\n") !== -1) {
+				  var y = pointLabelPosition.y;
+				  var lineHeight = ctx.measureText("あ").width;
+				  pointLabels[i].split("\n").forEach(function(val){
+					ctx.fillText(val ? val : '', pointLabelPosition.x, y);
+					y += lineHeight;
+				  });
+				} else {
+				  ctx.fillText(pointLabels[i] ? pointLabels[i] : '', pointLabelPosition.x, pointLabelPosition.y);
+				};
 				y += spacing;
 			}
 		} else {

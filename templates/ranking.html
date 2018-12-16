@@ -1,32 +1,5 @@
 {% extends 'layout.html' %}
 
-{% block right_sidebar_button %}
-<a id="sidr-right-top-button" class="menu-button right" href="#sidr-right-top">Toggle menu</a>
-{% endblock %}
-
-{% block right_sidebar %}
-<div id="sidr-right-top">
-    <form action="{{ url_for('ranking') }}" method="post" class="form-inline">
-      <ul class="col-12">
-        <li>
-          <label for="filter_outline">日付</label>
-            <select name="filter_outline" id="filter_outline" class="form-control">
-              {% for outline in filter_list %}
-                <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
-              {% endfor %}
-            </select>
-        </li>
-
-      </ulcol-12>
-
-      <button type="submit" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> フィルター
-      </button>
-    </form>
-</div>
-{% endblock %}
-
-
 {% block content %}
   <script src="{{ url_for('static', filename='js/Chart.bundle.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
@@ -37,10 +10,25 @@
     <p class="bg-warning text-center">{{ no_value_message }}</p>
   {% else %}
   {%endif %}
-  <h5 class="first-sub-title">■ 最高速度(knot)</h5>
+  <h5 class="first-sub-title">■ 練習検索</h5>
+
+  <div class="col-10 center-block">
+    <form action="{{ url_for('ranking') }}" method="post" class="form-inline input-form">
+        <select name="filter_outline" id="filter_outline" class="form-control input-form">
+          {% for outline in filter_list %}
+            <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
+          {% endfor %}
+        </select>
+      <div class="btn-filter">
+        <button type="submit" class="btn btn-primary" id="btn-filter">フィルターを適用</button>
+      </div>
+    </form>
+  </div>
+
+  <h5 class="sub-title">■ 最高速度(knot)</h5>
   <canvas id="max_speed" class="ranking-graph"></canvas>
 
-  <h5 class="sub-title">■ 合計航行距離(m)</h5>
+  <h5 class="sub-title">■ 合計航行距離(km)</h5>
   <canvas id="sum_distance" class="ranking-graph"></canvas>
   <!--チャート設定-->
   <script>
@@ -149,8 +137,8 @@
       var option_sum_distance = JSON.parse(JSON.stringify(option));
 
       // knot形式になおす
-      option_max_speed.scales.xAxes[0].ticks.max = Math.round(Math.max.apply(null, max_speed)) * 1.3;
-      option_sum_distance.scales.xAxes[0].ticks.max = Math.round(Math.max.apply(null, sum_distance)) * 1.3;
+      option_max_speed.scales.xAxes[0].ticks.max = Math.round(Math.max.apply(null, max_speed)) * 1.5;
+      option_sum_distance.scales.xAxes[0].ticks.max = Math.round(Math.max.apply(null, sum_distance)) * 1.5;
 
       // グラフ出力
       var ctx = document.getElementById('max_speed');
