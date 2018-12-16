@@ -4,7 +4,7 @@
   <script src="{{ url_for('static', filename='js/Chart.bundle.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
-<h3 class="sub-fix-var">{{ outline_name }}</h3>
+<h3 class="sub-fix-var">ランキング / {{ outline_name }}</h3>
 
   {% if no_value_message is not none %}
     <p class="bg-warning text-center">{{ no_value_message }}</p>
@@ -16,7 +16,11 @@
     <form action="{{ url_for('ranking') }}" method="post" class="form-inline input-form">
         <select name="filter_outline" id="filter_outline" class="form-control input-form">
           {% for outline in filter_list %}
-            <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
+            {% if target_outline_id == outline.outline_id %}
+              <option selected value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
+            {% else %}
+              <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
+            {% endif %}}
           {% endfor %}
         </select>
       <div id="btn-filter-box" class="clearfix">

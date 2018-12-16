@@ -71,11 +71,8 @@ def top():
     # if form_values['filter_time'] is not None:
     #     query1.add_filter('time_category', '=', form_values['filter_time'])
 
-    # if filter_wind_speed is not None:
-    #     if filter_wind_speed == "軽風(0~3m/s)":
-    #         query1.add_filter('wind_speed_min', '<=', 3)
-    #     elif filter_wind_speed == "中風(4~7m/s)":
-    #         query1.add_filter('wind_speed_max', '<=', )
+    if form_values["filter_wind_speed"] is not None:
+        query1.add_filter('wind_speed_max', '>=', int(form_values["filter_wind_speed"]))
     #
     #
     # if filter_wind_dir is not None:
@@ -1000,21 +997,21 @@ class Ranking(object):
                 form_value = None
             return form_value
 
-        target_outline_id = get_form_value("filter_outline")
-
-        if target_outline_id is None:
-            # デフォルトの表示ランキングを設定
-            target_outline_id = "20181121134415"
-
         # 練習ノートの一覧を取得
         query1 = client.query(kind='Outline')
         outline_list = list(query.fetch_retry(query1))
         sorted_outline = sorted(outline_list, key=lambda outline: outline["date"], reverse=True)
 
+        target_outline_id = get_form_value("filter_outline")
+
+        if target_outline_id is None:
+            # デフォルトの表示ランキングを設定
+            target_outline_id = sorted_outline[0]["outline_id"]
+
         # 対象となるノート
         print(sorted_outline[0]["outline_id"])
         outline = [o for o in sorted_outline if o["outline_id"] == int(target_outline_id)][0]
-        outline_name = dict(outline).get('date') + dict(outline).get('time_category')
+        outline_name = dict(outline).get('date')+ " " + dict(outline).get('time_category')
         start_time = dict(outline).get('start_time')
         end_time = dict(outline).get('end_time')
 
@@ -1057,6 +1054,7 @@ class Ranking(object):
         return render_template('ranking.html', title='ランキング',
                                no_value_message=no_value_message,
                                outline_name=outline_name,
+                               target_outline_id=target_outline_id,
                                max_speed_values=max_speed_values,
                                sum_distance_values=sum_distance_values,
                                filter_list=sorted_outline)
