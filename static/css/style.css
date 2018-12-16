@@ -411,6 +411,11 @@ div.admin-list {
   margin: 65px 15px 10px 15px;
 }
 
+div.admin-form-set {
+  margin:10px 15px 10px 15px;
+  width: 100%;
+}
+
 div.left-admin {
   float: left;
 
@@ -448,7 +453,7 @@ p.admin-title {
 }
 
 div.admin-add-data {
-  width: 100%;
+  /* width: 100%; */
   margin: 10px 15px 10px 15px;
 }
 
