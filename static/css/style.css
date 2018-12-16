@@ -329,8 +329,18 @@ div.name-comment {
   margin: 0px 15px 0px 15px;
 }
 
-div.comment-form-set {
+div.comment-form-name,
+div.comment-form-text, {
   margin:10px 15px 10px 15px;
+}
+
+div.comment-form-name {
+  font-family: FOT-UDMarugo Large Pr6N M, sans-serif;
+}
+
+div.comment-form-text {
+  font-family: FOT-UDMarugo Large Pr6N DB, sans-serif;
+  font-weight: 900;
 }
 /*=======================================================*/
 
