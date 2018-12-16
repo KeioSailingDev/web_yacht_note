@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 import os
-from flask import Flask, render_template, request, redirect, url_for, abort
+from flask import Flask, render_template, request, redirect, url_for
 import httplib2shim
 httplib2shim.patch()
 from google.cloud import datastore
