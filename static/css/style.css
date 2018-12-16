@@ -165,7 +165,6 @@ h5.sub-title {
 /*==========入力項目に関するクラス==========*/
 /*input要素・select要素とlabel要素の位置関係*/
 div.form-set {
-  width: 100%;
   margin:10px 15px 10px 15px;
 }
 
@@ -313,11 +312,11 @@ div.adjust-button {
 
 div.btn-add-comment {
   width: 100%;
+  margin: 10px 15px 10px auto;
 }
 
 div.btn-add-comment button {
   float: right;
-  margin: 10px 15px 10px auto;
 }
 
 div.btn-edit {
@@ -448,12 +447,12 @@ p.admin-title {
   margin: 0px;
 }
 
-div.admin-add-comment {
+div.admin-add-data {
   width: 100%;
   margin: 10px 15px 10px 15px;
 }
 
-div.admin-add-comment button {
+div.admin-add-data button {
   float: right;
 }
 
