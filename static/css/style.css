@@ -437,12 +437,26 @@ div.right-admin {
   border-radius: 10px;
 }
 
+img.admin-top-image {
+  width: 100%;
+}
+
 p.admin-title {
   text-align: center;
   color: rgb(255,255,255);
   margin: 0px;
 }
 
+div.admin-add-commen {
+  width: 100%;
+}
+
+div.admin-add-comment button {
+  /* text-align: right; */
+  margin-right: 15px;
+  margin-left: auto;
+  float: right;
+}
 
 table.admin-table {
   margin: 10px 15px 10px 15px;
