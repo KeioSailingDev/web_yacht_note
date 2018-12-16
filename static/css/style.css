@@ -138,27 +138,27 @@ h3.sub-fix-var {
 h5.first-sub-title {
   background-color: rgb(94,92,96);
   width: 100%;
-  height: 26px;
+  height: 30px;
   color: rgb(255,255,255);
-  font-size: 16px;
+  font-size: 20px;
   text-align: left;
   padding-left: 15px;
 
-  margin: 65px 0px 0px 0px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  margin: 68px 0px 0px 0px;
+  padding-top: 4px;
+  padding-bottom: 6px;
 }
 
 h5.sub-title {
   background-color: rgb(94,92,96);
   width: 100%;
-  height: 26px;
+  height: 30px;
   color: rgb(255,255,255);
-  font-size: 16px;
+  font-size: 20px;
   text-align: left;
   padding-left: 15px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 4px;
+  padding-bottom: 6px;
 }
 /*==========================================*/
 
@@ -246,8 +246,8 @@ table#toppage-table tr td:nth-of-type(3) {
 }
 
 table#toppage-table tr td:nth-of-type(4) {
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 3px;
+  padding-right: 3px;
 }
 
 table#toppage-table tr td:nth-of-type(5) {
@@ -276,7 +276,7 @@ table#toppage-table thead tr {
 
 /*==========練習概要ページ(outline_detail.html)==========*/
 table#sea-status {
-  margin: 10px 15px 10px 15px;
+  margin: 10px 15px 10px 45px;
 }
 
 td.status-icon {
