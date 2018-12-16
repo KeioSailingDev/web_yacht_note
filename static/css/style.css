@@ -498,6 +498,11 @@ button#btn-filter {
   margin: 10px 15px 10px auto;
 }
 
+div.ranking-form-set {
+  margin:10px 15px 10px 15px;
+  width: 100%;
+}
+
 /*============================*/
 
 /* Settings for fullwidth */
