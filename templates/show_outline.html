@@ -26,8 +26,7 @@
         <select name="timecategory" id="timecategory" class="input-form">
           {% for time_category in outline_selections[0] %}
             {% if time_category == target_entities[0].time_category %}
-              <option value={{ time_category }}
-                      selected>{{ time_category }}</option>
+              <option value={{ time_category }} selected>{{ time_category }}</option>
             {% else %}
               <option value={{ time_category }}>{{ time_category }}</option>
             {% endif %}
@@ -62,7 +61,7 @@
       </div>
       <div class="float-input">
         <select class="input-form" name="windspeedmin" id="windspeedmin" class="input-form">
-         <option value=0>未入力</option>
+         <option value="">未入力</option>
           {% for wind_speed in outline_selections[1] %}
             {% if wind_speed == target_entities[0].wind_speed_min %}
               <option value={{ wind_speed }} selected>{{ wind_speed }}</option>

@@ -6,7 +6,7 @@
 
   <form action="{{ url_for('add_yacht') }}" method="post" class="form-inline">
 
-    <div class="form-set clearfix">
+    <div class="admin-form-set clearfix">
       <div class="float-label">
         <label for="yachtno">艇番</label>
       </div>
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="form-set clearfix">
+    <div class="admin-form-set clearfix">
       <div class="float-label">
         <label for="yachtclass">艇種</label>
       </div>
@@ -28,13 +28,10 @@
       </div>
     </div>
 
-    <div class="clearfix">
-      <div class="adjust-button"></div>
-      <div class="btn-add-comment">
-        <button type="submit" class="btn btn-primary">
-          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 追加
-        </button>
-      </div>
+    <div class="admin-add-data clearfix">
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> ヨット追加
+      </button>
     </div>
 
   </form>

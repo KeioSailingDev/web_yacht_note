@@ -20,7 +20,7 @@ header{
     display: block;
     top: 0;
     left: 0;
-    height: 40px;
+    height: 45px;
     background-color: rgb(43,40,41);
     width: 100%;
     z-index: 2;
@@ -31,7 +31,7 @@ header{
 p#top-title {
   text-align: center;
   padding: 5px 0px 5px 0px;
-  font-size: 20px;
+  font-size: 25px;
 }
 
 
@@ -47,8 +47,8 @@ div#wrapper{
     bottom:10px;
     left: 20px;
     overflow: hidden;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     text-indent: -9999px;
     background-size: contain;
 }
@@ -131,42 +131,42 @@ p#loading {
 /*上部、セカンド固定バー*/
 h3.sub-fix-var {
   width: 100%;
-  height: 25px;
-  margin: -25px 0px 0px 0px;
-  padding-top: 5px;
+  height: 28px;
+  margin: -28px 0px 0px 0px;
+  padding-top: 7px;
   padding-bottom: 5px;
   background-color: rgb(0,0,0);
   position: fixed;
   color: rgb(255,255,255);
   text-align: center;
-  font-size: 17px;
+  font-size: 18px;
 }
 
 /*h5タイトルバー*/
 h5.first-sub-title {
   background-color: rgb(94,92,96);
   width: 100%;
-  height: 26px;
+  height: 30px;
   color: rgb(255,255,255);
-  font-size: 16px;
+  font-size: 20px;
   text-align: left;
   padding-left: 15px;
 
-  margin: 65px 0px 0px 0px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  margin: 68px 0px 0px 0px;
+  padding-top: 4px;
+  padding-bottom: 6px;
 }
 
 h5.sub-title {
   background-color: rgb(94,92,96);
   width: 100%;
-  height: 26px;
+  height: 30px;
   color: rgb(255,255,255);
-  font-size: 16px;
+  font-size: 20px;
   text-align: left;
   padding-left: 15px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 4px;
+  padding-bottom: 6px;
 }
 /*==========================================*/
 
@@ -231,7 +231,7 @@ p#loading {
 
 /*==========TOPページ（top.html)==========*/
 table#toppage-table {
-  margin: 65px 0px 0px 0px;
+  margin: 68px 0px 0px 0px;
 }
 
 /*TOPページをストライプにする場合は、コメントアウトしてください*/
@@ -243,9 +243,10 @@ table#toppage-table tbody tr:nth-of-type(even) {
   background-color: rgb(71,70,71);
 } */
 
-table#toppage-table thead tr th,
 table#toppage-table tbody tr td {
   text-align: center;
+  height: 55px;
+  font-size: 18px;
 }
 
 table#toppage-table tr td:nth-of-type(3) {
@@ -253,8 +254,8 @@ table#toppage-table tr td:nth-of-type(3) {
 }
 
 table#toppage-table tr td:nth-of-type(4) {
-  padding-left: 0px;
-  padding-right: 0px;
+  padding-left: 3px;
+  padding-right: 3px;
 }
 
 table#toppage-table tr td:nth-of-type(5) {
@@ -262,7 +263,7 @@ table#toppage-table tr td:nth-of-type(5) {
 }
 
 table#toppage-table tbody tr td img {
-  height: 20px;
+  height: 30px;
   width: auto;
 }
 
@@ -283,7 +284,7 @@ table#toppage-table thead tr {
 
 /*==========練習概要ページ(outline_detail.html)==========*/
 table#sea-status {
-  margin: 10px 15px 10px 15px;
+  margin: 10px 15px 10px 45px;
 }
 
 td.status-icon {
@@ -320,11 +321,11 @@ div.adjust-button {
 
 div.btn-add-comment {
   width: 100%;
+  margin: 10px 15px 10px auto;
 }
 
 div.btn-add-comment button {
   float: right;
-  margin: 10px 15px 10px auto;
 }
 
 div.btn-edit {
@@ -419,6 +420,11 @@ div.admin-list {
   margin: 65px 15px 10px 15px;
 }
 
+div.admin-form-set {
+  margin: 10px 15px 10px 15px;
+  width: 100%;
+}
+
 div.left-admin {
   float: left;
 
@@ -445,12 +451,24 @@ div.right-admin {
   border-radius: 10px;
 }
 
+img.admin-top-image {
+  width: 100%;
+}
+
 p.admin-title {
   text-align: center;
   color: rgb(255,255,255);
   margin: 0px;
 }
 
+div.admin-add-data {
+  width: 100%;
+  margin: 10px 15px 10px 15px;
+}
+
+div.admin-add-data button {
+  float: right;
+}
 
 table.admin-table {
   margin: 10px 15px 10px 15px;
@@ -470,6 +488,7 @@ button#btn-filter {
   float: right;
   margin: 10px 15px 10px auto;
 }
+
 /*============================*/
 
 /* Settings for fullwidth */
