@@ -117,7 +117,8 @@
   padding-left: 30px;
 }
 .sidr form {
-  margin: 0 15px;
+  margin: 0px;
+  width:100%;
 }
 .sidr label {
   font-size: 13px;

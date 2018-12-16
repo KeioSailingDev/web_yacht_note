@@ -35,6 +35,11 @@
 
     <div id="sidr-left-top">
         <ul class="sidebar-nav">
+            <li style="background-color: #474647">
+                <a href="#sidr-left-top" class="close-sidr" style="color: white" onclick="$.sidr('close', 'sidr-left-top');return false;">
+                    <img src="{{ url_for('static', filename='img/back.png') }}" height="30px"> メニュー
+                </a>
+            </li>
             <li>
                 <a href="{{ url_for('top')}}"><img src="{{ url_for('static', filename='img/home.png') }}" height="30px"> トップページ</a>
             </li>
@@ -45,7 +50,7 @@
                 <a href="{{ url_for('how_to_use')}}"><img src="{{ url_for('static', filename='img/gear.png') }}" height="30px"> 使い方</a>
             </li>
             <li>
-                <a href="{{ url_for('demand')}}" onClick="loading();"><img src="{{ url_for('static', filename='img/gear.png') }}" height="30px"> アップデート予定</a>
+                <a href="{{ url_for('demand')}}" onClick="loading();"><img src="{{ url_for('static', filename='img/update.png') }}" height="30px"> アップデート予定</a>
             </li>
             <li>
                 <a href="{{ url_for('ranking')}}" onClick="loading();"><img src="{{ url_for('static', filename='img/crown.png') }}" height="30px"> ランキング</a>
@@ -71,8 +76,8 @@
     <!-- Bootstrap core JavaScript -->
 
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
     <script src="{{ url_for('static', filename='js/jquery.sidr.js') }}"></script>
+    <script src="javascripts/jquery.touchwipe.js"></script>
 
     <!-- Your code -->
     <script>

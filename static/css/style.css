@@ -124,6 +124,11 @@ p#loading {
     position: fixed;
     width: 100%;
 }
+/*左サイドバー*/
+li#left-menu-header{
+    background-color: #5a6268;
+}
+
 
 /*================================================*/
 
@@ -338,7 +343,7 @@ div.name-comment {
 }
 
 div.comment-form-name,
-div.comment-form-text, {
+div.comment-form-text{
   margin:10px 15px 10px 15px;
 }
 

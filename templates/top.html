@@ -7,38 +7,30 @@
 {% block right_sidebar %}
 <script src="{{ url_for('static', filename='js/toppage.js') }}"></script>
 <div id="sidr-right-top">
-  <form action="{{ url_for('top') }}" method="post" class="form-inline">
-      <ul class="col-12">
+  <form action="{{ url_for('top') }}" method="post" class="w">
+      <ul>
+        <li style="background-color: #474647; text-align: right">
+                <a href="#sidr-left-top" class="close-sidr" style="color: white" onclick="$.sidr('close', 'sidr-right-top');return false;">
+                    フィルター <img src="{{ url_for('static', filename='img/back_filter.png') }}" height="30px">
+                </a>
+            </li>
         <li>
           <label for="filter_date">日付</label>
           <input type="date" class="form-control col-12" id="filter_date" name="filter_date", value={{ default_date }}>
         </li>
 
         <li>
-          <label for="filter_time">時間区分</label>
-          <select name="filter_time" id="filter_time" class="form-control col-12">
-            {% for time_category in outline_selections[0] %}
-              {% if time_category == form_default.filter_time  %}
-                  <option selected value={{ time_category }}>{{ time_category }}</option>
-              {% else %}
-                  <option value={{ time_category }}>{{ time_category }}</option>
-              {% endif %}
+          最大風速（〇〇以上）
+          <select name="filter_wind_speed" id="filter_wind_speed" class="form-control">
+            {% for wind_speed_category in outline_selections[1] %}
+                {% if wind_speed_category == form_default.filter_wind_speed  %}
+                    <option selected value={{ wind_speed_category }}>{{ wind_speed_category }}</option>
+                {% else %}
+                    <option value={{ wind_speed_category }}>{{ wind_speed_category }}</option>
+                {% endif %}
             {% endfor %}
           </select>
         </li>
-
-        <!--<li>-->
-          <!--風速：-->
-          <!--<select name="filter_wind_speed" id="filter_wind_speed" class="form-control">-->
-            <!--{% for wind_speed_category in outline_selections[9] %}-->
-                <!--{% if wind_speed_category == form_default.filter_wind_speed  %}-->
-                    <!--<option selected value={{ wind_speed_category }}>{{ wind_speed_category }}</option>-->
-                <!--{% else %}-->
-                    <!--<option value={{ wind_speed_category }}>{{ wind_speed_category }}</option>-->
-                <!--{% endif %}-->
-            <!--{% endfor %}-->
-          <!--</select>-->
-        <!--</li>-->
 
         <!--<li>-->
           <!--風向：-->
@@ -82,7 +74,7 @@
       </ul>
 
       <button type="submit" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> フィルター
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> フィルターを適用
       </button>
   </form>
 </div>
