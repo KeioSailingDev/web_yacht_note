@@ -20,7 +20,7 @@ header{
     display: block;
     top: 0;
     left: 0;
-    height: 40px;
+    height: 45px;
     background-color: rgb(43,40,41);
     width: 100%;
     z-index: 2;
@@ -31,7 +31,7 @@ header{
 p#top-title {
   text-align: center;
   padding: 5px 0px 5px 0px;
-  font-size: 20px;
+  font-size: 25px;
 }
 
 
@@ -47,8 +47,8 @@ div#wrapper{
     bottom:10px;
     left: 20px;
     overflow: hidden;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     text-indent: -9999px;
     background-size: contain;
 }
@@ -123,15 +123,15 @@ body {
 /*上部、セカンド固定バー*/
 h3.sub-fix-var {
   width: 100%;
-  height: 25px;
-  margin: -25px 0px 0px 0px;
-  padding-top: 5px;
+  height: 28px;
+  margin: -28px 0px 0px 0px;
+  padding-top: 7px;
   padding-bottom: 5px;
   background-color: rgb(0,0,0);
   position: fixed;
   color: rgb(255,255,255);
   text-align: center;
-  font-size: 17px;
+  font-size: 18px;
 }
 
 /*h5タイトルバー*/
@@ -223,7 +223,7 @@ p#loading {
 
 /*==========TOPページ（top.html)==========*/
 table#toppage-table {
-  margin: 65px 0px 0px 0px;
+  margin: 68px 0px 0px 0px;
 }
 
 /*TOPページをストライプにする場合は、コメントアウトしてください*/
@@ -235,9 +235,10 @@ table#toppage-table tbody tr:nth-of-type(even) {
   background-color: rgb(71,70,71);
 } */
 
-table#toppage-table thead tr th,
 table#toppage-table tbody tr td {
   text-align: center;
+  height: 55px;
+  font-size: 18px;
 }
 
 table#toppage-table tr td:nth-of-type(3) {
@@ -254,7 +255,7 @@ table#toppage-table tr td:nth-of-type(5) {
 }
 
 table#toppage-table tbody tr td img {
-  height: 20px;
+  height: 30px;
   width: auto;
 }
 
@@ -470,7 +471,6 @@ table.admin-table {
 canvas.ranking-graph {
   width: 100%;
 }
-
 /*============================*/
 
 /* Settings for fullwidth */
