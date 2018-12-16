@@ -8,6 +8,11 @@ body {
   margin-bottom: 0px;
 }
 
+div#sidr-left-top,
+div#sidr-right-top{
+  font-family: "VDL-GigaJr", sans-serif;
+}
+
 /*==========headerに関するクラス=========*/
 header{
     overflow: hidden;
@@ -126,7 +131,7 @@ h3.sub-fix-var {
   position: fixed;
   color: rgb(255,255,255);
   text-align: center;
-  font-size: 15px;
+  font-size: 17px;
 }
 
 /*h5タイトルバー*/
@@ -221,13 +226,14 @@ table#toppage-table {
   margin: 65px 0px 0px 0px;
 }
 
-table#toppage-table tbody tr:nth-of-type(odd) {
-  background-color: rgba(94,92,96);
+/*TOPページをストライプにする場合は、コメントアウトしてください*/
+/* table#toppage-table tbody tr:nth-of-type(odd) {
+  background-color: rgb(94,92,96);
 }
 
 table#toppage-table tbody tr:nth-of-type(even) {
-  background-color: rgba(71,70,71);
-}
+  background-color: rgb(71,70,71);
+} */
 
 table#toppage-table thead tr th,
 table#toppage-table tbody tr td {
@@ -416,7 +422,6 @@ div.left-admin {
 
   border: 1px solid rgb(255,255,255);
   border-radius: 10px;
-
 }
 
 div.right-admin {
@@ -430,12 +435,12 @@ div.right-admin {
 
   border: 1px solid rgb(255,255,255);
   border-radius: 10px;
-
 }
 
 p.admin-title {
   text-align: center;
   color: rgb(255,255,255);
+  margin: 0px;
 }
 
 
@@ -443,6 +448,13 @@ table.admin-table {
   margin: 10px 15px 10px 15px;
 }
 /*===========================*/
+
+/*==========ランキング==========*/
+canvas.ranking-graph {
+  width: 100%;
+}
+
+/*============================*/
 
 /* Settings for fullwidth */
 .sidr.fullwidth {

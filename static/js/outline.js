@@ -13,7 +13,6 @@ $(function(){
     if(target_list_value == ""){
       $('#menu > li:gt('+list_index+')').hide();
       var hidden_list = list_num
-      console.log(hidden_list)
       break;
     }
   };
@@ -27,7 +26,7 @@ $(function(){
 
 //艇番-デバイス-スキッパー-クルーの一組を表示
 $(function(){
-  for(var yacht_index = 0; yacht_index < 8; yacht_index++){
+  for(var yacht_index = 1; yacht_index < 8; yacht_index++){
 
     var show_yacht_index = yacht_index - 1;
 
@@ -44,7 +43,6 @@ $(function(){
     if(target_yacht_value == ""){
       $('.yacht-skipper:gt('+show_yacht_index+')').hide();
       var hidden_yacht = yacht_index + 1
-      console.log(hidden_yacht)
       break;
     }
   };

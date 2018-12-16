@@ -80,7 +80,7 @@
       </div>
       <div class="float-input">
         <select name="windspeedmax" id="windspeedmax" class="input-form">
-         <option value=0>未入力</option>
+         <option value="">未入力</option>
           {% for wind_speed in outline_selections[1] %}
             {% if wind_speed == target_entities[0].wind_speed_max %}
               <option value={{ wind_speed }} selected>{{ wind_speed }}</option>
