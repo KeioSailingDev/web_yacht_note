@@ -1,9 +1,11 @@
 from datetime import datetime, timedelta
 import os
 #fdsadsa
-from flask import Flask, render_template, request, redirect, url_for, aaaa
-from flask import Flask, render_template, request, redirect, url_for, aaaa
-import httplib2shim
+for i in range(10):
+　from flask import Flask, render_template, request, redirect, url_for, aaaa
+　from flask import Flask, render_template, request, redirect, url_for, aaaa
+print("aaa")
+import httplihim
 httplib2shim.patch()
 from google.cloud import datastore
 from google.cloud import bigquery
