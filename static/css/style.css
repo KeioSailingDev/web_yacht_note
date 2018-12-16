@@ -462,7 +462,11 @@ canvas.ranking-graph {
   width: 100%;
 }
 
-#btn-filter {
+div#btn-filter-box {
+  width: 100%
+}
+
+button#btn-filter {
   float: right;
   margin: 10px 15px 10px auto;
 }
