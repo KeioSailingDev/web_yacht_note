@@ -12,18 +12,18 @@
   {%endif %}
   <h5 class="first-sub-title">■ 練習検索</h5>
 
-  <div class="col-10 center-block">
-    <form action="{{ url_for('ranking') }}" method="post" class="form-inline input-form">
-        <select name="filter_outline" id="filter_outline" class="form-control input-form">
-          {% for outline in filter_list %}
-            <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
-          {% endfor %}
-        </select>
-      <div id="btn-filter-box" class="clearfix">
-        <button type="submit" class="btn btn-primary" id="btn-filter" style="float:right">検索</button>
-      </div>
-    </form>
-  </div>
+  <form action="{{ url_for('ranking') }}" method="post" class="form-inline input-form">
+    <div class="form-set">
+      <select name="filter_outline" id="filter_outline" class="input-form">
+        {% for outline in filter_list %}
+          <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div id="btn-filter-box" class="clearfix">
+      <button type="submit" class="btn btn-primary" id="btn-filter" style="float:right">検索</button>
+    </div>
+  </form>
 
   <h5 class="sub-title">■ 最高速度(knot)</h5>
   <canvas id="max_speed" class="ranking-graph"></canvas>
