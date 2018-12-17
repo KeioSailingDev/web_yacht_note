@@ -162,12 +162,12 @@
 
   <h5 class="sub-title">■ コメント欄</h5>
 
-  <form action="{{ url_for('add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" class="form-inline">
-    <div class="comment-form-set">
+  <form action="{{ url_for('add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" id="comment-form-set">
+    <div>
       <label for="name">名前</label>
       <input type="text" class="comment-form-name input-form" id="name" name="name">
     </div>
-    <div class="comment-form-set">
+    <div>
       <label for="name">コメント</label>
       <textarea class="comment-form-text input-form" rows=2 id="comment" name="comment"></textarea>
     </div>
