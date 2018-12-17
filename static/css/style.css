@@ -198,7 +198,6 @@ div.float-input select {
   width: calc(100% - 130px);
 }
 
-
 /*入力項目の詳細設定*/
 input.input-form,
 select.input-form,
@@ -318,17 +317,14 @@ table.detail-outline-table-sc tr td {
   border: none;
 }
 
-div.adjust-button {
-  float: left;
-  width: -webkit-calc(100% - 145px);
-  width: calc(100% - 145px);
+form#comment-form-set {
+  margin: 10px 15px 10px 15px;
 }
 
 div.btn-add-comment {
   width: 100%;
-  margin: 10px 15px 10px auto;
+  margin-top: 10px;
 }
-
 div.btn-add-comment button {
   float: right;
 }
@@ -531,4 +527,3 @@ input {
  font-size: 10px;
  /* transform: scale(0.8); */
 }
-
