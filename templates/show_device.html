@@ -1,22 +1,30 @@
 {% extends 'layout.html' %}
 {% block content %}
-  <h1>{{ title }}</h1>
-  <form action="{{ url_for('mod_device', device_id=target_device.key.id) }}" method="post" class="form-horizontal">
-    <div class="form-group">
-      <label for="device_id" class="col-sm-2 control-label">デバイスID</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="device_id" name="device_id" value="{{ target_device.device_id }}">
+
+  <h3 class="sub-fix-var">デバイス詳細</h3>
+
+  <h5 class="first-sub-title">■ デバイスデータの編集</h5>
+
+  <form action="{{ url_for('mod_device', device_id=target_device.key.id) }}" method="post" class="admin-form-set">
+
+    <div class="clearfix">
+      <div class="float-label">
+        <label for="device_id">デバイスID</label>
+      </div>
+      <div class="float-input">
+        <input type="text" class="input-form" id="device_id" name="device_id" value="{{ target_device.device_id }}">
       </div>
     </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">
-          <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 変更
-        </button>
-      </div>
+
+    <div class="admin-add-data clearfix">
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 変更
+      </button>
     </div>
+
   </form>
-  <a class="btn btn-default" href="{{ url_for('top') }}">
+
+  <!-- <a class="btn btn-default" href="{{ url_for('top') }}">
     <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> 戻る
-  </a>
+  </a> -->
 {% endblock %}

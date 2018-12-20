@@ -206,8 +206,7 @@ textarea.input-form  {
   display: block;
   width: 100%;
 
-  /* padding: 0.375rem 0.75rem; */
-  padding: 0px auto 0px 10px;
+  padding: 0px 0px 0px 10px;
 
   font-size: 16px;
   line-height: 1.5;
@@ -435,8 +434,8 @@ div.admin-list {
   margin: 65px 15px 10px 15px;
 }
 
-div.admin-form-set {
-  margin: 10px 15px 10px 15px;
+form.admin-form-set {
+  padding: 10px 15px 10px 15px;
   width: 100%;
 }
 
@@ -474,11 +473,6 @@ p.admin-title {
   text-align: center;
   color: rgb(255,255,255);
   margin: 0px;
-}
-
-div.admin-add-data {
-  width: 100%;
-  margin: 10px 15px 10px 15px;
 }
 
 div.admin-add-data button {
