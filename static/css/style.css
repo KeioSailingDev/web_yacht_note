@@ -291,6 +291,10 @@ table#sea-status {
   margin: 10px 15px 10px 45px;
 }
 
+table#sea-status tr {
+  height: 50px;
+}
+
 td.status-icon {
   width: 33%;
   height: auto;
