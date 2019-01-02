@@ -4,14 +4,26 @@
 <h3 class="sub-fix-var">{{ target_entities[0].date }}{{ target_entities[0].day }} {{ target_entities[0].time_category }}</h3>
 
 <h5 class="first-sub-title">■ GPSデータ</h5>
-{% if log_message == 'GPSデータなし' %}
-    GPSログなし
+{% if log_message != 'GPSデータあり' %}
+    {{ log_message }}
+    <div class="btn-edit col-12">
+      <a class="btn btn-success" href="{{ url_for('draw_map', target_outline_id=target_entities[0].outline_id )}}">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> GPSデータを更新
+      </a>
+    </div>
 {% else %}
     <iframe src="{{ html_url }}" width="100%" height="300px" >#document</iframe>
+    <div class="btn-edit col-12">
+      <a class="btn btn-success" href="{{ url_for('draw_map', target_outline_id=target_entities[0].outline_id )}}">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> GPSデータを更新
+      </a>
+    </div>
     {% for yc in yacht_color %}
     <span style="color:{{ yc.color }}">{{ yc.yacht }}　</span>
     {% endfor %}
 {% endif %}
+
+
 
 <h5 class="sub-title">■ 海面状況</h5>
 

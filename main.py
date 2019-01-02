@@ -157,6 +157,12 @@ def demand():
 
 
 class Outline(object):
+
+    def __init__(self):
+        self.map_center=[35.284651, 139.555159]
+        self.map_tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+        self.attr='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+
     def run_bq_log(self, selects, table_name, devices, start_time, end_time, order_by_time=False):
         """Bigquery のテーブル をoutline_idでフィルターして取得"""
         # 練習ノート情報を取得
@@ -230,6 +236,79 @@ class Outline(object):
         print(errors)
         assert errors == []
 
+    @app.route("/draw_map/<int:target_outline_id>", methods=['GET', 'POST'])
+    def draw_map(target_outline_id):
+        """
+        航路マップを描画する（すでにある場合も再描画）
+        :param target_outline_id:
+        :param devices:
+        :param colors:
+        :return:
+        """
+        o = Outline()
+        output_map_name = str(target_outline_id) + '.html'
+
+        target_entities = query.get_outline_entities(target_outline_id)
+        # エンティティ Noneは取り除く
+        entities = [x for x in [e for e in list(target_entities[1]) if not dict(e).get('device_id') == '']
+                    if dict(x).get("device_id") is not None]
+
+        # デバイスID
+        devices = [dict(e).get("device_id") for e in entities]
+
+        # mapを描画
+        my_map = folium.Map(o.map_center,
+                            zoom_start=13,
+                            tiles=o.map_tiles,
+                            attr=o.attr)
+
+
+        # 挺のカラーを取得
+        colors = []
+        for e in entities:
+            yacht_no = dict(e).get("yacht_number")
+            query_y = client.query(kind="Yacht")
+            query_y.add_filter('yacht_no', '=', yacht_no)
+            res = list(query_y.fetch())
+            if len(res) < 1:
+                colors.append("#000000")
+            else:
+                colors.append(dict(res[0]).get("color"))
+
+        print(devices)
+        print(colors)
+        print(entities)
+
+        # デバイスごとにログを取得し、描画
+        for i, d in enumerate(devices):
+            sensor_logs = list(o.run_bq_log(selects=["locationLatitude", "locationLongitude"],
+                                            table_name=os.environ.get('LOG_TABLE'), devices=[d],
+                                            start_time=target_entities[0]["start_time"],
+                                            end_time=target_entities[0]["end_time"],
+                                            order_by_time=True))
+            locations = [[dict(l).get("locationLatitude"), dict(l).get("locationLongitude")] for l in sensor_logs][::10]
+            line = folium.PolyLine(locations=locations, color=colors[i], weight=1, opacity=0.5)
+            my_map.add_child(line)
+
+        # 一時ファイルに地図を出力
+        with tempfile.NamedTemporaryFile(mode='w+') as f:
+            tmp_path = f.name
+            my_map.save(tmp_path)
+
+            # storageと接続
+            blob = bucket.blob(output_map_name)
+            blob.upload_from_filename(tmp_path, content_type="text/html")
+            public_url = blob.public_url
+
+        # bigqueryにhtmlファイルのURLを保存
+        rows_to_insert = [[str(target_outline_id), public_url]]
+        o.export_items_to_bigquery(dataset_id="smartphone_log",
+                                   tablename="log_map",
+                                   rows_to_insert=rows_to_insert)
+
+        # 同じページにリダイレクト
+        return redirect("/outline/" + str(target_outline_id))
+
     @app.route("/outline/<int:target_outline_id>", methods=['GET'])
     def outline_detail(target_outline_id):
         """練習概要ページを表示する"""
@@ -292,38 +371,7 @@ class Outline(object):
             # storageに既にHTMLが生成されているか
             print(folium.TileLayer())
             if len(outline_html) < 1:
-                # 地図を生成
-                my_map = folium.Map([35.284651, 139.555159],
-                               zoom_start=13,
-                               tiles='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-                                    attr= 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community')
-
-                # デバイスごとにログを取得し、描画
-                for i, d in enumerate(devices):
-                    sensor_logs = list(o.run_bq_log(selects=["locationLatitude", "locationLongitude"],
-                                                    table_name=os.environ.get('LOG_TABLE'), devices=[d],
-                                                    start_time=target_entities[0]["start_time"],
-                                                    end_time=target_entities[0]["end_time"],
-                                                    order_by_time=True))
-                    locations = [[dict(l).get("locationLatitude"), dict(l).get("locationLongitude")] for l in sensor_logs][::10]
-                    line = folium.PolyLine(locations=locations, color=colors[i], weight=1, opacity=0.5)
-                    my_map.add_child(line)
-
-                # 一時ファイルに地図を出力
-                with tempfile.NamedTemporaryFile(mode='w+') as f:
-                    tmp_path = f.name
-                    my_map.save(tmp_path)
-
-                    # storageと接続
-                    blob = bucket.blob(output_map_name)
-                    blob.upload_from_filename(tmp_path, content_type="text/html")
-                    public_url = blob.public_url
-
-                # bigqueryにhtmlファイルのURLを保存
-                rows_to_insert = [[str(target_outline_id), public_url]]
-                o.export_items_to_bigquery(dataset_id="smartphone_log",
-                                           tablename="log_map",
-                                           rows_to_insert=rows_to_insert)
+                log_message = "GPSデータマップ未作成です"
             else:
                 # storageからhtmlをダウンロード
                 public_url = dict(outline_html[0]).get("html_name")
