@@ -4,7 +4,7 @@
 <h3 class="sub-fix-var">{{ target_entities[0].date }}{{ target_entities[0].day }} {{ target_entities[0].time_category }}</h3>
 
 <h5 class="first-sub-title">■ GPSデータ</h5>
-{% if log_message != 'GPSデータなし' %}
+{% if log_message == 'GPSデータなし' %}
     {{ log_message }}
 {% else %}
     <iframe src="{{ html_url }}" width="100%" height="300px" >#document</iframe>
