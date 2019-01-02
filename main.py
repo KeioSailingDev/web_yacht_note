@@ -371,7 +371,7 @@ class Outline(object):
             # storageに既にHTMLが生成されているか
             print(folium.TileLayer())
             if len(outline_html) < 1:
-                log_message = "GPSデータマップ未作成です"
+                log_message = "GPSデータマップ未作成"
             else:
                 # storageからhtmlをダウンロード
                 public_url = dict(outline_html[0]).get("html_name")
