@@ -435,6 +435,9 @@ class Outline(object):
             'day': day,
             'start_time': start_time,
             'end_time': end_time,
+            'icon_compass': "compass_null.png",
+            'icon_flag': "flag_null.png",
+            'icon_wave': "wave_null.png"
         })
         client.put(outline1)
 
@@ -466,8 +469,8 @@ class Outline(object):
         start_time = request.form.get('start_time') + ":00" if len(request.form.get('start_time')) == 16 else request.form.get('start_time')
         end_time = request.form.get('end_time') + ":00" if len(request.form.get('end_time')) == 16 else request.form.get('end_time')
         time_category = request.form.get('timecategory')
-        wind_speedmin = int(request.form.get('windspeedmin'))
-        wind_speedmax = int(request.form.get('windspeedmax'))
+        wind_speedmin = request.form.get('windspeedmin')
+        wind_speedmax = request.form.get('windspeedmax')
         wind_direction = request.form.get('winddirection')
         wind_speed_change = request.form.get('windspeedchange')
         sea_surface = request.form.get('seasurface')

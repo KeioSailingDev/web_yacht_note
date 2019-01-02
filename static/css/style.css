@@ -198,7 +198,6 @@ div.float-input select {
   width: calc(100% - 130px);
 }
 
-
 /*入力項目の詳細設定*/
 input.input-form,
 select.input-form,
@@ -207,8 +206,7 @@ textarea.input-form  {
   display: block;
   width: 100%;
 
-  /* padding: 0.375rem 0.75rem; */
-  padding-left: 10px;
+  padding: 0px 0px 0px 10px;
 
   font-size: 16px;
   line-height: 1.5;
@@ -292,6 +290,10 @@ table#sea-status {
   margin: 10px 15px 10px 45px;
 }
 
+table#sea-status tr {
+  height: 50px;
+}
+
 td.status-icon {
   width: 33%;
   height: auto;
@@ -318,17 +320,14 @@ table.detail-outline-table-sc tr td {
   border: none;
 }
 
-div.adjust-button {
-  float: left;
-  width: -webkit-calc(100% - 145px);
-  width: calc(100% - 145px);
+form#comment-form-set {
+  margin: 10px 15px 10px 15px;
 }
 
 div.btn-add-comment {
   width: 100%;
-  margin: 10px 15px 10px auto;
+  margin-top: 10px;
 }
-
 div.btn-add-comment button {
   float: right;
 }
@@ -347,11 +346,11 @@ div.comment-form-text{
   margin:10px 15px 10px 15px;
 }
 
-div.comment-form-name {
+.comment-form-name {
   font-family: FOT-UDMarugo Large Pr6N M, sans-serif;
 }
 
-div.comment-form-text {
+.comment-form-text {
   font-family: FOT-UDMarugo Large Pr6N DB, sans-serif;
   font-weight: 900;
 }
@@ -435,8 +434,8 @@ div.admin-list {
   margin: 65px 15px 10px 15px;
 }
 
-div.admin-form-set {
-  margin: 10px 15px 10px 15px;
+form.admin-form-set {
+  padding: 10px 15px 10px 15px;
   width: 100%;
 }
 
@@ -474,11 +473,6 @@ p.admin-title {
   text-align: center;
   color: rgb(255,255,255);
   margin: 0px;
-}
-
-div.admin-add-data {
-  width: 100%;
-  margin: 10px 15px 10px 15px;
 }
 
 div.admin-add-data button {
@@ -531,4 +525,3 @@ input {
  font-size: 10px;
  /* transform: scale(0.8); */
 }
-
