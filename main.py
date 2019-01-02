@@ -997,7 +997,7 @@ class Ranking(object):
                                    "yacht_number": [dict(h).get("yacht_number") for h in haitei]})
 
         # 艇番＋乗艇者をまとめる
-        haiteidata["haitei"] = [(y, re.sub("\s*$", "", s), re.sub("\s*$", "", c)) for y, s, c in
+        haiteidata["haitei"] = [(y, re.sub("\s*$", "", str(s)), re.sub("\s*$", "", str(c))) for y, s, c in
                                 zip(haiteidata["yacht_number"],
                                 haiteidata['skipper1']+" "+haiteidata['skipper2']+" "+haiteidata['skipper3'],
                                haiteidata['crew1']+" "+haiteidata['crew2']+" "+haiteidata['crew3'])]
@@ -1062,7 +1062,8 @@ class Ranking(object):
         # 対象となるノート
         print(sorted_outline[0]["outline_id"])
         outline = [o for o in sorted_outline if o["outline_id"] == int(target_outline_id)][0]
-        outline_name = dict(outline).get('date')+ " " + dict(outline).get('time_category')
+        time_category = dict(outline).get('time_category') if dict(outline).get('time_category') is not None else ""
+        outline_name = dict(outline).get('date')+ " " + time_category
         start_time = dict(outline).get('start_time')
         end_time = dict(outline).get('end_time')
 
