@@ -16,11 +16,11 @@
             </li>
         <li>
           <label for="filter_date">日付</label>
-          <input type="date" class="form-control col-12" id="filter_date" name="filter_date", value={{ form_default.filter_date }}>
+          <input type="date" class="form-control" id="filter_date" name="filter_date", value={{ form_default.filter_date }}>
         </li>
 
         <li>
-          風向
+          <label for="filter_wind_dir">風向</label>
           <select name="filter_wind_dir" id="filter_wind_dir" class="form-control" value={{ form_default.filter_wind_dir }}>
               <option value="">未入力</option>
             {% for wind_dir_category in outline_selections[9] %}
@@ -34,7 +34,7 @@
         </li>
 
         <li>
-          風速
+          <label for="filter_wind_speed">風速</label>
           <select name="filter_wind_speed" id="filter_wind_speed" class="form-control">
               <option value="">未入力</option>
             {% for wind_speed_category in outline_selections[10] %}
@@ -49,7 +49,7 @@
 
 
         <li>
-          波：
+          <label for="filter_wave">波</label>
           <select name="filter_wave" id="filter_wave" class="form-control"}}>
               <option value="">未入力</option>
             {% for wave_category in outline_selections[11] %}
@@ -67,6 +67,7 @@
       <button type="submit" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> フィルターを適用
       </button>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
   </form>
 </div>
 {% endblock %}

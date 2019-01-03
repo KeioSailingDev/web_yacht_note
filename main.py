@@ -105,7 +105,7 @@ def top():
     outline_selections = query.get_outline_selections()
 
 
-    return render_template('top.html', title='練習ノート一覧', outline_list=outline_list,
+    return render_template('top.html', title='Webヨットノート', outline_list=outline_list,
                            outline_selections=outline_selections, form_default=form_values)
 
 

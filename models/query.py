@@ -51,9 +51,9 @@ def get_outline_selections():
     training_menus = list(fetch_retry(query_menu))
 
     # 風向フィルター
-    filter_selection_directions = [["北（北東・北西）", "compass_n"],
+    filter_selection_directions = [["北（北・北東・北西）", "compass_n"],
                                    ["東", "compass_e"],
-                                   ["南（南東・南西）", "cpmpass_s"],
+                                   ["南（南・南東・南西）", "cpmpass_s"],
                                    ["西", "compass_w"]]
 
     # 風速フィルター
