@@ -506,6 +506,9 @@ div.ranking-form-set {
   width: 100%;
 }
 
+.nd-warning {
+  background-color: #ffc107;
+}
 /*============================*/
 
 /* Settings for fullwidth */

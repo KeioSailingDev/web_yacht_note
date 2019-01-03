@@ -6,10 +6,11 @@
 
 <h3 class="sub-fix-var">ランキング / {{ outline_name }}</h3>
 
-  {% if no_value_message is not none %}
+  <!-- {% if no_value_message is not none %}
     <p class="bg-warning text-center">{{ no_value_message }}</p>
   {% else %}
-  {%endif %}
+  {%endif %} -->
+
   <h5 class="first-sub-title">■ 練習検索</h5>
 
   <form action="{{ url_for('ranking') }}" method="post" id="ranking-filter">
@@ -30,10 +31,23 @@
   </form>
 
   <h5 class="sub-title">■ 最高速度(knot)</h5>
+
+  {% if no_value_message is not none %}
+    <p class="nd-warning text-center">{{ no_value_message }}</p>
+  {% else %}
+  {%endif %}
+
   <canvas id="max_speed" class="ranking-graph"></canvas>
 
   <h5 class="sub-title">■ 合計航行距離(km)</h5>
+
+  {% if no_value_message is not none %}
+    <p class="nd-warning text-center">{{ no_value_message }}</p>
+  {% else %}
+  {%endif %}
+
   <canvas id="sum_distance" class="ranking-graph"></canvas>
+
   <!--チャート設定-->
   <script>
       var max_speed = {{ max_speed_values.speed | tojson }};
