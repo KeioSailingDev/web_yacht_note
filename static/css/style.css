@@ -281,8 +281,6 @@ table#toppage-table thead tr {
     height: 100px;
     left: 0;
 }
-
-
 /*=======================================*/
 
 /*==========練習概要ページ(outline_detail.html)==========*/
@@ -493,14 +491,27 @@ canvas.ranking-graph {
   margin: 10px 15px 10px 15px;
 }
 
-div#btn-filter-box {
-  width: 100%;
+div.ranking-input {
+  float: left;
+  width: calc(100% - 70px);
 }
 
-button#btn-filter {
+div.ranking-input select {
+  height: 34px;
+}
+
+.ranking-search-button {
+  float: right;
+}
+
+/* div#btn-filter-box {
+  width: 100%;
+} */
+
+/* button#btn-filter {
   float: right;
   margin: 10px 0px 10px auto;
-}
+} */
 
 div.ranking-form-set {
   width: 100%;

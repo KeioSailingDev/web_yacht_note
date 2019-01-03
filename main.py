@@ -275,10 +275,6 @@ class Outline(object):
             else:
                 colors.append(dict(res[0]).get("color"))
 
-        print(devices)
-        print(colors)
-        print(entities)
-
         # デバイスごとにログを取得し、描画
         for i, d in enumerate(devices):
             sensor_logs = list(o.run_bq_log(selects=["locationLatitude", "locationLongitude"],
@@ -1051,17 +1047,16 @@ class Ranking(object):
         # 練習ノートの一覧を取得
         query1 = client.query(kind='Outline')
         outline_list = list(query.fetch_retry(query1))
-        sorted_outline = sorted(outline_list, key=lambda outline: outline["date"], reverse=True)
+        sorted_outlines = sorted(outline_list, key=lambda outline: outline["date"], reverse=True)
 
-        target_outline_id = get_form_value("filter_outline")
+        target_outline_id = int(get_form_value("filter_outline"))
 
         if target_outline_id is None:
             # デフォルトの表示ランキングを設定
-            target_outline_id = sorted_outline[0]["outline_id"]
-
+            target_outline_id = sorted_outlines[0]["outline_id"]
         # 対象となるノート
-        print(sorted_outline[0]["outline_id"])
-        outline = [o for o in sorted_outline if o["outline_id"] == int(target_outline_id)][0]
+
+        outline = [o for o in sorted_outlines if o["outline_id"] == int(target_outline_id)][0]
         time_category = dict(outline).get('time_category') if dict(outline).get('time_category') is not None else ""
         outline_name = dict(outline).get('date')+ " " + time_category
         start_time = dict(outline).get('start_time')
@@ -1109,7 +1104,7 @@ class Ranking(object):
                                target_outline_id=target_outline_id,
                                max_speed_values=max_speed_values,
                                sum_distance_values=sum_distance_values,
-                               filter_list=sorted_outline)
+                               sorted_outlines=sorted_outlines)
 
 class log_insert(object):
     @app.route("/log", methods=['POST'])

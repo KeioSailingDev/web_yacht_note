@@ -6,28 +6,23 @@
 
 <h3 class="sub-fix-var">ランキング / {{ outline_name }}</h3>
 
-  <!-- {% if no_value_message is not none %}
-    <p class="bg-warning text-center">{{ no_value_message }}</p>
-  {% else %}
-  {%endif %} -->
-
   <h5 class="first-sub-title">■ 練習検索</h5>
 
-  <form action="{{ url_for('ranking') }}" method="post" id="ranking-filter">
-    <div class="ranking-form-set">
-      <select name="filter_outline" id="filter_outline" class="input-form">
-        {% for outline in filter_list %}
-            {% if target_outline_id == outline.outline_id %}
-              <option selected value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
-            {% else %}
-              <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
-            {% endif %}}
+  <form action="{{ url_for('ranking') }}" method="post" id="ranking-filter" class="clearfix">
+      <div class="ranking-input">
+        <select name="filter_outline" id="filter_outline" class="input-form">
+          {% for outline in sorted_outlines %}
+              {% if outline.outline_id == target_outline_id %}
+                <option value="{{ outline.outline_id }}" selected>{{ outline.date }} {{ outline.time_category }}</option>
+              {% else %}
+                <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
+              {% endif %}}
           {% endfor %}
-      </select>
-    </div>
-    <div id="btn-filter-box" class="clearfix">
-      <button type="submit" class="btn btn-primary" id="btn-filter" style="float:right">検索</button>
-    </div>
+        </select>
+      </div>
+      <div class="ranking-search-button">
+        <button type="submit" class="btn btn-primary">検索</button>
+      </div>
   </form>
 
   <h5 class="sub-title">■ 最高速度(knot)</h5>
