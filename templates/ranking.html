@@ -12,7 +12,7 @@
       <div class="ranking-input">
         <select name="filter_outline" id="filter_outline" class="input-form">
           {% for outline in sorted_outlines %}
-              {% if outline.outline_id == target_outline_id %}
+              {% if outline.outline_id == outline_id %}
                 <option value="{{ outline.outline_id }}" selected>{{ outline.date }} {{ outline.time_category }}</option>
               {% else %}
                 <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>

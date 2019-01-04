@@ -1049,7 +1049,7 @@ class Ranking(object):
         outline_list = list(query.fetch_retry(query1))
         sorted_outlines = sorted(outline_list, key=lambda outline: outline["date"], reverse=True)
 
-        target_outline_id = int(get_form_value("filter_outline"))
+        target_outline_id = get_form_value("filter_outline")
 
         if target_outline_id is None:
             # デフォルトの表示ランキングを設定
@@ -1059,6 +1059,8 @@ class Ranking(object):
         outline = [o for o in sorted_outlines if o["outline_id"] == int(target_outline_id)][0]
         time_category = dict(outline).get('time_category') if dict(outline).get('time_category') is not None else ""
         outline_name = dict(outline).get('date')+ " " + time_category
+        outline_id = dict(outline).get('outline_id')
+        print(outline_id)
         start_time = dict(outline).get('start_time')
         end_time = dict(outline).get('end_time')
 
@@ -1101,6 +1103,7 @@ class Ranking(object):
         return render_template('ranking.html', title='ランキング',
                                no_value_message=no_value_message,
                                outline_name=outline_name,
+                               outline_id=outline_id,
                                target_outline_id=target_outline_id,
                                max_speed_values=max_speed_values,
                                sum_distance_values=sum_distance_values,
