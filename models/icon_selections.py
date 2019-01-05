@@ -11,14 +11,12 @@ class IconSelections(object):
         """
 
         if wind_max:
-            if wind_max < 3:
+            if int(wind_max) <= 3:
                 flag_file = "flag_s.png"
-            elif wind_max < 7:
+            elif int(wind_max) <= 7:
                 flag_file = "flag_m.png"
-            elif wind_max > 12:
-                flag_file = "flag_l.png"
             else:
-                flag_file = "flag_null.png"
+                flag_file = "flag_l.png"
         else:
             flag_file = "flag_null.png"
 
