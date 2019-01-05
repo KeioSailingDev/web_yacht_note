@@ -11,71 +11,63 @@
       <ul>
         <li style="background-color: #474647; text-align: right">
                 <a href="#sidr-left-top" class="close-sidr" style="color: white" onclick="$.sidr('close', 'sidr-right-top');return false;">
-                    フィルター <img src="{{ url_for('static', filename='img/back_filter.png') }}" height="30px">
+                    練習を検索 <img src="{{ url_for('static', filename='img/back_filter.png') }}" height="30px">
                 </a>
             </li>
         <li>
           <label for="filter_date">日付</label>
-          <input type="date" class="form-control col-12" id="filter_date" name="filter_date", value={{ default_date }}>
+          <input type="date" class="form-control" id="filter_date" name="filter_date", value={{ form_default.filter_date }}>
         </li>
 
         <li>
-          最大風速（〇〇以上）
-          <select name="filter_wind_speed" id="filter_wind_speed" class="form-control">
-            {% for wind_speed_category in outline_selections[1] %}
-                {% if wind_speed_category == form_default.filter_wind_speed  %}
-                    <option selected value={{ wind_speed_category }}>{{ wind_speed_category }}</option>
+          <label for="filter_wind_dir">風向</label>
+          <select name="filter_wind_dir" id="filter_wind_dir" class="form-control" value={{ form_default.filter_wind_dir }}>
+              <option value="">未入力</option>
+            {% for wind_dir_category in outline_selections[9] %}
+                {% if wind_dir_category[1] == form_default.filter_wind_dir  %}
+                    <option selected value={{ wind_dir_category[1] }}>{{ wind_dir_category[0] }}</option>
                 {% else %}
-                    <option value={{ wind_speed_category }}>{{ wind_speed_category }}</option>
+                    <option value={{ wind_dir_category[1] }}>{{ wind_dir_category[0] }}</option>
                 {% endif %}
             {% endfor %}
           </select>
         </li>
 
-        <!--<li>-->
-          <!--風向：-->
-          <!--<select name="filter_wind_dir" id="filter_wind_dir" class="form-control" value={{ form_default.filter_wind_dir }}>-->
-            <!--{% for wind_dir_category in outline_selections[10] %}-->
-                <!--{% if wind_dir_category == form_default.filter_wind_dir  %}-->
-                    <!--<option selected value={{ wind_dir_category }}>{{ wind_dir_category }}</option>-->
-                <!--{% else %}-->
-                    <!--<option value={{ wind_dir_category }}>{{ wind_dir_category }}</option>-->
-                <!--{% endif %}-->
-            <!--{% endfor %}-->
-          <!--</select>-->
-        <!--</li>-->
+        <li>
+          <label for="filter_wind_speed">風速</label>
+          <select name="filter_wind_speed" id="filter_wind_speed" class="form-control">
+              <option value="">未入力</option>
+            {% for wind_speed_category in outline_selections[10] %}
+                {% if wind_speed_category[1] == form_default.filter_wind_speed  %}
+                    <option selected value={{ wind_speed_category[1] }}>{{ wind_speed_category[0] }}</option>
+                {% else %}
+                    <option value={{ wind_speed_category[1] }}>{{ wind_speed_category[0] }}</option>
+                {% endif %}
+            {% endfor %}
+          </select>
+        </li>
 
 
-        <!--<li>-->
-          <!--海面：-->
-          <!--<select name="filter_surface" id="filter_surface" class="form-control"}}>-->
-            <!--{% for surface_category in outline_selections[4] %}-->
-              <!--{% if surface_category == form_default.filter_surface  %}-->
-                <!--<option selected value={{ surface_category }}>{{ surface_category }}</option>-->
-              <!--{% else %}-->
-                  <!--<option value={{ surface_category }}>{{ surface_category }}</option>-->
-              <!--{% endif %}-->
-            <!--{% endfor %}-->
-          <!--</select>-->
-        <!--</li>-->
+        <li>
+          <label for="filter_wave">波</label>
+          <select name="filter_wave" id="filter_wave" class="form-control"}}>
+              <option value="">未入力</option>
+            {% for wave_category in outline_selections[11] %}
+              {% if wave_category[1] == form_default.filter_wave  %}
+                <option selected value={{ wave_category[1] }}>{{ wave_category[0] }}</option>
+              {% else %}
+                  <option value={{ wave_category[1] }}>{{ wave_category[0] }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </li>
 
-        <!--<li>-->
-          <!--うねり：-->
-          <!--<select name="filter_swell" id="filter_swell" class="form-control">-->
-            <!--{% for swell_category in outline_selections[3] %}-->
-              <!--{% if swell_category == form_default.filter_swell  %}-->
-                <!--<option selected value={{ swell_category }}>{{ swell_category }}</option>-->
-              <!--{% else %}-->
-                  <!--<option value={{ swell_category }}>{{ swell_category }}</option>-->
-              <!--{% endif %}-->
-            <!--{% endfor %}-->
-          <!--</select>-->
-        <!--</li>-->
       </ul>
 
       <button type="submit" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> フィルターを適用
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 検索
       </button>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
   </form>
 </div>
 {% endblock %}

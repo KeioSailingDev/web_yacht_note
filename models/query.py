@@ -50,8 +50,22 @@ def get_outline_selections():
     query_menu = client.query(kind='Menu')
     training_menus = list(fetch_retry(query_menu))
 
+    # 風向フィルター
+    filter_selection_directions = [["北（北・北東・北西）", "compass_n"],
+                                   ["東", "compass_e"],
+                                   ["南（南・南東・南西）", "cpmpass_s"],
+                                   ["西", "compass_w"]]
+
+    # 風速フィルター
+    filter_selection_speed = [["強風", "flag_l"], ["中風", "flag_m"],["軽風", "flag_s"]]
+
+    # うねりフィルター
+    filter_selection_wave = [["大", "wave_l"], ["中", "wave_m"], ["小", "wave_s"]]
+
     outline_selections = [time_categories, wind_speeds, wind_directions, sizes, sea_surfaces, \
-                          yacht_numbers, player_names, device_names, training_menus]
+                          yacht_numbers, player_names, device_names, training_menus,filter_selection_directions,
+                          filter_selection_speed, filter_selection_wave]
+
 
     return outline_selections
 

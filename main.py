@@ -53,8 +53,7 @@ def top():
             form_value = None
         return form_value
 
-    filters = ['filter_date', 'filter_time', 'filter_wind_speed',
-                   'filter_wind_dir','filter_surface','filter_swell']
+    filters = ['filter_date', 'filter_time', 'filter_wind_speed', 'filter_wind_dir','filter_wave']
 
     # サイドバーからフィルターを使う場合のフォームから読み込み"
     form_values = {}
@@ -64,43 +63,50 @@ def top():
     # 練習ノートの一覧を取得
     query1 = client.query(kind='Outline')
 
-    # フィルターの適用
-    if form_values['filter_date'] is not None:
-        query1.add_filter('date', '=', form_values['filter_date'])
-    #
-    # if form_values['filter_time'] is not None:
-    #     query1.add_filter('time_category', '=', form_values['filter_time'])
-
-    if form_values["filter_wind_speed"] is not None:
-        query1.add_filter('wind_speed_max', '>=', int(form_values["filter_wind_speed"]))
-    #
-    #
-    # if filter_wind_dir is not None:
-    #     if filter_wind_dir == "北風":
-    #         query1.add_filter('wind_speed_min','<', )
-    #     elif filter_wind_dir == '南風'
-    #         query1.add_filter('wind_speed_max', '>', 90)
-    #         query1.add_filter('wind_speed_max', '<', 270)
-    #
-    # if form_values['filter_surface'] is not None:
-    #     query1.add_filter('sea_surface', '=', form_values['filter_surface'])
-    #
-    # if form_values['filter_swell'] is not None:
-    #     query1.add_filter('swell', '=', form_values['filter_swell'])
 
     # 各練習概要を表示（日付で降順に並び替え）
     outline_list = list(query.fetch_retry(query1, num=20))
     sorted_outline = sorted(outline_list, key=lambda outline: outline["date"], reverse=True)
 
+    # 配艇情報をDataFrameにまとめる
+    outline_df = pd.DataFrame({"outline_id": [dict(h).get('outline_id') for h in outline_list],
+                               "date": [dict(h).get('date') for h in outline_list],
+                               "time_category": [dict(h).get('time_category') for h in outline_list],
+                               "icon_flag": [dict(h).get('icon_flag') for h in outline_list],
+                               "icon_compass": [dict(h).get('icon_compass') for h in outline_list],
+                               "icon_wave": [dict(h).get('icon_wave') for h in outline_list]})
+    outline_df = outline_df.fillna("")
+
+    # 日付
+    if form_values['filter_date'] == "" or form_values['filter_date'] is not None:
+        outline_df = outline_df[outline_df["date"].str.startswith(form_values['filter_date'])]
+
+    # 風向
+    if form_values["filter_wind_dir"] == "" or form_values['filter_wind_dir'] is not None:
+        outline_df = outline_df[outline_df["icon_compass"].str.startswith(form_values['filter_wind_dir'])]
+
+    # 風速
+    if form_values["filter_wind_speed"] == "" or form_values['filter_wind_speed'] is not None:
+        outline_df = outline_df[outline_df["icon_flag"].str.startswith(form_values['filter_wind_speed'])]
+
+    # 波
+    if form_values["filter_wave"] == "" or form_values['filter_wave'] is not None:
+        outline_df = outline_df[outline_df["icon_wave"].str.startswith(form_values['filter_wave'])]
+
+    # 並び替え
+    outline_df = outline_df.sort_values(by="date", ascending=False)
+
+    # １行ずつ辞書にしてリスト化
+    outline_list = []
+    for index, row in outline_df.iterrows():
+        outline_list.append(dict(row))
+
     # 右サイドバーのフィルター用の項目
     outline_selections = query.get_outline_selections()
 
-    # フィルターのデフォルト日付
-    default_date = sorted_outline[0]["date"]
 
-    return render_template('top.html', title='練習ノート一覧', outline_list=sorted_outline,
-                           outline_selections=outline_selections, form_default=form_values,
-                           default_date=default_date)
+    return render_template('top.html', title='Webヨットノート', outline_list=outline_list,
+                           outline_selections=outline_selections, form_default=form_values)
 
 
 @app.route("/how_to_use")

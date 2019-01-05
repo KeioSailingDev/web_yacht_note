@@ -224,11 +224,6 @@ select.input-form {
   height: 30px;
 }
 
-/*ローディングアイコン*/
-p#loading {
-    display: none;
-    cursor: wait;
-}
 /*======================================*/
 
 

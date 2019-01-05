@@ -121,7 +121,7 @@
   width:100%;
 }
 .sidr label {
-  font-size: 13px;
+  font-size: 16px;
 }
 .sidr input[type="text"],
 .sidr input[type="password"],
@@ -136,7 +136,7 @@
 .sidr textarea,
 .sidr select {
   width: 100%;
-  font-size: 13px;
+  font-size: 16px;
   padding: 5px;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
