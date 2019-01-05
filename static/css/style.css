@@ -145,6 +145,7 @@ h3.sub-fix-var {
   color: rgb(255,255,255);
   text-align: center;
   font-size: 18px;
+  z-index: 999999999;
 }
 
 /*h5タイトルバー*/
