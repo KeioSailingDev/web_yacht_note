@@ -1106,6 +1106,9 @@ class Ranking(object):
         sum_distance_values["distance"] = [round(d / 1000, 1) for d in sum_distance_df["distance"].tolist()] # km単位
         sum_distance_values["label"] = sum_distance_df["haitei"].tolist()
 
+        # グラフの高さ（px）
+        canvas_height = len(max_speed_df) * 100
+
         return render_template('ranking.html', title='ランキング',
                                no_value_message=no_value_message,
                                outline_name=outline_name,
@@ -1113,7 +1116,8 @@ class Ranking(object):
                                target_outline_id=target_outline_id,
                                max_speed_values=max_speed_values,
                                sum_distance_values=sum_distance_values,
-                               sorted_outlines=sorted_outlines)
+                               sorted_outlines=sorted_outlines,
+                               canvas_height=canvas_height)
 
 class log_insert(object):
     @app.route("/log", methods=['POST'])

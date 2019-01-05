@@ -59,8 +59,8 @@ def get_outline_selections():
     # 風速フィルター
     filter_selection_speed = [["強風", "flag_l"], ["中風", "flag_m"],["軽風", "flag_s"]]
 
-    # うねりフィルター
-    filter_selection_wave = [["大", "wave_l"], ["中", "wave_m"], ["小", "wave_s"]]
+    # 海面フィルター
+    filter_selection_wave = [["フラット", "wave_s"], ["チョッピー", "wave_m"], ["うねり", "wave_l"]]
 
     outline_selections = [time_categories, wind_speeds, wind_directions, sizes, sea_surfaces, \
                           yacht_numbers, player_names, device_names, training_menus,filter_selection_directions,
