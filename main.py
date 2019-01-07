@@ -71,6 +71,7 @@ def top():
     # 配艇情報をDataFrameにまとめる
     outline_df = pd.DataFrame({"outline_id": [dict(h).get('outline_id') for h in outline_list],
                                "date": [dict(h).get('date') for h in outline_list],
+                               "day": [dict(h).get('day') for h in outline_list],
                                "time_category": [dict(h).get('time_category') for h in outline_list],
                                "icon_flag": [dict(h).get('icon_flag') for h in outline_list],
                                "icon_compass": [dict(h).get('icon_compass') for h in outline_list],
