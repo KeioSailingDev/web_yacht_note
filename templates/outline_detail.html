@@ -8,7 +8,7 @@
     {{ log_message }}
 {% else %}
     <iframe src="{{ html_url }}" width="100%" height="300px" >#document</iframe>
-    <div class="btn-edit col-12">
+    <div class="btn-edit clearfix">
       <a class="btn btn-success" href="{{ url_for('draw_map', target_outline_id=target_entities[0].outline_id )}}">
         <span class="glyphicon glyphicon-search" aria-hidden="true"></span> GPSデータを更新
       </a>
@@ -172,11 +172,11 @@
   <form action="{{ url_for('add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" id="comment-form-set">
     <div>
       <label for="name">名前</label>
-      <input type="text" class="comment-form-name input-form" id="name" name="name">
+      <input type="text" class="comment-form-name comment-name-text input-form" id="name" name="name">
     </div>
     <div>
       <label for="name">コメント</label>
-      <textarea class="comment-form-text input-form" rows=2 id="comment" name="comment"></textarea>
+      <textarea class="comment-form-text comment-text-font input-form" rows=2 id="comment" name="comment"></textarea>
     </div>
     <div class="btn-add-comment clearfix">
       <button type="submit" class="btn btn-primary">
@@ -187,8 +187,8 @@
   <hr>
 
   {% for user_comment in sorted_comments %}
-    <div class="name-comment comment-form-name">{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
-    <div class="name-comment comment-form-text">{{user_comment.comment}}</div>
+    <div class="comment-name-text comment-form-name">{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
+    <div class="comment-text-font show-commnet-text">{{user_comment.comment}}</div>
     <hr>
   {% endfor %}
 

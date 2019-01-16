@@ -330,23 +330,27 @@ div.btn-edit {
   margin: 10px 15px 10px auto;
 }
 
-div.name-comment {
+/* div.name-comment {
   margin: 0px 15px 0px 15px;
-}
+} */
 
-div.comment-form-name,
-div.comment-form-text{
+div.comment-form-name{
   margin:10px 15px 10px 15px;
 }
 
-.comment-form-name {
+div.show-commnet-text {
+  margin:10px 15px 10px 15px;
+  white-space: pre-wrap;
+  word-wrap:break-word;
+}
+
+.comment-name-text {
   font-family: FOT-UDMarugo Large Pr6N M, sans-serif;
 }
 
-.comment-form-text {
+.comment-text-font {
   font-family: FOT-UDMarugo Large Pr6N DB, sans-serif;
   font-weight: 900;
-  height: 80px;
 }
 /*=======================================================*/
 
