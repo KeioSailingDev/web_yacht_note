@@ -25,7 +25,11 @@
     <!-- Your CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <!-- アイコン画像 -->
-    <link rel="apple-touch-icon-precomposed apple-touch-icon" href="{{ url_for('static', filename='img/icon.jpg') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/icon/favicon.ico')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/icon/apple-touch-icon-180x180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='img/icon/android-chrome-192x192.png')}}">
+    <link rel="manifest" href="{{ url_for('static', filename='img/icon/manifest.json')}}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='img/icon/safari-icon.svg')}}" color="#555" />
 
     <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
 
