@@ -330,20 +330,25 @@ div.btn-edit {
   margin: 10px 15px 10px auto;
 }
 
-div.name-comment {
+/* div.name-comment {
   margin: 0px 15px 0px 15px;
-}
+} */
 
-div.comment-form-name,
-div.comment-form-text{
+div.comment-form-name{
   margin:10px 15px 10px 15px;
 }
 
-.comment-form-name {
+div.show-commnet-text {
+  margin:10px 15px 10px 15px;
+  white-space: pre-wrap;
+  word-wrap:break-word;
+}
+
+.comment-name-text {
   font-family: FOT-UDMarugo Large Pr6N M, sans-serif;
 }
 
-.comment-form-text {
+.comment-text-font {
   font-family: FOT-UDMarugo Large Pr6N DB, sans-serif;
   font-weight: 900;
 }
@@ -381,16 +386,12 @@ button.btn-for-outline {
   display: inline-block;
   height: 34px;
   background-color: rgb(0,0,0);
-
   width: 90px;
-
   margin-top: 10px;
   margin-bottom: 10px;
   margin-right: 15px;
-
   border: 1px solid transparent;
   border-radius: 5px;
-
   font-weight: 800;
   text-align: center;
   white-space: nowrap;
@@ -399,7 +400,6 @@ button.btn-for-outline {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-
   color: rgb(255,255,255);
   padding: 0.375rem 0.75rem;
   font-size: 14px;
