@@ -417,6 +417,9 @@ class Outline(object):
 
         date = datetime.strftime(datetime.now(), '%Y-%m-%d')
 
+        start_time = date + start_hour
+        end_time = date + end_hour
+
         # 日付に対する曜日を取得
         day_tuple = ("(月)", "(火)", "(水)", "(木)", "(金)", "(土)", "(日)")
         day = day_tuple[datetime.now().weekday()]
@@ -428,6 +431,8 @@ class Outline(object):
             'outline_id': outline_id,
             'date': date,
             'day': day,
+            'start_time': start_time,
+            'end_time': end_time,
             'icon_compass': "compass_null.png",
             'icon_flag': "flag_null.png",
             'icon_wave': "wave_null.png"
@@ -459,6 +464,8 @@ class Outline(object):
 
         # 日付、時間、風、波、練習メニューの値をshow_outline.htmlから取得
         date = request.form.get('date')
+        start_time = request.form.get('start_time') + ":00" if len(request.form.get('start_time')) == 16 else request.form.get('start_time')
+        end_time = request.form.get('end_time') + ":00" if len(request.form.get('end_time')) == 16 else request.form.get('end_time')
         wind_speedmin = request.form.get('windspeedmin')
         wind_speedmax = request.form.get('windspeedmax')
         wind_direction = request.form.get('winddirection')
@@ -494,6 +501,8 @@ class Outline(object):
         outline.update({
             'date': date,
             'day': day,
+            'start_time': start_time,
+            'end_time': end_time,
             'wind_speed_min': 0 if wind_speedmin == '' else int(wind_speedmin),
             'wind_speed_max': 0 if wind_speedmax == '' else int(wind_speedmax),
             'wind_direction': wind_direction,
@@ -521,8 +530,6 @@ class Outline(object):
         })
 
         client.put(outline)
-
-        # ヨットのエンティティ
 
         # show_outline.htmlから取得した値を変数に代入
         for i, yacht_entity in enumerate(target_entities[1]):
