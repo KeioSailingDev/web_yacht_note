@@ -7,7 +7,7 @@
 
   <form action="{{ url_for('mod_outline', target_outline_id=target_entities[0].outline_id) }}" method="post" class="form-horizontal">
 
-    <h5 class="first-sub-title">■ 日時情報</h5>
+  <h5 class="first-sub-title">■ 日時情報</h5>
 
     <div class="form-set clearfix">
       <div class="float-label">
@@ -15,23 +15,6 @@
       </div>
       <div class="float-input">
         <input type="date" class="input-form" id="date" name="date" value="{{ target_entities[0].date }}">
-      </div>
-    </div>
-
-    <div class="form-set clearfix">
-      <div class="float-label">
-        <label for="timecategory">時間帯</label>
-      </div>
-      <div class="float-input">
-        <select name="timecategory" id="timecategory" class="input-form">
-          {% for time_category in outline_selections[0] %}
-            {% if time_category == target_entities[0].time_category %}
-              <option value={{ time_category }} selected>{{ time_category }}</option>
-            {% else %}
-              <option value={{ time_category }}>{{ time_category }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
       </div>
     </div>
 

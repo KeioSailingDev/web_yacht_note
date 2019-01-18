@@ -378,10 +378,6 @@ class Outline(object):
                 # storageからhtmlをダウンロード
                 public_url = dict(outline_html[0]).get("html_name")
 
-        # 練習開始時間と終了時間
-        target_entities[0]["start_time_str"] = target_entities[0]["start_time"][-5:]
-        target_entities[0]["end_time_str"] = target_entities[0]["end_time"][-5:]
-
         return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,
                                 sorted_comments=sorted_comments,
@@ -421,12 +417,12 @@ class Outline(object):
 
         date = datetime.strftime(datetime.now(), '%Y-%m-%d')
 
+        start_time = date + start_hour
+        end_time = date + end_hour
+
         # 日付に対する曜日を取得
         day_tuple = ("(月)", "(火)", "(水)", "(木)", "(金)", "(土)", "(日)")
         day = day_tuple[datetime.now().weekday()]
-
-        start_time = date + start_hour
-        end_time = date + end_hour
 
         # DataStoreに格納
         key1 = client.key('Outline')
@@ -470,7 +466,6 @@ class Outline(object):
         date = request.form.get('date')
         start_time = request.form.get('start_time') + ":00" if len(request.form.get('start_time')) == 16 else request.form.get('start_time')
         end_time = request.form.get('end_time') + ":00" if len(request.form.get('end_time')) == 16 else request.form.get('end_time')
-        time_category = request.form.get('timecategory')
         wind_speedmin = request.form.get('windspeedmin')
         wind_speedmax = request.form.get('windspeedmax')
         wind_direction = request.form.get('winddirection')
@@ -508,7 +503,6 @@ class Outline(object):
             'day': day,
             'start_time': start_time,
             'end_time': end_time,
-            'time_category': time_category,
             'wind_speed_min': 0 if wind_speedmin == '' else int(wind_speedmin),
             'wind_speed_max': 0 if wind_speedmax == '' else int(wind_speedmax),
             'wind_direction': wind_direction,
@@ -536,8 +530,6 @@ class Outline(object):
         })
 
         client.put(outline)
-
-        # ヨットのエンティティ
 
         # show_outline.htmlから取得した値を変数に代入
         for i, yacht_entity in enumerate(target_entities[1]):
@@ -1064,9 +1056,8 @@ class Ranking(object):
 
         outline = [o for o in sorted_outlines if o["outline_id"] == int(target_outline_id)][0]
         time_category = dict(outline).get('time_category') if dict(outline).get('time_category') is not None else ""
-        outline_name = dict(outline).get('date')+ " " + time_category
+        outline_name = dict(outline).get('date')+dict(outline).get('day')
         outline_id = dict(outline).get('outline_id')
-        print(outline_id)
         start_time = dict(outline).get('start_time')
         end_time = dict(outline).get('end_time')
 

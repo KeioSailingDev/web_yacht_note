@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<h3 class="sub-fix-var">{{ target_entities[0].date }}{{ target_entities[0].day }} {{ target_entities[0].time_category }}</h3>
+<h3 class="sub-fix-var">{{ target_entities[0].date }}{{ target_entities[0].day }}</h3>
 
 <h5 class="first-sub-title">■ GPSデータ</h5>
 {% if log_message == 'GPSデータなし' %}
@@ -186,7 +186,7 @@
   <hr>
 
   {% for user_comment in sorted_comments %}
-    <div class="comment-name-text comment-form-name">{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
+    <div class="comment-name-font comment-form-name">{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
     <div class="comment-text-font show-commnet-text">{{user_comment.comment}}</div>
     <hr>
   {% endfor %}

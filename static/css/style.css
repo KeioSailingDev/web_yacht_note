@@ -331,9 +331,9 @@ div.btn-edit {
   margin: 10px 15px 10px auto;
 }
 
-/* div.name-comment {
-  margin: 0px 15px 0px 15px;
-} */
+textarea#comment {
+  height: 80px;
+}
 
 div.comment-form-name{
   margin:10px 15px 10px 15px;
@@ -345,7 +345,7 @@ div.show-commnet-text {
   word-wrap:break-word;
 }
 
-.comment-name-text {
+.comment-name-font {
   font-family: FOT-UDMarugo Large Pr6N M, sans-serif;
 }
 

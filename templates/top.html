@@ -86,7 +86,6 @@
       {% for outline in outline_list %}
       <tr data-href="outline/{{ outline.outline_id }}" onClick="loading();">
         <td>{{ outline.date }} {{ outline.day }}</td>
-        <td>{{ outline.time_category }}</td>
         <td>
           <img src="../static/img/flag/{{ outline.icon_flag }}" class="img-responsive">
         </td>
