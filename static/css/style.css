@@ -245,19 +245,19 @@ table#toppage-table tbody tr:nth-of-type(even) {
 table#toppage-table tbody tr td {
   text-align: center;
   height: 55px;
-  font-size: 18px;
+  font-size: 20px;
 }
 
-table#toppage-table tr td:nth-of-type(3) {
+table#toppage-table tr td:nth-of-type(2) {
   padding-right: 0px;
 }
 
-table#toppage-table tr td:nth-of-type(4) {
+table#toppage-table tr td:nth-of-type(3) {
   padding-left: 3px;
   padding-right: 3px;
 }
 
-table#toppage-table tr td:nth-of-type(5) {
+table#toppage-table tr td:nth-of-type(4) {
   padding-left: 0px;
 }
 
