@@ -613,6 +613,56 @@ class Outline(object):
 
         return redirect(url_for('outline_detail', target_outline_id=target_outline_id))
 
+    @app.route("/outline/showcomment/<int:comment_id>", methods=['GET'])
+    def show_comment(comment_id):
+        """コメントの編集・変更画面に移動"""
+
+        key = client.key('Comment', comment_id)
+        target_comment = client.get(key)
+
+        return render_template('show_comment.html', target_comment=target_comment)
+
+
+    @app.route("/outline/modcomment/<int:comment_id>", methods=['POST'])
+    def mod_comment(comment_id):
+        """ヨットデータの変更"""
+
+        #HTML側で入力された内容の取得
+        comment_name = request.form.get('comment-name')
+        comment_text = request.form.get('comment-text')
+
+        with client.transaction():
+            key = client.key('Comment', comment_id)
+            comment = client.get(key)
+
+            if not comment:
+                raise ValueError(
+                    'Comment {} does not exist.'.format(comment_id))
+
+            comment.update({
+                'name': comment_name,
+                'comment': comment_text
+            })
+
+            client.put(comment)
+
+            target_outline_id = dict(comment).get("outline_id")
+
+        return redirect(url_for('outline_detail', target_outline_id=target_outline_id))
+
+    @app.route("/outline/delcomment/<int:comment_id>", methods=['POST'])
+    def del_comment(comment_id):
+        """ヨットデータの削除"""
+        key = client.key('Comment', comment_id)
+
+        #戻る練習概要のIDを取得
+        comment = client.get(key)
+        target_outline_id = dict(comment).get("outline_id")
+
+        client.delete(key)
+
+        return redirect(url_for('outline_detail', target_outline_id=target_outline_id))
+
 
 class Player(object):
     """選手の管理に関するクラス"""

@@ -206,9 +206,7 @@ textarea.input-form  {
   -webkit-appearance: none;
   display: block;
   width: 100%;
-
   padding: 0px 0px 0px 10px;
-
   font-size: 16px;
   line-height: 1.5;
   color: rgb(255,255,255);
@@ -314,10 +312,6 @@ table.detail-outline-table-sc tr td {
   border: none;
 }
 
-form#comment-form-set {
-  margin: 10px 15px 10px 15px;
-}
-
 div.btn-add-comment {
   width: 100%;
   margin-top: 10px;
@@ -331,15 +325,22 @@ div.btn-edit {
   margin: 10px 15px 10px auto;
 }
 
-textarea#comment {
+/*練習概要のコメント欄関係*/
+.comment-text-input {
   height: 80px;
 }
 
-div.comment-form-name{
+form.comment-space,
+div.comment-space{
   margin:10px 15px 10px 15px;
 }
 
-div.show-commnet-text {
+div.commnet-text-show {
+  white-space: pre-wrap;
+  word-wrap:break-word;
+}
+
+tr.show-commnet-text {
   margin:10px 15px 10px 15px;
   white-space: pre-wrap;
   word-wrap:break-word;
@@ -353,7 +354,36 @@ div.show-commnet-text {
   font-family: FOT-UDMarugo Large Pr6N DB, sans-serif;
   font-weight: 900;
 }
-/*=======================================================*/
+
+/*コメント編集ページ固有*/
+.comment-text-input-edit {
+  height: 120px;
+}
+
+form.comment-edit-page{
+  margin:73px 15px 10px 15px;
+}
+
+form.comment-edit-delete {
+  margin-left: 15px;
+}
+
+button.comment-edit-button {
+  width: 145px;
+}
+
+/*投稿されたコメントのクリック関係*/
+a.outline-comment,
+a.outline-comment:link,
+a.outline-comment:visited,
+a.outline-comment:hover{
+  color: #FFFFFF;
+}
+
+a.outline-comment:active {
+  color: #FF9900;
+  text-decoration: none;
+}
 
 /*========練習概要追加・変更ページ(show_outline.html)========*/
 /*スキッパーとクルーの表*/

@@ -168,14 +168,14 @@
 
   <h5 class="sub-title">■ コメント欄</h5>
 
-  <form action="{{ url_for('add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" id="comment-form-set">
+  <form action="{{ url_for('add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" class="comment-space">
     <div>
       <label for="name">名前</label>
-      <input type="text" class="comment-form-name comment-name-text input-form" id="name" name="name">
+      <input type="text" class="comment-name-font input-form" id="name" name="name">
     </div>
     <div>
       <label for="name">コメント</label>
-      <textarea class="comment-form-text comment-text-font input-form" rows=2 id="comment" name="comment"></textarea>
+      <textarea class="comment-text-font input-form comment-text-input" rows=2 id="comment" name="comment"></textarea>
     </div>
     <div class="btn-add-comment clearfix">
       <button type="submit" class="btn btn-primary">
@@ -186,14 +186,16 @@
   <hr>
 
   {% for user_comment in sorted_comments %}
-    <div class="comment-name-font comment-form-name">{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
-    <div class="comment-text-font show-commnet-text">{{user_comment.comment}}</div>
+  <a class="outline-comment" href="{{ url_for('show_comment', comment_id=user_comment.key.id) }}">
+    <div class="comment-name-font comment-space">{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
+    <div class="comment-text-font comment-space commnet-text-show">{{user_comment.comment}}</div>
     <hr>
+  </a>
   {% endfor %}
 
   <div class="btn-edit">
     <a class="btn btn-success" href="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id )}}" onClick="loading();">
-      <span class="glyphicon glyphicon-search" aria-hidden="true"></span> ノートを編集
+      <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> ノートを編集
     </a>
   </div>
 
