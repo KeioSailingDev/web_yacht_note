@@ -186,7 +186,7 @@
   <hr>
 
   {% for user_comment in sorted_comments %}
-  <a class="outline-comment" href="{{ url_for('show_comment', comment_id=user_comment.key.id) }}">
+  <a class="outline-comment" href="{{ url_for('show_comment', comment_id=user_comment.key.id) }}" ontouchstart="">
     <div class="comment-name-font comment-space">{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
     <div class="comment-text-font comment-space commnet-text-show">{{user_comment.comment}}</div>
     <hr>
