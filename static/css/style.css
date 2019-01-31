@@ -378,6 +378,7 @@ a.outline-comment:link,
 a.outline-comment:visited,
 a.outline-comment:hover{
   color: #FFFFFF;
+  text-decoration: none;
 }
 
 a.outline-comment:active {
