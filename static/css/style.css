@@ -257,6 +257,7 @@ table#toppage-table tr td:nth-of-type(3) {
 
 table#toppage-table tr td:nth-of-type(4) {
   padding-left: 0px;
+  padding-right:20px;
 }
 
 table#toppage-table tbody tr td img {
