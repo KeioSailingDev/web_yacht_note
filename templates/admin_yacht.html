@@ -2,7 +2,7 @@
 {% block content %}
   <h3 class="sub-fix-var">{{ title }}</h3>
 
-  <h5 class="first-sub-title">【新規追加】</h5>
+  <h5 class="first-sub-title">■ 新規追加</h5>
 
   <form action="{{ url_for('add_yacht') }}" method="post" class="admin-form-set">
 
@@ -28,9 +28,10 @@
       </div>
     </div>
 
-    <div class="admin-add-data clearfix">
-      <button type="submit" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> ヨット追加
+    <div class="clearfix">
+      <button type="submit" class="btn btn-primary comment-edit-button flexiblebox btn-float-right">
+        <img src="{{ url_for('static', filename='img/button/plus.png') }}" class="img-responsive button-img">
+        <p class="button-text">ヨット追加</p>
       </button>
     </div>
 
