@@ -378,8 +378,9 @@ tr.show-commnet-text {
 }
 
 /*コメント編集ページ固有*/
-#comment-text-input-edit {
+.comment-text-input-edit {
   height: 300px;
+}
 
 form.comment-edit-page{
   margin:73px 15px 10px 15px;
