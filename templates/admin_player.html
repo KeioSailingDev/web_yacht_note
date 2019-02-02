@@ -22,16 +22,17 @@
       <div class="float-input">
         <select name="year" class="input-form">
           <option value="">-</option>
-            {% for admission_year in admission_years %}
-              <option value={{ admission_year }}>{{ admission_year }}</option>
-            {% endfor %}
+          {% for admission_year in admission_years %}
+            <option value={{ admission_year }}>{{ admission_year }}</option>
+          {% endfor %}
         </select>　
       </div>
     </div>
 
-    <div class="admin-add-data clearfix">
-      <button type="submit" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 選手追加
+    <div class="clearfix">
+      <button type="submit" class="btn btn-primary comment-edit-button flexiblebox btn-float-right">
+        <img src="{{ url_for('static', filename='img/button/plus.png') }}" class="img-responsive button-img">
+        <p class="button-text">選手追加</p>
       </button>
     </div>
 
