@@ -65,7 +65,6 @@ div#wrapper{
     background-image: url(menu.png);
 }
 
-
 .menu-button.bottom {
     top: 100px;
 }
@@ -130,8 +129,6 @@ li#left-menu-header{
 }
 
 
-/*================================================*/
-
 /* ==========タイトルバーに関する設定 ==========*/
 /*上部、セカンド固定バー*/
 h3.sub-fix-var {
@@ -174,7 +171,6 @@ h5.sub-title {
   padding-top: 4px;
   padding-bottom: 6px;
 }
-/*==========================================*/
 
 /*==========入力項目に関するクラス==========*/
 /*input要素・select要素とlabel要素の位置関係*/
@@ -223,7 +219,29 @@ select.input-form {
   height: 30px;
 }
 
-/*======================================*/
+/*===========ボタン関連=========*/
+
+/*ボタン内の画像サイズは、基本の文字のフォントと合わせ、14pxで指定*/
+.button-img {
+  height: 14px;
+  width: 14px;
+  float:left;
+  margin-bottom: 2px; /*現在資料しているフォントが若干下に沈んでいるため*/
+}
+
+.flexiblebox {
+ display: -webkit-flex;
+ display: flex;
+ -webkit-align-items: center; /* 縦方向中央揃え（Safari用） */
+ align-items: center; /* 縦方向中央揃え */
+ -webkit-justify-content: center; /* 横方向中央揃え（Safari用） */
+ justify-content: center; /* 横方向中央揃え */
+}
+
+.button-text {
+  margin: 0px;
+}
+
 
 
 /*==========TOPページ（top.html)==========*/
@@ -276,7 +294,6 @@ table#toppage-table thead tr {
     height: 100px;
     left: 0;
 }
-/*=======================================*/
 
 /*==========練習概要ページ(outline_detail.html)==========*/
 table#sea-status {
