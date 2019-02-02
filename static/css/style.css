@@ -223,8 +223,8 @@ select.input-form {
 
 /*ボタン内の画像サイズは、基本の文字のフォントと合わせ、14pxで指定*/
 .button-img {
-  height: 1rem;
-  width: 1rem;
+  height: 14px;
+  width: 14px;
   float:left;
 }
 
@@ -241,7 +241,17 @@ select.input-form {
   margin: 0px;
 }
 
+.btn-margin {
+  margin: 10px 15px 10px 15px;
+}
 
+.btn-float-right {
+  float: right;
+}
+
+.btn-float-left {
+  float: left;
+}
 
 /*==========TOPページ（top.html)==========*/
 table#toppage-table {
@@ -337,11 +347,6 @@ div.btn-add-comment button {
   float: right;
 }
 
-div.btn-edit {
-  float: right;
-  margin: 10px 15px 10px auto;
-}
-
 /*練習概要のコメント欄関係*/
 .comment-text-input {
   height: 80px;
@@ -386,11 +391,15 @@ form.comment-edit-delete {
 }
 
 button.comment-edit-button {
-  width: 145px;
+  width: 150px;
+}
+
+button.comment-edit-button {
+  width: 150px;
 }
 
 /*投稿されたコメントのクリック関係*/
-a.outline-comment,
+a.outline-comment,s
 a.outline-comment:link,
 a.outline-comment:visited,
 a.outline-comment:hover{
