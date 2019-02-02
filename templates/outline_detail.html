@@ -12,8 +12,8 @@
       <span style="color:{{ yc.color }}">{{ yc.yacht }}　</span>
     {% endfor %}
 
-    <form action="{{ url_for('draw_map', target_outline_id=target_entities[0].outline_id) }}" method="post" class="btn-margin btn-float-right">
-      <button type="submit" class="btn btn-success comment-edit-button flexiblebox">
+    <form action="{{ url_for('draw_map', target_outline_id=target_entities[0].outline_id) }}" method="post">
+      <button type="submit" class="btn btn-success comment-edit-button flexiblebox btn-margin btn-float-right">
         <img src="{{ url_for('static', filename='img/button/reload.png') }}" class="img-responsive button-img">
         <p class="button-text">GPSデータを更新</p>
       </button>
@@ -197,8 +197,8 @@
   </a>
   {% endfor %}
 
-  <form action="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id) }}" method="post" class="btn-margin btn-float-right">
-    <button type="submit" class="btn btn-success comment-edit-button flexiblebox">
+  <form action="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id) }}" method="post">
+    <button type="submit" class="btn btn-success comment-edit-button flexiblebox btn-margin btn-float-right">
       <img src="{{ url_for('static', filename='img/button/pencil.png') }}" class="img-responsive button-img">
       <p class="button-text">ノートを編集</p>
     </button>
