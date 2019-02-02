@@ -223,10 +223,9 @@ select.input-form {
 
 /*ボタン内の画像サイズは、基本の文字のフォントと合わせ、14pxで指定*/
 .button-img {
-  height: 14px;
-  width: 14px;
+  height: 1rem;
+  width: 1rem;
   float:left;
-  margin-bottom: 2px; /*現在資料しているフォントが若干下に沈んでいるため*/
 }
 
 .flexiblebox {
