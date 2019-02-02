@@ -506,6 +506,8 @@
       <button id="menu-open" type="button" class="btn-for-outline">行の追加</button>
     </div>
 
+    <hr>
+
     <button type="submit" class="btn btn-primary comment-edit-button flexiblebox btn-margin btn-float-right">
       <img src="{{ url_for('static', filename='img/button/notebook.png') }}" class="img-responsive button-img">
       <p class="button-text">ノートを保存</p>
@@ -513,8 +515,8 @@
 
   </form>
 
-  <form action="{{ url_for('del_outline', target_outline_id=target_entities[0].outline_id) }}" method="post" class="btn-float-left">
-    <button type="submit" class="btn btn-danger btn-delete comment-edit-button flexiblebox btn-margin tn-float-left">
+  <form action="{{ url_for('del_outline', target_outline_id=target_entities[0].outline_id) }}" method="post">
+    <button type="submit" class="btn btn-danger btn-delete comment-edit-button flexiblebox btn-margin btn-float-left">
       <img src="{{ url_for('static', filename='img/button/trashbox.png') }}" class="img-responsive button-img">
       <p class="button-text">ノートを削除</p>
     </button>
