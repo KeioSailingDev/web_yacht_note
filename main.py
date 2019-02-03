@@ -679,14 +679,16 @@ class Player(object):
         """選手の管理画面を表示"""
 
         query_p = client.query(kind='Player')
-        player_list = list(query.fetch_retry(query_p))
+        players_list = list(query.fetch_retry(query_p))
+        sorted_players = sorted(players_list, key=lambda player: player["admission_year"], reverse=True)
+
 
         #「入学年」の一覧を取得
         this_year = (datetime.now()).year
         admission_years = list(range(this_year-10, this_year+10))
 
         return render_template('admin_player.html', title='選手管理', \
-        player_list=player_list, admission_years=admission_years)
+        sorted_players=sorted_players, admission_years=admission_years)
 
 
     @app.route("/admin/addplayer", methods=['POST'])
@@ -769,9 +771,10 @@ class Yacht(object):
         ヨットの管理画面の表示
         """
         query_y = client.query(kind='Yacht')
-        yacht_list = list(query.fetch_retry(query_y))
+        yachts_list = list(query.fetch_retry(query_y))
+        sorted_yachts = sorted(yachts_list, key=lambda yacht: yacht["yacht_no"])
 
-        return render_template('admin_yacht.html', title = 'ヨット管理', yacht_list = yacht_list)
+        return render_template('admin_yacht.html', title = 'ヨット管理', sorted_yachts = sorted_yachts)
 
     @app.route("/admin/addyacht", methods=['POST'])
     def add_yacht():
@@ -847,9 +850,10 @@ class Device(object):
         """デバイス管理画面の表示"""
 
         query_d = client.query(kind='Device')
-        device_list = list(query.fetch_retry(query_d))
+        devices_list = list(query.fetch_retry(query_d))
+        sorted_devices = sorted(devices_list, key=lambda device: device["device_id"])
 
-        return render_template('admin_device.html', title='デバイス管理', device_list=device_list)
+        return render_template('admin_device.html', title='デバイス管理', sorted_devices=sorted_devices)
 
     @app.route("/admin/adddevice", methods=['POST'])
     def add_device():
@@ -918,8 +922,10 @@ class Menu(object):
         """練習メニューの管理画面を表示"""
 
         query_m = client.query(kind='Menu')
-        menu_list = list(query.fetch_retry(query_m))
-        return render_template('admin_menu.html', title='練習メニュー', menu_list=menu_list)
+        menus_list = list(query.fetch_retry(query_m))
+        sorted_menus = sorted(menus_list, key=lambda menu: menu["training_menu"])
+
+        return render_template('admin_menu.html', title='練習メニュー', sorted_menus=sorted_menus)
 
     @app.route("/admin/addmenu", methods=['POST'])
     def add_menu():
