@@ -317,7 +317,8 @@ select.r-bar-sel{
   margin-bottom: 5px;
 }
 
-input.r-bar-sel {
+.r-bar-input {
+  -webkit-appearance: initial;
   width: 250px !important;
   margin-left:15px !important;
   margin-right:15px !important;
@@ -332,9 +333,6 @@ input.r-bar-sel {
 #r-bar-btn-p {
   margin:0px;
 }
-
-
-
 
 /*==========練習概要ページ(outline_detail.html)==========*/
 table#sea-status {
