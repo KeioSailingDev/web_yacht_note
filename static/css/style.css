@@ -305,7 +305,13 @@ table#toppage-table thead tr {
 }
 
 /*==========TOPページ：右サイドバー==========*/
+
 /*検索項目*/
+
+li.r-bar-li {
+  line-height: 30px !important;
+}
+
 label.r-bar-label {
   margin-left: 15px;
 }
@@ -319,6 +325,7 @@ select.r-bar-sel{
 
 .r-bar-input {
   width: 250px !important;
+  height: 34px !important;
   margin-left:15px !important;
   margin-right:15px !important;
   margin-bottom:5px !important;
