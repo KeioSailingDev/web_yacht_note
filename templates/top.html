@@ -9,16 +9,19 @@
 <div id="sidr-right-top">
   <form action="{{ url_for('top') }}" method="post" class="w">
       <ul>
+
         <li style="background-color: #474647; text-align: right">
-                <a href="#sidr-left-top" class="close-sidr" style="color: white" onclick="$.sidr('close', 'sidr-right-top');return false;">
-                    練習を検索 <img src="{{ url_for('static', filename='img/back_filter.png') }}" height="30px">
-                </a>
-            </li>
-        <li>
+          <a href="#sidr-left-top" class="close-sidr" style="color: white" onclick="$.sidr('close', 'sidr-right-top');return false;">
+            練習を検索 <img src="{{ url_for('static', filename='img/back_filter.png') }}" height="30px">
+          </a>
+        </li>
+
+        <li class="r-bar-li">
           <label for="filter_date" class="r-bar-label">日付</label>
           <input type="date" class="form-control r-bar-input r-bar-input-reset" id="filter_date" name="filter_date", value={{ form_default.filter_date }}>
         </li>
-        <li>
+
+        <li class="r-bar-li">
           <label for="filter_wind_dir" class="r-bar-label">風向</label>
           <select name="filter_wind_dir" id="filter_wind_dir" class="form-control r-bar-sel" value={{ form_default.filter_wind_dir }}>
               <option value="">未入力</option>
@@ -31,7 +34,8 @@
             {% endfor %}
           </select>
         </li>
-        <li>
+
+        <li class="r-bar-li">
           <label for="filter_wind_speed" class="r-bar-label">風速</label>
           <select name="filter_wind_speed" id="filter_wind_speed" class="form-control r-bar-sel">
               <option value="">未入力</option>
@@ -44,7 +48,8 @@
             {% endfor %}
           </select>
         </li>
-        <li>
+
+        <li class="r-bar-li">
           <label for="filter_wave" class="r-bar-label">海面</label>
           <select name="filter_wave" id="filter_wave" class="form-control r-bar-sel"}}>
               <option value="">未入力</option>
