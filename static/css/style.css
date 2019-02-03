@@ -318,11 +318,14 @@ select.r-bar-sel{
 }
 
 .r-bar-input {
-  -webkit-appearance: initial;
   width: 250px !important;
   margin-left:15px !important;
   margin-right:15px !important;
   margin-bottom:5px !important;
+}
+
+input[type="date"].r-bar-input-reset {
+  -webkit-appearance: initial;
 }
 
 /*検索ボタン*/
