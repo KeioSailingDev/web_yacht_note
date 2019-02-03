@@ -15,7 +15,7 @@
               {% if outline.outline_id == outline_id %}
                 <option value="{{ outline.outline_id }}" selected>{{ outline.date }}{{ outline.day }}</option>
               {% else %}
-                <option value="{{ outline.outline_id }}">{{ outline.date }} {{ outline.time_category }}</option>
+                <option value="{{ outline.outline_id }}">{{ outline.date }}{{ outline.day }}</option>
               {% endif %}}
           {% endfor %}
         </select>
