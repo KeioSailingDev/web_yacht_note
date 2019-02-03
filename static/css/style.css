@@ -304,6 +304,38 @@ table#toppage-table thead tr {
     left: 0;
 }
 
+/*==========TOPページ：右サイドバー==========*/
+/*検索項目*/
+label.r-bar-label {
+  margin-left: 15px;
+}
+
+select.r-bar-sel{
+  width: 250px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px;
+}
+
+input.r-bar-sel {
+  width: 250px !important;
+  margin-left:15px !important;
+  margin-right:15px !important;
+  margin-bottom:5px !important;
+}
+
+/*検索ボタン*/
+#r-bar-btn {
+  width: 250px;
+}
+
+#r-bar-btn-p {
+  margin:0px;
+}
+
+
+
+
 /*==========練習概要ページ(outline_detail.html)==========*/
 table#sea-status {
   margin: 10px 15px 10px 45px;
@@ -388,10 +420,6 @@ form.comment-edit-page{
 
 form.comment-edit-delete {
   margin-left: 15px;
-}
-
-button.comment-edit-button {
-  width: 150px;
 }
 
 button.comment-edit-button {
