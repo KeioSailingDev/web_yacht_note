@@ -3,7 +3,7 @@
   <h3 class="sub-fix-var">練習メニュー詳細</h3>
   <h5 class="first-sub-title">■ 練習メニューの編集</h5>
 
-  <form action="{{ url_for('mod_menu', menu_id=target_menu.key.id) }}" method="post" class="admin-form-set">
+  <form action="{{ url_for('admin_c.mod_menu', menu_id=target_menu.key.id) }}" method="post" class="admin-form-set">
 
     <div class="clearfix">
       <div class="float-label">

@@ -3,7 +3,7 @@
   <h3 class="sub-fix-var">{{ title }}</h3>
 
   <h5 class="first-sub-title">■ 新規追加</h5>
-  <form action="{{ url_for('add_device') }}" method="post" class="admin-form-set">
+  <form action="{{ url_for('admin_c.add_device') }}" method="post" class="admin-form-set">
 
     <div class="clearfix">
       <div class="float-label">
@@ -37,12 +37,12 @@
       <tr>
         <td>{{device.device_id}}</td>
         <td>
-          <a class="btn btn-success" href="{{ url_for('show_device', device_id=device.key.id) }}">
+          <a class="btn btn-success" href="{{ url_for('admin_c.show_device', device_id=device.key.id) }}">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更
           </a>
         </td>
         <td>
-          <form class="text-right" action="{{ url_for('del_device', device_id=device.key.id) }}" method="post">
+          <form class="text-right" action="{{ url_for('admin_c.del_device', device_id=device.key.id) }}" method="post">
             <button type="submit" class="btn btn-danger">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 削除
             </button>

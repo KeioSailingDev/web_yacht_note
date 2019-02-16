@@ -1,16 +1,6 @@
 <!DOCTYPE html>
 <html class="wf-active">
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131647167-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'UA-131647167-1');
-    </script>
-
   <meta charset="utf-8">
     <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
     <link  rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}">
@@ -18,18 +8,12 @@
 
     <!-- ios でホーム画面から開いたときにアプリっぽく全画面表示する -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Safari・アドレスバーを非表示 -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <!-- Include Sidr bundled CSS theme -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.sidr.light.css') }}">
     <!-- Your CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <!-- アイコン画像 -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/icon/favicon.ico')}}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/icon/apple-touch-icon-180x180.png') }}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='img/icon/android-chrome-192x192.png')}}">
-    <link rel="manifest" href="{{ url_for('static', filename='img/icon/manifest.json')}}">
-    <link rel="mask-icon" href="{{ url_for('static', filename='img/icon/safari-icon.svg')}}" color="#555" />
+    <link rel="apple-touch-icon-precomposed" href="{{ url_for('static', filename='img/icon.jpg') }}" />
 
     <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
 
@@ -53,15 +37,12 @@
         <ul class="sidebar-nav">
             <li style="background-color: #474647">
                 <a href="#sidr-left-top" class="close-sidr" style="color: white" onclick="$.sidr('close', 'sidr-left-top');return false;">
-                    <img src="{{ url_for('static', filename='img/left_bar/back.png') }}" height="30px"> メニュー
+                    <img src="{{ url_for('static', filename='img/back.png') }}" height="30px"> メニュー
                 </a>
             </li>
             <li>
                 <a href="{{ url_for('top')}}"><img src="{{ url_for('static', filename='img/left_bar/home.png') }}" height="30px"> トップページ</a>
             </li>
-            <!--<li>-->
-                <!--<a href="{{ url_for('about')}}"><img src="{{ url_for('static', filename='img/question_mark.png') }}" height="30px"> Webヨットノートとは</a>-->
-            <!--</li>-->
             <li>
                 <a href="{{ url_for('how_to_use')}}"><img src="{{ url_for('static', filename='img/left_bar/gear.png') }}" height="30px"> 使い方</a>
             </li>
@@ -97,7 +78,6 @@
 
     <!-- Your code -->
     <script>
-
         $(document).ready(function () {
           $('#sidr-left-top-button').sidr({
             name: 'sidr-left-top',
@@ -105,7 +85,6 @@
             speed: 500,
             source: 'sidr-left-top'
           });
-
           $('#sidr-right-top-button').sidr({
             name: 'sidr-right-top',
             speed: 500,
@@ -113,7 +92,6 @@
             source: 'sidr-right-top'
           });
         });
-
         $( window ).resize(function () {
           $.sidr('close', 'sidr-left-top');
           $.sidr('close', 'sidr-right-top');

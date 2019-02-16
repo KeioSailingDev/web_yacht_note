@@ -4,7 +4,7 @@
 
   <h5 class="first-sub-title">■ 新規追加</h5>
 
-  <form action="{{ url_for('add_yacht') }}" method="post" class="admin-form-set">
+  <form action="{{ url_for('admin_c.add_yacht') }}" method="post" class="admin-form-set">
 
     <div class="clearfix">
       <div class="float-label">
@@ -53,12 +53,12 @@
         <td>{{yacht.yacht_no}}</td>
         <td>{{yacht.yacht_class}}</td>
         <td>
-          <a class="btn btn-success" href="{{ url_for('show_yacht', yacht_id=yacht.key.id) }}">
+          <a class="btn btn-success" href="{{ url_for('admin_c.show_yacht', yacht_id=yacht.key.id) }}">
             <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更
           </a>
         </td>
         <td>
-          <form class="text-right" action="{{ url_for('del_yacht', yacht_id=yacht.key.id) }}" method="post">
+          <form class="text-right" action="{{ url_for('admin_c.del_yacht', yacht_id=yacht.key.id) }}" method="post">
             <button type="submit" class="btn btn-danger">
               <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 削除
             </button>

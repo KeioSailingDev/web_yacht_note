@@ -14,12 +14,12 @@ import folium
 import tempfile
 
 # 分割先のコードをインポートする
-from controllers import admin
+from controllers.admin import admin_c
 
 app = Flask(__name__)
 
 # 分割先のコントローラー(Blueprint)を登録する
-app.register_blueprint(admin.admin_c)
+app.register_blueprint(admin_c)
 
 
 # 環境変数を開発用と本番用で切り替え
@@ -42,7 +42,6 @@ storage_client = storage.Client()
 bucket = storage_client.get_bucket(os.environ.get('MAP_BUCKET'))
 
 # アプリケーションを作成
-app = Flask(__name__)
 bootstrap = Bootstrap(app)
 
 
@@ -671,228 +670,6 @@ class Outline(object):
         client.delete(key)
 
         return redirect(url_for('outline_detail', target_outline_id=target_outline_id))
-
-
-class Yacht(object):
-    """ヨットの管理に関するクラス"""
-
-    @app.route("/admin/yacht")
-    def admin_yacht():
-        """
-        ヨットの管理画面の表示
-        """
-        query_y = client.query(kind='Yacht')
-        yachts_list = list(query.fetch_retry(query_y))
-        sorted_yachts = sorted(yachts_list, key=lambda yacht: yacht["yacht_no"])
-
-        return render_template('admin_yacht.html', title = 'ヨット管理', sorted_yachts = sorted_yachts)
-
-    @app.route("/admin/addyacht", methods=['POST'])
-    def add_yacht():
-        """ヨットデータの追加"""
-        yachtno = request.form.get('yachtno')
-        yachtclass = request.form.get('yachtclass')
-        datetime_now = datetime.now()
-
-        query_y = client.query(kind='Yacht')
-        yacht_list = list(query.fetch_retry(query_y))
-
-        colors = ["#45aaf2", "#eb3b5a", "#20bf6b","#3867d6", "#fa8231",
-                  "#d1d8e0", "#fed330", "#0fb9b1", "#4b7bec","#778ca3"]
-        color = colors[len(yacht_list) % 10]
-
-        if yachtno and yachtclass:
-            key = client.key('Yacht')
-            yacht = datastore.Entity(key) #
-            yacht.update({
-                'yacht_no': yachtno,
-                'yacht_class': yachtclass,
-                'created_date': datetime_now,
-                'color': color
-            })
-            client.put(yacht)
-
-        return redirect(url_for('admin_yacht'))
-
-    @app.route("/admin/showyacht/<int:yacht_id>", methods=['GET'])
-    def show_yacht(yacht_id):
-        """ヨットデータの変更画面に移動"""
-        key = client.key('Yacht', yacht_id)
-        target_yacht = client.get(key)
-
-        return render_template('show_yacht.html', title='ユーザー詳細', target_yacht=target_yacht)
-
-    @app.route("/admin/modyacht/<int:yacht_id>", methods=['POST'])
-    def mod_yacht(yacht_id):
-        """ヨットデータの変更"""
-        yachtno = request.form.get('yachtno')
-        yachtclass = request.form.get('yachtclass')
-
-        with client.transaction():
-            key = client.key('Yacht', yacht_id)
-            yacht = client.get(key)
-
-            if not yacht:
-                raise ValueError(
-                    'Yacht {} does not exist.'.format(yacht_id))
-            yacht.update({
-                'yacht_no': yachtno,
-                'yacht_class': yachtclass
-            })
-
-            client.put(yacht)
-
-        return redirect(url_for('admin_yacht'))
-
-    @app.route("/admin/delyacht/<int:yacht_id>", methods=['POST'])
-    def del_yacht(yacht_id):
-        """ヨットデータの削除"""
-        key = client.key('Yacht', yacht_id)
-        client.delete(key)
-
-        return redirect(url_for('admin_yacht'))
-
-
-class Device(object):
-    """デバイス管理に関するクラス"""
-
-    @app.route("/admin/device")
-    def admin_device():
-        """デバイス管理画面の表示"""
-
-        query_d = client.query(kind='Device')
-        devices_list = list(query.fetch_retry(query_d))
-        sorted_devices = sorted(devices_list, key=lambda device: device["device_id"])
-
-        return render_template('admin_device.html', title='デバイス管理', sorted_devices=sorted_devices)
-
-    @app.route("/admin/adddevice", methods=['POST'])
-    def add_device():
-        """デバイス情報を追加"""
-
-        device_id = request.form.get('device_id')
-        datetime_now = datetime.now()
-
-        if device_id:
-            key = client.key('Device')
-            device = datastore.Entity(key)
-            device.update({
-                'device_id': device_id,
-                'created_date': datetime_now
-            })
-            client.put(device)
-
-        return redirect(url_for('admin_device'))
-
-    @app.route("/admin/showdevice/<int:device_id>", methods=['GET'])
-    def show_device(device_id):
-        """デバイス情報の変更画面に移動"""
-
-        key = client.key('Device', device_id)
-        target_device = client.get(key)
-
-        return render_template('show_device.html', title='デバイス詳細', target_device=target_device)
-
-    @app.route("/admin/moddevice/<int:device_id>", methods=['POST'])
-    def mod_device(device_id):
-        """デバイス情報の変更"""
-
-        deviceno = request.form.get('deviceno')
-        devicename = request.form.get('devicename')
-
-        with client.transaction():
-            key = client.key('Device', device_id)
-            device = client.get(key)
-
-            if not device:
-                raise ValueError(
-                    'Device {} does not exist.'.format(device_id))
-
-            device.update({
-                'device_no': deviceno,
-                'device_name': devicename
-            })
-
-            client.put(device)
-
-        return redirect(url_for('admin_device'))
-
-    @app.route("/admin/deldevice/<int:device_id>", methods=['POST'])
-    def del_device(device_id):
-        """デバイス情報の削除"""
-
-        key = client.key('Device', device_id)
-        client.delete(key)
-
-        return redirect(url_for('admin_device'))
-
-
-class Menu(object):
-    @app.route("/admin/menu")
-    def admin_menu():
-        """練習メニューの管理画面を表示"""
-
-        query_m = client.query(kind='Menu')
-        menus_list = list(query.fetch_retry(query_m))
-        sorted_menus = sorted(menus_list, key=lambda menu: menu["training_menu"])
-
-        return render_template('admin_menu.html', title='練習メニュー', sorted_menus=sorted_menus)
-
-    @app.route("/admin/addmenu", methods=['POST'])
-    def add_menu():
-        """練習メニューの追加"""
-
-        menu_name = request.form.get('menu')
-
-        if menu_name:
-            key = client.key('Menu')
-            menu = datastore.Entity(key)
-            menu.update({
-                'training_menu': menu_name
-            })
-            client.put(menu)
-
-        return redirect(url_for('admin_menu'))
-
-    @app.route("/admin/showmenu/<int:menu_id>", methods=['GET'])
-    def show_menu(menu_id):
-        """練習メニューの変更画面を表示"""
-
-        key = client.key('Menu', menu_id)
-        target_menu = client.get(key)
-
-        return render_template('show_menu.html', title='練習メニュー詳細', target_menu=target_menu)
-
-    @app.route("/admin/modmenu/<int:menu_id>", methods=['POST'])
-    def mod_menu(menu_id):
-        """練習メニューの変更"""
-
-        menu_name = request.form.get('menu')
-
-        with client.transaction():
-            key = client.key('Menu', menu_id)
-            menu = client.get(key)
-
-            if not menu:
-                raise ValueError(
-                    'Menu {} does not exist.'.format(menu_id))
-
-            menu.update({
-                'training_menu': menu_name
-            })
-
-            client.put(menu)
-
-        return redirect(url_for('admin_menu'))
-
-    @app.route("/admin/delmenu/<int:menu_id>", methods=['POST'])
-    def del_menu(menu_id):
-        """練習メニューの削除"""
-
-        key = client.key('Menu', menu_id)
-        client.delete(key)
-
-        return redirect(url_for('admin_menu'))
 
 
 class Ranking(object):
