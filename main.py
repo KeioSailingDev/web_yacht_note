@@ -13,6 +13,15 @@ from google.cloud import storage
 import folium
 import tempfile
 
+# 分割先のコードをインポートする
+from controllers import admin
+
+app = Flask(__name__)
+
+# 分割先のコントローラー(Blueprint)を登録する
+app.register_blueprint(admin.admin_c)
+
+
 # 環境変数を開発用と本番用で切り替え
 os.environ['PROJECT_ID'] = 'webyachtnote'  #本番用
 os.environ['LOG_TABLE'] = 'webyachtnote.smartphone_log.sensorlog'  #本番用
@@ -662,104 +671,6 @@ class Outline(object):
         client.delete(key)
 
         return redirect(url_for('outline_detail', target_outline_id=target_outline_id))
-
-
-class Player(object):
-    """選手の管理に関するクラス"""
-
-    @app.route("/admin/top")
-    def admin_top():
-        """
-        管理ページのルートページ
-        """
-        return render_template('admin_top.html')
-
-    @app.route("/admin/player")
-    def admin_player():
-        """選手の管理画面を表示"""
-
-        query_p = client.query(kind='Player')
-        players_list = list(query.fetch_retry(query_p))
-        sorted_players = sorted(players_list, key=lambda player: player["admission_year"], reverse=True)
-
-
-        #「入学年」の一覧を取得
-        this_year = (datetime.now()).year
-        admission_years = list(range(this_year-10, this_year+10))
-
-        return render_template('admin_player.html', title='選手管理', \
-        sorted_players=sorted_players, admission_years=admission_years)
-
-
-    @app.route("/admin/addplayer", methods=['POST'])
-    def add_player():
-        """選手データの追加"""
-
-        playername = str(request.form.get('playername'))
-        year = request.form.get('year')
-        datetime_now = datetime.now()
-
-        if playername and year:
-            key = client.key('Player')
-            player = datastore.Entity(key)
-            player.update({
-                'player_name': playername,
-                'admission_year': year,
-                'created_date': datetime_now
-            })
-            client.put(player)
-
-        return redirect(url_for('admin_player'))
-
-
-    @app.route("/admin/showplayer/<int:player_id>", methods=['GET'])
-    def show_player(player_id):
-        """選手データの変更画面に移動"""
-
-        key = client.key('Player', player_id)
-        target_player = client.get(key)
-
-        #入学年の一覧
-        this_year = (datetime.now()).year
-        admission_years = list(range(this_year-10, this_year+10))
-
-        return render_template('show_player.html', title='ユーザー詳細',\
-        target_player=target_player, admission_years=admission_years)
-
-
-    @app.route("/admin/modplayer/<int:player_id>", methods=['POST'])
-    def mod_player(player_id):
-        """選手データの更新"""
-
-        playername = str(request.form.get('playername'))
-        year = request.form.get('year')
-
-        with client.transaction():
-            key = client.key('Player', player_id)
-            player = client.get(key)
-
-            if not player:
-                raise ValueError(
-                    'Player {} does not exist.'.format(player_id))
-
-            player.update({
-                'player_name' : str(playername),
-                'admission_year' : year
-            })
-
-            client.put(player)
-
-        return redirect(url_for('admin_player'))
-
-
-    @app.route("/admin/delplayer/<int:player_id>", methods=['POST'])
-    def del_player(player_id):
-        """選手データの削除"""
-
-        key = client.key('Player', player_id)
-        client.delete(key)
-
-        return redirect(url_for('admin_player'))
 
 
 class Yacht(object):
