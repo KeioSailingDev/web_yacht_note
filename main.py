@@ -17,6 +17,8 @@ import tempfile
 from controllers.admin import admin_c
 from controllers.outline import outline_c
 from controllers.ranking import ranking_c
+from controllers.how_to_use import how_to_use_c
+from controllers.demand import demand_c
 
 app = Flask(__name__)
 
@@ -46,6 +48,8 @@ bootstrap = Bootstrap(app)
 app.register_blueprint(admin_c)
 app.register_blueprint(outline_c)
 app.register_blueprint(ranking_c)
+app.register_blueprint(how_to_use_c)
+app.register_blueprint(demand_c)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -120,10 +124,7 @@ def top():
                            outline_selections=outline_selections, form_default=form_values)
 
 
-@app.route("/how_to_use")
-def how_to_use():
-    """使い方ページ"""
-    return render_template('how_to_use.html')
+
 
 
 @app.route("/about")
@@ -131,14 +132,7 @@ def about():
     """WEBヨットノートを説明するページ"""
     return render_template('about.html')
 
-@app.route("/demand")
-def demand():
-    """要望ページ"""
-    # 練習ノートの一覧を取得
-    query1 = client.query(kind='Demand')
-    demands = list(query.fetch_retry(query1, num=20))
-    # フィルター
-    return render_template('demand.html', demands=demands)
+
 #
 # # error ====
 # @app.route('/403')
@@ -171,7 +165,6 @@ def demand():
 #     return render_template("error_page.html", error_message=error_message)
 
 # error ここまで====
-
 
 
 class log_insert(object):

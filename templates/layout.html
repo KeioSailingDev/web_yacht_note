@@ -44,7 +44,7 @@
                 <a href="{{ url_for('top')}}"><img src="{{ url_for('static', filename='img/left_bar/home.png') }}" height="30px"> トップページ</a>
             </li>
             <li>
-                <a href="{{ url_for('how_to_use')}}"><img src="{{ url_for('static', filename='img/left_bar/gear.png') }}" height="30px"> 使い方</a>
+                <a href="{{ url_for('how_to_use_c.how_to_use')}}"><img src="{{ url_for('static', filename='img/left_bar/gear.png') }}" height="30px"> 使い方</a>
             </li>
             <li>
                 <a href="{{ url_for('ranking_c.ranking')}}" onClick="loading();"><img src="{{ url_for('static', filename='img/left_bar/crown.png') }}" height="30px"> ランキング</a>
@@ -53,7 +53,7 @@
                 <a href="{{ url_for('admin_c.admin_top')}}"><img src="{{ url_for('static', filename='img/left_bar/wrench.png') }}" height="30px"> 管理ページ</a>
             </li>
             <li>
-                <a href="{{ url_for('demand')}}" onClick="loading();"><img src="{{ url_for('static', filename='img/left_bar/update.png') }}" height="30px"> アップデート予定</a>
+                <a href="{{ url_for('demand_c.demand')}}" onClick="loading();"><img src="{{ url_for('static', filename='img/left_bar/update.png') }}" height="30px"> アップデート予定</a>
             </li>
         </ul>
         <p class="text-muted text-center">© 2019 Webヨットノート</p>
