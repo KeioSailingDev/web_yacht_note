@@ -24,8 +24,8 @@
 
 <body>
     <header>
-        <p id="top-title" href="{{ url_for('top')}}">
-            <a href="{{ url_for('top')}}" style="color: white;text-decoration:none">Webヨットノート</a>
+        <p id="top-title" href="{{ url_for('top_c.top')}}">
+            <a href="{{ url_for('top_c.top')}}" style="color: white;text-decoration:none">Webヨットノート</a>
         </p>
         <a id="sidr-left-top-button" class="menu-button left" href="#sidr-left-top">Toggle menu</a>
         {% block right_sidebar_button %}{% endblock %}
@@ -41,7 +41,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url_for('top')}}"><img src="{{ url_for('static', filename='img/left_bar/home.png') }}" height="30px"> トップページ</a>
+                <a href="{{ url_for('top_c.top')}}"><img src="{{ url_for('static', filename='img/left_bar/home.png') }}" height="30px"> トップページ</a>
             </li>
             <li>
                 <a href="{{ url_for('how_to_use_c.how_to_use')}}"><img src="{{ url_for('static', filename='img/left_bar/gear.png') }}" height="30px"> 使い方</a>
