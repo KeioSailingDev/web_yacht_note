@@ -12,7 +12,6 @@ from controllers import query
 # "admin"という名前でBlueprintオブジェクトを生成します
 admin_c = Blueprint('admin_c', __name__)
 
-project_id = os.environ.get('PROJECT_ID')
 client = datastore.Client()
 
 @admin_c.route("/admin/top")

@@ -3,7 +3,7 @@
 
 <h3 class="sub-fix-var">コメントを編集</h3>
 
-<form action="{{ url_for('mod_comment', comment_id=target_comment.key.id) }}" method="post" class="form-horizontal comment-edit-page">
+<form action="{{ url_for('outline_c.mod_comment', comment_id=target_comment.key.id) }}" method="post" class="form-horizontal comment-edit-page">
   <div>
     <label for="comment-name">名前</label>
     <input type="text" class="comment-form-name comment-name-font input-form" id="comment-name" name="comment-name" value="{{ target_comment.name }}">
@@ -20,7 +20,7 @@
   </div>
 </form>
 
-<form action="{{ url_for('del_comment', comment_id=target_comment.key.id) }}" method="post" class="comment-edit-delete">
+<form action="{{ url_for('outline_c.del_comment', comment_id=target_comment.key.id) }}" method="post" class="comment-edit-delete">
   <button type="submit" class="btn btn-danger btn-delete comment-edit-button flexiblebox">
     <img src="{{ url_for('static', filename='img/button/trashbox.png') }}" class="img-responsive button-img">
     <p class="button-text"> コメントを削除</p>
