@@ -20,6 +20,7 @@ from controllers.ranking import ranking_c
 from controllers.how_to_use import how_to_use_c
 from controllers.demand import demand_c
 from controllers.top import top_c
+from controllers.log import log_c
 
 app = Flask(__name__)
 
@@ -52,12 +53,11 @@ app.register_blueprint(ranking_c)
 app.register_blueprint(how_to_use_c)
 app.register_blueprint(demand_c)
 app.register_blueprint(top_c)
-
+app.register_blueprint(log_c)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return redirect('/list')
-
 
 # @app.route("/about")
 # def about():
@@ -97,13 +97,6 @@ def index():
 #     return render_template("error_page.html", error_message=error_message)
 
 # error ここまで====
-
-
-class log_insert(object):
-    @app.route("/log", methods=['POST'])
-    def log_insert_bigquery(self):
-        return 0
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
