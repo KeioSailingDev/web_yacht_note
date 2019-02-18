@@ -1,4 +1,3 @@
- #main.pyの227行目から挿入
 
 
 class IconSelections(object):

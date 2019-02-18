@@ -1,7 +1,5 @@
-
-
 #外部パッケージ
-from flask import Flask, render_template, url_for, request, Blueprint
+from flask import Flask, render_template, url_for, request, Blueprint, redirect
 from google.cloud import datastore
 import pandas as pd
 
@@ -12,6 +10,10 @@ top_c = Blueprint('top_c', __name__)
 
 # DataStoreに接続するためのオブジェクトを作成
 client = datastore.Client()
+
+@top_c.route('/', methods=['GET', 'POST'])
+def index():
+    return redirect('/list')
 
 
 @top_c.route('/list', methods=['GET', 'POST'])

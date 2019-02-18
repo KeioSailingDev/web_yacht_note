@@ -21,15 +21,10 @@ from controllers import query, icon
 # "outline_c"という名前でBlueprintオブジェクトを生成します
 outline_c = Blueprint('outline_c', __name__)
 
-project_id = os.environ.get('PROJECT_ID')
-
 # DataStoreに接続するためのオブジェクトを作成
 client = datastore.Client()
 
 # cloud storageのクライアント
-
-os.environ['MAP_BUCKET'] = "gps_map"  #本番用
-# os.environ['MAP_BUCKET'] = "gps_map_dev"  # 開発用
 storage_client = storage.Client()
 bucket = storage_client.get_bucket(os.environ.get('MAP_BUCKET'))
 
@@ -461,7 +456,7 @@ class Outline(object):
             key2 = client.key('Outline_yacht_player', entity_id_2)
             client.delete(key2)
 
-        return redirect(url_for('top'))
+        return redirect(url_for('top_c.top'))
 
 
     @outline_c.route("/outline/add_comment/<int:target_outline_id>", methods=['POST'])
