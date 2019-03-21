@@ -2,14 +2,14 @@
 import os
 
 # 環境変数を開発用と本番用で切り替え
-os.environ['PROJECT_ID'] = 'webyachtnote'  #本番用
-os.environ['LOG_TABLE'] = 'webyachtnote.smartphone_log.sensorlog'  #本番用
-os.environ['HTML_TABLE'] = "webyachtnote.smartphone_log.log_map"  #本番用
-os.environ['MAP_BUCKET'] = "gps_map"  #本番用
-# os.environ['PROJECT_ID'] = 'web-yacht-note-208313'  # 開発用
-# os.environ['LOG_TABLE'] = 'web-yacht-note-208313.smartphone_log.sensorlog'  # 開発用
-# os.environ['HTML_TABLE'] = "web-yacht-note-208313.smartphone_log.log_map"  # 開発用
-# os.environ['MAP_BUCKET'] = "gps_map_dev"  # 開発用
+# os.environ['PROJECT_ID'] = 'webyachtnote'  #本番用
+# os.environ['LOG_TABLE'] = 'webyachtnote.smartphone_log.sensorlog'  #本番用
+# os.environ['HTML_TABLE'] = "webyachtnote.smartphone_log.log_map"  #本番用
+# os.environ['MAP_BUCKET'] = "gps_map"  #本番用
+os.environ['PROJECT_ID'] = 'web-yacht-note-208313'  # 開発用
+os.environ['LOG_TABLE'] = 'web-yacht-note-208313.smartphone_log.sensorlog'  # 開発用
+os.environ['HTML_TABLE'] = "web-yacht-note-208313.smartphone_log.log_map"  # 開発用
+os.environ['MAP_BUCKET'] = "gps_map_dev"  # 開発用
 
 #外部パッケージ
 from flask import Flask
