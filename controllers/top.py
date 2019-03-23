@@ -11,6 +11,15 @@ top_c = Blueprint('top_c', __name__)
 # DataStoreに接続するためのオブジェクトを作成
 client = datastore.Client()
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('page_not_found.html'), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('internal_server_error.html'), 500
+
 @top_c.route('/', methods=['GET', 'POST'])
 def index():
     return redirect('/list')
