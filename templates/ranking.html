@@ -8,7 +8,7 @@
 
   <h5 class="first-sub-title">■ 練習検索</h5>
 
-  <form action="{{ url_for('ranking') }}" method="post" id="ranking-filter" class="clearfix">
+  <form action="{{ url_for('ranking_c.ranking') }}" method="post" id="ranking-filter" class="clearfix">
       <div class="ranking-input">
         <select name="filter_outline" id="filter_outline" class="input-form">
           {% for outline in sorted_outlines %}

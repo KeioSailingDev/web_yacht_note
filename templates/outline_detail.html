@@ -12,7 +12,7 @@
       <span style="color:{{ yc.color }}">{{ yc.yacht }}　</span>
     {% endfor %}
 
-    <form action="{{ url_for('draw_map', target_outline_id=target_entities[0].outline_id) }}" method="post">
+    <form action="{{ url_for('outline_c.draw_map', target_outline_id=target_entities[0].outline_id) }}" method="post">
       <button type="submit" class="btn btn-success comment-edit-button flexiblebox btn-margin btn-float-right">
         <img src="{{ url_for('static', filename='img/button/reload.png') }}" class="img-responsive button-img">
         <p class="button-text">GPSデータを更新</p>
@@ -171,7 +171,7 @@
 
   <h5 class="sub-title">■ コメント欄</h5>
 
-  <form action="{{ url_for('add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" class="comment-space">
+  <form action="{{ url_for('outline_c.add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" class="comment-space">
     <div>
       <label for="name">名前</label>
       <input type="text" class="comment-name-font input-form" id="name" name="name">
@@ -190,14 +190,14 @@
   <hr>
 
   {% for user_comment in sorted_comments %}
-  <a class="outline-comment" href="{{ url_for('show_comment', comment_id=user_comment.key.id) }}">
+  <a class="outline-comment" href="{{ url_for('outline_c.show_comment', comment_id=user_comment.key.id) }}">
     <div class="comment-name-font comment-space" ontouchstart="">{{user_comment.name}} ({{user_comment.commented_date}}) :</div>
     <div class="comment-text-font comment-space commnet-text-show" ontouchstart="">{{user_comment.comment}}</div>
     <hr>
   </a>
   {% endfor %}
 
-  <form action="{{ url_for('show_outline', target_outline_id=target_entities[0].outline_id) }}" method="post">
+  <form action="{{ url_for('outline_c.show_outline', target_outline_id=target_entities[0].outline_id) }}" method="post">
     <button type="submit" class="btn btn-success comment-edit-button flexiblebox btn-margin btn-float-right">
       <img src="{{ url_for('static', filename='img/button/pencil.png') }}" class="img-responsive button-img">
       <p class="button-text">ノートを編集</p>

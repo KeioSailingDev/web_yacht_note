@@ -5,7 +5,7 @@
   <div class="admin-list">
 
     <div class="clearfix">
-      <a href="{{ url_for('admin_player')}}">
+      <a href="{{ url_for('admin_c.admin_player')}}">
         <div class="left-admin">
           <div>
             <img class="admin-top-image" src="../static/img/admin/player.png" class="img-responsive">
@@ -13,7 +13,8 @@
           <p class="admin-title">選手</p>
         </div>
       </a>
-      <a href="{{ url_for('admin_yacht')}}">
+
+      <a href="{{ url_for('admin_c.admin_yacht')}}">
         <div class="right-admin">
           <div>
             <img class="admin-top-image" src="../static/img/admin/yacht.png" class="img-responsive">
@@ -24,7 +25,7 @@
     </div>
 
     <div class="clearfix">
-      <a href="{{ url_for('admin_device')}}">
+      <a href="{{ url_for('admin_c.admin_device')}}">
         <div class="left-admin">
           <div>
             <img class="admin-top-image" src="../static/img/admin/device.png" class="img-responsive">
@@ -32,7 +33,8 @@
           <p class="admin-title">デバイス</p>
         </div>
       </a>
-      <a href="{{ url_for('admin_menu')}}">
+
+      <a href="{{ url_for('admin_c.admin_menu')}}">
         <div class="right-admin">
           <div>
             <img class="admin-top-image" src="../static/img/admin/practice.png" class="img-responsive">
@@ -43,21 +45,5 @@
     </div>
 
   </div>
-
-
-     <!-- <ul class="list-group">
-        <li class="list-group-item">
-            <a href="{{ url_for('admin_player')}}">選手管理</a>
-        </li>
-        <li class="list-group-item">
-            <a href="{{ url_for('admin_yacht')}}">ヨット管理</a>
-        </li>
-        <li class="list-group-item">
-            <a href="{{ url_for('admin_device')}}">デバイス管理</a>
-        </li>
-        <li class="list-group-item">
-            <a href="{{ url_for('admin_menu')}}"> 練習メニュー</a>
-        </li>
-    </ul> -->
 
 {% endblock %}

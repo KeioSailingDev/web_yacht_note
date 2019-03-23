@@ -1,8 +1,7 @@
 from gcloud import datastore
 import os
 
-project_id = os.environ.get('PROJECT_ID')
-client = datastore.Client(project_id)
+client = datastore.Client()
 
 
 def fetch_retry(query_, num=20):

@@ -1,19 +1,18 @@
- #main.pyの227行目から挿入
 
 
 class IconSelections(object):
 
-    def select_flag(self, wind_max):
+    def select_flag(self, wind_speedmax):
         """
         風速に合わせて旗画像を選択
         :param wind_max:
         :return:
         """
 
-        if wind_max:
-            if int(wind_max) <= 3:
+        if wind_speedmax:
+            if int(wind_speedmax) <= 3:
                 flag_file = "flag_s.png"
-            elif int(wind_max) <= 7:
+            elif int(wind_speedmax) <= 7:
                 flag_file = "flag_m.png"
             else:
                 flag_file = "flag_l.png"
