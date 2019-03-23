@@ -7,27 +7,21 @@ import re
 from flask import Flask, render_template, request, redirect, url_for, abort, Blueprint
 import httplib2shim
 httplib2shim.patch()
-from google.cloud import datastore
 from google.cloud import bigquery
 from flask_bootstrap import Bootstrap
-from google.cloud import storage
 import folium
 import tempfile
 import pandas as pd
+from google.cloud import datastore
 
 #他スクリプト
 from controllers import query, icon
 
-# "outline_c"という名前でBlueprintオブジェクトを生成します
-outline_c = Blueprint('outline_c', __name__)
-
 # DataStoreに接続するためのオブジェクトを作成
 client = datastore.Client()
 
-# cloud storageのクライアント
-storage_client = storage.Client()
-bucket = storage_client.get_bucket(os.environ.get('MAP_BUCKET'))
-
+# "outline_c"という名前でBlueprintオブジェクトを生成します
+outline_c = Blueprint('outline_c', __name__)
 
 class Outline(object):
 
@@ -262,64 +256,115 @@ class Outline(object):
          target_outline_id:編集する練習ノートID
          is_new:新規作成かどうか（トップページからアクセスしたかどうか）
         """
+
+        #新規ノートを作成する場合、初めに仮のエンティティを生成する　→　ノート作成ボタンを押して初めて作成
+        if target_outline_id == 000:
+
+            ###基本情報###
+            #追加ボタンを押したタイミングで、outline IDを生成する
+            outline_id = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
+
+            #作成日
+            date = datetime.strftime(datetime.now(), '%Y-%m-%d')
+
+            #日付に対する曜日を取得
+            day_tuple = ("(月)", "(火)", "(水)", "(木)", "(金)", "(土)", "(日)")
+            day = day_tuple[datetime.now().weekday()]
+
+            #練習の開始・終了時間を入力
+            if datetime.now().hour <= 12:
+                start_hour = 'T09:00'
+                end_hour = 'T12:00'
+            else:
+                start_hour = 'T13:00'
+                end_hour = 'T16:00'
+
+            start_time = date + start_hour
+            end_time = date + end_hour
+
+            provisional_entity1 = {}
+
+            provisional_entity1.update({
+                'outline_id': outline_id,
+                'date': date,
+                'day': day,
+                'start_time': start_time,
+                'end_time': end_time
+            })
+
+            provisional_entity2 = []
+
+            for new_entity in range(8):
+                provisional_entity2.update({
+                    'outline_id': outline_id
+                })
+
+                provisional_entity2.append(provisional_yacht)
+
+
+            target_entities = [provisional_entity1, provisional_entity2]
+            print(target_entities)
+
+        else:
+            target_entities = query.get_outline_entities(target_outline_id)
+            print(target_entities)
+
         outline_selections = query.get_outline_selections()
-        target_entities = query.get_outline_entities(target_outline_id)
 
         return render_template('show_outline.html', title='練習ノートを編集',\
-                                target_entities=target_entities, outline_selections=outline_selections,
-                               is_new=is_new)
+                                target_entities=target_entities, outline_selections=outline_selections)
 
-    @outline_c.route("/add_outline", methods=['POST', 'GET'])
-    def add_outline(is_new=None):
-        """TOPページから練習概要の日付、開始・終了時間、時間帯、IDを追加"""
-
-        # 追加ボタンを押したタイミングで、outline IDを生成する
-        outline_id = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
-
-        if datetime.now().hour <= 12:
-            start_hour = 'T09:00'
-            end_hour = 'T12:00'
-        else:
-            start_hour = 'T13:00'
-            end_hour = 'T16:00'
-
-        date = datetime.strftime(datetime.now(), '%Y-%m-%d')
-
-        start_time = date + start_hour
-        end_time = date + end_hour
-
-        # 日付に対する曜日を取得
-        day_tuple = ("(月)", "(火)", "(水)", "(木)", "(金)", "(土)", "(日)")
-        day = day_tuple[datetime.now().weekday()]
-
-        # DataStoreに格納
-        key1 = client.key('Outline')
-        outline1 = datastore.Entity(key1)
-        outline1.update({
-            'outline_id': outline_id,
-            'date': date,
-            'day': day,
-            'start_time': start_time,
-            'end_time': end_time,
-            'icon_compass': "compass_null.png",
-            'icon_flag': "flag_null.png",
-            'icon_wave': "wave_null.png"
-        })
-        client.put(outline1)
-
-        for new_entity in range(8):
-            key2 = client.key('Outline_yacht_player')
-            outline2 = datastore.Entity(key2)
-            outline2.update({
-                'outline_id': outline_id
-            })
-            client.put(outline2)
-
-        outline_selections = query.get_outline_selections()
-        target_entities = query.get_outline_entities(outline_id)
-
-        return render_template('show_outline.html', title="新規ノート作成",
-                               target_entities=target_entities, outline_selections=outline_selections, is_new=is_new)
+    # @outline_c.route("/add_outline", methods=['POST', 'GET'])
+    # def add_outline(is_new=None):
+    #     """TOPページから練習概要の日付、開始・終了時間、時間帯、IDを追加"""
+    #
+    #     # 追加ボタンを押したタイミングで、outline IDを生成する
+    #     outline_id = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
+    #
+    #     if datetime.now().hour <= 12:
+    #         start_hour = 'T09:00'
+    #         end_hour = 'T12:00'
+    #     else:
+    #         start_hour = 'T13:00'
+    #         end_hour = 'T16:00'
+    #
+    #     date = datetime.strftime(datetime.now(), '%Y-%m-%d')
+    #
+    #     start_time = date + start_hour
+    #     end_time = date + end_hour
+    #
+    #     # 日付に対する曜日を取得
+    #     day_tuple = ("(月)", "(火)", "(水)", "(木)", "(金)", "(土)", "(日)")
+    #     day = day_tuple[datetime.now().weekday()]
+    #
+    #     # DataStoreに格納
+    #     key1 = client.key('Outline')
+    #     outline1 = datastore.Entity(key1)
+    #     outline1.update({
+    #         'outline_id': outline_id,
+    #         'date': date,
+    #         'day': day,
+    #         'start_time': start_time,
+    #         'end_time': end_time,
+    #         'icon_compass': "compass_null.png",
+    #         'icon_flag': "flag_null.png",
+    #         'icon_wave': "wave_null.png"
+    #     })
+    #     client.put(outline1)
+    #
+    #     for new_entity in range(8):
+    #         key2 = client.key('Outline_yacht_player')
+    #         outline2 = datastore.Entity(key2)
+    #         outline2.update({
+    #             'outline_id': outline_id
+    #         })
+    #         client.put(outline2)
+    #
+    #     outline_selections = query.get_outline_selections()
+    #     target_entities = query.get_outline_entities(outline_id)
+    #
+    #     return render_template('show_outline.html', title="新規ノート作成",
+    #                            target_entities=target_entities, outline_selections=outline_selections, is_new=is_new)
 
     @outline_c.route("/outline/mod_outline/<int:target_outline_id>", methods=['POST'])
     def mod_outline(target_outline_id):
