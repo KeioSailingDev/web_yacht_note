@@ -258,7 +258,7 @@ class Outline(object):
         """
 
         #新規ノートを作成する場合、初めに仮のエンティティを生成する　→　ノート作成ボタンを押して初めて作成
-        if target_outline_id == 000:
+        if target_outline_id == 0:
 
             ###①仮の基本情報###
             #追加ボタンを押したタイミングで、outline IDを生成する
@@ -310,20 +310,27 @@ class Outline(object):
 
     @outline_c.route("/outline/mod_outline/<int:target_outline_id>", methods=['POST'])
     def mod_outline(target_outline_id):
-        """練習概要ページのデータを修正・更新"""
 
-    ###基本情報のエンティティを編集###
-        if target_outline_id == 0:　#新規ノートの場合は、エンティティとidを生成
-            key1 = client.key('Outline')
-            outline = datastore.Entity(key1)
+        if target_outline_id == 0:
             outline_id = int(datetime.strftime(datetime.now(), '%Y%m%d%H%M%S'))
 
-        else: #既存のノートの場合は、DBからノートを取得
-            target_entities = query.get_outline_entities(target_outline_id)
-            key_id_outline = target_entities[0].key.id
-            key_outline = client.key('Outline', key_id_outline)
-            outline = client.get(key_outline)
-            outline_id = dict(outline).get("outline_id")
+            key1 = client.key('Outline')
+            outline1 = datastore.Entity(key1)
+            outline1.update({'outline_id': outline_id})
+            client.put(outline1)
+
+            for new_entity in range(8):
+                key2 = client.key('Outline_yacht_player')
+                outline2 = datastore.Entity(key2)
+                outline2.update({'outline_id': outline_id})
+                client.put(outline2)
+
+                target_outline_id = outline_id
+
+        target_entities = query.get_outline_entities(target_outline_id)
+        key_id_outline = target_entities[0].key.id
+        key_outline = client.key('Outline', key_id_outline)
+        outline = client.get(key_outline)
 
         #show_outline.htmlで入力された情報を取得
         date = request.form.get('date')
@@ -363,7 +370,6 @@ class Outline(object):
 
         #エンティティに入力した情報を格納する
         outline.update({
-            'outline_id': outline_id,
             'date': date,
             'day': day,
             'start_time': start_time,
@@ -396,15 +402,11 @@ class Outline(object):
 
         client.put(outline)
 
-    ####配艇エンティティの編集###
+      ####配艇エンティティの編集###
         for i, yacht_entity in enumerate(target_entities[1]):
-            if target_outline_id == 0:
-                key2 = client.key('Outline_yacht_player')
-                yacht = datastore.Entity(key2)
-            else:
-                key_id_yacht = yacht_entity.key.id
-                key_yacht = client.key('Outline_yacht_player', key_id_yacht)
-                yacht = client.get(key_yacht)
+            key_id_yacht = yacht_entity.key.id
+            key_yacht = client.key('Outline_yacht_player', key_id_yacht)
+            yacht = client.get(key_yacht)
 
             #show_outline.htmlで入力された情報を取得
             yachtnumber = request.form.get('yachtnumber'+str(i))
@@ -439,8 +441,8 @@ class Outline(object):
 
             client.put(yacht)
 
-        return redirect(url_for('outline_c.outline_detail', target_outline_id=target_outline_id))
-
+        return redirect(url_for('outline_c.outline_detail',
+                        target_outline_id=target_outline_id))
 
     @outline_c.route("/outline/del_outline/<int:target_outline_id>", methods=['POST'])
     def del_outline(target_outline_id):
