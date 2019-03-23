@@ -42,6 +42,16 @@ def index():
     return redirect('/list')
 
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('error.html'), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('error.html'), 500
+
+
 @app.route('/list', methods=['GET', 'POST'])
 def top():
     """
@@ -374,6 +384,7 @@ class Outline(object):
             print(folium.TileLayer())
             if len(outline_html) < 1:
                 log_message = "GPSデータマップ未作成"
+                public_url = ""
             else:
                 # storageからhtmlをダウンロード
                 public_url = dict(outline_html[0]).get("html_name")
