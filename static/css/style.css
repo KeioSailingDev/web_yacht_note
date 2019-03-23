@@ -470,9 +470,16 @@ ol#menu li {
   margin: 10px 0px 10px 0px;
 }
 
-div.input-menu {
+div.training-input-menu {
   display: inline-block;
-  width: 100%;
+  width : -webkit-calc(100% - 155px) ;
+  width : calc(100% - 105px) ;
+}
+
+div.training-input-time {
+  width: 90px;
+  float: right;
+  margin-left: 10px
 }
 
 /*行の追加ボタン*/
