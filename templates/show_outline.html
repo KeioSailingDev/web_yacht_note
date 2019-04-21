@@ -38,114 +38,167 @@
 
     <h5 class="sub-title">■ 風情報</h5>
 
-      <div class="form-set clearfix">
-        <div class="float-label">
-          <label for="windspeedmin">最低風速(m/s)</label>
+        <div class="form-set clearfix">
+          <div class="slider-title">最低風速</div>
+          <div class="slider-range">
+            {% if target_entities[0].wind_speed_min %}
+              <input type="range" class="range-input" name="windspeedmin" value={{ target_entities[0].wind_speed_min }} min="0" max="20" step="1">
+              <span>{{ target_entities[0].wind_speed_min }}</span><span>(m/s)</span>
+            {% else %}
+              <input type="range" class="range-input" name="windspeedmin" value="0" min="0" max="20" step="1">
+              <span>0</span><span>(m/s)</span>
+            {% endif %}
+          </div>
         </div>
-        <div class="float-input">
-          <select class="input-form" name="windspeedmin" id="windspeedmin" class="input-form">
-           <option value="">未入力</option>
-            {% for wind_speed in outline_selections[1] %}
-              {% if wind_speed == target_entities[0].wind_speed_min %}
-                <option value={{ wind_speed }} selected>{{ wind_speed }}</option>
+
+        <div class="form-set clearfix">
+          <div class="slider-title">最大風速</div>
+          <div class="slider-range">
+            {% if target_entities[0].wind_speed_max %}
+              <input type="range" class="range-input" name="windspeedmax" value={{ target_entities[0].wind_speed_max }} min="0" max="20" step="1">
+              <span>{{ target_entities[0].wind_speed_max }}</span><span>(m/s)</span>
+            {% else %}
+              <input type="range" class="range-input" name="windspeedmax" value="0" min="0" max="20" step="1">
+              <span>0</span><span>(m/s)</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="form-set clearfix">
+          <div>
+            <label for="windspeedchange">風速変化</label>
+          </div>
+          <p class="radio-button">
+            <span class="segmented-3">
+              {% if target_entities[0].wind_speed_change == "小" %}
+                <label><input type="radio" name="windspeedchange" value="小" style="display: none;" checked="checked"><span class="label">小</span></label>
+                <label><input type="radio" name="windspeedchange" value="中" style="display: none;"><span class="label">中</span></label>
+                <label><input type="radio" name="windspeedchange" value="大" style="display: none;"><span class="label">大</span></label>
+              {% elif target_entities[0].wind_speed_change == "中" %}
+                <label><input type="radio" name="windspeedchange" value="小" style="display: none;"><span class="label">小</span></label>
+                <label><input type="radio" name="windspeedchange" value="中" style="display: none;" checked="checked"><span class="label">中</span></label>
+                <label><input type="radio" name="windspeedchange" value="大" style="display: none;"><span class="label">大</span></label>
+              {% elif target_entities[0].wind_speed_change == "大" %}
+                <label><input type="radio" name="windspeedchange" value="小" style="display: none;"><span class="label">小</span></label>
+                <label><input type="radio" name="windspeedchange" value="中" style="display: none;"><span class="label">中</span></label>
+                <label><input type="radio" name="windspeedchange" value="大" style="display: none;" checked="checked"><span class="label">大</span></label>
               {% else %}
-                <option value={{ wind_speed }}>{{ wind_speed }}</option>
+                <label><input type="radio" name="windspeedchange" value="小" style="display: none;"><span class="label">小</span></label>
+                <label><input type="radio" name="windspeedchange" value="中" style="display: none;"><span class="label">中</span></label>
+                <label><input type="radio" name="windspeedchange" value="大" style="display: none;"><span class="label">大</span></label>
               {% endif %}
-            {% endfor %}
-          </select>
+            </span>
+          </p>
         </div>
-      </div>
 
       <div class="form-set clearfix">
-        <div class="float-label">
-          <label for="windspeedmax">最大風速(m/s)</label>
-        </div>
-        <div class="float-input">
-          <select name="windspeedmax" id="windspeedmax" class="input-form">
-           <option value="">未入力</option>
-            {% for wind_speed in outline_selections[1] %}
-              {% if wind_speed == target_entities[0].wind_speed_max %}
-                <option value={{ wind_speed }} selected>{{ wind_speed }}</option>
-              {% else %}
-                <option value={{ wind_speed }}>{{ wind_speed }}</option>
-              {% endif %}
-            {% endfor %}
-          </select>
-        </div>
-      </div>
-
-      <div class="form-set clearfix">
-        <div class="float-label">
+        <div>
           <label for="winddirection">風向</label>
         </div>
-        <div class="float-input">
-          <select name="winddirection" id="winddirection" class="input-form">
-           <option value="">未入力</option>
-            {% for wind_direction in outline_selections[2] %}
-              {% if wind_direction == target_entities[0].wind_direction %}
-                <option value={{ wind_direction }} selected>{{ wind_direction }}</option>
-              {% else %}
-                <option value={{ wind_direction }}>{{ wind_direction }}</option>
-              {% endif %}
-            {% endfor %}
-          </select>
-        </div>
-      </div>
-
-      <div class="form-set clearfix">
-        <div class="float-label">
-          <label for="windspeedchange">風速変化</label>
-        </div>
-        <div class="float-input">
-          <select name="windspeedchange" id="windspeedchange" class="input-form">
-              <option value="">未入力</option>
-            {% for size in outline_selections[3] %}
-              {% if size == target_entities[0].wind_speed_change %}
-                <option value={{ size }} selected>{{ size }}</option>
-              {% else %}
-                <option value={{ size }}>{{ size }}</option>
-              {% endif %}
-            {% endfor %}
-          </select>
-        </div>
+        <p class="radio-button">
+          <span class="segmented-8">
+            {% if target_entities[0].wind_direction == "北" %}
+              <label><input type="radio" name="winddirection" value="北" style="display: none;" checked="checked"><span class="label">北</span></label>
+            {% else %}
+              <label><input type="radio" name="winddirection" value="北" style="display: none;"><span class="label">北</span></label>
+            {% endif %}
+            {% if target_entities[0].wind_direction == "北東" %}
+              <label><input type="radio" name="winddirection" value="北東" style="display: none;" checked="checked"><span class="label">北東</span></label>
+            {% else %}
+              <label><input type="radio" name="winddirection" value="北東" style="display: none;"><span class="label">北東</span></label>
+            {% endif %}
+            {% if target_entities[0].wind_direction == "東" %}
+              <label><input type="radio" name="winddirection" value="東" style="display: none;" checked="checked"><span class="label">東</span></label>
+            {% else %}
+              <label><input type="radio" name="winddirection" value="東" style="display: none;"><span class="label">東</span></label>
+            {% endif %}
+            {% if target_entities[0].wind_direction == "南東" %}
+              <label><input type="radio" name="winddirection" value="南東" style="display: none;" checked="checked"><span class="label">南東</span></label>
+            {% else %}
+              <label><input type="radio" name="winddirection" value="南東" style="display: none;"><span class="label">南東</span></label>
+            {% endif %}
+          </span>
+        </p>
+        <p class="radio-button">
+          <span class="segmented-8">
+            {% if target_entities[0].wind_direction == "南" %}
+              <label><input type="radio" name="winddirection" value="南" style="display: none;" checked="checked"><span class="label">南</span></label>
+            {% else %}
+              <label><input type="radio" name="winddirection" value="南" style="display: none;"><span class="label">南</span></label>
+            {% endif %}
+            {% if target_entities[0].wind_direction == "南西" %}
+              <label><input type="radio" name="winddirection" value="南西" style="display: none;" checked="checked"><span class="label">南西</span></label>
+            {% else %}
+              <label><input type="radio" name="winddirection" value="南西" style="display: none;"><span class="label">南西</span></label>
+            {% endif %}
+            {% if target_entities[0].wind_direction == "西" %}
+              <label><input type="radio" name="winddirection" value="西" style="display: none;" checked="checked"><span class="label">西</span></label>
+            {% else %}
+              <label><input type="radio" name="winddirection" value="西" style="display: none;"><span class="label">西</span></label>
+            {% endif %}
+            {% if target_entities[0].wind_direction == "北西" %}
+              <label><input type="radio" name="winddirection" value="北西" style="display: none;" checked="checked"><span class="label">北西</span></label>
+            {% else %}
+              <label><input type="radio" name="winddirection" value="北西" style="display: none;"><span class="label">北西</span></label>
+            {% endif %}
+          </span>
+        </p>
       </div>
 
     <h5 class="sub-title">■ 海面情報</h5>
 
       <div class="form-set clearfix">
-        <div class="float-label">
+        <div>
           <label for="seasurface">海面</label>
         </div>
-        <div class="float-input">
-          <select name="seasurface" id="seasurface" class="input-form">
-              <option value="">未入力</option>
-            {% for sea_surface in outline_selections[4] %}
-              {% if sea_surface == target_entities[0].sea_surface %}
-                <option value={{ sea_surface }} selected>{{ sea_surface }}</option>
-              {% else %}
-                <option value={{ sea_surface }}>{{ sea_surface }}</option>
-              {% endif %}
-            {% endfor %}
-          </select>
-        </div>
+        <p class="radio-button">
+          <span class="segmented-3">
+            {% if target_entities[0].sea_surface == "フラット" %}
+              <label><input type="radio" name="seasurface" value="フラット" style="display: none;" checked="checked"><span class="label">フラット</span></label>
+              <label><input type="radio" name="seasurface" value="チョッピー" style="display: none;"><span class="label">チョッピー</span></label>
+              <label><input type="radio" name="seasurface" value="高波" style="display: none;"><span class="label">高波</span></label>
+            {% elif target_entities[0].sea_surface == "チョッピー" %}
+              <label><input type="radio" name="seasurface" value="フラット" style="display: none;"><span class="label">フラット</span></label>
+              <label><input type="radio" name="seasurface" value="チョッピー" style="display: none;" checked="checked"><span class="label">チョッピー</span></label>
+              <label><input type="radio" name="seasurface" value="高波" style="display: none;"><span class="label">高波</span></label>
+            {% elif target_entities[0].sea_surface == "高波" %}
+              <label><input type="radio" name="seasurface" value="フラット" style="display: none;"><span class="label">フラット</span></label>
+              <label><input type="radio" name="seasurface" value="チョッピー" style="display: none;"><span class="label">チョッピー</span></label>
+              <label><input type="radio" name="seasurface" value="高波" style="display: none;" checked="checked"><span class="label">高波</span></label>
+            {% else %}
+              <label><input type="radio" name="seasurface" value="フラット" style="display: none;"><span class="label">フラット</span></label>
+              <label><input type="radio" name="seasurface" value="チョッピー" style="display: none;"><span class="label">チョッピー</span></label>
+              <label><input type="radio" name="seasurface" value="高波" style="display: none;"><span class="label">高波</span></label>
+            {% endif %}
+          </span>
+        </p>
       </div>
 
       <div class="form-set clearfix">
-        <div class="float-label">
+        <div>
           <label for="swell">うねり</label>
         </div>
-        <div class="float-input">
-          <select name="swell" id="swell" class="input-form">
-              <option value="">未入力</option>
-            {% for size in outline_selections[3] %}
-              {% if size == target_entities[0].swell %}
-                <option value={{ size }} selected>{{ size }}</option>
-              {% else %}
-                <option value={{ size }}>{{ size }}</option>
-              {% endif %}
-            {% endfor %}
-          </select>
-        </div>
+        <p class="radio-button">
+          <span class="segmented-3">
+            {% if　target_entities[0].swell == "小" %}
+              <label><input type="radio" name="swell" value="小" style="display: none;" checked="checked"><span class="label">小</span></label>
+              <label><input type="radio" name="swell" value="中" style="display: none;"><span class="label">中</span></label>
+              <label><input type="radio" name="swell" value="大" style="display: none;"><span class="label">大</span></label>
+            {% elif　target_entities[0].swell == "中" %}
+              <label><input type="radio" name="swell" value="小" style="display: none;"><span class="label">小</span></label>
+              <label><input type="radio" name="swell" value="中" style="display: none;" checked="checked"><span class="label">中</span></label>
+              <label><input type="radio" name="swell" value="大" style="display: none;"><span class="label">大</span></label>
+            {% elif　target_entities[0].swell == "大" %}
+              <label><input type="radio" name="swell" value="小" style="display: none;"><span class="label">小</span></label>
+              <label><input type="radio" name="swell" value="中" style="display: none;"><span class="label">中</span></label>
+              <label><input type="radio" name="swell" value="大" style="display: none;" checked="checked"><span class="label">大</span></label>
+            {% else %}
+              <label><input type="radio" name="swell" value="小" style="display: none;"><span class="label">小</span></label>
+              <label><input type="radio" name="swell" value="中" style="display: none;"><span class="label">中</span></label>
+              <label><input type="radio" name="swell" value="大" style="display: none;"><span class="label">大</span></label>
+            {% endif %}
+          </span>
+        </p>
       </div>
 
     <h5 class="sub-title">■ 配艇</h5>
@@ -291,7 +344,7 @@
 
     <ol id="menu">
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training1" id="training1" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -303,9 +356,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time1" id="training_time1" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time1 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training2" id="training2" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -317,9 +382,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time2" id="training_time2" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time2 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training3" id="training3" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -331,9 +408,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time3" id="training_time3" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time3 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training4" id="training4" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -345,9 +434,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time4" id="training_time4" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time4 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training5" id="training5" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -359,9 +460,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time5" id="training_time5" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time5 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training6" id="training6" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -373,9 +486,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time6" id="training_time6" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time6 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </Li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training7" id="training7" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -387,9 +512,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time7" id="training_time7" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time7 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training8" id="training8" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -401,9 +538,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time8" id="training_time8" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time8 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training9" id="training9" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -415,9 +564,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time9" id="training_time9" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time9 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training10" id="training10" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -429,9 +590,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time10" id="training_time10" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time10 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training11" id="training11" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -443,9 +616,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time11" id="training_time11" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time11 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training12" id="training12" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -457,9 +642,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time12" id="training_time12" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time12 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training13" id="training13" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -471,9 +668,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time13" id="training_time13" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time13 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training14" id="training14" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -485,9 +694,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time14" id="training_time14" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time14 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training15" id="training15" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -495,6 +716,18 @@
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
               {% else %}
                 <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <div class="training-input-time">
+          <select name="training_time15" id="training_time15" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time15 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
               {% endif %}
             {% endfor %}
           </select>

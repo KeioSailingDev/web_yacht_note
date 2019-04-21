@@ -297,11 +297,9 @@ class Outline(object):
 
             #①と②を統合、新規ノートと識別するために、文字列「new_note」を付与
             target_entities = [provisional_entity1, provisional_entity2]
-            print(target_entities)
 
         else:
             target_entities = query.get_outline_entities(target_outline_id)
-            print(target_entities)
 
         outline_selections = query.get_outline_selections()
 
@@ -338,10 +336,23 @@ class Outline(object):
         end_time = request.form.get('end_time') + ":00" if len(request.form.get('end_time')) == 16 else request.form.get('end_time')
         wind_speedmin = request.form.get('windspeedmin')
         wind_speedmax = request.form.get('windspeedmax')
+
         wind_direction = request.form.get('winddirection')
+        if wind_direction is None:
+            wind_direction = "未入力"
+
         wind_speed_change = request.form.get('windspeedchange')
+        if wind_speed_change is None:
+            wind_speed_change = "未入力"
+
         sea_surface = request.form.get('seasurface')
+        if sea_surface is None:
+            sea_surface = "未入力"
+
         swell = request.form.get('swell')
+        if swell is None:
+            swell = "未入力"
+
         training1 = request.form.get('training1')
         training2 = request.form.get('training2')
         training3 = request.form.get('training3')
@@ -357,6 +368,21 @@ class Outline(object):
         training13 = request.form.get('training13')
         training14 = request.form.get('training14')
         training15 = request.form.get('training15')
+        training_time1 = int(request.form.get('training_time1'))
+        training_time2 = int(request.form.get('training_time2'))
+        training_time3 = int(request.form.get('training_time3'))
+        training_time4 = int(request.form.get('training_time4'))
+        training_time5 = int(request.form.get('training_time5'))
+        training_time6 = int(request.form.get('training_time6'))
+        training_time7 = int(request.form.get('training_time7'))
+        training_time8 = int(request.form.get('training_time8'))
+        training_time9 = int(request.form.get('training_time9'))
+        training_time10 = int(request.form.get('training_time10'))
+        training_time11 = int(request.form.get('training_time11'))
+        training_time12 = int(request.form.get('training_time12'))
+        training_time13 = int(request.form.get('training_time13'))
+        training_time14 = int(request.form.get('training_time14'))
+        training_time15 = int(request.form.get('training_time15'))
 
         #曜日の取得
         day_tuple = ("(月)", "(火)", "(水)", "(木)", "(金)", "(土)", "(日)")
@@ -395,6 +421,21 @@ class Outline(object):
             'training13': training13,
             'training14': training14,
             'training15': training15,
+            'training_time1': training_time1,
+            'training_time2': training_time2,
+            'training_time3': training_time3,
+            'training_time4': training_time4,
+            'training_time5': training_time5,
+            'training_time6': training_time6,
+            'training_time7': training_time7,
+            'training_time8': training_time8,
+            'training_time9': training_time9,
+            'training_time10': training_time10,
+            'training_time11': training_time11,
+            'training_time12': training_time12,
+            'training_time13': training_time13,
+            'training_time14': training_time14,
+            'training_time15': training_time15,
             'icon_flag': icon_flag,
             'icon_wave': icon_wave,
             'icon_compass': icon_compass
@@ -441,8 +482,7 @@ class Outline(object):
 
             client.put(yacht)
 
-        return redirect(url_for('outline_c.outline_detail',
-                        target_outline_id=target_outline_id))
+        return redirect(url_for('outline_c.outline_detail',target_outline_id=target_outline_id))
 
     @outline_c.route("/outline/del_outline/<int:target_outline_id>", methods=['POST'])
     def del_outline(target_outline_id):
