@@ -51,19 +51,35 @@ $(function(){
     $('.yacht-skipper:lt('+hidden_yacht+')').show();
     hidden_yacht += 1;
   });
-
 });
 
+// スライドバーの値を表示
 $(function(){
-  var elem = document.getElementsByClassName('time-range');
+  // スライダーのクラスを配列オブジェクトとして全て取得
+  var elem = document.getElementsByClassName('slider-range');
   var rangeValue = function (elem, target) {
 　 　　return function(evt){
+      // スライダークラスから取得した値を、spanの値に書き換える
 　　　 target.innerHTML = elem.value;
 　　　  }
 　     }
 　    for(var i = 0, max = elem.length; i < max; i++){
 　　　  bar = elem[i].getElementsByTagName('input')[0];
 　　　  target = elem[i].getElementsByTagName('span')[0];
+        // 「イベントを実行した時に」rangeValueを実行し、spanに値を入れる
+        // =スライダーをいじらない限り、イベントは実行されないので、inputの値は代入されない
 　　　   bar.addEventListener('input', rangeValue(bar, target));
 　     }
 });
+
+
+// $(function(){
+//
+//   var elem = document.getElementsByClassName('slider-range');
+//   for(var i = 0, max = elem.length; i < max; i++){
+//   　　　  bar[i] = elem[i].getElementsByTagName('input')[0];
+//          console.log(bar[i]);
+//          target[i] = elem[i].getElementsByTagName('span')[0];
+//          console.log(target[i]);
+//          target[i].innerHTML = bar[i].value);
+// });

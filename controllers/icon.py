@@ -9,7 +9,7 @@ class IconSelections(object):
         :return:
         """
 
-        if wind_speedmax:
+        if int(wind_speedmax) > 0:
             if int(wind_speedmax) <= 3:
                 flag_file = "flag_s.png"
             elif int(wind_speedmax) <= 7:
@@ -27,7 +27,7 @@ class IconSelections(object):
         :param wind_direction:
         :return:
         """
-        if wind_direction:
+        if wind_direction != "未入力":
             if len(wind_direction) < 1:
                 wind_direction_file = None
             else:
