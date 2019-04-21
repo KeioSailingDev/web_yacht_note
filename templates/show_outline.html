@@ -344,7 +344,7 @@
 
     <ol id="menu">
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training1" id="training1" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -356,9 +356,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time1" id="training_time1" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time1 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training2" id="training2" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -370,9 +382,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time2" id="training_time2" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time2 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training3" id="training3" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -384,9 +408,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time3" id="training_time3" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time3 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training4" id="training4" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -398,9 +434,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time4" id="training_time4" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time4 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training5" id="training5" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -412,9 +460,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time5" id="training_time5" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time5 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training6" id="training6" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -426,9 +486,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time6" id="training_time6" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time6 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </Li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training7" id="training7" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -440,9 +512,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time7" id="training_time7" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time7 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training8" id="training8" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -454,9 +538,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time8" id="training_time8" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time8 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training9" id="training9" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -468,9 +564,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time9" id="training_time9" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time9 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training10" id="training10" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -482,9 +590,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time10" id="training_time10" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time10 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training11" id="training11" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -496,9 +616,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time11" id="training_time11" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time11 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training12" id="training12" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -510,9 +642,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time12" id="training_time12" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time12 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training13" id="training13" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -524,9 +668,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time13" id="training_time13" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time13 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training14" id="training14" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -538,9 +694,21 @@
             {% endfor %}
           </select>
         </div>
+        <div class="training-input-time">
+          <select name="training_time14" id="training_time14" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time14 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
       </li>
       <li>
-        <div class="input-menu">
+        <div class="training-input-menu">
           <select name="training15" id="training15" class="input-form">
             <option value="">未入力</option>
             {% for training_menu in outline_selections[8] %}
@@ -548,6 +716,18 @@
                 <option value={{ training_menu.training_menu }} selected>{{ training_menu.training_menu }}</option>
               {% else %}
                 <option value={{ training_menu.training_menu }}>{{ training_menu.training_menu }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <div class="training-input-time">
+          <select name="training_time15" id="training_time15" class="input-form">
+            <option value=0>未入力</option>
+            {% for training_time in outline_selections[12] %}
+              {% if training_time == target_entities[0].training_time15 %}
+                <option value={{ training_time }} selected>{{ training_time }}分</option>
+              {% else %}
+                <option value={{ training_time }}>{{ training_time }}分</option>
               {% endif %}
             {% endfor %}
           </select>
