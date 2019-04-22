@@ -13,12 +13,17 @@ import folium
 import tempfile
 import pandas as pd
 from google.cloud import datastore
+from google.cloud import storage
 
 #他スクリプト
 from controllers import query, icon
 
 # DataStoreに接続するためのオブジェクトを作成
 client = datastore.Client()
+
+# cloud storageのクライアント
+storage_client = storage.Client()
+bucket = storage_client.get_bucket("gps_map")
 
 # "outline_c"という名前でBlueprintオブジェクトを生成します
 outline_c = Blueprint('outline_c', __name__)
@@ -58,28 +63,14 @@ class Outline(object):
 
         return query_job.result()
 
-    def run_bq_html(self, table_name, outline_id):
+    def run_map_query(self, outline_id):
         """
-        Bigqueryにあるcloud storage上のhtmlファイル名テーブルをoutline_idでフィルターして取得
+        htmlmapファイル名テーブルをoutline_idでフィルターして取得
         """
-        # 練習ノート情報を取得
-        client_bq = bigquery.Client()
+        query = client.query(kind='Map')
+        query.add_filter('outline_id', '=', str(outline_id))
 
-        # クエリを作成
-        query_string = """
-            SELECT
-                outline_id
-                ,html_name
-            FROM
-                `{}`
-            WHERE
-                outline_id = '{}'
-
-            """.format(table_name, outline_id)
-
-        query_job = client_bq.query(query_string)
-
-        return query_job.result()
+        return list(query.fetch())
 
     def export_items_to_bigquery(self, dataset_id, tablename, rows_to_insert):
         """
@@ -164,10 +155,13 @@ class Outline(object):
             public_url = blob.public_url
 
         # bigqueryにhtmlファイルのURLを保存
-        rows_to_insert = [[str(target_outline_id), public_url]]
-        o.export_items_to_bigquery(dataset_id="smartphone_log",
-                                   tablename="log_map",
-                                   rows_to_insert=rows_to_insert)
+        key = client.key('Map')
+        map_ent = datastore.Entity(key)
+        map_ent.update({
+                'outline_id': str(target_outline_id),
+                'html_url': public_url
+        })
+        client.put(map_ent)
 
         # 同じページにリダイレクト
         return redirect("/outline/" + str(target_outline_id))
@@ -184,8 +178,7 @@ class Outline(object):
         # query
         target_entities = query.get_outline_entities(target_outline_id)
         sorted_comments = query.get_user_comments(target_outline_id)
-        outline_html = list(o.run_bq_html(table_name=os.environ.get('HTML_TABLE'),
-                                     outline_id=target_outline_id))
+        outline_html = list(o.run_map_query(outline_id=target_outline_id))
 
         # エンティティ Noneは取り除く
         entities = [x for x in [e for e in list(target_entities[1]) if not dict(e).get('device_id') == '']
@@ -197,55 +190,71 @@ class Outline(object):
         # デバイスID
         yacht_number = [dict(e).get("yacht_number") for e in entities]
 
+        # init
+        yacht_color = [["", ""]]
+        log_message = "GPSデータなし"
+        public_url = ""
+
         # デバイスが登録されていなければ、GPSログなし、あれば、GPSログの数をカウント
         if len(entities) < 1:
-            cnt_log = 0
-            yacht_color = [["", ""]]
+            pass
+            print(1)
         else:
-            # デバイスカラーを取得
-            colors = []
-            for e in entities:
-                yacht_no = dict(e).get("yacht_number")
-                query_y = client.query(kind="Yacht")
-                query_y.add_filter('yacht_no', '=', yacht_no)
-                res = list(query_y.fetch())
-                if len(res) < 1:
-                    colors.append("#000000")
-                else:
-                    colors.append(dict(res[0]).get("color"))
-
-            # デバイスとカラー
-            yacht_color = [{"yacht": y, "color": c} for y, c in zip(yacht_number, colors)]
-
-            sensor_logs = list(o.run_bq_log(selects=["count(loggingTime) AS cnt"],
-                                            table_name=os.environ.get('LOG_TABLE'),
-                                            devices=devices,
-                                            start_time=target_entities[0]["start_time"],
-                                            end_time=target_entities[0]["end_time"],
-                                            order_by_time=False))
-            cnt_log = dict(sensor_logs[0]).get("cnt")
-
-        # GPSログがなければ、なにもなし。GPSログがあれば地図に描画
-        if cnt_log < 1:
-            log_message = "GPSデータなし"
-            public_url = ""
-        else:
-            log_message = "GPSデータあり"
-
-            # storageに既にHTMLが生成されているか
-            print(folium.TileLayer())
             if len(outline_html) < 1:
-                log_message = "GPSデータマップ未作成"
-            else:
-                # storageからhtmlをダウンロード
-                public_url = dict(outline_html[0]).get("html_name")
+                print(2)
+                sensor_logs = list(o.run_bq_log(selects=["count(loggingTime) AS cnt"],
+                                                table_name=os.environ.get('LOG_TABLE'),
+                                                devices=devices,
+                                                start_time=target_entities[0]["start_time"],
+                                                end_time=target_entities[0]["end_time"],
+                                                order_by_time=False))
+                cnt_log = dict(sensor_logs[0]).get("cnt")
+                if cnt_log < 1:
+                    print(3)
+                    pass
+                else:
+                    print(4)
+                    log_message = "GPSデータあり"
 
+                    # デバイスカラーを取得
+                    colors = []
+                    for e in entities:
+                        yacht_no = dict(e).get("yacht_number")
+                        query_y = client.query(kind="Yacht")
+                        query_y.add_filter('yacht_no', '=', yacht_no)
+                        res = list(query_y.fetch())
+                        if len(res) < 1:
+                            print(5)
+                            colors.append("#000000")
+                        else:
+                            print(6)
+                            colors.append(dict(res[0]).get("color"))
+                    yacht_color = [{"yacht": y, "color": c} for y, c in zip(yacht_number, colors)]
+            else:
+                print(7)
+                log_message = "GPSデータあり"
+                # storageからhtmlをダウンロード
+                public_url = dict(outline_html[0]).get("html_url")
+
+                # デバイスカラーを取得
+                colors = []
+                for e in entities:
+                    yacht_no = dict(e).get("yacht_number")
+                    query_y = client.query(kind="Yacht")
+                    query_y.add_filter('yacht_no', '=', yacht_no)
+                    res = list(query_y.fetch())
+                    if len(res) < 1:
+                        colors.append("#000000")
+                    else:
+                        colors.append(dict(res[0]).get("color"))
+                yacht_color = [{"yacht": y, "color": c} for y, c in zip(yacht_number, colors)]
+                
         return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,
                                 sorted_comments=sorted_comments,
-                               log_message=log_message,
-                               html_url=public_url,
-                               yacht_color=yacht_color)
+                                log_message=log_message,
+                                html_url=public_url,
+                                yacht_color=yacht_color)
 
     @outline_c.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
     def show_outline(target_outline_id, is_new=None):
