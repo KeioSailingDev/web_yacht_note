@@ -542,6 +542,36 @@ div.slider-range input.range-input {
   margin-bottom: 10px;
 }
 
+/* input[type="range"]::-webkit-slider-thumb {
+    width: 35px;
+    height: 35px;
+} */
+
+/* input.range-input::-webkit-slider-thumb{
+    width: 35px;
+    height: 35px;
+} */
+
+input[type="range"] {
+-webkit-appearance:none;
+width: 100%; background: #eee;
+box-shadow: 0 0 10px #666;
+border-radius: 50px;
+}
+input[type="range"]::-webkit-slider-thumb {
+-webkit-appearance: none;
+background: #333;
+width: 30px;
+height: 30px;
+/* border-radius: 50%; */
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+background: #999;
+}
+input[type="range"]::-webkit-slider-thumb:active {
+background: #ffa500;
+}
+
 /* ラジオボタン */
 p.radio-button {
   text-align: center;
