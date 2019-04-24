@@ -530,7 +530,7 @@ div.slider-range input.range-input {
   width: 75%;
   display: inline;
   justify-content: space-between;
-  height: 14px;
+  height: 13px;
   font-size: 10px;
   overflow: hidden;
   margin-top: 6px;
@@ -542,35 +542,36 @@ div.slider-range input.range-input {
   margin-bottom: 10px;
 }
 
-/* input[type="range"]::-webkit-slider-thumb {
-    width: 35px;
-    height: 35px;
-} */
-
-/* input.range-input::-webkit-slider-thumb{
-    width: 35px;
-    height: 35px;
-} */
 
 input[type="range"] {
 -webkit-appearance:none;
-width: 100%; background: #eee;
+width: 100%;
+background: #eee;
 box-shadow: 0 0 10px #666;
 border-radius: 50px;
 }
+
 input[type="range"]::-webkit-slider-thumb {
 -webkit-appearance: none;
-background: #333;
+background: #ffa500;
 width: 30px;
 height: 30px;
-/* border-radius: 50%; */
 }
-input[type="range"]::-webkit-slider-thumb:hover {
+
+div.slider-value {
+  width: 65px;
+  display: inline-block;
+}
+
+/* ホバー時 */
+/* input[type="range"]::-webkit-slider-thumb:hover {
 background: #999;
-}
-input[type="range"]::-webkit-slider-thumb:active {
+} */
+
+/* スライド時 */
+/* input[type="range"]::-webkit-slider-thumb:active {
 background: #ffa500;
-}
+} */
 
 /* ラジオボタン */
 p.radio-button {
@@ -645,8 +646,6 @@ p.radio-button {
     /* border-color: hsl(45, 90%, 60%); */
     /* box-shadow: 3px 2px 10px rgba(0,0,0,.2) inset, -3px 2px 10px rgba(0,0,0,.2) inset; */
 }
-
-
 /*=======================================================*/
 
 /*==========管理画面==========*/

@@ -43,10 +43,10 @@
           <div class="slider-range">
             {% if target_entities[0].wind_speed_min %}
               <input type="range" class="range-input" name="windspeedmin" value={{ target_entities[0].wind_speed_min }} min="0" max="20" step="1">
-              <span>{{ target_entities[0].wind_speed_min }}</span><span>(m/s)</span>
+              <div class="slider-value"><span>{{ target_entities[0].wind_speed_min }}</span><span>(m/s)</span></div>
             {% else %}
               <input type="range" class="range-input" name="windspeedmin" value="0" min="0" max="20" step="1">
-              <span>0</span><span>(m/s)</span>
+              <div class="slider-value"><span>0</span><span>(m/s)</span></div>
             {% endif %}
           </div>
         </div>
@@ -56,10 +56,10 @@
           <div class="slider-range">
             {% if target_entities[0].wind_speed_max %}
               <input type="range" class="range-input" name="windspeedmax" value={{ target_entities[0].wind_speed_max }} min="0" max="20" step="1">
-              <span>{{ target_entities[0].wind_speed_max }}</span><span>(m/s)</span>
+              <div class="slider-value"><span>{{ target_entities[0].wind_speed_max }}</span><span>(m/s)</span></div>
             {% else %}
               <input type="range" class="range-input" name="windspeedmax" value="0" min="0" max="20" step="1">
-              <span>0</span><span>(m/s)</span>
+              <div class="slider-value"><span>0</span><span>(m/s)</span></div>
             {% endif %}
           </div>
         </div>
