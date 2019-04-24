@@ -547,7 +547,7 @@ class Outline(object):
 
     @outline_c.route("/outline/modcomment/<int:comment_id>", methods=['POST'])
     def mod_comment(comment_id):
-        """ヨットデータの変更"""
+        """コメントの変更"""
 
         #HTML側で入力された内容の取得
         comment_name = request.form.get('comment-name')
@@ -574,7 +574,7 @@ class Outline(object):
 
     @outline_c.route("/outline/delcomment/<int:comment_id>", methods=['POST'])
     def del_comment(comment_id):
-        """ヨットデータの削除"""
+        """コメントの削除"""
         key = client.key('Comment', comment_id)
 
         #戻る練習概要のIDを取得
