@@ -96,51 +96,111 @@
           <label for="winddirection">風向</label>
         </div>
         <p class="radio-button">
-          <span class="segmented-8">
-            {% if target_entities[0].wind_direction == "北" %}
-              <label><input type="radio" name="winddirection" value="北" style="display: none;" checked="checked"><span class="label">北</span></label>
-            {% else %}
-              <label><input type="radio" name="winddirection" value="北" style="display: none;"><span class="label">北</span></label>
-            {% endif %}
-            {% if target_entities[0].wind_direction == "北東" %}
-              <label><input type="radio" name="winddirection" value="北東" style="display: none;" checked="checked"><span class="label">北東</span></label>
-            {% else %}
-              <label><input type="radio" name="winddirection" value="北東" style="display: none;"><span class="label">北東</span></label>
-            {% endif %}
-            {% if target_entities[0].wind_direction == "東" %}
-              <label><input type="radio" name="winddirection" value="東" style="display: none;" checked="checked"><span class="label">東</span></label>
-            {% else %}
-              <label><input type="radio" name="winddirection" value="東" style="display: none;"><span class="label">東</span></label>
-            {% endif %}
-            {% if target_entities[0].wind_direction == "南東" %}
-              <label><input type="radio" name="winddirection" value="南東" style="display: none;" checked="checked"><span class="label">南東</span></label>
-            {% else %}
-              <label><input type="radio" name="winddirection" value="南東" style="display: none;"><span class="label">南東</span></label>
-            {% endif %}
-          </span>
+            <table class="wind-direction-table">
+              <tr>
+                <td></td>
+                <td></td>
+                <td>
+                  <span class="segmented-8">
+                  {% if target_entities[0].wind_direction == "北" %}
+                    <label><input type="radio" name="winddirection" value="北" style="display: none;" checked="checked"><span class="label">北</span></label>
+                  {% else %}
+                    <label><input type="radio" name="winddirection" value="北" style="display: none;"><span class="label">北</span></label>
+                  {% endif %}
+                  </span> 
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <span class="segmented-8">
+                  {% if target_entities[0].wind_direction == "北西" %}
+                    <label><input type="radio" name="winddirection" value="北西" style="display: none;" checked="checked"><span class="label">北西</span></label>
+                  {% else %}
+                    <label><input type="radio" name="winddirection" value="北西" style="display: none;"><span class="label">北西</span></label>
+                  {% endif %}
+                  </span>
+                </td>
+                <td></td>
+                <td>
+                  <span class="segmented-8">
+                  {% if target_entities[0].wind_direction == "北東" %}
+                    <label><input type="radio" name="winddirection" value="北東" style="display: none;" checked="checked"><span class="label">北東</span></label>
+                  {% else %}
+                    <label><input type="radio" name="winddirection" value="北東" style="display: none;"><span class="label">北東</span></label>
+                  {% endif %}
+                  </span>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="segmented-8">
+                  {% if target_entities[0].wind_direction == "西" %}
+                    <label><input type="radio" name="winddirection" value="西" style="display: none;" checked="checked"><span class="label">西</span></label>
+                  {% else %}
+                    <label><input type="radio" name="winddirection" value="西" style="display: none;"><span class="label">西</span></label>
+                  {% endif %}
+                  </span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                  <span class="segmented-8">
+                  {% if target_entities[0].wind_direction == "東" %}
+                    <label><input type="radio" name="winddirection" value="東" style="display: none;" checked="checked"><span class="label">東</span></label>
+                  {% else %}
+                    <label><input type="radio" name="winddirection" value="東" style="display: none;"><span class="label">東</span></label>
+                  {% endif %}
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <span class="segmented-8">
+                  {% if target_entities[0].wind_direction == "南西" %}
+                    <label><input type="radio" name="winddirection" value="南西" style="display: none;" checked="checked"><span class="label">南西</span></label>
+                  {% else %}
+                    <label><input type="radio" name="winddirection" value="南西" style="display: none;"><span class="label">南西</span></label>
+                  {% endif %}
+                  </span>
+                </td>
+                <td></td>
+                <td>
+                  <span class="segmented-8">
+                  {% if target_entities[0].wind_direction == "南東" %}
+                    <label><input type="radio" name="winddirection" value="南東" style="display: none;" checked="checked"><span class="label">南東</span></label>
+                  {% else %}
+                    <label><input type="radio" name="winddirection" value="南東" style="display: none;"><span class="label">南東</span></label>
+                  {% endif %}
+                  </span>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td>
+                  <span class="segmented-8">
+                  {% if target_entities[0].wind_direction == "南" %}
+                    <label><input type="radio" name="winddirection" value="南" style="display: none;" checked="checked"><span class="label">南</span></label>
+                  {% else %}
+                    <label><input type="radio" name="winddirection" value="南" style="display: none;"><span class="label">南</span></label>
+                  {% endif %}
+                  </span>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+            </table>
+            </span>
         </p>
         <p class="radio-button">
           <span class="segmented-8">
-            {% if target_entities[0].wind_direction == "南" %}
-              <label><input type="radio" name="winddirection" value="南" style="display: none;" checked="checked"><span class="label">南</span></label>
-            {% else %}
-              <label><input type="radio" name="winddirection" value="南" style="display: none;"><span class="label">南</span></label>
-            {% endif %}
-            {% if target_entities[0].wind_direction == "南西" %}
-              <label><input type="radio" name="winddirection" value="南西" style="display: none;" checked="checked"><span class="label">南西</span></label>
-            {% else %}
-              <label><input type="radio" name="winddirection" value="南西" style="display: none;"><span class="label">南西</span></label>
-            {% endif %}
-            {% if target_entities[0].wind_direction == "西" %}
-              <label><input type="radio" name="winddirection" value="西" style="display: none;" checked="checked"><span class="label">西</span></label>
-            {% else %}
-              <label><input type="radio" name="winddirection" value="西" style="display: none;"><span class="label">西</span></label>
-            {% endif %}
-            {% if target_entities[0].wind_direction == "北西" %}
-              <label><input type="radio" name="winddirection" value="北西" style="display: none;" checked="checked"><span class="label">北西</span></label>
-            {% else %}
-              <label><input type="radio" name="winddirection" value="北西" style="display: none;"><span class="label">北西</span></label>
-            {% endif %}
           </span>
         </p>
       </div>
@@ -244,10 +304,14 @@
         </div>
 
       <table id="edit-outline-table" class="table" >
-
         <tr>
+          <td class="outline-td-pare"></td>
+          <td class="outline-td-skipper">スキッパー</td>
+          <td class="outline-td-crew">クルー</td>
+        </tr>
+        <tr>
+          <td class="outline-td-pare">1</td>
           <td class="outline-td-skipper">
-            <label for="skipper1{{loop.index0}}">スキッパー1</label>
             <select name="skipper1{{loop.index0}}" id="skipper1{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
@@ -260,7 +324,6 @@
             </select>
           </td>
           <td class="outline-td-crew">
-            <label for="crew1{{loop.index0}}">クルー1</label>
             <select name="crew1{{loop.index0}}" id="crew1{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
@@ -275,8 +338,8 @@
         </tr>
 
         <tr>
+          <td class="outline-td-pare">2</td>
           <td class="outline-td-skipper">
-            <label for="skipper2{{loop.index0}}">スキッパー2</label>
             <select name="skipper2{{loop.index0}}" id="skipper2{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
@@ -289,7 +352,6 @@
             </select>
           </td>
           <td class="outline-td-crew">
-            <label for="crew2{{loop.index0}}">クルー2</label>
             <select name="crew2{{loop.index0}}" id="crew2{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
@@ -304,8 +366,8 @@
         </tr>
 
         <tr>
+          <td class="outline-td-pare">3</td>
           <td class="outline-td-skipper">
-            <label for="skipper3{{loop.index0}}">スキッパー3</label>
             <select name="skipper3{{loop.index0}}" id="skipper3{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
@@ -318,11 +380,38 @@
             </select>
           </td>
           <td class="outline-td-crew">
-            <label for="crew3{{loop.index0}}">クルー3</label>
             <select name="crew3{{loop.index0}}" id="crew3{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
                 {% if player_name.player_name == outline2.crew3 %}
+                  <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                {% else %}
+                  <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="outline-td-pare">4</td>
+          <td class="outline-td-skipper">
+            <select name="skipper4{{loop.index0}}" id="skipper4{{loop.index0}}" class="input-form">
+              <option value="">未入力</option>
+              {% for player_name in outline_selections[6] %}
+                {% if player_name.player_name == outline2.skipper4 %}
+                  <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                {% else %}
+                  <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </td>
+          <td class="outline-td-crew">
+            <select name="crew4{{loop.index0}}" id="crew4{{loop.index0}}" class="input-form">
+              <option value="">未入力</option>
+              {% for player_name in outline_selections[6] %}
+                {% if player_name.player_name == outline2.crew4 %}
                   <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
                 {% else %}
                   <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
