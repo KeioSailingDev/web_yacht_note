@@ -464,12 +464,16 @@ class Outline(object):
             skipper1 = request.form.get('skipper1'+str(i))
             skipper2 = request.form.get('skipper2'+str(i))
             skipper3 = request.form.get('skipper3'+str(i))
+            skipper4 = request.form.get('skipper4'+str(i))
             crew1 = request.form.get('crew1'+str(i))
             crew2 = request.form.get('crew2'+str(i))
             crew3 = request.form.get('crew3'+str(i))
+            crew4 = request.form.get('crew4'+str(i))
 
             # 艇番と選手の表を最適化する
-            if skipper3:
+            if skipper4:
+                rowspan = 4
+            elif skipper3:
                 rowspan = 3
             elif skipper2:
                 rowspan = 2
@@ -483,9 +487,11 @@ class Outline(object):
                 'skipper1': skipper1,
                 'skipper2': skipper2,
                 'skipper3': skipper3,
+                'skipper4': skipper4,
                 'crew1': crew1,
                 'crew2': crew2,
                 'crew3': crew3,
+                'crew4': crew4,
                 'rowspan': rowspan
                 })
 

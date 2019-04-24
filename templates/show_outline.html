@@ -331,6 +331,35 @@
             </select>
           </td>
         </tr>
+
+        <tr>
+          <td class="outline-td-skipper">
+            <label for="skipper4{{loop.index0}}">スキッパー4</label>
+            <select name="skipper4{{loop.index0}}" id="skipper4{{loop.index0}}" class="input-form">
+              <option value="">未入力</option>
+              {% for player_name in outline_selections[6] %}
+                {% if player_name.player_name == outline2.skipper4 %}
+                  <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                {% else %}
+                  <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </td>
+          <td class="outline-td-crew">
+            <label for="crew4{{loop.index0}}">クルー4</label>
+            <select name="crew4{{loop.index0}}" id="crew4{{loop.index0}}" class="input-form">
+              <option value="">未入力</option>
+              {% for player_name in outline_selections[6] %}
+                {% if player_name.player_name == outline2.crew4 %}
+                  <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                {% else %}
+                  <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
       </table>
       <hr>
     </div>
