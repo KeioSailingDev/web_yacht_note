@@ -615,7 +615,7 @@ p.radio-button {
 
 /* ボタン8個の場合 */
 .segmented-8 .label {
-  width: 75px;
+  width: 60px;
 }
 
 /* ボタンの角を丸くする場合は解除 */
@@ -652,6 +652,10 @@ p.radio-button {
     border-color: #ffa500; /*グラデーションない場合適用*/
     /* border-color: hsl(45, 90%, 60%); */
     /* box-shadow: 3px 2px 10px rgba(0,0,0,.2) inset, -3px 2px 10px rgba(0,0,0,.2) inset; */
+}
+
+table .wind-direction-table{
+  text-align: center
 }
 /*=======================================================*/
 
