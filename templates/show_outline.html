@@ -244,10 +244,14 @@
         </div>
 
       <table id="edit-outline-table" class="table" >
-
         <tr>
+          <th class="outline-td-pare">ペア</th>
+          <th class="outline-td-skipper">スキッパー</th>
+          <th class="outline-td-crew">クルー</th>
+        </tr>
+        <tr>
+          <td class="outline-td-pare">1</td>
           <td class="outline-td-skipper">
-            <label for="skipper1{{loop.index0}}">スキッパー1</label>
             <select name="skipper1{{loop.index0}}" id="skipper1{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
@@ -260,7 +264,6 @@
             </select>
           </td>
           <td class="outline-td-crew">
-            <label for="crew1{{loop.index0}}">クルー1</label>
             <select name="crew1{{loop.index0}}" id="crew1{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
@@ -275,8 +278,8 @@
         </tr>
 
         <tr>
+          <td class="outline-td-pare">2</td>
           <td class="outline-td-skipper">
-            <label for="skipper2{{loop.index0}}">スキッパー2</label>
             <select name="skipper2{{loop.index0}}" id="skipper2{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
@@ -289,7 +292,6 @@
             </select>
           </td>
           <td class="outline-td-crew">
-            <label for="crew2{{loop.index0}}">クルー2</label>
             <select name="crew2{{loop.index0}}" id="crew2{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
@@ -304,8 +306,8 @@
         </tr>
 
         <tr>
+          <td class="outline-td-pare">3</td>
           <td class="outline-td-skipper">
-            <label for="skipper3{{loop.index0}}">スキッパー3</label>
             <select name="skipper3{{loop.index0}}" id="skipper3{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
@@ -318,7 +320,6 @@
             </select>
           </td>
           <td class="outline-td-crew">
-            <label for="crew3{{loop.index0}}">クルー3</label>
             <select name="crew3{{loop.index0}}" id="crew3{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
@@ -333,8 +334,8 @@
         </tr>
 
         <tr>
+          <td class="outline-td-pare">4</td>
           <td class="outline-td-skipper">
-            <label for="skipper4{{loop.index0}}">スキッパー4</label>
             <select name="skipper4{{loop.index0}}" id="skipper4{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
@@ -347,7 +348,6 @@
             </select>
           </td>
           <td class="outline-td-crew">
-            <label for="crew4{{loop.index0}}">クルー4</label>
             <select name="crew4{{loop.index0}}" id="crew4{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
