@@ -207,6 +207,11 @@
   </a>
   {% endfor %}
 
+    <a href="{{ url_for('outline_c.post_slack', target_outline_id=target_entities[0].outline_id) }}" class="btn btn-warning btn-delete comment-edit-button flexiblebox btn-margin btn-float-left">
+      <!-- <img src="{{ url_for('static', filename='img/button/trashbox.png') }}" class="img-responsive button-img"> -->
+      <p class="button-text">Slackに投稿</p>
+    <a></a>
+
   <form action="{{ url_for('outline_c.show_outline', target_outline_id=target_entities[0].outline_id) }}" method="post">
     <button type="submit" class="btn btn-success comment-edit-button flexiblebox btn-margin btn-float-right">
       <img src="{{ url_for('static', filename='img/button/pencil.png') }}" class="img-responsive button-img">

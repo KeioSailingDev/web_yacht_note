@@ -590,3 +590,51 @@ class Outline(object):
         client.delete(key)
 
         return redirect(url_for('outline_c.outline_detail', target_outline_id=target_outline_id))
+
+    @outline_c.route("/outline/post_slack/<int:target_outline_id>", methods=['GET'])
+    def post_slack(target_outline_id):
+        """slackに投稿する"""
+        # 情報を取得
+        o = Outline() 
+        # cloudstorageに保存するファイル名
+        output_map_name = str(target_outline_id) + '.html'
+
+        # query
+        target_entities = query.get_outline_entities(target_outline_id)
+        sorted_comments = query.get_user_comments(target_outline_id)
+        outline_html = list(o.run_map_query(outline_id=target_outline_id))
+
+        import slackweb
+
+        # 投稿文の整形
+        slack_text = "練習報告"
+        slack_channel="post_test"
+        attachments=[]
+        title={
+            "title": target_entities[0]["date"] + target_entities[0]["day"],
+            "title_link": "https://webyachtnote.appspot.com/outline/"+str(target_outline_id),
+        }
+        outline={
+                    "color": "#36a64f",
+                    "fields":[
+                        {
+                        "title": "風向",
+                        "value": target_entities[0]["wind_direction"],
+                        "short": True
+                        },
+                        {
+                        "title": "風速",
+                        "value": str(target_entities[0]["wind_speed_min"])+"m/s ~ "+str(target_entities[0]["wind_speed_max"])+"m/s",
+                        "short": True
+                        }
+                    ]
+                }
+        attachments.append(title) 
+        attachments.append(outline) 
+        #attachments.append(attachment) 
+
+        # 投稿
+        slack = slackweb.Slack(url="https://hooks.slack.com/services/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")
+        slack.notify(channel=slack_channel,  attachments=attachments)
+        return redirect("/outline/" + str(target_outline_id))
+
