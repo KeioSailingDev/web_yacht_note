@@ -654,8 +654,8 @@ p.radio-button {
     /* box-shadow: 3px 2px 10px rgba(0,0,0,.2) inset, -3px 2px 10px rgba(0,0,0,.2) inset; */
 }
 
-table .wind-direction-table{
-  text-align: center
+table.wind-direction-table{
+  margin:auto;
 }
 /*=======================================================*/
 
