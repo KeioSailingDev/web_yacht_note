@@ -356,7 +356,7 @@ class Outline(object):
         
         wind_direction_change = request.form.get('winddirectionchange')
         if wind_direction_change is None:
-            wind_direction_change = "未入力"
+            wind_speed_change = "未入力"
 
         sea_surface = request.form.get('seasurface')
         if sea_surface is None:
@@ -612,14 +612,10 @@ class Outline(object):
         import slackweb
 
         # 投稿文の整形
-        slack_text = "練習報告"
+        slack_text = target_entities[0]["date"] + target_entities[0]["day"]
         slack_channel="post_test"
         attachments=[]
-        title={
-            "title": target_entities[0]["date"] + target_entities[0]["day"],
-            "title_link": "https://webyachtnote.appspot.com/outline/"+str(target_outline_id),
-        }
-        outline={
+        condition={
                     "color": "#36a64f",
                     "fields":[
                         {
@@ -627,23 +623,76 @@ class Outline(object):
                         "value": target_entities[0]["wind_direction"]+" " + 
                         str(target_entities[0]["wind_speed_min"])+"m/s ~ "
                         +str(target_entities[0]["wind_speed_max"])+"m/s",
+                        "short": False
+                        },
+                        {
+                        "title": "風速変化量",
+                        "value": target_entities[0]["wind_speed_change"], 
                         "short": True
                         },
                         {
-                        "title": "変化量",
-                        "value": target_entities[0]["wind_"]+" " + 
-                        str(target_entities[0]["wind_speed_min"])+"m/s ~ "
-                        +str(target_entities[0]["wind_speed_max"])+"m/s",
+                        "title": "風向変化量",
+                        "value": target_entities[0]["wind_direction_change"], 
+                        "short": True
+                        },
+                        {
+                        "title": "波",
+                        "value": target_entities[0]["sea_surface"], 
+                        "short": True
+                        },
+                        {
+                        "title": "うねり",
+                        "value": target_entities[0]["swell"], 
                         "short": True
                         },
                     ]
                 }
-        attachments.append(title) 
-        attachments.append(outline) 
-        #attachments.append(attachment) 
+
+        training={
+                    "color": "#ff3300",
+                    "fields":[
+                        {
+                        "title": "練習メニュー",
+                        "value": "\n".join([target_entities[0]["training"+str(i)] for i in range(1,16)]),
+                        "short": False
+                        },
+                    ]
+                }
+
+        yacht={
+                    "color": "#3300cc",
+                    "fields":[
+                        {
+                        "title": "練習艇",
+                        "value": " ".join([str(x["yacht_number"]) for x in target_entities[1]]),
+                        "short": False
+                        },
+                    ]
+                }
+        comments={
+                    "color": "#cccccc",
+                    "fields":[
+                        {
+                        "title": comment["name"],
+                        "value": comment["comment"],
+                        "short": False
+                        }
+                    for comment in sorted_comments
+                    ]
+        }
+        link={
+            "title": "Webヨットノートで開く",
+            "title_link": "https://webyachtnote.appspot.com/outline/"+str(target_outline_id)
+        }
+        
+        attachments.append(condition) 
+        attachments.append(training) 
+        attachments.append(yacht)
+        attachments.append(comments)
+        attachments.append(link) 
 
         # 投稿
         slack = slackweb.Slack(url="https://hooks.slack.com/services/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")
-        slack.notify(channel=slack_channel,  attachments=attachments)
+        slack.notify(text=slack_text, channel=slack_channel, attachments=attachments)
         return redirect("/outline/" + str(target_outline_id))
 
