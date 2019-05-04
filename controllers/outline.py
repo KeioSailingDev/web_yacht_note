@@ -618,13 +618,15 @@ class Outline(object):
                     "color": "#36a64f",
                     "fields":[
                         {
-                        "title": "風向",
-                        "value": target_entities[0]["wind_direction"],
+                        "title": "風",
+                        "value": target_entities[0]["wind_direction"]+" " + 
+                        str(target_entities[0]["wind_speed_min"])+"m/s ~ "
+                        +str(target_entities[0]["wind_speed_max"])+"m/s",
                         "short": True
                         },
                         {
                         "title": "風速",
-                        "value": str(target_entities[0]["wind_speed_min"])+"m/s ~ "+str(target_entities[0]["wind_speed_max"])+"m/s",
+                        "value": ,
                         "short": True
                         }
                     ]
