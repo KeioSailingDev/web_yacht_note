@@ -66,7 +66,34 @@
 
         <div class="form-set clearfix">
           <div>
-            <label for="windspeedchange">風速変化</label>
+            <label for="winddirectionchange">風向変化量</label>
+          </div>
+          <p class="radio-button">
+            <span class="segmented-3">
+              {% if target_entities[0].wind_direction_change == "小" %}
+                <label><input type="radio" name="winddirectionchange" value="小" style="display: none;" checked="checked"><span class="label">小</span></label>
+                <label><input type="radio" name="winddirectionchange" value="中" style="display: none;"><span class="label">中</span></label>
+                <label><input type="radio" name="winddirectionchange" value="大" style="display: none;"><span class="label">大</span></label>
+              {% elif target_entities[0].wind_direction_change == "中" %}
+                <label><input type="radio" name="winddirectionchange" value="小" style="display: none;"><span class="label">小</span></label>
+                <label><input type="radio" name="winddirectionchange" value="中" style="display: none;" checked="checked"><span class="label">中</span></label>
+                <label><input type="radio" name="winddirectionchange" value="大" style="display: none;"><span class="label">大</span></label>
+              {% elif target_entities[0].wind_direction_change == "大" %}
+                <label><input type="radio" name="winddirectionchange" value="小" style="display: none;"><span class="label">小</span></label>
+                <label><input type="radio" name="winddirectionchange" value="中" style="display: none;"><span class="label">中</span></label>
+                <label><input type="radio" name="winddirectionchange" value="大" style="display: none;" checked="checked"><span class="label">大</span></label>
+              {% else %}
+                <label><input type="radio" name="winddirectionchange" value="小" style="display: none;"><span class="label">小</span></label>
+                <label><input type="radio" name="winddirectionchange" value="中" style="display: none;"><span class="label">中</span></label>
+                <label><input type="radio" name="winddirectionchange" value="大" style="display: none;"><span class="label">大</span></label>
+              {% endif %}
+            </span>
+          </p>
+        </div>
+        
+        <div class="form-set clearfix">
+          <div>
+            <label for="windspeedchange">風速変化量</label>
           </div>
           <p class="radio-button">
             <span class="segmented-3">
@@ -90,6 +117,7 @@
             </span>
           </p>
         </div>
+
 
       <div class="form-set clearfix">
         <div>

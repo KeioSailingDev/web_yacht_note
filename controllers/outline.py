@@ -353,6 +353,10 @@ class Outline(object):
         wind_speed_change = request.form.get('windspeedchange')
         if wind_speed_change is None:
             wind_speed_change = "未入力"
+        
+        wind_direction_change = request.form.get('winddirectionchange')
+        if wind_direction_change is None:
+            wind_direction_change = "未入力"
 
         sea_surface = request.form.get('seasurface')
         if sea_surface is None:
@@ -413,6 +417,7 @@ class Outline(object):
             'wind_speed_max': 0 if wind_speedmax == '' else int(wind_speedmax),
             'wind_direction': wind_direction,
             'wind_speed_change': wind_speed_change,
+            'wind_direction_change': wind_direction_change,
             'sea_surface': sea_surface,
             'swell': swell,
             'training1': training1,
