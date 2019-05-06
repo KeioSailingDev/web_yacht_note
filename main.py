@@ -13,6 +13,7 @@ from controllers.ranking import ranking_c
 from controllers.how_to_use import how_to_use_c
 from controllers.demand import demand_c
 from controllers.top import top_c
+from controllers.error import error_c
 
 # 環境変数を開発用と本番用で切り替え
 os.environ['PROJECT_ID'] = 'webyachtnote'  #本番用
@@ -40,6 +41,7 @@ app.register_blueprint(ranking_c)
 app.register_blueprint(how_to_use_c)
 app.register_blueprint(demand_c)
 app.register_blueprint(top_c)
+app.register_blueprint(error_c)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
