@@ -628,22 +628,22 @@ class Outline(object):
                         {
                         "title": "風速変化量",
                         "value": target_entities[0]["wind_speed_change"], 
-                        "short": True
+                        "short": False
                         },
                         {
                         "title": "風向変化量",
                         "value": target_entities[0]["wind_direction_change"], 
-                        "short": True
+                        "short": False
                         },
                         {
                         "title": "波",
                         "value": target_entities[0]["sea_surface"], 
-                        "short": True
+                        "short": False
                         },
                         {
                         "title": "うねり",
                         "value": target_entities[0]["swell"], 
-                        "short": True
+                        "short": False
                         },
                     ]
                 }
