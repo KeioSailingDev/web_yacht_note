@@ -68,13 +68,16 @@ if __name__ == '__main__':
     args = argv
     input_dir = args[1]
     input_files = glob.glob(input_dir + "/*")
+    print(input_files)
 
     # read csv
     table = concat_data(input_files)
 
     # rows list by tuple
     rows_to_insert = []
+    max_index = len(table) - 1
     for index, row in table.iterrows():
+        row = row.fillna(0)
         log_row = (
         str(uuid.uuid4()),
         datetime.strptime(row['loggingTime(txt)'][:-6], '%Y-%m-%d %H:%M:%S.%f') - timedelta(hours=9),
@@ -90,7 +93,7 @@ if __name__ == '__main__':
 
         rows_to_insert.append(log_row)
 
-        if index % 5000 == 0 and index != 0 :
+        if (index % 5000 == 0 and index != 0) or (index == max_index):
             # export
             export_items_to_bigquery(dataset_id, tablename, rows_to_insert)
 
