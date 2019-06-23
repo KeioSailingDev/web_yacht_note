@@ -180,10 +180,9 @@ class Outline(object):
         sorted_comments = query.get_user_comments(target_outline_id)
         outline_html = list(o.run_map_query(outline_id=target_outline_id))
 
-        # エンティティ Noneは取り除く
+        # 配艇エンティティ ※Noneは取り除く
         entities = [x for x in [e for e in list(target_entities[1]) if not dict(e).get('device_id') == '']
                     if dict(x).get("device_id") is not None]
-
         # デバイスID
         devices = [dict(e).get("device_id") for e in entities]
 
@@ -198,10 +197,8 @@ class Outline(object):
         # デバイスが登録されていなければ、GPSログなし、あれば、GPSログの数をカウント
         if len(entities) < 1:
             pass
-            print(1)
         else:
             if len(outline_html) < 1:
-                print(2)
                 sensor_logs = list(o.run_bq_log(selects=["count(loggingTime) AS cnt"],
                                                 table_name=os.environ.get('LOG_TABLE'),
                                                 devices=devices,
@@ -210,10 +207,8 @@ class Outline(object):
                                                 order_by_time=False))
                 cnt_log = dict(sensor_logs[0]).get("cnt")
                 if cnt_log < 1:
-                    print(3)
                     pass
                 else:
-                    print(4)
                     log_message = "GPSデータあり"
 
                     # デバイスカラーを取得
@@ -224,14 +219,11 @@ class Outline(object):
                         query_y.add_filter('yacht_no', '=', yacht_no)
                         res = list(query_y.fetch())
                         if len(res) < 1:
-                            print(5)
                             colors.append("#000000")
                         else:
-                            print(6)
                             colors.append(dict(res[0]).get("color"))
                     yacht_color = [{"yacht": y, "color": c} for y, c in zip(yacht_number, colors)]
             else:
-                print(7)
                 log_message = "GPSデータあり"
                 # storageからhtmlをダウンロード
                 public_url = dict(outline_html[0]).get("html_url")
@@ -248,13 +240,27 @@ class Outline(object):
                     else:
                         colors.append(dict(res[0]).get("color"))
                 yacht_color = [{"yacht": y, "color": c} for y, c in zip(yacht_number, colors)]
-                
+
+    ###練習メニューの円グラフ化###
+        #円グラフ用のデータを設定 →　pandasで、ダブった練習メニューを合算し、割合に変換する
+        training_data = pd.DataFrame({"training_menu":[dict(target_entities[0]).get("training"+str(i)) for i in range(1,16)],
+                                      "training_time":[dict(target_entities[0]).get("training_time"+str(i)) for i in range(1,16)]})
+        #カラム"training_menu"が空の者は削除
+        training_data.drop(training_data.index[training_data.training_menu == ''], inplace=True)
+
+        #同じ練習メニューのものは合算する
+        training_data = training_data.groupby('training_menu', as_index=False)["training_time"].sum()
+
+        # #練習時間を割合に変換
+        training_data['training_time'] = training_data['training_time'].apply(lambda x:x/training_data['training_time'].sum())
+
         return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,
                                 sorted_comments=sorted_comments,
                                 log_message=log_message,
                                 html_url=public_url,
-                                yacht_color=yacht_color)
+                                yacht_color=yacht_color,
+                                training_data=training_data)
 
     @outline_c.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
     def show_outline(target_outline_id, is_new=None):
@@ -353,7 +359,7 @@ class Outline(object):
         wind_speed_change = request.form.get('windspeedchange')
         if wind_speed_change is None:
             wind_speed_change = "未入力"
-        
+
         wind_direction_change = request.form.get('winddirectionchange')
         if wind_direction_change is None:
             wind_speed_change = "未入力"
@@ -600,7 +606,7 @@ class Outline(object):
     def post_slack(target_outline_id):
         """slackに投稿する"""
         # 情報を取得
-        o = Outline() 
+        o = Outline()
         # cloudstorageに保存するファイル名
         output_map_name = str(target_outline_id) + '.html'
 
@@ -620,29 +626,29 @@ class Outline(object):
                     "fields":[
                         {
                         "title": "風向風速",
-                        "value": target_entities[0]["wind_direction"]+" " + 
+                        "value": target_entities[0]["wind_direction"]+" " +
                         str(target_entities[0]["wind_speed_min"])+"m/s ~ "
                         +str(target_entities[0]["wind_speed_max"])+"m/s",
                         "short": False
                         },
                         {
                         "title": "風速変化量",
-                        "value": target_entities[0]["wind_speed_change"], 
+                        "value": target_entities[0]["wind_speed_change"],
                         "short": False
                         },
                         {
                         "title": "風向変化量",
-                        "value": target_entities[0]["wind_direction_change"], 
+                        "value": target_entities[0]["wind_direction_change"],
                         "short": False
                         },
                         {
                         "title": "波",
-                        "value": target_entities[0]["sea_surface"], 
+                        "value": target_entities[0]["sea_surface"],
                         "short": False
                         },
                         {
                         "title": "うねり",
-                        "value": target_entities[0]["swell"], 
+                        "value": target_entities[0]["swell"],
                         "short": False
                         },
                     ]
@@ -684,15 +690,14 @@ class Outline(object):
             "title": "Webヨットノートで開く",
             "title_link": "https://webyachtnote.appspot.com/outline/"+str(target_outline_id)
         }
-        
-        attachments.append(condition) 
-        attachments.append(training) 
+
+        attachments.append(condition)
+        attachments.append(training)
         attachments.append(yacht)
         attachments.append(comments)
-        attachments.append(link) 
+        attachments.append(link)
 
         # 投稿
         slack = slackweb.Slack(url="https://hooks.slack.com/services/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")
         slack.notify(text=slack_text, channel=slack_channel, attachments=attachments)
         return redirect("/outline/" + str(target_outline_id))
-
