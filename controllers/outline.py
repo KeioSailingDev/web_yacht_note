@@ -251,8 +251,11 @@ class Outline(object):
         #同じ練習メニューのものは合算する
         training_data = training_data.groupby('training_menu', as_index=False)["training_time"].sum()
 
-        # #練習時間を割合に変換
-        training_data['training_time'] = training_data['training_time'].apply(lambda x:x/training_data['training_time'].sum())
+        # 出力をまとめる
+        data_dict=dict()
+        data_dict["training_menu"] = training_data["training_menu"].tolist()
+        data_dict["training_time"] = training_data["training_time"].tolist()
+        data_dict["training_ratio"] = training_data['training_time'].apply(lambda x:x/training_data['training_time'].sum()).tolist()
 
         return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,
@@ -260,7 +263,7 @@ class Outline(object):
                                 log_message=log_message,
                                 html_url=public_url,
                                 yacht_color=yacht_color,
-                                training_data=training_data)
+                                training_data=data_dict)
 
     @outline_c.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
     def show_outline(target_outline_id, is_new=None):
