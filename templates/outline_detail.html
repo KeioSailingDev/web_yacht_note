@@ -1,6 +1,9 @@
 {% extends 'layout.html' %}
 {% block content %}
 
+
+  <script src="{{ url_for('static', filename='js/Chart.bundle.js') }}"></script>
+
 <h3 class="sub-fix-var">{{ target_entities[0].date }}{{ target_entities[0].day }}</h3>
 
 <h5 class="first-sub-title">■ GPSデータ</h5>
@@ -116,6 +119,80 @@
   {% endfor %}
 
   <h5 class="sub-title">■ 練習メニュー</h5>
+  
+  <div class="training-chart">
+    <canvas id="train_chart" width="300" height="300"></canvas>
+  </div>
+
+  <script>
+    // set var
+    var menu = {{ training_data.training_menu | tojson }};
+    var percent = {{ training_data.training_time | tojson }};
+    var color = ["#45aaf2", "#eb3b5a", "#20bf6b","#3867d6", "#fa8231", "#d1d8e0", "#fed330", "#0fb9b1", "#4b7bec","#778ca3"];
+    
+    var dataLabelPlugin = {
+                        afterDatasetsDraw: function (chart, easing) {
+                            // To only draw at the end of animation, check for easing === 1
+                            var ctx = chart.ctx;
+
+                            chart.data.datasets.forEach(function (dataset, i) {
+                                var meta = chart.getDatasetMeta(i);
+                                if (!meta.hidden) {
+                                    meta.data.forEach(function (element, index) {
+                                        // Draw the text in black, with the specified font
+                                        ctx.fillStyle = 'rgb(255, 255, 255)';
+
+                                        var fontSize = 13;
+                                        var fontStyle = 'normal';
+                                        var fontFamily = 'Helvetica Neue';
+                                        ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+
+                                        // Just naively convert to string for now
+                                        var labelString = chart.data.labels[index];
+                                        var dataString = (Math.round(dataset.data[index] * 100)).toString() + "%";
+
+                                        // Make sure alignment settings are correct
+                                        ctx.textAlign = 'center';
+                                        ctx.textBaseline = 'middle';
+
+                                        var padding = 5;
+                                        var position = element.tooltipPosition();
+                                        ctx.fillText(labelString, position.x, position.y - (fontSize / 2) - padding);
+                                        ctx.fillText(dataString, position.x, position.y + (fontSize / 2) - padding);
+                                    });
+                                }
+                            });
+                        }
+                    };
+
+    // draw gpraph
+    var ctx = document.getElementById("train_chart");
+    new Chart(ctx, {
+            //グラフの種類
+            type: 'doughnut',
+            //データの設定
+            data: {
+                //データ項目のラベル
+                labels: menu,
+                //データセット
+                datasets: [{
+                    //背景色
+                    backgroundColor: color,
+                    //背景色(ホバーしたとき)
+                    hoverBackgroundColor: color,
+                    //グラフのデータ
+                    data: percent,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+            plugins: [dataLabelPlugin],
+            });
+  </script>
+
 
   <ol>
     {% if target_entities[0].training1 %}
