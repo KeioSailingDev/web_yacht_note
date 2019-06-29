@@ -28,7 +28,7 @@ def admin_player():
 
     query_p = client.query(kind='Player')
     players_list = list(query.fetch_retry(query_p))
-    sorted_players = sorted(players_list, key=lambda player: player["admission_year"], reverse=True)
+    sorted_players = sorted(players_list, key=lambda player: int(player["admission_year"]), reverse=True)
 
     #「入学年」の一覧を取得
     this_year = (datetime.now()).year
@@ -43,7 +43,7 @@ def add_player():
     """選手データの追加"""
 
     playername = str(request.form.get('playername'))
-    year = request.form.get('year')
+    year = int(request.form.get('year'))
     datetime_now = datetime.now()
 
     if playername and year:
@@ -81,7 +81,7 @@ def mod_player(player_id):
 
     playername = str(request.form.get('playername'))
     playerspell = str(request.form.get('playerspell'))
-    year = request.form.get('year')
+    year = int(request.form.get('year'))
 
     with client.transaction():
         key = client.key('Player', player_id)
