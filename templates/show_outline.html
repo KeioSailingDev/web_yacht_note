@@ -343,9 +343,17 @@
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
                 {% if player_name.player_name == outline2.skipper1 %}
-                  <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                  {% if player_name.disabled == True %}
+                    <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                  {% else %}
+                    <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                  {% endif %}
                 {% else %}
-                  <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                  {% if player_name.disabled == True %}
+                    <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                  {% else %}
+                    <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
             </select>
@@ -355,14 +363,23 @@
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
                 {% if player_name.player_name == outline2.crew1 %}
-                  <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                  {% if player_name.disabled == True %}
+                    <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                  {% else %}
+                    <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                  {% endif %}
                 {% else %}
-                  <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                  {% if player_name.disabled == True %}
+                    <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                  {% else %}
+                    <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
             </select>
           </td>
         </tr>
+
 
         <tr>
           <td class="outline-td-pare">2</td>
@@ -371,23 +388,39 @@
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
                 {% if player_name.player_name == outline2.skipper2 %}
-                  <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                  {% if player_name.disabled == True %}
+                    <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                  {% else %}
+                    <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                  {% endif %}
                 {% else %}
-                  <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                  {% if player_name.disabled == True %}
+                    <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                  {% else %}
+                    <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                  {% endif %}
                 {% endif %}
-              {% endfor %}
+            {% endfor %}
             </select>
           </td>
           <td class="outline-td-crew">
             <select name="crew2{{loop.index0}}" id="crew2{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
-                {% if player_name.player_name == outline2.crew2 %}
+              {% if player_name.player_name == outline2.crew2 %}
+                {% if player_name.disabled == True %}
+                  <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                {% else %}
                   <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                {% endif %}
+              {% else %}
+                {% if player_name.disabled == True %}
+                  <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
                 {% else %}
                   <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
                 {% endif %}
-              {% endfor %}
+              {% endif %}
+            {% endfor %}
             </select>
           </td>
         </tr>
@@ -399,9 +432,17 @@
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
                 {% if player_name.player_name == outline2.skipper3 %}
-                  <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                  {% if player_name.disabled == True %}
+                    <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                  {% else %}
+                    <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                  {% endif %}
                 {% else %}
-                  <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                  {% if player_name.disabled == True %}
+                    <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                  {% else %}
+                    <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
             </select>
@@ -410,12 +451,20 @@
             <select name="crew3{{loop.index0}}" id="crew3{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
-                {% if player_name.player_name == outline2.crew3 %}
+              {% if player_name.player_name == outline2.crew3 %}
+                {% if player_name.disabled == True %}
+                  <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                {% else %}
                   <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                {% endif %}
+              {% else %}
+                {% if player_name.disabled == True %}
+                  <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
                 {% else %}
                   <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
                 {% endif %}
-              {% endfor %}
+              {% endif %}
+            {% endfor %}
             </select>
           </td>
         </tr>
@@ -427,9 +476,17 @@
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
                 {% if player_name.player_name == outline2.skipper4 %}
-                  <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                  {% if player_name.disabled == True %}
+                    <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                  {% else %}
+                    <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                  {% endif %}
                 {% else %}
-                  <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                  {% if player_name.disabled == True %}
+                    <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                  {% else %}
+                    <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
             </select>
@@ -438,12 +495,20 @@
             <select name="crew4{{loop.index0}}" id="crew4{{loop.index0}}" class="input-form">
               <option value="">未入力</option>
               {% for player_name in outline_selections[6] %}
-                {% if player_name.player_name == outline2.crew4 %}
+              {% if player_name.player_name == outline2.crew4 %}
+                {% if player_name.disabled == True %}
+                  <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                {% else %}
                   <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                {% endif %}
+              {% else %}
+                {% if player_name.disabled == True %}
+                  <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
                 {% else %}
                   <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
                 {% endif %}
-              {% endfor %}
+              {% endif %}
+            {% endfor %}
             </select>
           </td>
         </tr>
