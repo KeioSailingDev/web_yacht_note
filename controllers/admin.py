@@ -51,6 +51,7 @@ def add_player():
         player = datastore.Entity(key)
         player.update({
             'player_name': playername,
+            'player_spell': playerspell,
             'admission_year': year,
             'created_date': datetime_now
         })
@@ -79,6 +80,7 @@ def mod_player(player_id):
     """選手データの更新"""
 
     playername = str(request.form.get('playername'))
+    playerspell = str(request.form.get('playerspell'))
     year = request.form.get('year')
 
     with client.transaction():
@@ -91,6 +93,7 @@ def mod_player(player_id):
 
         player.update({
             'player_name' : str(playername),
+            'player_spell' : str(playerspell),
             'admission_year' : year
         })
 
