@@ -18,6 +18,15 @@
 
     <div class="clearfix">
       <div class="float-label">
+        <label for="playerspell">読み仮名</label>
+      </div>
+      <div class="float-input">
+        <input type="text" class="input-form" id="playerspell" name="playerspell" value="{{ target_player.player_spell }}">
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <div class="float-label">
         <label for="year" class="col-sm-2 control-label">入学年</label>
       </div>
       <div class="float-input">
@@ -38,9 +47,5 @@
         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 変更
       </button>
     </div>
-
   </form>
-  <!-- <a class="btn btn-default" href="{{ url_for('top') }}">
-    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> 戻る
-  </a> -->
 {% endblock %}
