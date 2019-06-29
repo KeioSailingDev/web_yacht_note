@@ -250,7 +250,7 @@ class Outline(object):
 
         #同じ練習メニューのものは合算する
         training_data = training_data.groupby('training_menu', as_index=False)["training_time"].sum()
-        training_data = training_data.sort_values(by="training_menu", ascending=False)
+        training_data = training_data.sort_values(by="training_time", ascending=False)
 
         # 出力をまとめる
         data_dict=dict()
