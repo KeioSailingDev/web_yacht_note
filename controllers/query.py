@@ -44,6 +44,7 @@ def get_outline_selections():
     # ドラムロール表示用に、部員の一覧を取得
     query_player = client.query(kind='Player')
     player_names = list(fetch_retry(query_player))
+    player_names = sorted(player_names, key=lambda player: player["player_spell"])
 
     # ドラムロール表示用に、練習メニューの一覧を取得
     query_menu = client.query(kind='Menu')
