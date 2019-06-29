@@ -45,17 +45,18 @@ def get_outline_selections():
     query_player = client.query(kind='Player')
     player_names = list(fetch_retry(query_player))
 
-    initial_label = [{"player_name":"=====あ行=====","player_spell":"あ"}, \
-                     {"player_name":"=====か行=====","player_spell":"か"}, \
-                     {"player_name":"=====さ行=====","player_spell":"さ"}, \
-                     {"player_name":"=====た行=====","player_spell":"た"}, \
-                     {"player_name":"=====な行=====","player_spell":"な"}, \
-                     {"player_name":"=====は行=====","player_spell":"は"}, \
-                     {"player_name":"=====ま行=====","player_spell":"ま"}, \
-                     {"player_name":"=====や行=====","player_spell":"や"}, \
-                     {"player_name":"=====わ行=====","player_spell":"わ"}]
+    initial_label = [{"player_name":"=====あ行=====","player_spell":"あ", "disabled":True}, \
+                     {"player_name":"=====か行=====","player_spell":"か", "disabled":True}, \
+                     {"player_name":"=====さ行=====","player_spell":"さ", "disabled":True}, \
+                     {"player_name":"=====た行=====","player_spell":"た", "disabled":True}, \
+                     {"player_name":"=====な行=====","player_spell":"な", "disabled":True}, \
+                     {"player_name":"=====は行=====","player_spell":"は", "disabled":True}, \
+                     {"player_name":"=====ま行=====","player_spell":"ま", "disabled":True}, \
+                     {"player_name":"=====や行=====","player_spell":"や", "disabled":True}, \
+                     {"player_name":"=====わ行=====","player_spell":"わ", "disabled":True}]
 
     player_names.extend(initial_label)
+    print(player_names)
 
     player_names = sorted(player_names, key=lambda player: player["player_spell"])
 
