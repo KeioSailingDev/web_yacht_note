@@ -3,8 +3,7 @@
 
 
   <script src="{{ url_for('static', filename='js/Chart.bundle.js') }}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-
+  
 <h3 class="sub-fix-var">{{ target_entities[0].date }}{{ target_entities[0].day }}</h3>
 
 <h5 class="first-sub-title">■ GPSデータ</h5>
@@ -125,192 +124,178 @@
 
   <script>
     // set var
-    // var menu = ["あ","い","う","え"];
-    // var percent = [10,20,70,10];
-    // var color = ["#45aaf2", "#eb3b5a", "#20bf6b","#3867d6", "#fa8231", "#d1d8e0", "#fed330", "#0fb9b1", "#4b7bec","#778ca3"];
+    var menu = {{ training_data.training_menu | tojson }};
+    var percent = {{ training_data.training_ratio | tojson }};
+    var color = ["#45aaf2", "#eb3b5a", "#20bf6b","#3867d6", "#fa8231", "#d1d8e0", "#fed330", "#0fb9b1", "#4b7bec","#778ca3"];
 
-  //   var dataLabelPlugin = {
-  //     afterDatasetsDraw: function (chart, easing) {
-  //         // To only draw at the end of animation, check for easing === 1
-  //         var ctx = chart.ctx;
-
-  //         chart.data.datasets.forEach(function (dataset, i) {
-  //             var meta = chart.getDatasetMeta(i);
-  //             if (!meta.hidden) {
-  //                 meta.data.forEach(function (element, index) {
-  //                     // Draw the text in black, with the specified font
-  //                     ctx.fillStyle = 'rgb(255, 255, 255)';
-
-  //                     var fontSize = 13;
-  //                     var fontStyle = 'normal';
-  //                     var fontFamily = 'Helvetica Neue';
-  //                     ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
-
-  //                     // Just naively convert to string for now
-  //                     var labelString = chart.data.labels[index];
-  //                     var dataString = (Math.round(dataset.data[index] * 100)).toString() + "%";
-
-  //                     // Make sure alignment settings are correct
-  //                     ctx.textAlign = 'center';
-  //                     ctx.textBaseline = 'middle';
-
-  //                     var padding = 5;
-  //                     var position = element.tooltipPosition();
-  //                     ctx.fillText(labelString, position.x, position.y - (fontSize / 2) - padding);
-  //                     ctx.fillText(dataString, position.x, position.y + (fontSize / 2) - padding);
-  //                 });
-  //             }
-  //         });
-  //     }
-  // };
-
-    // draw gpraph
-    // var ctx = document.getElementById("train_chart");
-    // new Chart(ctx, {
-    //         //グラフの種類
-    //         type: 'doughnut',
-    //         //データの設定
-    //         data: {
-    //             //データ項目のラベル
-    //             labels: ["a","b","c"],
-    //             //データセット
-    //             datasets: [{
-    //                 //背景色
-    //                 backgroundColor: ["#45aaf2", "#eb3b5a", "#20bf6b"],
-    //                 //背景色(ホバーしたとき)
-    //                 hoverBackgroundColor: ["#45aaf2", "#eb3b5a", "#20bf6b"],
-    //                 //グラフのデータ
-    //                 data: [1,2,3],
-    //                 borderWidth: 0
-    //             }]
-    //         },
-    //         options: {
-    //             legend: {
-    //                 display: false
-    //             },
-    //         });
+    var myChart = document.getElementById("train_chart").getContext('2d');
     var dataLabelPlugin = {
-      afterDatasetsDraw: function (chart, easing) {
-          // To only draw at the end of animation, check for easing === 1
-          var ctx = chart.ctx;
+        afterDatasetsDraw: function (chart, easing) {
+            var ctx = chart.ctx;
+            chart.data.datasets.forEach(function (dataset, i) {
+                var meta = chart.getDatasetMeta(i);
+                if (!meta.hidden) {
+                    meta.data.forEach(function (element, index) {
+                        ctx.fillStyle = 'rgb(255, 255, 255)';
 
-          chart.data.datasets.forEach(function (dataset, i) {
-              var meta = chart.getDatasetMeta(i);
-              if (!meta.hidden) {
-                  meta.data.forEach(function (element, index) {
-                      // Draw the text in black, with the specified font
-                      ctx.fillStyle = 'rgb(255, 255, 255)';
+                        var fontSize = 13;
+                        var fontStyle = 'normal';
+                        var fontFamily = 'Helvetica Neue';
+                        ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
 
-                      var fontSize = 12;
-                      var fontStyle = 'normal';
-                      var fontFamily = 'Helvetica Neue';
-                      ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
+                        var labelString = chart.data.labels[index];
+                        var dataString = dataset.data[index].toString()+'％';
+                        // var dataString =  dataset.data[index].toString();
 
-                      // Just naively convert to string for now
-                      var labelString = chart.data.labels[index];
-                      var dataString = (Math.round(dataset.data[index] * 1000)/10).toString() + "%";
 
-                      // Make sure alignment settings are correct
-                      ctx.textAlign = 'center';
-                      ctx.textBaseline = 'middle';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
 
-                      var padding = 5;
-                      var position = element.tooltipPosition();
-                      ctx.fillText(labelString, position.x, position.y - (fontSize / 2) - padding);
-                      ctx.fillText(dataString, position.x, position.y + (fontSize / 2) - padding);
-                  });
-              }
-          });
-      }
-  };
-  
-  // Chart
-  var myChart = "train_chart";
-  var chart = new Chart(myChart, {
+                        var padding = 5;
+                        var position = element.tooltipPosition();
+                        ctx.fillText(labelString, position.x, position.y - (fontSize / 2) - padding);
+                        ctx.fillText(dataString, position.x, position.y + (fontSize / 2) - padding);
+                    })
+                }
+            })
+        }
+    }
+
+
+    var chart = new Chart(myChart, {
       type: 'pie',
       data: {
-          labels: ["A", "B", "C", "D", "E", "F", "G"],
-          datasets: [{
-              label: "Sample",
-              backgroundColor: ["#3F51B5", "#F44336", "#FF9800", "#4CAF50", "#9C27B0", "#00BCD4", "#E91E63"],
-              data: [128, 120, 46, 82, 67, 46, 16],
-          }]
+        labels: menu,
+        datasets: [{
+          backgroundColor: color,
+          data: percent
+        }]
       },
-      options: {
+        options: {
           title: {
-              display: true,
-              text: "Sample"
+            display: true,
+            text: '練習時間の比率（％）',
+            fontColor: "white",
+            fontSize:16
           },
           legend:{
+            labels:{
+              fontColor: "white",
+            },
           },
-          maintainAspectRatio: false,
       },
-      plugins: [dataLabelPlugin],
-  });
+        plugins: [dataLabelPlugin],
+    });
   </script>
 
-
-  <ol>
-    {% if target_entities[0].training1 %}
-      <li>{{target_entities[0].training1}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training2 %}
-      <li>{{target_entities[0].training2}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training3 %}
-      <li>{{target_entities[0].training3}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training4 %}
-      <li>{{target_entities[0].training4}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training5 %}
-      <li>{{target_entities[0].training5}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training6 %}
-      <li>{{target_entities[0].training6}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training7 %}
-      <li>{{target_entities[0].training7}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training8 %}
-      <li>{{target_entities[0].training8}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training9 %}
-      <li>{{target_entities[0].training9}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training10 %}
-      <li>{{target_entities[0].training10}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training11 %}
-      <li>{{target_entities[0].training11}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training12 %}
-      <li>{{target_entities[0].training12}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training13 %}
-      <li>{{target_entities[0].training13}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training14 %}
-      <li>{{target_entities[0].training14}}</li>
-    {% endif %}
-
-    {% if target_entities[0].training15 %}
-      <li>{{target_entities[0].training15}}</li>
-    {% endif %}
-  </ol>
+  <table class="table detail-outline-table-sc"> 
+    <!-- For loop logic of jinja template -->
+        {% if target_entities[0].training1 %}
+          <tr>
+            <td>1</td>    
+            <td>{{target_entities[0].training1 }}</td> 
+            <td>{{target_entities[0].training_time1 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training2 %}
+          <tr>
+            <td>2</td>     
+            <td>{{target_entities[0].training2 }}</td> 
+            <td>{{target_entities[0].training_time2 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training3 %}
+          <tr>
+            <td>3</td>     
+            <td>{{target_entities[0].training3 }}</td> 
+            <td>{{target_entities[0].training_time3 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training4 %}
+          <tr>
+            <td>4</td>     
+            <td>{{target_entities[0].training4 }}</td> 
+            <td>{{target_entities[0].training_time4 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training5 %}
+          <tr>
+            <td>5</td>     
+            <td>{{target_entities[0].training5 }}</td> 
+            <td>{{target_entities[0].training_time5 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training6 %}
+          <tr>
+            <td>6</td>     
+            <td>{{target_entities[0].training6 }}</td> 
+            <td>{{target_entities[0].training_time6 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training7 %}
+          <tr>
+            <td>7</td>     
+            <td>{{target_entities[0].training7 }}</td> 
+            <td>{{target_entities[0].training_time7 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training8 %}
+          <tr>
+            <td>8</td>     
+            <td>{{target_entities[0].training8 }}</td> 
+            <td>{{target_entities[0].training_time8 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training9 %}
+          <tr>
+            <td>9</td>     
+            <td>{{target_entities[0].training9 }}</td> 
+            <td>{{target_entities[0].training_time9 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training10 %}
+          <tr>
+            <td>10</td>     
+            <td>{{target_entities[0].training10 }}</td> 
+            <td>{{target_entities[0].training_time10 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training11 %}
+          <tr>
+            <td>11</td>     
+            <td>{{target_entities[0].training11 }}</td> 
+            <td>{{target_entities[0].training_time11 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training12 %}
+          <tr>
+            <td>12</td>     
+            <td>{{target_entities[0].training12 }}</td> 
+            <td>{{target_entities[0].training_time12 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training13 %}
+          <tr>
+            <td>13</td>     
+            <td>{{target_entities[0].training13 }}</td> 
+            <td>{{target_entities[0].training_time13 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training14 %}
+          <tr>
+            <td>14</td>     
+            <td>{{target_entities[0].training14 }}</td> 
+            <td>{{target_entities[0].training_time14 }}分</td> 
+          </tr> 
+        {% endif %}
+        {% if target_entities[0].training15 %}
+          <tr>
+            <td>15</td>     
+            <td>{{target_entities[0].training15 }}</td> 
+            <td>{{target_entities[0].training_time15 }}分</td> 
+          </tr> 
+        {% endif %}
+  </table>
 
   <h5 class="sub-title">■ コメント欄</h5>
 

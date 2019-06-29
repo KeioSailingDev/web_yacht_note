@@ -255,7 +255,8 @@ class Outline(object):
         data_dict=dict()
         data_dict["training_menu"] = training_data["training_menu"].tolist()
         data_dict["training_time"] = training_data["training_time"].tolist()
-        data_dict["training_ratio"] = training_data['training_time'].apply(lambda x:x/training_data['training_time'].sum()).tolist()
+        data_dict["training_ratio"] = training_data['training_time'].apply(lambda x: round((x/training_data['training_time'].sum())*100)).tolist()
+        print(data_dict)
 
         return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,

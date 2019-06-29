@@ -26,6 +26,7 @@ os.environ['MAP_BUCKET'] = "gps_map"  #本番用
 # os.environ['MAP_BUCKET'] = "gps_map_dev"  # 開発用
 
 app = Flask(__name__)
+app.config['JSON_AS_ASCII'] = False
 
 # アプリケーションを作成
 bootstrap = Bootstrap(app)
