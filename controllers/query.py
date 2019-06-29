@@ -44,6 +44,19 @@ def get_outline_selections():
     # ドラムロール表示用に、部員の一覧を取得
     query_player = client.query(kind='Player')
     player_names = list(fetch_retry(query_player))
+
+    initial_label = [{"player_name":"=====あ行=====","player_spell":"あ"}, \
+                     {"player_name":"=====か行=====","player_spell":"か"}, \
+                     {"player_name":"=====さ行=====","player_spell":"さ"}, \
+                     {"player_name":"=====た行=====","player_spell":"た"}, \
+                     {"player_name":"=====な行=====","player_spell":"な"}, \
+                     {"player_name":"=====は行=====","player_spell":"は"}, \
+                     {"player_name":"=====ま行=====","player_spell":"ま"}, \
+                     {"player_name":"=====や行=====","player_spell":"や"}, \
+                     {"player_name":"=====わ行=====","player_spell":"わ"}]
+
+    player_names.extend(initial_label)
+
     player_names = sorted(player_names, key=lambda player: player["player_spell"])
 
     # ドラムロール表示用に、練習メニューの一覧を取得
