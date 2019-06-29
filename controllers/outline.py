@@ -118,7 +118,7 @@ class Outline(object):
         my_map = folium.Map(o.map_center,
                             zoom_start=13,
                             tiles=o.map_tiles,
-                            attr=o.attr)
+                            attr="-")
 
 
         # 挺のカラーを取得
@@ -250,13 +250,13 @@ class Outline(object):
 
         #同じ練習メニューのものは合算する
         training_data = training_data.groupby('training_menu', as_index=False)["training_time"].sum()
+        training_data = training_data.sort_values(by="training_menu", ascending=False)
 
         # 出力をまとめる
         data_dict=dict()
         data_dict["training_menu"] = training_data["training_menu"].tolist()
         data_dict["training_time"] = training_data["training_time"].tolist()
         data_dict["training_ratio"] = training_data['training_time'].apply(lambda x: round((x/training_data['training_time'].sum())*100)).tolist()
-        print(data_dict)
 
         return render_template('outline_detail.html', title='練習概要',
                                 target_entities=target_entities,
