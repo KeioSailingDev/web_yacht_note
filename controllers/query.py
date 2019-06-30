@@ -45,6 +45,7 @@ def get_outline_selections():
     query_player = client.query(kind='Player')
     player_names = list(fetch_retry(query_player))
 
+    #選手名のドラムロールに、ラベルを付け加える
     initial_label = [{"player_name":"=====あ行=====","player_spell":"あ", "disabled":True}, \
                      {"player_name":"=====か行=====","player_spell":"か", "disabled":True}, \
                      {"player_name":"=====さ行=====","player_spell":"さ", "disabled":True}, \
