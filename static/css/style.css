@@ -724,6 +724,11 @@ div.ranking-form-set {
 .manual-img {
   margin: 15px;
 }
+.manual-img img {
+  width: -webkit-calc(100% - 30px);
+  width: calc(100% - 30px);
+}
+
 
 /*============================*/
 
