@@ -43,6 +43,7 @@ def add_player():
     """選手データの追加"""
 
     playername = str(request.form.get('playername'))
+    playerspell = str(request.form.get('playerspell'))
     year = int(request.form.get('year'))
     datetime_now = datetime.now()
 
