@@ -2,6 +2,7 @@
 {% block content %}
 
   <script type="text/javascript" src="{{url_for('static', filename='js/outline.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='js/pop_up.js')}}"></script>
 
   <h3 class="sub-fix-var">{{ title }}</h3>
 
@@ -929,7 +930,7 @@
 
   </form>
 
-  <form action="{{ url_for('outline_c.del_outline', target_outline_id=target_entities[0].outline_id) }}" method="post">
+  <form action="{{ url_for('outline_c.del_outline', target_outline_id=target_entities[0].outline_id) }}" method="post" onSubmit="return check()">
     <button type="submit" class="btn btn-danger btn-delete comment-edit-button flexiblebox btn-margin btn-float-left">
       <img src="{{ url_for('static', filename='img/button/trashbox.png') }}" class="img-responsive button-img">
       <p class="button-text">ノートを削除</p>
