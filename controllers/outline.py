@@ -266,6 +266,12 @@ class Outline(object):
                                 yacht_color=yacht_color,
                                 training_data=data_dict)
 
+    @outline_c.route("/gps_animation/<int:target_outline_id>/", methods=['GET','POST'])
+    def gps_animation(target_outline_id, is_new=None):
+
+        return render_template('gps_animation.html')
+
+
     @outline_c.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
     def show_outline(target_outline_id, is_new=None):
         """

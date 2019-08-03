@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+<h3 class="sub-fix-var">GPSアニメーション</h3>
+
+<h3 class="sub-fix-var">GPSアニメーション</h3>
+<h5 class="first-sub-title">■ GPS航跡</h5>
+
+<div id="map_canvas" style="width: 375px; height: 567px"></div>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8TzABs4200O5KmnO-IqNJBqzKVlyTJA4&callback=initMap" async defer></script>
+  <script>
+     var map;
+     function initMap() {
+       map = new google.maps.Map(document.getElementById('map_canvas'), {
+         center: {lat: -34.397, lng: 150.644},
+         zoom: 8
+       });
+     }
+   </script>
+
+{% endblock %}
