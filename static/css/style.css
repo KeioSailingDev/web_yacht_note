@@ -439,6 +439,13 @@ a.outline-comment:active {
   text-decoration: none;
   -webkit-tap-highlight-color:#FF9900;
 }
+/*練習報告*/
+div.sub-content {
+  margin-left:5% 
+}
+/* div.sub-content {
+  margin:5% 
+} */
 
 /*========練習概要追加・変更ページ(show_outline.html)========*/
 /*スキッパーとクルーの表*/

@@ -406,6 +406,11 @@ class Outline(object):
         training_time13 = int(request.form.get('training_time13'))
         training_time14 = int(request.form.get('training_time14'))
         training_time15 = int(request.form.get('training_time15'))
+        name = request.form.get('name')
+        coach = request.form.get('coach')
+        coach_advice = request.form.get('coach_advice')
+        report = request.form.get('report')
+        report_other = request.form.get('report_other')
 
         #曜日の取得
         day_tuple = ("(月)", "(火)", "(水)", "(木)", "(金)", "(土)", "(日)")
@@ -462,7 +467,12 @@ class Outline(object):
             'training_time15': training_time15,
             'icon_flag': icon_flag,
             'icon_wave': icon_wave,
-            'icon_compass': icon_compass
+            'icon_compass': icon_compass,
+            'name':name,
+            'coach':coach,
+            'coach_advice':coach_advice,
+            'report':report,
+            'report_other':report_other
         })
 
         client.put(outline)
@@ -616,7 +626,6 @@ class Outline(object):
 
         # query
         target_entities = query.get_outline_entities(target_outline_id)
-        sorted_comments = query.get_user_comments(target_outline_id)
         outline_html = list(o.run_map_query(outline_id=target_outline_id))
 
         import slackweb
@@ -625,6 +634,15 @@ class Outline(object):
         slack_text = target_entities[0]["date"] + target_entities[0]["day"]
         slack_channel="post_test"
         attachments=[]
+        author={
+            "fields":[
+                {
+                    "title":"記入者",
+                    "value": target_entities[0]["name"],
+                    "short":False
+                }
+            ]
+        }
         condition={
                     "color": "#36a64f",
                     "fields":[
@@ -663,31 +681,30 @@ class Outline(object):
                     "fields":[
                         {
                         "title": "練習メニュー",
-                        "value": "\n".join([target_entities[0]["training"+str(i)] for i in range(1,16)]),
+                        "value": "\n".join([target_entities[0]["training"+str(i)]+" "+str(target_entities[0]["training_time"+str(i)])+"分" for i in range(1,16)]),
                         "short": False
                         },
                     ]
                 }
 
-        yacht={
-                    "color": "#3300cc",
-                    "fields":[
-                        {
-                        "title": "練習艇",
-                        "value": " ".join([str(x["yacht_number"]) for x in target_entities[1]]),
-                        "short": False
-                        },
-                    ]
-                }
-        comments={
+        report={
                     "color": "#cccccc",
                     "fields":[
                         {
-                        "title": comment["name"],
-                        "value": comment["comment"],
-                        "short": False
-                        }
-                    for comment in sorted_comments
+                            "title": target_entities[0]["coach"] + "のアドバイス",
+                            "value": target_entities[0]["coach_advice"],
+                            "short": False
+                        },
+                        {
+                            "title": "練習報告",
+                            "value": target_entities[0]["report"],
+                            "short": False
+                        },
+                        {
+                            "title": "その他",
+                            "value": target_entities[0]["report_other"],
+                            "short": False
+                        },
                     ]
         }
         link={
@@ -695,13 +712,13 @@ class Outline(object):
             "title_link": "https://webyachtnote.appspot.com/outline/"+str(target_outline_id)
         }
 
+        attachments.append(author)
         attachments.append(condition)
         attachments.append(training)
-        attachments.append(yacht)
-        attachments.append(comments)
+        attachments.append(report)
         attachments.append(link)
 
         # 投稿
-        slack = slackweb.Slack(url="https://hooks.slack.com/services/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")
+        slack = slackweb.Slack(url="https://hooks.slack.com/services/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")
         slack.notify(text=slack_text, channel=slack_channel, attachments=attachments)
         return redirect("/outline/" + str(target_outline_id))

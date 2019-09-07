@@ -923,11 +923,66 @@
 
     <hr>
 
+    <h5 class="sub-title">■ 練習報告</h5>
+      <div>
+        <label for="name">入力者</label>
+          <select name="name" id="name" class="input-form">
+            <option value="">未入力</option>
+            {% for player_name in outline_selections[6] %}
+              {% if player_name.player_name == target_entities[0].name %}
+                {% if player_name.disabled == True %}
+                  <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                {% else %}
+                  <option value={{ player_name.player_name }} selected>{{ player_name.player_name }}</option>
+                {% endif %}
+              {% else %}
+                {% if player_name.disabled == True %}
+                  <option value={{ player_name.player_name }} disabled>{{ player_name.player_name }}</option>
+                {% else %}
+                  <option value={{ player_name.player_name }}>{{ player_name.player_name }}</option>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </select>
+      </div>
+      <div>
+        <label for="coach">コーチ名</label>
+          {% if target_entities[0].coach %}
+            <input type="text" class="comment-name-font input-form" id="coach" name="coach" value="{{ target_entities[0].coach }}">
+          {% else %}
+            <input type="text" class="comment-name-font input-form" id="coach" name="coach">
+          {% endif %}
+      </div>
+      <div>
+        <label for="coach_advice">アドバイス</label>
+          {% if target_entities[0].coach_advice %}
+            <textarea class="comment-text-font input-form comment-text-input" rows=3 id="coach_advice" name="coach_advice">{{ target_entities[0].coach_advice }}</textarea>
+          {% else %}
+            <textarea class="comment-text-font input-form comment-text-input" rows=3 id="coach_advice" name="coach_advice"></textarea>
+          {% endif %}
+      </div>
+      <div>
+        <label for="report">練習報告</label>
+          {% if target_entities[0].report %}
+            <textarea class="comment-text-font input-form comment-text-input" rows=3 id="report" name="report">{{ target_entities[0].report }}</textarea>
+          {% else %}
+            <textarea class="comment-text-font input-form comment-text-input" rows=3 id="report" name="report"></textarea>
+          {% endif %}
+      </div>
+      <div>
+        <label for="report_other">その他</label>
+          {% if target_entities[0].report_other %}
+            <textarea class="comment-text-font input-form comment-text-input" rows=2 id="report_other" name="report_other">{{ target_entities[0].report_other }}</textarea>
+          {% else %}
+            <textarea class="comment-text-font input-form comment-text-input" rows=2 id="report_other" name="report_other"></textarea>
+          {% endif %}
+      </div>
+    <hr>
+
     <button type="submit" class="btn btn-primary comment-edit-button flexiblebox btn-margin btn-float-right">
       <img src="{{ url_for('static', filename='img/button/notebook.png') }}" class="img-responsive button-img">
       <p class="button-text">ノートを保存</p>
     </button>
-
   </form>
 
   <form action="{{ url_for('outline_c.del_outline', target_outline_id=target_entities[0].outline_id) }}" method="post" onSubmit="return check()">

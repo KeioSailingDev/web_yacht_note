@@ -297,24 +297,21 @@
         {% endif %}
   </table>
 
-  <h5 class="sub-title">■ コメント欄</h5>
+  <h5 class="sub-title">■ 練習報告欄</h5>
+    <div class="sub-content">
+      <h6>{{ target_entities[0].coach}}のアドバイス</h6>
+      <p>{{ target_entities[0].coach_advice}}</p>
+    </div>
 
-  <form action="{{ url_for('outline_c.add_comment', target_outline_id=target_entities[0].outline_id)}}" method="post" class="comment-space">
-    <div>
-      <label for="name">名前</label>
-      <input type="text" class="comment-name-font input-form" id="name" name="name">
+    <div class="sub-content">
+      <h6>練習報告</h6>
+      <p>{{ target_entities[0].report}}</p>
     </div>
-    <div>
-      <label for="name">コメント</label>
-      <textarea class="comment-text-font input-form comment-text-input" rows=2 id="comment" name="comment"></textarea>
+
+    <div class="sub-content">
+      <h6>その他</h6>
+      <p>{{ target_entities[0].report_other}}</p>
     </div>
-    <div class="btn-add-comment clearfix">
-      <button type="submit" class="btn btn-primary comment-edit-button flexiblebox">
-        <img src="{{ url_for('static', filename='img/button/plus.png') }}" class="img-responsive button-img">
-        <p class="button-text"> コメントを追加</p>
-      </button>
-    </div>
-  </form>
   <hr>
 
   {% for user_comment in sorted_comments %}
