@@ -1,28 +1,76 @@
+$(function() {
+    // Setup leaflet map
+    var map = new L.Map('map');
 
-var map;
-function initMap() {
+    var basemapLayer = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'}).addTo(map);
 
-  // MTMLから、地図を表示したいcanvas要素を取得する
-  var canvas = document.getElementById('map_canvas');
+    // Center map and default zoom level
+    map.setView([44.61131534, -123.4726739], 9);
 
-  // map中心の座標
-  var latlng = {
-    lat: 35.297058,
-    lng: 139.5523478
-  };
+    // Adds the background layer to the map
+    map.addLayer(basemapLayer);
 
-  // 中心地点の指定と、マップの拡大具合
-  var map_options = {
-    center: latlng,
-    zoom: 15
-  }
+    // Colors for AwesomeMarkers
+    var _colorIdx = 0,
+        _colors = [
+          'orange',
+          'green',
+          'blue',
+          'purple',
+          'darkred',
+          'cadetblue',
+          'red',
+          'darkgreen',
+          'darkblue',
+          'darkpurple'
+        ];
 
-  // goole mapを表示
-  map = new google.maps.Map(canvas,map_options);
+    function _assignColor() {
+        return _colors[_colorIdx++%10];
+    }
 
-  // マーカー表示する
-  marker = new google.maps.Marker({
-    position: latlng,
-    map: map
-  });
-}
+    // =====================================================
+    // =============== Playback ============================
+    // =====================================================
+
+    // Playback options
+    var playbackOptions = {
+        // layer and marker options
+        layer: {
+            pointToLayer : function(featureData, latlng){
+                var result = {};
+
+                if (featureData && featureData.properties && featureData.properties.path_options){
+                    result = featureData.properties.path_options;
+                }
+
+                if (!result.radius){
+                    result.radius = 5;
+                }
+
+                return new L.CircleMarker(latlng, result);
+            }
+        },
+
+        marker: function(){
+            return {
+                icon: L.AwesomeMarkers.icon({
+                    prefix: 'fa',
+                    icon: 'bullseye',
+                    markerColor: _assignColor()
+                })
+            };
+        }
+    };
+
+    // Initialize playback
+    var playback = new L.Playback(map, demoTracks, null, playbackOptions);
+
+    // Initialize custom control
+    var control = new L.Playback.Control(playback);
+    control.addTo(map);
+
+    // Add data
+    playback.addData(blueMountain);
+
+});
