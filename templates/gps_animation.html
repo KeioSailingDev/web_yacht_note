@@ -2,20 +2,22 @@
 {% block content %}
 
 <!-- スタイルシートの中身がわかり次第、layout.htmlに移したい。 -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/example_2.css') }}">
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/example_2.css') }}"> -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gps_animation.css') }}">
+
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" type="text/css" />
-<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" type="text/css" />
+
+<!-- <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" type="text/css" /> -->
+
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css" />
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" type="text/css" />
 <link rel="stylesheet" href="http://jdewit.github.io/bootstrap-timepicker/css/bootstrap-timepicker.min.css" type="text/css" />
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.css" type="text/css" />
 
-<h3 class="sub-fix-var">GPSアニメーション</h3>
+<!-- <h3 class="sub-fix-var">GPSアニメーション</h3>
+<h5 class="first-sub-title">■ GPS航跡</h5> -->
 
-<h3 class="sub-fix-var">GPSアニメーション</h3>
-<h5 class="first-sub-title">■ GPS航跡</h5>
-
-<div id="map" style="width: 100%; height: 567px"></div>
+<div id="map"></div>
 
   <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
@@ -34,27 +36,28 @@
     <div class="transport">
       <div class="navbar">
         <div class="navbar-inner">
+
           <!-- 再生ボタン -->
-          <ul class="nav">
-            <li class="ctrl">
-              <a id="play-pause" href="#"><i id="play-pause-icon" class="fa fa-play fa-lg"></i></a>
-            </li>
-          </ul>
-          <ul class="nav pull-right">
-            <!-- スライダーとボタン（ボタンはどう記述されているか不明） -->
-            <li>
-              <div id="time-slider"></div>
-            </li>
+          <div class="nav nav-button ctrl">
+            <a id="play-pause" href="#"><i id="play-pause-icon" class="fa fa-play fa-lg nav-icon"></i></a>
+          </div>
+
+          <!-- <ul class="nav pull-right"> -->
             <!-- 早送りボタン -->
-            <li class="ctrl dropup">
-              <a id="speed-btn" data-toggle="dropdown" href="#"><i class="fa fa-dashboard fa-lg"></i> <span id="speed-icon-val" class="speed">1</span>x</a>
-              <div class="speed-menu dropdown-menu" role="menu" aria-labelledby="speed-btn">
-                <label>Playback<br/>Speed</label>
-                <input id="speed-input" class="span1 speed" type="text" value="1" />
-                <div id="speed-slider"></div>
-              </div>
-            </li>
-          </ul>
+          <div class="nav nav-button ctrl dropup">
+            <a id="speed-btn" class="nav-icon" data-toggle="dropdown" href="#"><span id="speed-icon-val" class="speed">1</span>x</a>
+            <div class="speed-menu dropdown-menu" role="menu" aria-labelledby="speed-btn">
+              <label>Playback<br/>Speed</label>
+              <input id="speed-input" class="span1 speed" type="text" value="1" />
+              <div id="speed-slider"></div>
+            </div>
+          </div>
+
+            <!-- スライダーとボタン（ボタンはどう記述されているか不明） -->
+          <div class="nav nav-slider">
+            <div id="time-slider"></div>
+          </div>
+
         </div>
       </div>
     </div>
