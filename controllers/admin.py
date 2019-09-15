@@ -19,12 +19,17 @@ def admin_top():
     """
     管理ページのルートページ
     """
-    return render_template('admin_top.html')
+
+    page_title = "管理項目一覧"
+
+    return render_template('admin_top.html', page_title=page_title)
 
 
 @admin_c.route("/admin/player")
 def admin_player():
-    """選手の管理画面を表示"""
+    """
+    選手の管理画面を表示
+    """
 
     query_p = client.query(kind='Player')
     players_list = list(query.fetch_retry(query_p))
@@ -34,7 +39,10 @@ def admin_player():
     this_year = (datetime.now()).year
     admission_years = list(range(this_year-10, this_year+10))
 
-    return render_template('admin_player.html', title='選手管理', \
+    #ページタイトル
+    page_title = "選手管理"
+
+    return render_template('admin_player.html', title="管理項目一覧", page_title=page_title,\
     sorted_players=sorted_players, admission_years=admission_years)
 
 
@@ -121,7 +129,10 @@ def admin_yacht():
     yachts_list = list(query.fetch_retry(query_y))
     sorted_yachts = sorted(yachts_list, key=lambda yacht: yacht["yacht_no"])
 
-    return render_template('admin_yacht.html', title = 'ヨット管理', sorted_yachts = sorted_yachts)
+    #ページタイトル
+    page_title = "ヨット管理"
+
+    return render_template('admin_yacht.html', page_title=page_title, sorted_yachts = sorted_yachts)
 
 @admin_c.route("/admin/addyacht", methods=['POST'])
 def add_yacht():
@@ -198,7 +209,10 @@ def admin_device():
     devices_list = list(query.fetch_retry(query_d))
     sorted_devices = sorted(devices_list, key=lambda device: device["device_id"])
 
-    return render_template('admin_device.html', title='デバイス管理', sorted_devices=sorted_devices)
+    #ページタイトル
+    page_title = "デバイス管理"
+
+    return render_template('admin_device.html', title='デバイス管理', page_title=page_title, sorted_devices=sorted_devices)
 
 @admin_c.route("/admin/adddevice", methods=['POST'])
 def add_device():
@@ -269,7 +283,10 @@ def admin_menu():
     menus_list = list(query.fetch_retry(query_m))
     sorted_menus = sorted(menus_list, key=lambda menu: menu["training_menu"])
 
-    return render_template('admin_menu.html', title='練習メニュー', sorted_menus=sorted_menus)
+    #ページタイトル
+    page_title = "練習メニュー"
+
+    return render_template('admin_menu.html', page_title=page_title, sorted_menus=sorted_menus)
 
 @admin_c.route("/admin/addmenu", methods=['POST'])
 def add_menu():

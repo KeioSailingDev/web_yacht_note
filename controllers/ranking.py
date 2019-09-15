@@ -149,6 +149,9 @@ class Ranking(object):
         start_time = dict(outline).get('start_time')
         end_time = dict(outline).get('end_time')
 
+        #ページタイトル
+        page_title = "ランキング / " + outline_name
+
         # 配艇情報を取得
         haitei = list(r.query_by_outlineid(kind_name="Outline_yacht_player",
                                            target_outline_id=target_outline_id))
@@ -190,7 +193,7 @@ class Ranking(object):
 
         return render_template('ranking.html', title='ランキング',
                                no_value_message=no_value_message,
-                               outline_name=outline_name,
+                               page_title=page_title,
                                outline_id=outline_id,
                                target_outline_id=target_outline_id,
                                max_speed_values=max_speed_values,

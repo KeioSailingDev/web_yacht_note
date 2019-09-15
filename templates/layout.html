@@ -41,10 +41,15 @@
 
 <body>
     <header>
-      <p id="top-title" href="{{ url_for('top_c.top')}}">
+      <div>
+        <p id="top-title" href="{{ url_for('top_c.top')}}">
           <a href="{{ url_for('top_c.top')}}" style="color: white;text-decoration:none">Webヨットノート</a>
-      </p>
-      <a id="sidr-left-top-button" class="menu-button left" href="#sidr-left-top">Toggle menu</a>
+        </p>
+        <a id="sidr-left-top-button" class="menu-button left" href="#sidr-left-top">Toggle menu</a>
+      </div>
+      <div>
+        <h3 class="sub-fix-var">{{ page_title }}</h3>
+      </div>
 
       {% block right_sidebar_button %}{% endblock %}
 

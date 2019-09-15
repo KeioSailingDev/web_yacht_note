@@ -88,5 +88,5 @@ def top():
     # 右サイドバーのフィルター用の項目
     outline_selections = query.get_outline_selections()
 
-    return render_template('top.html', title='Webヨットノート', outline_list=outline_list,
-                           outline_selections=outline_selections, form_default=form_values)
+    return render_template('top.html', title='Webヨットノート', page_title='練習ノート一覧',
+                            outline_list=outline_list, outline_selections=outline_selections, form_default=form_values)
