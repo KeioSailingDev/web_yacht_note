@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Include Sidr bundled CSS theme -->
+
+    <!-- サイドバー用のCSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.sidr.light.css') }}">
 
     <!-- ios でホーム画面から開いたときにアプリっぽく全画面表示する -->
@@ -19,99 +19,74 @@
     <!-- アイコン画像 -->
     <link rel="apple-touch-icon-precomposed" href="{{ url_for('static', filename='img/icon.jpg') }}" />
 
-  <title>{{ title }}</title>
-
     <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
 
     <script src="{{ url_for('static', filename='js/font.js') }}"></script>
-    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
 
+    <!-- Bootstrap関連 -->
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script src="{{url_for('static', filename='jquery/top_row_click.js')}}"></script>
+
+    <script src="{{ url_for('static', filename='js/toppage.js') }}"></script>
+
+    <!-- サイドバー関連 -->
+    <script src="{{ url_for('static', filename='js/jquery.sidr.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/side-var.js') }}"></script>
+
+  <title>{{ title }}</title>
 
 </head>
 
 <body>
     <header>
-        <p id="top-title" href="{{ url_for('top_c.top')}}">
-            <a href="{{ url_for('top_c.top')}}" style="color: white;text-decoration:none">Webヨットノート</a>
-        </p>
-        <a id="sidr-left-top-button" class="menu-button left" href="#sidr-left-top">Toggle menu</a>
-        {% block right_sidebar_button %}{% endblock %}
+      <p id="top-title" href="{{ url_for('top_c.top')}}">
+          <a href="{{ url_for('top_c.top')}}" style="color: white;text-decoration:none">Webヨットノート</a>
+      </p>
+      <a id="sidr-left-top-button" class="menu-button left" href="#sidr-left-top">Toggle menu</a>
+
+      {% block right_sidebar_button %}{% endblock %}
+
     </header>
 
-  <div id="wrapper" class="main-size">
+    <div id="wrapper" class="main-size">
 
     <div id="sidr-left-top">
         <ul class="sidebar-nav">
             <li style="background-color: #474647">
-                <a href="#sidr-left-top" class="close-sidr" style="color: white" onclick="$.sidr('close', 'sidr-left-top');return false;">
-                    <img src="{{ url_for('static', filename='img/left_bar/back.png') }}" height="30px"> メニュー
-                </a>
+              <a href="#sidr-left-top" class="close-sidr" style="color: white" onclick="$.sidr('close', 'sidr-left-top');return false;">
+                <img src="{{ url_for('static', filename='img/left_bar/back.png') }}" height="30px"> メニュー
+              </a>
             </li>
             <li>
-                <a href="{{ url_for('top_c.top')}}"><img src="{{ url_for('static', filename='img/left_bar/home.png') }}" height="30px"> トップページ</a>
+              <a href="{{ url_for('top_c.top')}}"><img src="{{ url_for('static', filename='img/left_bar/home.png') }}" height="30px"> トップページ</a>
             </li>
             <li>
-                <a href="{{ url_for('how_to_use_c.how_to_use')}}"><img src="{{ url_for('static', filename='img/left_bar/gear.png') }}" height="30px"> 使い方</a>
+              <a href="{{ url_for('how_to_use_c.how_to_use')}}"><img src="{{ url_for('static', filename='img/left_bar/gear.png') }}" height="30px"> 使い方</a>
             </li>
             <li>
-                <a href="{{ url_for('ranking_c.ranking')}}" onClick="loading();"><img src="{{ url_for('static', filename='img/left_bar/crown.png') }}" height="30px"> ランキング</a>
+              <a href="{{ url_for('ranking_c.ranking')}}" onClick="loading();"><img src="{{ url_for('static', filename='img/left_bar/crown.png') }}" height="30px"> ランキング</a>
             </li>
             <li>
-                <a href="{{ url_for('admin_c.admin_top')}}"><img src="{{ url_for('static', filename='img/left_bar/wrench.png') }}" height="30px"> 管理ページ</a>
+              <a href="{{ url_for('admin_c.admin_top')}}"><img src="{{ url_for('static', filename='img/left_bar/wrench.png') }}" height="30px"> 管理ページ</a>
             </li>
             <li>
-                <a href="{{ url_for('demand_c.demand')}}" onClick="loading();"><img src="{{ url_for('static', filename='img/left_bar/update.png') }}" height="30px"> アップデート予定</a>
+              <a href="{{ url_for('demand_c.demand')}}" onClick="loading();"><img src="{{ url_for('static', filename='img/left_bar/update.png') }}" height="30px"> アップデート予定</a>
             </li>
         </ul>
         <p class="text-muted text-center">© 2019 Webヨットノート</p>
     </div>
     <!-- 右サイドバー -->
     {% block right_sidebar %}{% endblock %}
+
     <div id="content">
         <!-- Page Content -->
         {% block content %}{% endblock %}
     </div>
+
     <!-- /#page-content-wrapper -->
   </div>
-
-
-
-
-    <script src="{{ url_for('static', filename='js/toppage.js') }}"></script>
-    <script src="{{url_for('static', filename='jquery/top_row_click.js')}}"></script>
-
-    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/jquery.sidr.js') }}"></script>
-
-    <script>
-        $(document).ready(function () {
-          $('#sidr-left-top-button').sidr({
-            name: 'sidr-left-top',
-            timing: 'ease-in-out',
-            speed: 500,
-            source: 'sidr-left-top'
-          });
-          $('#sidr-right-top-button').sidr({
-            name: 'sidr-right-top',
-            speed: 500,
-            side: 'right',
-            source: 'sidr-right-top'
-          });
-        });
-        $( window ).resize(function () {
-          $.sidr('close', 'sidr-left-top');
-          $.sidr('close', 'sidr-right-top');
-        });
-    </script>
-
-    <script type="text/javascript">// <![CDATA[
-        function loading(){
-            $("#loading").show();
-            // $("#content").hide();
-            $("#loading").fadeOut(10000);
-            // $("#content").fadeIn(50000);
-        }
-    </script>
 
 </body>
 </html>

@@ -6,6 +6,7 @@
   bottom: 0;
 }
 
+/* オリジナル */
 #map {
   width: 100%;
   height : -webkit-calc(100% - 20px) ;
@@ -20,10 +21,10 @@ footer.lp {
 }
 
 /* オリジナル */
-/* .lp .transport {
-  margin: 0 auto;
-  width:768px;
-} */
+.nav {
+  float: left;
+}
+
 .lp .transport {
   margin: 0 auto;
   width:100%;
@@ -36,6 +37,9 @@ footer.lp {
 .lp .navbar-inner {
   padding-right: 0;
   padding-left: 0;
+
+  width: 90%;
+  margin: 0px 15px 0px 15px;
 }
 
 .lp #play-pause {
@@ -51,7 +55,12 @@ footer.lp {
 }
 
 .lp #time-slider {
-  width:370px;
+  /* width:370px; */
+
+  /* オリジナル */
+  width : -webkit-calc(100% - 50px);
+  width : calc(100% - 50px);
+  float: left;
 }
 
 .lp #calendar {

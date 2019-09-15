@@ -1,8 +1,6 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<!-- スタイルシートの中身がわかり次第、layout.htmlに移したい。 -->
-<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/example_2.css') }}"> -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/gps_animation.css') }}">
 
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" type="text/css" />
@@ -14,70 +12,69 @@
 <link rel="stylesheet" href="http://jdewit.github.io/bootstrap-timepicker/css/bootstrap-timepicker.min.css" type="text/css" />
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.css" type="text/css" />
 
+<!-- ↓サイドバーとコンフリクト起こしている -->
+<!-- <script src="http://code.jquery.com/jquery-1.11.0.js"></script> -->
+
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="http://jdewit.github.io/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.js"></script>
+
+<script src="{{url_for('static', filename='js/LeafletPlayback.js')}}"></script>
+<script src="{{url_for('static', filename='js/demo-tracks.js')}}"></script>
+<script src="{{url_for('static', filename='js/control.js')}}"></script>
+<script src="{{url_for('static', filename='js/gps_animation.js')}}"></script>
+
 <!-- <h3 class="sub-fix-var">GPSアニメーション</h3>
 <h5 class="first-sub-title">■ GPS航跡</h5> -->
 
 <div id="map"></div>
 
-  <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
-
-  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-  <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-  <script src="http://jdewit.github.io/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.js"></script>
-
-  <script src="{{url_for('static', filename='js/LeafletPlayback.js')}}"></script>
-  <script src="{{url_for('static', filename='js/demo-tracks.js')}}"></script>
-  <script src="{{url_for('static', filename='js/control.js')}}"></script>
-  <script src="{{url_for('static', filename='js/gps_animation.js')}}"></script>
-
-  <footer class="lp">
-    <div class="transport">
-      <div class="navbar">
-        <div class="navbar-inner">
-
-          <!-- 再生ボタン -->
-          <div class="nav nav-button ctrl">
-            <a id="play-pause" href="#"><i id="play-pause-icon" class="fa fa-play fa-lg nav-icon"></i></a>
+<!-- マップのナビバー -->
+<footer class="lp">
+  <div class="transport">
+    <div class="navbar">
+      <div class="navbar-inner">
+      <!-- 再生ボタン -->
+        <div class="nav nav-button ctrl">
+          <a id="play-pause" href="#"><i id="play-pause-icon" class="fa fa-play fa-lg nav-icon"></i></a>
+        </div>
+      <!-- 早送りボタン -->
+        <div class="nav nav-button ctrl dropup">
+          <a id="speed-btn" class="nav-icon" data-toggle="dropdown" href="#"><span id="speed-icon-val" class="speed">1</span>x</a>
+          <div class="speed-menu dropdown-menu" role="menu" aria-labelledby="speed-btn">
+            <label>Playback<br/>Speed</label>
+            <input id="speed-input" class="span1 speed" type="text" value="1" />
+            <div id="speed-slider"></div>
           </div>
-
-          <!-- <ul class="nav pull-right"> -->
-            <!-- 早送りボタン -->
-          <div class="nav nav-button ctrl dropup">
-            <a id="speed-btn" class="nav-icon" data-toggle="dropdown" href="#"><span id="speed-icon-val" class="speed">1</span>x</a>
-            <div class="speed-menu dropdown-menu" role="menu" aria-labelledby="speed-btn">
-              <label>Playback<br/>Speed</label>
-              <input id="speed-input" class="span1 speed" type="text" value="1" />
-              <div id="speed-slider"></div>
-            </div>
-          </div>
-
-            <!-- スライダーとボタン（ボタンはどう記述されているか不明） -->
-          <div class="nav nav-slider">
-            <div id="time-slider"></div>
-          </div>
-
+        </div>
+      <!-- スライダーとボタン（ボタンはどう記述されているか不明） -->
+        <div class="nav nav-slider">
+          <div id="time-slider"></div>
         </div>
       </div>
     </div>
-  </footer>
-  <div id="load-tracks-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="load-tracks-label" aria-hidden="true">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="load-tracks-label">Load GPS Tracks</h3>
-    </div>
-    <div class="modal-body">
-      <p>
-        Leaflet Playback supports GeoJSON and GPX files. CSV support coming soon!
-      </p>
-      <label>Upload a File</label>
-      <input type="file" id="load-tracks-file" />
-    </div>
-    <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-      <button id="load-tracks-save" class="btn btn-primary">Load</button>
-    </div>
   </div>
+</footer>
+
+<div id="load-tracks-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="load-tracks-label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="load-tracks-label">Load GPS Tracks</h3>
+  </div>
+  <div class="modal-body">
+    <p>
+      Leaflet Playback supports GeoJSON and GPX files. CSV support coming soon!
+    </p>
+    <label>Upload a File</label>
+    <input type="file" id="load-tracks-file" />
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <button id="load-tracks-save" class="btn btn-primary">Load</button>
+  </div>
+</div>
 
 {% endblock %}
