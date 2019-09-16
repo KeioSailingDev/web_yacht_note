@@ -20,7 +20,12 @@ header{
     display: block;
     top: 0;
     left: 0;
+
+    /* 0915修正前 */
     height: 45px;
+    /* 0915修正後 */
+    height: 73px;
+
     background-color: rgb(43,40,41);
     width: 100%;
     z-index: 2;
@@ -30,13 +35,13 @@ header{
 
 p#top-title {
   text-align: center;
+  margin: 0px;
   padding: 5px 0px 5px 0px;
   font-size: 25px;
 }
 
-
 div#wrapper{
-    margin-top: 40px;
+    margin-top: 45px;
     margin-bottom:100px;
 }
 
@@ -117,6 +122,10 @@ body {
   -webkit-text-size-adjust: none;
 }
 
+div#content {
+  margin-top: 73px;
+}
+
 /*ローディングアイコン*/
 p#loading {
     display: none;
@@ -134,11 +143,21 @@ li#left-menu-header{
 h3.sub-fix-var {
   width: 100%;
   height: 28px;
-  margin: -28px 0px 0px 0px;
+
+  /* 0915修正前 */
+　/* 0915修正後 */
+  margin: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+
   padding-top: 7px;
   padding-bottom: 5px;
   background-color: rgb(0,0,0);
-  position: fixed;
+
+
+  /* 0915修正前  ※修正後はなし */
+  /* position: fixed; */
+
   color: rgb(255,255,255);
   text-align: center;
   font-size: 18px;
@@ -439,6 +458,12 @@ a.outline-comment:active {
   text-decoration: none;
   -webkit-tap-highlight-color:#FF9900;
 }
+/*========GPS(show_outline.html)========*/
+#map_canvas {
+  width: 100%;
+  height: -webkit-calc(100% - 160px);
+}
+
 
 /*========練習概要追加・変更ページ(show_outline.html)========*/
 /*スキッパーとクルーの表*/
@@ -540,7 +565,6 @@ div.slider-range input.range-input {
   margin-bottom: 10px;
 }
 
-
 input[type="range"] {
 -webkit-appearance:none;
 width: 100%;
@@ -560,7 +584,6 @@ div.slider-value {
   width: 65px;
   display: inline-block;
 }
-
 
 /* ラジオボタン */
 p.radio-button {
@@ -599,7 +622,6 @@ p.radio-button {
 .segmented-8 .label {
   width: 60px;
 }
-
 
 .segmented-3 input:checked + .label,
 .segmented-8 input:checked + .label {
@@ -694,15 +716,6 @@ div.ranking-input select {
   float: right;
 }
 
-/* div#btn-filter-box {
-  width: 100%;
-} */
-
-/* button#btn-filter {
-  float: right;
-  margin: 10px 0px 10px auto;
-} */
-
 div.ranking-form-set {
   width: 100%;
 }
@@ -727,8 +740,6 @@ div.ranking-form-set {
 .manual-img img {
   width: 100%;
 }
-
-
 /*============================*/
 
 /* Settings for fullwidth */

@@ -57,7 +57,6 @@ class Outline(object):
                 )
             {}
             """.format(select_str, table_name, devices_str, start_time, end_time, order_by_str)
-        print(query_string)
 
         query_job = client_bq.query(query_string)
 
@@ -90,7 +89,6 @@ class Outline(object):
         table = bigquery_client.get_table(table_ref)  # API call
 
         errors = bigquery_client.insert_rows(table, rows_to_insert)  # API request
-        print(errors)
         assert errors == []
 
     @outline_c.route("/draw_map/<int:target_outline_id>", methods=['GET', 'POST'])
@@ -177,6 +175,9 @@ class Outline(object):
 
         # query
         target_entities = query.get_outline_entities(target_outline_id)
+        # print("エンティティ")
+        # print(target_entities)
+
         sorted_comments = query.get_user_comments(target_outline_id)
         outline_html = list(o.run_map_query(outline_id=target_outline_id))
 
@@ -193,6 +194,10 @@ class Outline(object):
         yacht_color = [["", ""]]
         log_message = "GPSデータなし"
         public_url = ""
+
+        #ページタイトル
+        page_title = target_entities[0]['date'] + target_entities[0]['day']
+        print(page_title)
 
         # デバイスが登録されていなければ、GPSログなし、あれば、GPSログの数をカウント
         if len(entities) < 1:
@@ -259,12 +264,19 @@ class Outline(object):
         data_dict["training_ratio"] = training_data['training_time'].apply(lambda x: round((x/training_data['training_time'].sum())*100)).tolist()
 
         return render_template('outline_detail.html', title='練習概要',
+                                page_title=page_title,
                                 target_entities=target_entities,
                                 sorted_comments=sorted_comments,
                                 log_message=log_message,
                                 html_url=public_url,
                                 yacht_color=yacht_color,
                                 training_data=data_dict)
+
+    @outline_c.route("/gps_animation/<int:target_outline_id>/", methods=['GET','POST'])
+    def gps_animation(target_outline_id, is_new=None):
+
+        return render_template('gps_animation.html')
+
 
     @outline_c.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
     def show_outline(target_outline_id, is_new=None):
@@ -322,7 +334,7 @@ class Outline(object):
 
         outline_selections = query.get_outline_selections()
 
-        return render_template('show_outline.html', title='練習ノートを編集',\
+        return render_template('show_outline.html', title='練習ノートを編集', page_title='練習ノートを編集',\
                                 target_entities=target_entities, outline_selections=outline_selections)
 
     @outline_c.route("/outline/mod_outline/<int:target_outline_id>", methods=['POST'])

@@ -4,7 +4,7 @@
   <script type="text/javascript" src="{{url_for('static', filename='js/outline.js')}}"></script>
   <script type="text/javascript" src="{{url_for('static', filename='js/pop_up.js')}}"></script>
 
-  <h3 class="sub-fix-var">{{ title }}</h3>
+  <!-- <h3 class="sub-fix-var">{{ page_title }}</h3> -->
 
   <form action="{{ url_for('outline_c.mod_outline', target_outline_id=target_entities[0].outline_id) }}" method="post" class="form-horizontal">
 

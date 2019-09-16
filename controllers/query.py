@@ -57,7 +57,6 @@ def get_outline_selections():
                      {"player_name":"=====わ行=====","player_spell":"わ", "disabled":True}]
 
     player_names.extend(initial_label)
-    print(player_names)
 
     player_names = sorted(player_names, key=lambda player: player["player_spell"])
 
