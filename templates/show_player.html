@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+  <h3 class="sub-fix-var">ユーザー詳細</h3>
+
+  <h5 class="first-sub-title">■ ユーザーデータの編集</h5>
+
+  <form action="{{ url_for('admin_c.mod_player', player_id=target_player.key.id) }}" method="post" class="admin-form-set">
+
+    <div class="clearfix">
+      <div class="float-label">
+        <label for="playername">氏名</label>
+      </div>
+      <div class="float-input">
+        <input type="text" class="input-form" id="playername" name="playername" value="{{ target_player.player_name }}">
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <div class="float-label">
+        <label for="playerspell">読み仮名</label>
+      </div>
+      <div class="float-input">
+        <input type="text" class="input-form" id="playerspell" name="playerspell" value="{{ target_player.player_spell }}">
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <div class="float-label">
+        <label for="year" class="col-sm-2 control-label">入学年</label>
+      </div>
+      <div class="float-input">
+        <select name="year" id="year" class="input-form">
+          {% for admission_year in admission_years %}
+            {% if admission_year == target_player.admission_year %}
+              <option value={{ admission_year }} selected>{{ admission_year }}</option>
+            {% else %}
+              <option value={{ admission_year }}>{{ admission_year }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="admin-add-data clearfix">
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 変更
+      </button>
+    </div>
+  </form>
+{% endblock %}

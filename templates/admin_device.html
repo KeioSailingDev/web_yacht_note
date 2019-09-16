@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h3 class="sub-fix-var">{{ title }}</h3>
+
+  <h5 class="first-sub-title">■ 新規追加</h5>
+  <form action="{{ url_for('admin_c.add_device') }}" method="post" class="admin-form-set">
+
+    <div class="clearfix">
+      <div class="float-label">
+        <label for="device_id">デバイスID</label>
+      </div>
+      <div class="float-input">
+        <input type="text" class="input-form" id="device_id" name="device_id">
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <button type="submit" class="btn btn-primary comment-edit-button flexiblebox btn-float-right">
+        <img src="{{ url_for('static', filename='img/button/plus.png') }}" class="img-responsive button-img">
+        <p class="button-text">デバイス追加</p>
+      </button>
+    </div>
+
+  </form>
+
+  <h5 class="sub-title">■ 登録済みヨット</h5>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>デバイスID</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for device in sorted_devices %}
+      <tr>
+        <td>{{device.device_id}}</td>
+        <td>
+          <a class="btn btn-success" href="{{ url_for('admin_c.show_device', device_id=device.key.id) }}">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 変更
+          </a>
+        </td>
+        <td>
+          <form class="text-right" action="{{ url_for('admin_c.del_device', device_id=device.key.id) }}" method="post">
+            <button type="submit" class="btn btn-danger">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 削除
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

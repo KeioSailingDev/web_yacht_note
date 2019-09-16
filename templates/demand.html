@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+  <h3 class="sub-fix-var">アップデート予定＆要望一覧</h3>
+
+  <h5 class="first-sub-title">■ 現在作成中！!</h5>
+  <table class="table table-hover">
+    <tbody>
+      {% for demand in demands %}
+        {% if demand.status == 'working' %}
+            <tr>
+                <td>{{ demand.demand }}</td>
+            </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h5 class="sub-title">■ いただいている要望</h5>
+  <table class="table table-hover">
+    <tbody>
+      {% for demand in demands %}
+        {% if demand.status == 'waiting' %}
+            <tr>
+                <td>{{ demand.demand }}</td>
+            </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

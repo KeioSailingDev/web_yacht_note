@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+  <h3 class="sub-fix-var">デバイス詳細</h3>
+
+  <h5 class="first-sub-title">■ デバイスデータの編集</h5>
+
+  <form action="{{ url_for('admin_c.mod_device', device_id=target_device.key.id) }}" method="post" class="admin-form-set">
+
+    <div class="clearfix">
+      <div class="float-label">
+        <label for="device_id">デバイスID</label>
+      </div>
+      <div class="float-input">
+        <input type="text" class="input-form" id="device_id" name="device_id" value="{{ target_device.device_id }}">
+      </div>
+    </div>
+
+    <div class="admin-add-data clearfix">
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 変更
+      </button>
+    </div>
+
+  </form>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h3 class="sub-fix-var">使い方</h3>
+
+  <h5 class="first-sub-title">■ トップページ</h5>
+    <div class="manual-img">
+      <img src="../static/img/manual/intro_home.png" class="img-responsive">
+    </div>
+    <div class="manual-text">
+      <p>
+        ①メニューボタン：別のページに移動するときに使う。使い方やランキング、管理ページ、アップデート予定ページに飛ぶことができる。管理ページでは選手や練習メニュー、艇番、GPS記録用のデバイスを登録・編集することができる。<br>
+        ②フィルター：ヨットノートを検索するときに使う。日付や風光、風速、海面の状況を限定して検索することができる。<br>
+        ③メニューバー：今見ているページの場所を確認することができる。<br>
+        ④ヨットノート：練習概要ページに飛ぶことができる。<br>
+        ⑤海況アイコン：その日の海況をひと目で確認することができる。左から風速、風向、波高を表している。<br>
+        ⑥新規ノート作成ボタン：練習ノートを新しく作成するページに飛ぶことができる。<br>
+      </p>
+    </div>
+
+  <h5 class="sub-title">■ 新規ノート作成ページ</h5>
+    <div class="manual-img">
+      <img src="../static/img/manual/intro_createNew.png" class="img-responsive">
+    </div>
+    <div class="manual-text">
+      <p>
+        ①風向変化量：振れの強弱の大きさを入力する。<br>
+        ②風速変化量：ブローの強弱の大きさを入力する。<br>
+        ③海面状況：フラットとは波高が低い状況のこと。チョッピーとは波長が短く波高が高い状況のこと。高波とは波長が長く波高が高い状況のこと。<br>
+        ④うねり：海面自体の大きな高さの変化量を入力する。<br>
+        ⑤デバイス：GPSデータを記録した場合、記録に使った端末の名前を選択する。記録していない場合は選択しなくてよい。<br>
+        ⑥練習メニューにかかった時間を入力する。<br>
+      </p>
+    </div>
+
+  <h5 class="sub-title">■ 練習概要ページ</h5>
+    <div class="manual-img">
+      <img src="../static/img/manual/intro_abst.png" class="img-responsive">
+    </div>
+    <div class="manual-text">
+      <p>
+        ①艇番の文字色と航跡の線の色が対応している。<br>
+        ②GPSデータを更新ボタン：GPSデータをアップロードしてから更新ボタンを押すと反映される。<br>
+        ③Slackに投稿ボタン：練習概要をまとめた文章がSlackに投稿される。<br>
+        ④海面状況、配艇、練習メニューを編集することができる。<br>
+      </p>
+    </div>
+
+
+{% endblock %}

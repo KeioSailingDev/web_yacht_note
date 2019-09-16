@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+
+{% block right_sidebar_button %}
+<a id="sidr-right-top-button" class="menu-button right" href="#sidr-right-top">Toggle menu</a>
+{% endblock %}
+
+{% block right_sidebar %}
+
+<div id="sidr-right-top">
+  <form action="{{ url_for('top_c.top') }}" method="post" class="w">
+      <ul>
+
+        <li style="background-color: #474647; text-align: right">
+          <a href="#sidr-left-top" class="close-sidr" style="color: white" onclick="$.sidr('close', 'sidr-right-top');return false;">
+            練習を検索 <img src="{{ url_for('static', filename='img/back_filter.png') }}" height="30px">
+          </a>
+        </li>
+
+        <li class="r-bar-li">
+          <label for="filter_date" class="r-bar-label">日付</label>
+          <input type="date" class="form-control r-bar-input r-bar-input-reset" id="filter_date" name="filter_date", value={{ form_default.filter_date }}>
+        </li>
+
+        <li class="r-bar-li">
+          <label for="filter_wind_dir" class="r-bar-label">風向</label>
+          <select name="filter_wind_dir" id="filter_wind_dir" class="form-control r-bar-sel" value={{ form_default.filter_wind_dir }}>
+              <option value="">未入力</option>
+            {% for wind_dir_category in outline_selections[9] %}
+                {% if wind_dir_category[1] == form_default.filter_wind_dir  %}
+                    <option selected value={{ wind_dir_category[1] }}>{{ wind_dir_category[0] }}</option>
+                {% else %}
+                    <option value={{ wind_dir_category[1] }}>{{ wind_dir_category[0] }}</option>
+                {% endif %}
+            {% endfor %}
+          </select>
+        </li>
+
+        <li class="r-bar-li">
+          <label for="filter_wind_speed" class="r-bar-label">風速</label>
+          <select name="filter_wind_speed" id="filter_wind_speed" class="form-control r-bar-sel">
+              <option value="">未入力</option>
+            {% for wind_speed_category in outline_selections[10] %}
+                {% if wind_speed_category[1] == form_default.filter_wind_speed  %}
+                    <option selected value={{ wind_speed_category[1] }}>{{ wind_speed_category[0] }}</option>
+                {% else %}
+                    <option value={{ wind_speed_category[1] }}>{{ wind_speed_category[0] }}</option>
+                {% endif %}
+            {% endfor %}
+          </select>
+        </li>
+
+        <li class="r-bar-li">
+          <label for="filter_wave" class="r-bar-label">海面</label>
+          <select name="filter_wave" id="filter_wave" class="form-control r-bar-sel"}}>
+              <option value="">未入力</option>
+            {% for wave_category in outline_selections[11] %}
+              {% if wave_category[1] == form_default.filter_wave  %}
+                <option selected value={{ wave_category[1] }}>{{ wave_category[0] }}</option>
+              {% else %}
+                  <option value={{ wave_category[1] }}>{{ wave_category[0] }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </li>
+
+      </ul>
+
+      <button type="submit" id="r-bar-btn" class="btn btn-primary flexiblebox btn-margin">
+        <img src="{{ url_for('static', filename='img/button/search.png') }}" class="img-responsive button-img">
+        <p id="r-bar-btn-p">検索</p>
+      </button>
+
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  </form>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+  <h3 class="sub-fix-var">練習ノート一覧</h3>
+
+    <!--ローディング    -->
+    <p id="loading" class="bg-info text-center" style="display: none">データを読み込み中・・・</p>       <!-- Nav -->
+
+  <table id="toppage-table" class="table table-hover">
+    <tbody>
+      {% for outline in outline_list %}
+      <tr data-href="outline/{{ outline.outline_id }}" onClick="loading();">
+        <td>{{ outline.date }} {{ outline.day }}</td>
+        <td>
+          <img src="../static/img/flag/{{ outline.icon_flag }}" class="img-responsive">
+        </td>
+        <td>
+          <img src="../static/img/compass/{{ outline.icon_compass }}" class="img-responsive">
+        </td>
+        <td>
+          <img src="../static/img/wave/{{ outline.icon_wave }}" class="img-responsive">
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div id="button-footer" class="text-center">
+     <a href="{{ url_for('outline_c.show_outline', target_outline_id = 000)}}" onClick="loading();">
+        <img id="add-button" src="../static/css/plus_button.png" width="64px" height="64px">
+     </a>
+  </div>
+
+
+{% endblock %}

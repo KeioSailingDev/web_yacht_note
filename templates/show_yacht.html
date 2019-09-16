@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+  <h3 class="sub-fix-var">ヨット詳細</h3>
+
+  <h5 class="first-sub-title">■ ヨットデータの編集</h5>
+
+  <form action="{{ url_for('admin_c.mod_yacht', yacht_id=target_yacht.key.id) }}" method="post" class="admin-form-set">
+
+    <div class="clearfix">
+      <div class="float-label">
+        <label for="yachtno">艇番</label>
+      </div>
+      <div class="float-input">
+        <input type="text" class="input-form" id="yachtno" name="yachtno" value="{{ target_yacht.yacht_no }}">
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <div class="float-label">
+        <label for="yachtclass">艇種</label>
+      </div>
+      <div class="float-input">
+        <input type="text" class="input-form" id="yachtclass" name="yachtclass" value="{{ target_yacht.yacht_class }}">
+      </div>
+    </div>
+
+    <div class="admin-add-data clearfix">
+      <button type="submit" class="btn btn-primary">
+        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> 変更
+      </button>
+    </div>
+
+  </form>
+
+  <!-- <a class="btn btn-default" href="{{ url_for('top') }}">
+    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> 戻る
+  </a> -->
+{% endblock %}
