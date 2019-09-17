@@ -1,3 +1,8 @@
+html,
+body {
+  height: 100%;
+}
+
 /*==========ページ全体(layout.html)への設定==========*/
 body {
   font-family: "VDL-GigaJr", sans-serif;
@@ -43,6 +48,7 @@ p#top-title {
 div#wrapper{
     margin-top: 45px;
     margin-bottom:100px;
+    height: 100%;
 }
 
 .menu-button {
@@ -124,6 +130,7 @@ body {
 
 div#content {
   margin-top: 73px;
+  height: 100%;
 }
 
 /*ローディングアイコン*/
@@ -312,6 +319,10 @@ table#toppage-table thead tr {
     width: 100%;
     height: 100px;
     left: 0;
+}
+
+#buffer {
+  height: 100px;
 }
 
 /*==========TOPページ：右サイドバー==========*/

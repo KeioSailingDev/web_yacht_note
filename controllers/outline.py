@@ -197,7 +197,6 @@ class Outline(object):
 
         #ページタイトル
         page_title = target_entities[0]['date'] + target_entities[0]['day']
-        print(page_title)
 
         # デバイスが登録されていなければ、GPSログなし、あれば、GPSログの数をカウント
         if len(entities) < 1:
@@ -275,7 +274,10 @@ class Outline(object):
     @outline_c.route("/gps_animation/<int:target_outline_id>/", methods=['GET','POST'])
     def gps_animation(target_outline_id, is_new=None):
 
-        return render_template('gps_animation.html')
+        target_entities = query.get_outline_entities(target_outline_id)
+        page_title = target_entities[0]['date'] + target_entities[0]['day']
+
+        return render_template('gps_animation.html', page_title=page_title)
 
 
     @outline_c.route("/show_outline/<int:target_outline_id>/", methods=['GET','POST'])
