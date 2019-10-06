@@ -20,15 +20,20 @@
 <!-- ↓サイドバーとコンフリクト起こしている -->
 <!-- <script src="http://code.jquery.com/jquery-1.11.0.js"></script> -->
 
-<!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script> -->
-<script src="{url_for('static', filename='js/jquery-ui.min.js')}}"></script>
-
 <!-- <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script> -->
 <script src="{{url_for('static', filename='js/leaflet.js')}}"></script>
 
-<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-<script src="http://jdewit.github.io/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.js"></script>
+<!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script> -->
+<script src="{{url_for('static', filename='js/jquery-ui.min.js')}}"></script>
+
+<!-- <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script> -->
+<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+
+<!-- <script src="http://jdewit.github.io/bootstrap-timepicker/js/bootstrap-timepicker.js"></script> -->
+<script src="{{url_for('static', filename='js/bootstrap-timepicker.js')}}"></script>
+
+<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.js"></script> -->
+<script src="{{url_for('static', filename='js/leaflet.awesome-markers.js')}}"></script>
 
 
 <script src="{{url_for('static', filename='js/LeafletPlayback.js')}}"></script>
