@@ -2,7 +2,12 @@ $(function() {
     // Setup leaflet map
     var map = new L.Map('map');
 
-    var basemapLayer = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'}).addTo(map);
+    // map layer
+    var basemapLayer = new  L.tileLayer('https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=0da2c2964ad240698fb6f3f16eec226b', {
+        attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        apikey: '0da2c2964ad240698fb6f3f16eec226b',
+        maxZoom: 22
+    }).addTo(map);
 
     // Center map and default zoom level
     map.setView([44.61131534, -123.4726739], 9);
