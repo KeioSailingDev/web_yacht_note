@@ -2,6 +2,7 @@ $(function() {
     // Setup leaflet map
     var map = new L.Map('map');
 
+    // map layer
     var basemapLayer = new  L.tileLayer('https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=0da2c2964ad240698fb6f3f16eec226b', {
         attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         apikey: '0da2c2964ad240698fb6f3f16eec226b',
