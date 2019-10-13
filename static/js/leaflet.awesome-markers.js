@@ -41,9 +41,10 @@
             var div = document.createElement('div'),
                 options = this.options;
 
-            if (options.icon) {
-                div.innerHTML = this._createInner();
-            }
+            // ピンの二重丸を作成
+            // if (options.icon) {
+            //     div.innerHTML = this._createInner();
+            // }
 
             if (options.bgPos) {
                 div.style.backgroundPosition =
@@ -54,35 +55,40 @@
             return div;
         },
 
-        _createInner: function() {
-            var iconClass, iconSpinClass = "", iconColorClass = "", iconColorStyle = "", options = this.options;
 
-            if(options.icon.slice(0,options.prefix.length+1) === options.prefix + "-") {
-                iconClass = options.icon;
-            } else {
-                iconClass = options.prefix + "-" + options.icon;
-            }
+        // ピンの中心の二重丸を定義するパート　→　本番では使わないので、不要
+        // _createInner: function() {
+        //     var iconClass, iconSpinClass = "", iconColorClass = "", iconColorStyle = "", options = this.options;
+        //
+        //     if(options.icon.slice(0,options.prefix.length+1) === options.prefix + "-") {
+        //         iconClass = options.icon;
+        //     } else {
+        //         iconClass = options.prefix + "-" + options.icon;
+        //     }
+        //
+        //     if(options.spin && typeof options.spinClass === "string") {
+        //         iconSpinClass = options.spinClass;
+        //     }
+        //
+        //     if(options.iconColor) {
+        //         if(options.iconColor === 'white' || options.iconColor === 'black') {
+        //             iconColorClass = "icon-" + options.iconColor;
+        //         } else {
+        //             iconColorStyle = "style='color: " + options.iconColor + "' ";
+        //         }
+        //     }
+        //
+        //     return "<i " + iconColorStyle + "class='" + options.prefix + " " + iconClass + " " + iconSpinClass + " " + iconColorClass + "'></i>";
+        // },
 
-            if(options.spin && typeof options.spinClass === "string") {
-                iconSpinClass = options.spinClass;
-            }
 
-            if(options.iconColor) {
-                if(options.iconColor === 'white' || options.iconColor === 'black') {
-                    iconColorClass = "icon-" + options.iconColor;
-                } else {
-                    iconColorStyle = "style='color: " + options.iconColor + "' ";
-                }
-            }
-
-            return "<i " + iconColorStyle + "class='" + options.prefix + " " + iconClass + " " + iconSpinClass + " " + iconColorClass + "'></i>";
-        },
-
+        // ピンのアイコンと影を作成するときに呼び出される
         _setIconStyles: function (img, name) {
             var options = this.options,
                 size = L.point(options[name === 'shadow' ? 'shadowSize' : 'iconSize']),
                 anchor;
 
+            // 影の作成でない場合（=ピンの作成の場合）、elseが採択される
             if (name === 'shadow') {
                 anchor = L.point(options.shadowAnchor || options.iconAnchor);
             } else {
@@ -93,8 +99,12 @@
                 anchor = size.divideBy(2, true);
             }
 
+            // 第一引数imgには、ピンに付与するdivが入っている
+            // 付与したdiv要素にクラスを付与する
             img.className = 'awesome-marker-' + name + ' ' + options.className;
+            // name： アイコンカラー(icon-color)　とアイコンの影（icon-shadow）の二つを入れる
 
+            // ピンの座標とサイズを定義
             if (anchor) {
                 img.style.marginLeft = (-anchor.x) + 'px';
                 img.style.marginTop  = (-anchor.y) + 'px';
@@ -106,12 +116,12 @@
             }
         },
 
-        createShadow: function () {
-            var div = document.createElement('div');
-
-            this._setIconStyles(div, 'shadow');
-            return div;
-      }
+      //   createShadow: function () {
+      //       var div = document.createElement('div');
+      //
+      //       this._setIconStyles(div, 'shadow');
+      //       return div;
+      // }
     });
 
     L.AwesomeMarkers.icon = function (options) {

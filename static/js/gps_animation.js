@@ -38,6 +38,16 @@ $(function() {
     // =============== Playback ============================
     // =====================================================
 
+    // =====example3.jsからの引用=====
+    // var shipIcon = L.icon({
+    //                         iconUrl: '../img/boat/boat-01.png',
+    //                         iconSize: [7, 20], // size of the icon
+    //                         // shadowSize: [0, 0], // size of the shadow
+    //                         iconAnchor: [3.5, 10], // point of the icon which will correspond to marker's location
+    //                         // shadowAnchor: [0, 0], // the same for the shadow
+    //                         popupAnchor: [0, -10] // point from which the popup should open relative to the iconAnchor
+    //                     });
+
     // Playback options
     var playbackOptions = {
         // layer and marker options
@@ -57,6 +67,7 @@ $(function() {
             }
         },
 
+        // =====元であるexapmle2のもの=====
         marker: function(){
             return {
                 icon: L.AwesomeMarkers.icon({
@@ -66,6 +77,17 @@ $(function() {
                 })
             };
         }
+
+    // =====example3に合わせてみたVer=====
+    //     marker: function(){
+    //         return {
+    //             icon: L.AwesomeMarkers.icon({
+    //                 icon: shipIcon,
+    //             })
+    //         };
+    //     }
+    
+
     };
 
     // Initialize playback

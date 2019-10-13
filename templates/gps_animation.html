@@ -14,8 +14,14 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" type="text/css" />
 <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}"> -->
 
+<!-- ↓不要説 -->
 <link rel="stylesheet" href="https://jdewit.github.io/bootstrap-timepicker/css/bootstrap-timepicker.min.css" type="text/css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.css" type="text/css" />
+
+
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.0/leaflet.awesome-markers.css" type="text/css" /> -->
+<!-- ピン画像が、上記のURLに関連しているため、内部にCSSを取り込むと、画像をロードできなくなる -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/leaflet.awesome-markers.css') }}">
+
 
 <!-- ↓サイドバーとコンフリクト起こしている -->
 <!-- <script src="https://code.jquery.com/jquery-1.11.0.js"></script> -->
