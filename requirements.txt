@@ -36,7 +36,7 @@ pandas==0.23.4
 ply==3.8
 proto-google-cloud-datastore-v1==0.90.4
 protobuf==3.6.1
-py==1.7.0
+py==1.10.0
 pyasn1==0.4.4
 pyasn1-modules==0.2.2
 python-dateutil==2.7.5
